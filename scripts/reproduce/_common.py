@@ -3,7 +3,7 @@
 Every result script names one model, one corpus tier and split, and the evaluation overrides that define its
 protocol; this module turns that into a run: it resolves `$DATA`, `$CHECKPOINTS` and `$RESULTS` (from
 `.envrc`), composes the package's `foundational` config with the overrides, runs `run_evaluation`, and copies
-each task's `task_summary.json` plus a `run.json` (overrides, commit, duration) into
+each task's `task_summary.json` (and its `task_results.json` when it is small) plus a `run.json` (overrides, commit, duration) into
 `docs/references/rerun/<script>/`, so the numbers quoted in `docs/references/results_paper_or_rerun.md`
 travel with the repository and name the command that made them.
 
@@ -32,6 +32,7 @@ MODELS: dict[str, str] = {  # tag used in script names -> release checkpoint id
     "89M-sa-pa": "instanovo-fm-lcfm-sa-pa-v0.1.0",
 }
 SPLIT_GLOB = {"train": "*train*", "valid": "*valid*", "test": "*test*"}
+RESULTS_MAX_BYTES = 20 * 2**20  # task_results.json above this stays under $RESULTS only
 
 
 def env_path(name: str) -> Path:
@@ -69,6 +70,9 @@ def run(*, script: str, model: str, tier: str, split: str, overrides: list[str])
     summaries = sorted(p for p in out.rglob("task_summary.json") if p.stat().st_mtime >= t0)
     for path in summaries:
         shutil.copy(path, dest / f"{path.parent.name}.json")
+        results = path.with_name("task_results.json")  # per-class and per-ion detail; kept when it is small
+        if results.exists() and results.stat().st_size <= RESULTS_MAX_BYTES:
+            shutil.copy(results, dest / f"{path.parent.name}.results.json")
     commit = subprocess.run(
         ["git", "rev-parse", "--short", "HEAD"], cwd=REPO, capture_output=True, text=True, check=False
     ).stdout.strip()
