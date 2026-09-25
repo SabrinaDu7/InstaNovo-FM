@@ -50,8 +50,13 @@ def dataset_overrides(tier: str) -> list[str]:
     ]
 
 
-def run(*, script: str, model: str, tier: str, split: str, overrides: list[str]) -> Path:
-    """Evaluate `model` on `split` of `tier` with `overrides`; returns the directory the summaries were copied to."""
+def run(*, script: str, model: str, tier: str, split: str, overrides: list[str], num_workers: int = 0) -> Path:
+    """Evaluate `model` on `split` of `tier` with `overrides`; returns the directory the summaries were copied to.
+
+    `num_workers` is the evaluation DataLoader's worker count (top-level `num_workers` of the config, 8 by default).
+    It is 0 here because on nibi's compute nodes the worker-to-main shared-memory handoff failed 50 s into
+    embedding generation (`rebuild_storage_fd: unable to mmap ... Cannot allocate memory`, job 22690634,
+    2026-09-25); single-process loading changes throughput, not numbers."""
     checkpoint = env_path("CHECKPOINTS") / f"{MODELS[model]}.ckpt"
     out = env_path("RESULTS") / script
     os.environ.setdefault("INSTANOVO_FM_DATA_DIR", str(REPO / "data"))
@@ -61,6 +66,7 @@ def run(*, script: str, model: str, tier: str, split: str, overrides: list[str])
         f"evaluation.split={split}",
         f"evaluation.output_dir={out}",
         *dataset_overrides(tier),
+        f"num_workers={num_workers}",
         *overrides,
     ]
     t0 = time.time()
