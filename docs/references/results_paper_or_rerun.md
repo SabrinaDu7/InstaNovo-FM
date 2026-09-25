@@ -83,10 +83,10 @@ Checkpoint `instanovo-fm-v0.1.0`.
 
 | No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| 14 | Masked-group bin accuracy, overall | | | 70.1 % | text, line 479 | split not named in the text (see note) |
-| 15 | Bin accuracy y-ions / b-ions | | | 74.3 % / 59.2 % | text, line 481 | as 14 |
+| 14 | Masked-group bin accuracy, overall | | | 70.1 % | text, line 479; Methods, lines 3730-3739 | LCFM test; IG attribution over 413 quality-gated spectra, 1,239 masked groups |
+| 15 | Bin accuracy y-ions / b-ions | | | 74.3 % / 59.2 % | text, line 481 | as 14 (`prediction_quality.by_ion_type` of the IG task) |
 | 16 | Median reconstruction error y / b | | | 89.8 / 196.4 ppm | text, line 492 | as 14 |
-| 17 | Per-spectrum confidence AUROC, annotated vs unannotated | | | 0.658 | text, line 500 | as 14 |
+| 17 | Per-spectrum confidence AUROC, annotated vs unannotated | | | 0.658 | text, line 500 | LCFM test (general rule, Methods line 2295) |
 | 18 | Peak-type 4-way accuracy after the transformer / pre-transformer baseline | | | 77.5 % / 49.1 % | text, lines 1145-1146 | LCFM test, 10,000 spectra |
 | 19 | Peak-type macro-F1 | | | 0.575 | text, line 1146; Table S4 (validation) | LCFM test / validation |
 | 20 | Unannotated-vs-annotated precision / F1 | | | 0.950 / 0.840 | text, line 1149 | LCFM test, 10,000 spectra |
@@ -125,10 +125,11 @@ pass once the two main checkpoints match.
 | 39 | De novo recall, from-scratch / frozen-encoder variants | S. brodae 0.747 / 0.726; Hela QC 0.657 / 0.577 (full rows in Table S13) | Table S13 | as 38; checkpoints `-denovo-scratch`, `-denovo-frozen` |
 | 40 | Database-free retrieval, rescue and run classification panels | controlled panel (5 peptides × 50 replicates among 200 others, 250 queries): recall@1 0.91, about 1.0 by k = 20; rescue counts in Fig. 6 | text line 1525, Fig. 6, Supplementary Fig. S16D, Table S9 (PXD074343 run 477-1, 30,404 spectra) | built by `scripts/create_*_dataset.py` from an external project; evidence blocks need unpublished code (`docs/sanitisation.md`) |
 
-**Note on rows 14 to 17.** The results text gives these without naming the split. The Methods evaluate
-"median absolute error in PPM on the validation set" for checkpoint selection (line 2242) and annotate
-200 HCFM validation spectra for the signal analysis (line 2261). Which of the two the 70.1 % refers to is
-to be settled from the Methods before the rerun is compared; until then the rerun reports both.
+**Note on rows 14 to 17.** The Methods (line 2295) state that evaluations of the deployed checkpoint use the
+held-out LCFM test split unless stated otherwise, and the IG attribution protocol (lines 3730-3739) masks up
+to three fragment groups in each spectrum that passes the quality gates, 413 spectra and 1,239 masked-group
+predictions in the paper. The evaluation task's default `max_spectra` of 500 with the same gates is the
+matching setting, so `result2_*_peak_level.py` keeps it.
 
 ## Data and checkpoints
 
