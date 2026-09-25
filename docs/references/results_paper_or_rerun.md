@@ -1,0 +1,139 @@
+# List of Results
+
+This document compiles the results obtained from the paper or from inference on the 40M or 89M checkpoint. Results' origin:
+1. Us using the 40M or 89M checkpoint and rerunning evals on the val/test data.
+2. Listed in the paper or on one of their websites.
+
+The sources are either links to the original paper or to scripts we ran ourselves to produce the rerun results (lives in `scripts/reproduce/` and includes path to data we used). In all the results presented here, no training was involved.
+
+**Paper.** bioRxiv 10.64898/2026.09.03.747733v2 (posted 8 September 2026); table and line references are to
+the full-text PDF (`pdftotext -layout`, 88 pages). The 40M model is `instanovo-fm-mcfm-90k-v0.1.0` (9 layers,
+d 768, ffn 1024, about 90,000 steps on MCFM); the 89M model is `instanovo-fm-v0.1.0` (12 layers, ffn 3072,
+about 230,000 steps on LCFM), the paper's "TS·noPA" / "deployed" model. Both are release assets
+(`FoundationModel.describe_pretrained()`).
+
+**Protocol behind the author numbers** (Table S9 and `docs/reproducing_paper_results.md`). Linear probes:
+LCFM train / validation / test samples of 100,000 / 10,000 / 10,000, project-disjoint, cuML solvers on GPU,
+L2 tuned on validation, one report on test. Duplicate retrieval: LCFM test, 20,000 query groups against a
+200,000-spectrum pool, exact peptide-string match, k in 1, 5, 10, 20. Peak-type, cross-spectrum ion identity
+and IG attribution: 10,000 LCFM test spectra (about 411,000 peaks). UMAP: 100,000 of a 140,000-spectrum
+LCFM test pool. Signal composition and theoretical annotation: 200 HCFM validation spectra. The factorial
+ablation (Table S4) is on the LCFM **validation** split; the deployed-model tables are on the **test** split.
+
+**Comparability rules for the rerun column.** The repo's own reproduction command differs from the paper's
+protocol in two ways that change what a number means, and each rerun records both:
+`config.projects_shared_across_splits` (the documented command uses `use_project_split=false`, the paper
+used project-disjoint splits) and `config.backend` (cuML on GPU in the paper; scikit-learn on CPU when cuML is
+absent, and the two are stated to be non-comparable). Sampling seeds and the exact 20,000 / 200,000 subsets
+are not published, so agreement is expected within sampling noise, not to the third decimal.
+
+## 40M Results
+
+Checkpoint `instanovo-fm-mcfm-90k-v0.1.0`. Every author number for this model is in Table S5, measured on
+held-out **LCFM** spectra (the same pool as the 89M model), not on MCFM.
+
+| No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| 1 | Fragment type macro-F1 (4 classes) | | | 0.781 | Table S5 | LCFM test, probe protocol |
+| 2 | Instrument macro-F1 (13 classes) | | | 0.697 | Table S5 | LCFM test, probe protocol |
+| 3 | PTM presence balanced accuracy | | | 0.751 | Table S5 | LCFM test, probe protocol |
+| 4 | Hydrophobicity R² | | | 0.518 | Table S5 | LCFM test, probe protocol |
+| 5 | Precursor mass R² | | | 0.698 | Table S5 | LCFM test, probe protocol |
+| 6 | Precursor m/z R² | | | 0.896 | Table S5 | LCFM test, probe protocol |
+| 7 | Precursor charge macro-F1 (7 classes) | | | 0.602 | Table S5 | LCFM test, probe protocol |
+| 8 | Spectrum confidence R² | | | 0.978 | Table S5 | LCFM test, probe protocol |
+| 9 | Duplicate retrieval Recall@1 | | | 0.307 | Table S5 | LCFM test, 20,000 groups in a 200,000 pool |
+| 10 | Duplicate retrieval mAP@20 | | | 0.126 | Table S5 | LCFM test, same pool |
+
+No 40M number exists in the paper for reconstruction accuracy, peak-type classification, cross-spectrum ion
+identity, attention-head structure, IG attribution, UMAP quality or clustering; the rerun will produce those
+for the first time and they go in the rows below as they arrive, with no author column.
+
+| No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| 11 | Masked-group bin accuracy, median ppm error | | | none | | |
+| 12 | Peak-type 4-way accuracy and macro-F1 | | | none | | |
+| 13 | Cross-spectrum same-ion AUROC | | | none | | |
+| 14 | Per-spectrum confidence AUROC (annotated vs not) | | | none | | |
+| 15 | Embedding statistics (anisotropy ratio, effective rank, top-component energy) | | | none | | |
+
+## 89M Results
+
+Checkpoint `instanovo-fm-v0.1.0`.
+
+### Frozen probes and duplicate retrieval, LCFM test (Tables S5 and S10)
+
+| No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| 1 | Fragment type macro-F1 (4 classes) | | | 0.855 | Tables S5, S10 | LCFM test, probe protocol |
+| 2 | Instrument macro-F1 (13 classes) | | | 0.804 | Tables S5, S10 | LCFM test, probe protocol |
+| 3 | PTM presence balanced accuracy | | | 0.802 | Tables S5, S10 | LCFM test, probe protocol |
+| 4 | Modification class macro-F1 | | | 0.622 | Table S10 | LCFM test, probe protocol |
+| 5 | Hydrophobicity R² | | | 0.605 | Tables S5, S10 | LCFM test, probe protocol |
+| 6 | Precursor mass R² | | | 0.732 | Tables S5, S10 | LCFM test, probe protocol |
+| 7 | Precursor m/z R² | | | 0.929 | Tables S5, S10 | LCFM test, probe protocol |
+| 8 | Precursor charge macro-F1 (7 classes) | | | 0.650 | Tables S5, S10 | LCFM test, probe protocol |
+| 9 | Spectrum confidence R² | | | 0.973 | Table S5 | LCFM test, probe protocol |
+| 10 | Duplicate retrieval Recall@1 | | | 0.215 | Tables S5, S10 | LCFM test, 20,000 groups in a 200,000 pool |
+| 11 | Duplicate retrieval mAP@20 | | | 0.076 | Tables S5, S10 | LCFM test, same pool |
+| 12 | Precursor charge probe macro-AUROC | | | 0.956 | Fig. 5 caption (line 4450) | LCFM test |
+| 13 | Fragmentation method probe macro-AUROC | | | 0.962 | Fig. 5 caption | LCFM test |
+
+### Peak level and reconstruction (main text, sections "Peak-level representations" and "Reconstruction")
+
+| No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| 14 | Masked-group bin accuracy, overall | | | 70.1 % | text, line 479 | split not named in the text (see note) |
+| 15 | Bin accuracy y-ions / b-ions | | | 74.3 % / 59.2 % | text, line 481 | as 14 |
+| 16 | Median reconstruction error y / b | | | 89.8 / 196.4 ppm | text, line 492 | as 14 |
+| 17 | Per-spectrum confidence AUROC, annotated vs unannotated | | | 0.658 | text, line 500 | as 14 |
+| 18 | Peak-type 4-way accuracy after the transformer / pre-transformer baseline | | | 77.5 % / 49.1 % | text, lines 1145-1146 | LCFM test, 10,000 spectra |
+| 19 | Peak-type macro-F1 | | | 0.575 | text, line 1146; Table S4 (validation) | LCFM test / validation |
+| 20 | Unannotated-vs-annotated precision / F1 | | | 0.950 / 0.840 | text, line 1149 | LCFM test, 10,000 spectra |
+| 21 | y-ion F1 / b-ion F1 | | | 0.734 / 0.531 | text, line 1151 | LCFM test, 10,000 spectra |
+| 22 | Cross-spectrum same-ion AUROC | | | 0.837 (test); 0.857 (validation) | text, line 1165; Table S4 | LCFM test 10,000 spectra; validation |
+| 23 | Same-ion cosine / m/z-matched / unrelated | | | 0.921 / 0.830 / 0.697 | text, lines 1167-1169 | LCFM test |
+| 24 | Joint confidence of matched vs unmatched unannotated peaks, AUROC | | | median 0.26 vs 0.13, AUROC 0.684 | text, line 1231 | HCFM validation, 200 spectra (Table S9) |
+| 25 | IG attribution: ion-ladder neighbour is top-1 / in top-5 | | | 34 % / 55.0 % | text, lines 472-473 | LCFM test, 10,000 spectra |
+
+### Factorial ablation, LCFM validation (Table S4, the TS·noPA column is this checkpoint)
+
+| No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| 26 | Fragment type F1 (4 classes) | | | 0.865 | Table S4 | LCFM validation |
+| 27 | Instrument macro-F1 | | | 0.807 | Table S4 | LCFM validation |
+| 28 | Spectrum confidence R² | | | 0.973 | Table S4 | LCFM validation |
+| 29 | PTM balanced accuracy | | | 0.802 | Table S4 | LCFM validation |
+| 30 | Modification class macro-F1 | | | 0.620 | Table S4 | LCFM validation |
+| 31 | Precursor m/z R² | | | 0.929 | Table S4 | LCFM validation |
+| 32 | Cross-spectrum AUROC | | | 0.857 | Table S4 | LCFM validation |
+| 33 | Recall@1 overall / CID | | | 0.400 / 0.426 | Table S4 | LCFM validation |
+| 34 | Structural attention heads of 12 | | | 8 | Table S4 | LCFM validation |
+| 35 | Mean isotope-spacing enrichment | | | 1.99 | Table S4 | LCFM validation |
+| 36 | Peak-type macro-F1 | | | 0.575 | Table S4 | LCFM validation |
+
+The other three Table S4 columns belong to the ablation checkpoints `instanovo-fm-lcfm-sa-nopa-v0.1.0`,
+`instanovo-fm-lcfm-sa-pa-v0.1.0` and `instanovo-fm-lcfm-ts-pa-v0.1.0`, all downloaded; they are a second
+pass once the two main checkpoints match.
+
+### Results that need data we do not have
+
+| No. | Metric | Author-shared result | Source | Eval data used |
+| :---- | :---- | :---- | :---- | :---- |
+| 37 | Hela qc probes: charge macro-F1, m/z R², mass R², hydrophobicity R², PTM bal. acc., mod. class macro-F1 | 0.577, 0.951, 0.887, 0.568, 0.761, 0.545 | Table S11 | Hela qc, 80/10/10, n 17,683 (external) |
+| 38 | De novo peptide recall, fine-tuned FM (GluC, S. brodae, snake venoms, Hela QC, TPL antibodies, wound fluids) | 0.821, 0.740, 0.230, 0.662, 0.528, 0.366 | Table S12 | six biological validation sets (external); checkpoint `instanovo-fm-denovo-v0.1.0` |
+| 39 | De novo recall, from-scratch / frozen-encoder variants | S. brodae 0.747 / 0.726; Hela QC 0.657 / 0.577 (full rows in Table S13) | Table S13 | as 38; checkpoints `-denovo-scratch`, `-denovo-frozen` |
+| 40 | Database-free retrieval, rescue and run classification panels | controlled panel (5 peptides × 50 replicates among 200 others, 250 queries): recall@1 0.91, about 1.0 by k = 20; rescue counts in Fig. 6 | text line 1525, Fig. 6, Supplementary Fig. S16D, Table S9 (PXD074343 run 477-1, 30,404 spectra) | built by `scripts/create_*_dataset.py` from an external project; evidence blocks need unpublished code (`docs/sanitisation.md`) |
+
+**Note on rows 14 to 17.** The results text gives these without naming the split. The Methods evaluate
+"median absolute error in PPM on the validation set" for checkpoint selection (line 2242) and annotate
+200 HCFM validation spectra for the signal analysis (line 2261). Which of the two the 70.1 % refers to is
+to be settled from the Methods before the rerun is compared; until then the rerun reports both.
+
+## Data and checkpoints
+
+`$DATA` (`~/projects/rrg-hsn/proteomies/data/proteometoolsI`): `splits/mcfm/` (29 train, 1 validation, 14 test
+shards), `splits/lcfm/` (validation and test shards; the 305 GiB training split is not downloaded),
+`peptide_registry.parquet`, `manifests/`, and `hf_tree_*.json` (the Hugging Face listing with sizes and
+sha256 for a checksum pass). `$CHECKPOINTS` (`~/projects/rrg-hsn/proteomies/checkpoints/instanovofm`): the
+eight v0.1.0 release checkpoints. Fetched by `scripts/reproduce/fetch_data.sh` on 25/09/2026.

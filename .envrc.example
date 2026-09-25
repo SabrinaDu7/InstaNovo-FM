@@ -1,0 +1,3 @@
+# Copy to .envrc (git-ignored). direnv-style;
+export DATA="path/to/proteometoolsI"
+export CHECKPOINTS="path/to/checkpoints/instanovofm"

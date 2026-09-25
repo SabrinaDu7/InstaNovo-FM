@@ -23,7 +23,7 @@ __pycache__/
 # internal repo looked for .aws/credentials at the repo root before ~/.aws.
 .aws/
 *.pem
-.env
+.envrc
 
 # uv
 .venv/
