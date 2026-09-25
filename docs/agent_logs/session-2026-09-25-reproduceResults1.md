@@ -34,7 +34,7 @@ Filled in as the session goes; every row names the artifact it produced.
 | Step 3 code (commit 2a31484): `scripts/reproduce/_common.py`, `result1..5_*.py`, `submit.sh` | One protocol per result group in `_common.py` (the documented probe-and-retrieval command; the 10,000-spectrum peak-level battery; the geometry tasks), thin per-model scripts, summaries copied into `docs/references/rerun/<script>/` with a `run.json` naming overrides, commit and host. All four protocols compose against the package configs (checked on the workstation). Task settings live under `evaluation.task_configs.<task>.<key>`, not at the top level as the guide's command writes them. |
 | Environment on nibi | `uv sync` into `~/scratch/venvs/instanovo-fm` (torch 2.8.0+cu128), extras `clustering` and `interpret` added; `fair-esm` is not a dependency of the fork, so an `esm` extra was added to `pyproject.toml` and the ESM2 650M weights are pre-fetched into `~/scratch/torch-hub` for the compute nodes. cuML is not installable from the lock, so probes run on scikit-learn: the guide says those numbers are not comparable with the paper's cuML ones. |
 | Local reference run of the 40M checkpoint (workstation, MCFM validation sample, seven tasks) | Pipeline check, not a reproduction (different split, backend, probe sample). Retrieval recall@1 0.566 on a 20,000-spectrum MCFM pool against the paper's 0.307 on a 200,000-spectrum LCFM pool; probes within 0.03 to 0.10 of Table S5 in both directions; anisotropy ratio 23.9. Full table in the workstation's `instanovo-fm-runs/NOTES.md`. |
-| First nibi job: `result5_40M_mcfm_test` (job 22690634, `rrg-hsn`, one H100, 128 GB, 8 h) | Submitted before the LCFM shards finished so the wrapper, the environment and the results path get exercised on the split that is already there. |
+| First nibi job: `result5_40M_mcfm_test` (job 22690634, then 22691003 after the fix below; `rrg-hsn`, one H100, 128 GB, 8 h) | Submitted before the LCFM shards finished so the wrapper, the environment and the results path get exercised on the split that is already there. The model loads and samples 200,000 of the 5,761,808 MCFM test spectra in 25 s; theoretical-spectrum generation for them takes about 2.5 min. |
 
 ## Problems encountered
 
@@ -44,6 +44,12 @@ Filled in as the session goes; every row names the artifact it produced.
 - The fork's `.gitignore` covers none of `checkpoints/`, `logs/`, `mlruns` or Hydra's `outputs/`; results are
   written under `$RESULTS`, outside the checkout, and only summaries are copied into `docs/references/rerun/`.
 - `.envrc` quoted `~`, which bash does not expand inside quotes; changed to `$HOME`.
+- Job 22690634 (`result5_40M_mcfm_test`) failed 50 s into embedding generation with
+  `rebuild_storage_fd: unable to mmap ... Cannot allocate memory (12)`: the evaluation DataLoader's eight
+  workers (top-level `num_workers`) could not hand tensors to the main process through shared memory on
+  the compute node; RSS was 14.7 GB of the 128 GB requested, so not a RAM shortage. `_common.run` now
+  passes `num_workers=0` (commit 2561c4e); resubmitted as job 22691003.
+- The nibi venv runs on the cluster's Python 3.11.4 (uv picked the system interpreter, not a managed one).
 
 ## Next steps
 
