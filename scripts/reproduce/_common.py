@@ -127,3 +127,9 @@ GEOMETRY = [  # embedding-space tasks with no per-peak storage; the three opt-in
     "evaluation.random_state=42",
     "evaluation.tasks_to_run=[embeddingstatisticstask,umapvisualisationtask,evocclusteringtask,cosinehyperscorecorrelationtask,esm2crossmodalalignmenttask,glassboxattributiontask]",
 ]
+COSINE_HYPERSCORE = [  # on its own: it ran after UMAP in the geometry jobs and hit a metadata check (fixed in BaseTask)
+    "evaluation.max_samples=20000",
+    "evaluation.batch_size=256",
+    "evaluation.random_state=42",
+    "evaluation.tasks_to_run=[cosinehyperscorecorrelationtask]",
+]

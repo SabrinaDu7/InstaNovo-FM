@@ -54,13 +54,18 @@ for the first time and they go in the rows below as they arrive, with no author 
 
 | No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| 11 | Masked-group bin accuracy, median ppm error | 55.0 % overall; y 56.9 % / b 50.0 %; 136.8 / 276.7 ppm | `rerun/result2_40M_peak_level/igattributiontask.results.json` @ ccf02d3 | none | | |
-| 12 | Peak-type 4-way accuracy and macro-F1 | accuracy 73.6 %; macro-F1 0.519 | `rerun/result2_40M_peak_level/peaktypeclassificationtask.json` @ ccf02d3 | none | | |
-| 13 | Cross-spectrum same-ion AUROC | 0.885 | `rerun/result2_40M_peak_level/peaktypeclassificationtask.json` @ ccf02d3 | none | | |
-| 14 | Per-spectrum confidence AUROC (annotated vs not) | per-spectrum mean 0.718; pooled 0.705 | `rerun/result2_40M_peak_level/confidencesignalanalysistask.json` @ ccf02d3 | none | | |
+| 11 | Masked-group bin accuracy, median ppm error | | | none | | |
+| 12 | Peak-type 4-way accuracy and macro-F1 | | | none | | |
+| 13 | Cross-spectrum same-ion AUROC | | | none | | |
+| 14 | Per-spectrum confidence AUROC (annotated vs not) | | | none | | |
 | 15 | Embedding statistics (anisotropy ratio, effective rank, top-component energy) | | | none | | |
-| 16 | MCFM test, probes: fragment type / instrument / PTM presence / hydrophobicity / mass / m/z / charge / confidence | 0.776; 0.680; 0.799; 0.622; 0.755; 0.928; 0.608; 0.981 | `rerun/result5_40M_mcfm_test/linearprobetask.json` @ 17c0043 | none (our own number on the training tier) | | MCFM test, probe protocol |
-| 17 | MCFM test, duplicate retrieval Recall@1 / mAP@20 | 0.629; 0.329 | `rerun/result5_40M_mcfm_test/duplicateretrievaltask.json` @ 17c0043 | none (our own number on the training tier) | | MCFM test, 20,000 groups in a 200,000 pool |
+| 16 | MCFM test, probes: fragment type / instrument / PTM presence / hydrophobicity / mass / m/z / charge / confidence | | | none (our own number on the training tier) | | MCFM test, probe protocol |
+| 17 | MCFM test, duplicate retrieval Recall@1 / mAP@20 | | | none (our own number on the training tier) | | MCFM test, 20,000 groups in a 200,000 pool |
+| 18 | UMAP kNN preservation at k 15: all / HCD-Orbitrap / CID | | | none | | LCFM test, 20,000 spectra |
+| 19 | EVoC clustering: clusters, noise fraction, silhouette, fragmentation-type purity | | | none | | LCFM test, 20,000 spectra |
+| 20 | ESM2 cross-modal alignment: RSA rho (all pairs), CKA; shuffled / metadata RSA baselines | | | reported with shuffled and metadata baselines, values not given in the text | text, section "Cross-modal alignment" | LCFM test, 20,000 spectra |
+| 21 | Glass Box attribution: features, reconstruction residual, top feature importance | | | none | | LCFM test, 20,000 spectra |
+| 22 | Cosine vs hyperscore: Spearman / Pearson | | | none | | LCFM test, 20,000 spectra |
 
 ## 89M Results
 
@@ -88,18 +93,18 @@ Checkpoint `instanovo-fm-v0.1.0`.
 
 | No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| 14 | Masked-group bin accuracy, overall | 68.7 % | `rerun/result2_89M_peak_level/igattributiontask.results.json` @ 8d0befe | 70.1 % | text, line 479; Methods, lines 3730-3739 | LCFM test; IG attribution over 413 quality-gated spectra, 1,239 masked groups |
-| 15 | Bin accuracy y-ions / b-ions | 72.1 % / 59.8 % | `rerun/result2_89M_peak_level/igattributiontask.results.json` @ 8d0befe | 74.3 % / 59.2 % | text, line 481 | as 14 (`prediction_quality.by_ion_type` of the IG task) |
-| 16 | Median reconstruction error y / b | 102.1 / 194.3 ppm | `rerun/result2_89M_peak_level/igattributiontask.results.json` @ 8d0befe | 89.8 / 196.4 ppm | text, line 492 | as 14 |
-| 17 | Per-spectrum confidence AUROC, annotated vs unannotated | 0.659 | `rerun/result2_89M_peak_level/confidencesignalanalysistask.json` @ 8d0befe | 0.658 | text, line 500 | LCFM test (general rule, Methods line 2295) |
-| 18 | Peak-type 4-way accuracy after the transformer / pre-transformer baseline | after transformer 77.7 %; pre-transformer 50.2 % | `rerun/result2_89M_peak_level/peaktypeclassificationtask.results.json` @ 8d0befe | 77.5 % / 49.1 % | text, lines 1145-1146 | LCFM test, 10,000 spectra |
-| 19 | Peak-type macro-F1 | 0.564 | `rerun/result2_89M_peak_level/peaktypeclassificationtask.json` @ 8d0befe | 0.575 | text, line 1146; Table S4 (validation) | LCFM test / validation |
-| 20 | Unannotated-vs-annotated precision / F1 | precision 0.949; F1 0.844 | `rerun/result2_89M_peak_level/peaktypeclassificationtask.results.json` @ 8d0befe | 0.950 / 0.840 | text, line 1149 | LCFM test, 10,000 spectra |
-| 21 | y-ion F1 / b-ion F1 | y 0.725; b 0.514 | `rerun/result2_89M_peak_level/peaktypeclassificationtask.results.json` @ 8d0befe | 0.734 / 0.531 | text, line 1151 | LCFM test, 10,000 spectra |
-| 22 | Cross-spectrum same-ion AUROC | 0.832 | `rerun/result2_89M_peak_level/peaktypeclassificationtask.json` @ 8d0befe | 0.837 (test); 0.857 (validation) | text, line 1165; Table S4 | LCFM test 10,000 spectra; validation |
-| 23 | Same-ion cosine / m/z-matched / unrelated | same ion 0.920; m/z-matched 0.833; random 0.700 | `rerun/result2_89M_peak_level/peaktypeclassificationtask.results.json` @ 8d0befe | 0.921 / 0.830 / 0.697 | text, lines 1167-1169 | LCFM test |
+| 14 | Masked-group bin accuracy, overall | | | 70.1 % | text, line 479; Methods, lines 3730-3739 | LCFM test; IG attribution over 413 quality-gated spectra, 1,239 masked groups |
+| 15 | Bin accuracy y-ions / b-ions | | | 74.3 % / 59.2 % | text, line 481 | as 14 (`prediction_quality.by_ion_type` of the IG task) |
+| 16 | Median reconstruction error y / b | | | 89.8 / 196.4 ppm | text, line 492 | as 14 |
+| 17 | Per-spectrum confidence AUROC, annotated vs unannotated | | | 0.658 | text, line 500 | LCFM test (general rule, Methods line 2295) |
+| 18 | Peak-type 4-way accuracy after the transformer / pre-transformer baseline | | | 77.5 % / 49.1 % | text, lines 1145-1146 | LCFM test, 10,000 spectra |
+| 19 | Peak-type macro-F1 | | | 0.575 | text, line 1146; Table S4 (validation) | LCFM test / validation |
+| 20 | Unannotated-vs-annotated precision / F1 | | | 0.950 / 0.840 | text, line 1149 | LCFM test, 10,000 spectra |
+| 21 | y-ion F1 / b-ion F1 | | | 0.734 / 0.531 | text, line 1151 | LCFM test, 10,000 spectra |
+| 22 | Cross-spectrum same-ion AUROC | | | 0.837 (test); 0.857 (validation) | text, line 1165; Table S4 | LCFM test 10,000 spectra; validation |
+| 23 | Same-ion cosine / m/z-matched / unrelated | | | 0.921 / 0.830 / 0.697 | text, lines 1167-1169 | LCFM test |
 | 24 | Joint confidence of matched vs unmatched unannotated peaks, AUROC | | | median 0.26 vs 0.13, AUROC 0.684 | text, line 1231 | HCFM validation, 200 spectra (Table S9) |
-| 25 | IG attribution: ion-ladder neighbour is top-1 / in top-5 | top-1 29.4 %; top-5 55.3 % | `rerun/result2_89M_peak_level/igattributiontask.json` @ 8d0befe | 34 % / 55.0 % | text, lines 472-473 | LCFM test, 10,000 spectra |
+| 25 | IG attribution: ion-ladder neighbour is top-1 / in top-5 | | | 34 % / 55.0 % | text, lines 472-473 | LCFM test, 10,000 spectra |
 
 ### Factorial ablation, LCFM validation (Table S4, the TS·noPA column is this checkpoint)
 
@@ -120,6 +125,17 @@ Checkpoint `instanovo-fm-v0.1.0`.
 The other three Table S4 columns belong to the ablation checkpoints `instanovo-fm-lcfm-sa-nopa-v0.1.0`,
 `instanovo-fm-lcfm-sa-pa-v0.1.0` and `instanovo-fm-lcfm-ts-pa-v0.1.0`, all downloaded; they are a second
 pass once the two main checkpoints match.
+
+### Embedding geometry, LCFM test (no author numbers; Fig. 3A is the UMAP)
+
+| No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| 41 | Embedding statistics: anisotropy ratio, effective rank, top-component energy, mean pairwise cosine | | | none | | LCFM test, 20,000 spectra |
+| 42 | UMAP kNN preservation at k 15: all / HCD-Orbitrap / CID | | | none | | LCFM test, 20,000 spectra |
+| 43 | EVoC clustering: clusters, noise fraction, silhouette, fragmentation-type purity | | | none | | LCFM test, 20,000 spectra |
+| 44 | ESM2 cross-modal alignment: RSA rho (all pairs), CKA; shuffled / metadata RSA baselines | | | reported with shuffled and metadata baselines, values not given in the text | text, section "Cross-modal alignment" | LCFM test, 20,000 spectra |
+| 45 | Glass Box attribution: features, reconstruction residual, top feature importance | | | none | | LCFM test, 20,000 spectra |
+| 46 | Cosine vs hyperscore: Spearman / Pearson | | | none | | LCFM test, 20,000 spectra |
 
 ### Results that need data we do not have
 

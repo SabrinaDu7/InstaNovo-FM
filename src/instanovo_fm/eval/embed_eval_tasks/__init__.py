@@ -143,8 +143,8 @@ class BaseTask(metaclass=SpectrumEvalTask):
         if meta:
             expected_length = len(emb)
             for key, value in meta.items():
-                if isinstance(value, (dict, str, int, float, bool)):
-                    continue
+                if isinstance(value, (dict, str, int, float, bool)) or str(key).startswith("_"):
+                    continue  # scalars, and private keys a previous task left behind (UMAP's _top_duplicate_labels)
                 if hasattr(value, "__len__") and len(value) != expected_length:
                     raise ValueError(f"Metadata '{key}' has length {len(value)} but expected {expected_length}")
 

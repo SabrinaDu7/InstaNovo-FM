@@ -1,0 +1,10 @@
+{
+  "task_name": "evocclusteringtask",
+  "timestamp": "2026-09-25T22:02:48.816033",
+  "execution_time": 21.811039924621582,
+  "success": true,
+  "n_clusters": 15.0,
+  "noise_fraction": 0.40475,
+  "silhouette": 0.06033271551132202,
+  "mean_purity_frag_type": 0.78855218930256
+}
