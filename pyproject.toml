@@ -78,7 +78,7 @@ s3 = ["s3fs>=2024.12.0", "boto3>=1.35.36"]
 # and installed it as a separate step; see docs/gpu-probes.md. The cuML linear
 # probes fall back to scikit-learn when it is absent.
 interpret = ["glass-box-umap>=0.1"]  # pulls pytorch-lightning
-clustering = ["evoc>=0.3"]           # EvoC clustering eval task
+clustering = ["evoc>=0.3", "tbb>=2021.0"]  # EvoC clustering eval task; TBB gives Numba a thread-safe threading layer
 esm = ["fair-esm>=2.0.0"]           # ESM2 cross-modal alignment eval task
 # No `baselines` extra: casanovo pins numpy<2.0 while instanovo 1.2.2 requires
 # numpy>=2.0.2, so casanovo cannot share this environment at all. That is why the
