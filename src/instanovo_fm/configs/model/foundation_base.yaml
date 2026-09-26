@@ -241,26 +241,26 @@ architecture:
 # Useful for MLOps platforms like Neptune, W&B, MLflow
 tags:
   # Architecture components
-  pos_encoding_type: ${architecture.positional_encoding.type}
-  relative_bias_type: ${architecture.relative_bias.type}
-  attention_backend: ${architecture.attention.backend}
+  pos_encoding_type: ${model.architecture.positional_encoding.type}
+  relative_bias_type: ${model.architecture.relative_bias.type}
+  attention_backend: ${model.architecture.attention.backend}
 
   # Model architecture
-  dim_model: ${dim_model}
-  n_heads: ${n_heads}
-  n_layers: ${n_layers}
+  dim_model: ${model.dim_model}
+  n_heads: ${model.n_heads}
+  n_layers: ${model.n_layers}
 
   # Masking strategy
-  masking_strategy: ${masking.strategy}
-  ordering_strategy: ${masking.ordering_strategy}
+  masking_strategy: ${model.masking.strategy}
+  ordering_strategy: ${model.masking.ordering_strategy}
 
   # Peak processing
-  peak_encoder_type: ${peak_encoder.type}
+  peak_encoder_type: ${model.peak_encoder.type}
 
   # Task configuration
-  mz_head_task: ${mz_head.task}
+  mz_head_task: ${model.mz_head.task}
 
   # Optional features
-  meta_token_enabled: ${meta_token.enabled}
-  auxiliary_enabled: ${auxiliary.enabled}
-  ion_ladder_enabled: ${ion_ladder.enabled}
+  meta_token_enabled: ${model.meta_token.enabled}
+  auxiliary_enabled: ${model.auxiliary.enabled}
+  ion_ladder_enabled: ${model.ion_ladder.enabled}
