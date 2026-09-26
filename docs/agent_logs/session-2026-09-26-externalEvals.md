@@ -31,6 +31,21 @@ evaluated on. Both clones (workstation, nibi) on `sdu/reproduce-results-40M`.
   restored (never pushed).
 - The exporter's first `main` held the whole dataset (ProteomeTools reached its 16 GB scope ceiling, measured with
   `systemctl --user show`); rewritten to stream per run.
+- The trainer's streaming schema (`to_dataset(force_unified_schema=True)`) has no Boolean type: it dropped the two
+  flag columns from the schema and then refused the file ("Couldn't cast ... because column names don't match").
+  The flags are now 0/1 integers; every dataset was re-exported.
+- The first validation runs scored a random model: `foundational.yaml` compiles the model (`compile_model: True`),
+  a compiled model's keys carry the `_orig_mod.` prefix, and `common/trainer.py::load_model_state` only warns
+  ("Model keys do not match") when nothing matches, then continues (median error 1.6 million ppm, bin accuracy
+  0.02 %). The reproduction's Step 2 had passed `compile_model=false`; the validation protocol now does too. A
+  loader that proceeds on a total key mismatch is a flaw in the package: a validation-only run should refuse.
+- Intensity scale: every corpus spectrum has a base peak of exactly 1 and `scale_factor` holds the raw magnitude
+  (2,000 rows of `mcfm-test-00000`, checked); the processor's intensity floor (`min_intensity` 0.01, `data/data.py`
+  step 3) is applied on that scale before the 200 most intense peaks are kept, so raw intensities kept sub-1 %
+  peaks the corpus preprocessing removes. Found after 18 jobs had completed on raw intensities; those outputs were
+  set aside (`$RESULTS/evals_superseded_raw_intensities`), every dataset was re-exported with base peak 1 and every
+  job resubmitted. On raw intensities the released 40M had scored 66.0 % fragment-group bin accuracy on MS2Bac
+  against 55.0 % on LCFM test; the rescaled numbers are the ones in `docs/results/`.
 - Nine-species (MSV000090982) was not exported: every one of its PRIDE accessions is in the corpus's Table S1
   list (`assets/table_s1_accessions.txt`), so it is training data, not an external test. D-PSM was not exported:
   its labels are not verified (`proteomies-eval-data`, `docs/claude_logs/session-solid-eval-labels.md`).
