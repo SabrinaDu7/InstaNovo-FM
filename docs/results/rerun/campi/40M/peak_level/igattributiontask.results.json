@@ -1,0 +1,222 @@
+{
+  "task_name": "ig_attribution",
+  "success": true,
+  "prediction_attribution": {
+    "success": true,
+    "prediction_quality": {
+      "bin_accuracy": 0.4808259587020649,
+      "group_bin_accuracy": 0.40095255653883966,
+      "median_error_da": 0.29127800464630127,
+      "median_error_ppm": 371.04290183375326,
+      "n_predictions": 1356,
+      "by_ion_type": {
+        "b": {
+          "bin_accuracy": 0.4295942720763723,
+          "group_bin_accuracy": 0.3316229116945107,
+          "median_error_da": 0.9969453811645508,
+          "median_error_ppm": 1568.713926001722,
+          "n_predictions": 419
+        },
+        "y": {
+          "bin_accuracy": 0.503735325506937,
+          "group_bin_accuracy": 0.4319548203486303,
+          "median_error_da": 0.09928441047668457,
+          "median_error_ppm": 220.25438209941882,
+          "n_predictions": 937
+        }
+      }
+    },
+    "topk_analysis": {
+      "top1_distribution": {
+        "ladder_neighbor": 0.2345132743362832,
+        "near_ladder": 0.019174041297935103,
+        "distant_same_series": 0.03171091445427729,
+        "complementary_pair": 0.009587020648967551,
+        "opposite_series": 0.08480825958702065,
+        "precursor": 0.02064896755162242,
+        "other_annotated": 0.05014749262536873,
+        "charge_variant_leakage": 0.06637168141592921,
+        "internal_fragment": 0.05309734513274336,
+        "d_ion": 0.007374631268436578,
+        "w_ion": 0.0022123893805309734,
+        "side_chain_loss": 0.011799410029498525,
+        "immonium_related": 0.0,
+        "precursor_combined_loss": 0.0007374631268436578,
+        "unannotated": 0.4078171091445428
+      },
+      "topk_fractions": {
+        "1": {
+          "ladder_neighbor": 0.2345132743362832,
+          "near_ladder": 0.019174041297935103,
+          "distant_same_series": 0.03171091445427729,
+          "complementary_pair": 0.009587020648967551,
+          "opposite_series": 0.08480825958702065,
+          "precursor": 0.02064896755162242,
+          "other_annotated": 0.05014749262536873,
+          "charge_variant_leakage": 0.06637168141592921,
+          "internal_fragment": 0.05309734513274336,
+          "d_ion": 0.007374631268436578,
+          "w_ion": 0.0022123893805309734,
+          "side_chain_loss": 0.011799410029498525,
+          "immonium_related": 0.0,
+          "precursor_combined_loss": 0.0007374631268436578,
+          "unannotated": 0.4078171091445428
+        },
+        "3": {
+          "ladder_neighbor": 0.19051130776794492,
+          "near_ladder": 0.04351032448377581,
+          "distant_same_series": 0.04203539823008849,
+          "complementary_pair": 0.010570304818092428,
+          "opposite_series": 0.0943952802359882,
+          "precursor": 0.02605703048180924,
+          "other_annotated": 0.05457227138643068,
+          "charge_variant_leakage": 0.04375614552605703,
+          "internal_fragment": 0.051622418879056046,
+          "d_ion": 0.005162241887905605,
+          "w_ion": 0.002949852507374631,
+          "side_chain_loss": 0.011553588987217304,
+          "immonium_related": 0.0,
+          "precursor_combined_loss": 0.0022123893805309734,
+          "unannotated": 0.42109144542772864
+        },
+        "5": {
+          "ladder_neighbor": 0.16238938053097343,
+          "near_ladder": 0.05353982300884955,
+          "distant_same_series": 0.04749262536873157,
+          "complementary_pair": 0.012536873156342183,
+          "opposite_series": 0.09469026548672567,
+          "precursor": 0.02920353982300885,
+          "other_annotated": 0.05693215339233038,
+          "charge_variant_leakage": 0.0312684365781711,
+          "internal_fragment": 0.054129793510324486,
+          "d_ion": 0.003982300884955752,
+          "w_ion": 0.002359882005899705,
+          "side_chain_loss": 0.011504424778761062,
+          "immonium_related": 0.0,
+          "precursor_combined_loss": 0.0029498525073746312,
+          "unannotated": 0.43702064896755166
+        },
+        "10": {
+          "ladder_neighbor": 0.11585545722713866,
+          "near_ladder": 0.06364306784660767,
+          "distant_same_series": 0.06025073746312685,
+          "complementary_pair": 0.010619469026548672,
+          "opposite_series": 0.09970501474926252,
+          "precursor": 0.026991150442477876,
+          "other_annotated": 0.05737463126843657,
+          "charge_variant_leakage": 0.022197640117994098,
+          "internal_fragment": 0.0547197640117994,
+          "d_ion": 0.0036135693215339237,
+          "w_ion": 0.0026548672566371685,
+          "side_chain_loss": 0.012389380530973451,
+          "immonium_related": 0.0,
+          "precursor_combined_loss": 0.003244837758112095,
+          "unannotated": 0.46674041297935104
+        }
+      },
+      "ladder_neighbor": {
+        "mean_present": 1.4513274336283186,
+        "mean_in_top5": 0.7942477876106194,
+        "top5_hit_rate": 0.5213864306784661,
+        "median_best_rank": 3.0,
+        "fraction_present": 0.81047197640118,
+        "fraction_top1_ladder_or_near": 0.2536873156342183
+      },
+      "concentration": {
+        "mean_top5": 0.32775945193340295,
+        "mean_top10": 0.47357220976314013,
+        "mean_gini": 0.5986463707867716
+      },
+      "n": 1356
+    },
+    "convergence": {
+      "mean_delta": 0.5325697126927453,
+      "max_delta": 3.587796926498413
+    },
+    "novel_chemistry": {
+      "n_unannotated_peaks": 36474,
+      "n_unannotated_peaks_deleakage": 35914,
+      "n_charge_variant_peaks": 560,
+      "n_matched": 5842,
+      "overall_hit_rate": 0.16016888742666008,
+      "overall_hit_rate_deleakage": 0.16266636966085649,
+      "hit_rates": {
+        "d_ion": 0.008608872073257662,
+        "w_ion": 0.009431375774524318,
+        "internal_fragment": 0.1122717552228985,
+        "side_chain_loss": 0.030679388057246258,
+        "immonium_related": 0.0,
+        "precursor_combined_loss": 0.009787794045073203
+      },
+      "null_models": {
+        "shift": {
+          "hit_rate": 0.07433605673447753,
+          "enrichment": 2.154659454143103,
+          "shifts_da": [
+            3.7,
+            7.3,
+            11.1
+          ]
+        },
+        "scramble": {
+          "hit_rate": 0.11274332401162472,
+          "enrichment": 1.4206507465590195,
+          "n_trials": 5
+        },
+        "immonium_composition": {
+          "true_rate": 0.0,
+          "null_rate": 8.225037012666557e-05,
+          "enrichment": 0.0
+        }
+      },
+      "n_leu_ile_discriminators": 228,
+      "by_fragmentation_type": {
+        "HCD": {
+          "internal_fragment": 2301,
+          "side_chain_loss": 88,
+          "precursor_combined_loss": 94,
+          "w_ion": 53,
+          "d_ion": 40
+        },
+        "CID": {
+          "internal_fragment": 1794,
+          "w_ion": 291,
+          "precursor_combined_loss": 263,
+          "side_chain_loss": 1031,
+          "d_ion": 274
+        }
+      },
+      "confidence_profile": {
+        "mean_conf_matched": 0.2366688062539066,
+        "mean_conf_unmatched": 0.23923759131956285,
+        "median_conf_matched": 0.15346378833055496,
+        "median_conf_unmatched": 0.1625717654824257,
+        "n_matched": 5842,
+        "n_unmatched": 30632,
+        "auroc": 0.4865325810234495
+      },
+      "attribution_profile": {
+        "mean_attr_matched": 0.08621903962140201,
+        "mean_attr_unmatched": 0.09882783035217742,
+        "median_attr_matched": 0.04500457085669041,
+        "median_attr_unmatched": 0.05125348083674908,
+        "n_matched": 5842,
+        "n_unmatched": 30632,
+        "auroc": 0.4762111930885835
+      },
+      "has_confidence_data": true,
+      "config": {
+        "max_internal_length": 6,
+        "ppm_tol": 10.0,
+        "da_tol": 0.5
+      }
+    },
+    "n_spectra": 452,
+    "n_masked_groups": 1356,
+    "n_hero_plots": 20,
+    "n_ig_failures": 0
+  },
+  "execution_time_s": 328.22214794158936,
+  "execution_time": 328.2470827102661,
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/40M/peak_level/eval_20260926_175143/igattributiontask"
+}

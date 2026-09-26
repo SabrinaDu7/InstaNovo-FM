@@ -1,0 +1,37 @@
+{
+ "script": "campi/89M/unlabelled",
+ "model": "instanovo-fm-v0.1.0",
+ "checkpoint": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-v0.1.0.ckpt",
+ "tier": "mcfm",
+ "split": "test",
+ "overrides": [
+  "evaluation.enabled=True",
+  "evaluation.checkpoint_path=/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-v0.1.0.ckpt",
+  "evaluation.split=test",
+  "evaluation.output_dir=/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/89M/unlabelled",
+  "dataset=mcfm",
+  "dataset.train_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/campi/campi-probe-train.parquet",
+  "dataset.valid_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/campi/campi-probe-valid.parquet",
+  "dataset.test_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/campi/campi-all.parquet",
+  "dataset.search_data_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/search_data.xlsx",
+  "num_workers=0",
+  "evaluation.max_samples=100000",
+  "evaluation.batch_size=256",
+  "evaluation.random_state=42",
+  "evaluation.embedding_pooling=[mean_pool]",
+  "evaluation.tasks_to_run=[embeddingstatisticstask,umapvisualisationtask]",
+  "+dataset.is_annotated=false"
+ ],
+ "tasks_written": [
+  "embeddingstatisticstask",
+  "umapvisualisationtask"
+ ],
+ "seconds": 553,
+ "commit": "c72c17d",
+ "host": "g17.nibi.sharcnet",
+ "dataset": "campi",
+ "protocol": "unlabelled",
+ "evaluated_file": "all",
+ "rows_in_file": 2424154,
+ "max_samples": 100000
+}

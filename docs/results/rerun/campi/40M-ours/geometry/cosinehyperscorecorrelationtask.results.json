@@ -1,0 +1,40 @@
+{
+  "task_name": "Cosine vs. Hyperscore Correlation",
+  "num_embeddings": 20000,
+  "num_sampled": 10000,
+  "num_peptides": 7736,
+  "num_correlation_pairs": 3694,
+  "execution_time": 0.06456828117370605,
+  "correlation_results": {
+    "spearman_correlation": -0.022212628956653283,
+    "spearman_pvalue": 0.17709454568444005,
+    "pearson_correlation": -0.05271416444831604,
+    "num_pairs": 3694,
+    "cosine_stats": {
+      "mean": 0.8997070130281469,
+      "std": 0.0716471430568136,
+      "min": 0.28381747007369995,
+      "max": 0.9958944320678711
+    },
+    "score_stats": {
+      "mean": 39.84700012207031,
+      "std": 13.741390228271484,
+      "min": 15.300000190734863,
+      "max": 129.8000030517578
+    },
+    "cosine_metric": "mean",
+    "max_peptide_spectra": 20
+  },
+  "config": {
+    "peptide_key": "peptides",
+    "score_key": "hyperscore",
+    "score_name": "hyperscore",
+    "max_samples": 10000,
+    "min_peptide_spectra": 2,
+    "use_log_expectation": false,
+    "random_state": 42,
+    "cosine_metric": "mean",
+    "max_peptide_spectra": 20
+  },
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/40M-ours/geometry/eval_20260926_181648/cosinehyperscorecorrelationtask"
+}

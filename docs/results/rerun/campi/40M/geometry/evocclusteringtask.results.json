@@ -1,0 +1,665 @@
+{
+  "task_name": "EVoC Clustering",
+  "skipped": false,
+  "num_embeddings": 20000,
+  "num_sampled": 20000,
+  "n_clusters": 4,
+  "noise_fraction": 0.33825,
+  "n_layers": 6,
+  "n_duplicates": 0,
+  "cluster_sizes": {
+    "0": 5692,
+    "1": 3337,
+    "2": 2655,
+    "3": 1551
+  },
+  "quality_metrics": {
+    "silhouette": 0.12941962480545044
+  },
+  "enrichment": {
+    "categorical": {
+      "frag_type": {
+        "global_rate": {
+          "CID": 0.2836,
+          "HCD": 0.7164
+        },
+        "clusters": {
+          "0": {
+            "dominant": "CID",
+            "purity": 0.9889318341531975,
+            "log2_enrichment": 1.802013548651268
+          },
+          "1": {
+            "dominant": "HCD",
+            "purity": 0.9997003296373989,
+            "log2_enrichment": 0.4807303598258323
+          },
+          "2": {
+            "dominant": "HCD",
+            "purity": 0.9981167608286252,
+            "log2_enrichment": 0.4784432562098959
+          },
+          "3": {
+            "dominant": "HCD",
+            "purity": 1.0,
+            "log2_enrichment": 0.4811627575634882
+          }
+        }
+      },
+      "search_detector": {
+        "global_rate": {
+          "Orbitrap": 0.7164,
+          "TOF": 0.2836
+        },
+        "clusters": {
+          "0": {
+            "dominant": "TOF",
+            "purity": 0.9889318341531975,
+            "log2_enrichment": 1.802013548651268
+          },
+          "1": {
+            "dominant": "Orbitrap",
+            "purity": 0.9997003296373989,
+            "log2_enrichment": 0.4807303598258323
+          },
+          "2": {
+            "dominant": "Orbitrap",
+            "purity": 0.9981167608286252,
+            "log2_enrichment": 0.4784432562098959
+          },
+          "3": {
+            "dominant": "Orbitrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.4811627575634882
+          }
+        }
+      },
+      "search_instrument": {
+        "global_rate": {
+          "Q Exactive HF": 0.2264,
+          "Q Exactive HF-X": 0.4388,
+          "Q Exactive Plus": 0.0512,
+          "timsTOF Pro": 0.2836
+        },
+        "clusters": {
+          "0": {
+            "dominant": "timsTOF Pro",
+            "purity": 0.9889318341531975,
+            "log2_enrichment": 1.802013548651268
+          },
+          "1": {
+            "dominant": "Q Exactive HF-X",
+            "purity": 0.6568774348216961,
+            "log2_enrichment": 0.5820606809244637
+          },
+          "2": {
+            "dominant": "Q Exactive HF-X",
+            "purity": 0.9627118644067797,
+            "log2_enrichment": 1.1335405444017348
+          },
+          "3": {
+            "dominant": "Q Exactive HF",
+            "purity": 0.8839458413926499,
+            "log2_enrichment": 1.9650840214607022
+          }
+        }
+      },
+      "search_organism": {
+        "global_rate": {
+          "Anaerostipes caccae; Bacteroides thetaiotaomicron; Bifidobacterium longum; Blautia producta; Clostridium butyricum; Escherichia coli; Lactiplantibacillus plantarum; Thomasclavelia ramosa": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "Anaerostipes caccae; Bacteroides thetaiotaomicron; Bifidobacterium longum; Blautia producta; Clostridium butyricum; Escherichia coli; Lactiplantibacillus plantarum; Thomasclavelia ramosa",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "Anaerostipes caccae; Bacteroides thetaiotaomicron; Bifidobacterium longum; Blautia producta; Clostridium butyricum; Escherichia coli; Lactiplantibacillus plantarum; Thomasclavelia ramosa",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "Anaerostipes caccae; Bacteroides thetaiotaomicron; Bifidobacterium longum; Blautia producta; Clostridium butyricum; Escherichia coli; Lactiplantibacillus plantarum; Thomasclavelia ramosa",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "Anaerostipes caccae; Bacteroides thetaiotaomicron; Bifidobacterium longum; Blautia producta; Clostridium butyricum; Escherichia coli; Lactiplantibacillus plantarum; Thomasclavelia ramosa",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "search_enzyme": {
+        "global_rate": {
+          "trypsin": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "modification_types": {
+        "global_rate": {
+          "Ammonia-loss + Carbamidomethyl": 0.00335,
+          "Ammonia-loss + Carbamidomethyl + Oxidation": 0.00225,
+          "Carbamidomethyl": 0.14845,
+          "Carbamidomethyl + Oxidation": 0.02225,
+          "Carbamidomethyl + Oxidation + UniMod:27": 0.0001,
+          "Carbamidomethyl + UniMod:27": 0.0003,
+          "Carbamidomethyl + UniMod:28": 0.0008,
+          "Oxidation": 0.0959,
+          "Oxidation + UniMod:28": 0.00095,
+          "UniMod:27": 0.0017,
+          "UniMod:28": 0.00625,
+          "Unmodified": 0.7177
+        },
+        "clusters": {
+          "0": {
+            "dominant": "Unmodified",
+            "purity": 0.7008081517919887,
+            "log2_enrichment": -0.034361364261750335
+          },
+          "1": {
+            "dominant": "Unmodified",
+            "purity": 0.742882828888223,
+            "log2_enrichment": 0.04975375908197165
+          },
+          "2": {
+            "dominant": "Unmodified",
+            "purity": 0.7167608286252354,
+            "log2_enrichment": -0.001889125239925368
+          },
+          "3": {
+            "dominant": "Unmodified",
+            "purity": 0.743391360412637,
+            "log2_enrichment": 0.050741000793249655
+          }
+        }
+      }
+    },
+    "numeric": {
+      "precursor_charge": {
+        "global_mean": 2.4841,
+        "global_std": 0.6064216272528545,
+        "clusters": {
+          "0": {
+            "mean": 2.3543569922698526,
+            "effect_size": -0.21394851683950533
+          },
+          "1": {
+            "mean": 2.033862750973929,
+            "effect_size": -0.7424491950685982
+          },
+          "2": {
+            "mean": 3.1713747645951034,
+            "effect_size": 1.1333282549775159
+          },
+          "3": {
+            "mean": 2.7988394584139265,
+            "effect_size": 0.5190109393685789
+          }
+        }
+      },
+      "precursor_mz": {
+        "global_mean": 793.2435277679443,
+        "global_std": 240.61676215004366,
+        "clusters": {
+          "0": {
+            "mean": 953.0878737631266,
+            "effect_size": 0.6643109339801797
+          },
+          "1": {
+            "mean": 677.7548774351144,
+            "effect_size": -0.4799692644056676
+          },
+          "2": {
+            "mean": 758.4638257617555,
+            "effect_size": -0.14454396981911388
+          },
+          "3": {
+            "mean": 734.1636380085555,
+            "effect_size": -0.24553522053691268
+          }
+        }
+      },
+      "collision_energy": {
+        "global_mean": 25.89000558347292,
+        "global_std": 1.2271544028769856,
+        "clusters": {
+          "0": {
+            "mean": 25.523809523809526,
+            "effect_size": -0.2984107450577297
+          },
+          "1": {
+            "mean": 25.73621103117506,
+            "effect_size": -0.12532616265508134
+          },
+          "2": {
+            "mean": 25.087169811320756,
+            "effect_size": -0.6542255565151108
+          },
+          "3": {
+            "mean": 26.98065764023211,
+            "effect_size": 0.8887651416987342
+          }
+        }
+      },
+      "sequence_length": {
+        "global_mean": 17.6119,
+        "global_std": 6.934874071675707,
+        "clusters": {
+          "0": {
+            "mean": 20.40530569219958,
+            "effect_size": 0.40280553955676907
+          },
+          "1": {
+            "mean": 12.301768055139346,
+            "effect_size": -0.7657142566653037
+          },
+          "2": {
+            "mean": 21.483992467043315,
+            "effect_size": 0.5583507972925144
+          },
+          "3": {
+            "mean": 17.967117988394584,
+            "effect_size": 0.05122198106601702
+          }
+        }
+      },
+      "hydrophobicity": {
+        "global_mean": -0.25803602149933574,
+        "global_std": 0.6376021892660566,
+        "clusters": {
+          "0": {
+            "mean": -0.16207693764621336,
+            "effect_size": 0.15049992843277532
+          },
+          "1": {
+            "mean": -0.19120765300782983,
+            "effect_size": 0.10481201228062281
+          },
+          "2": {
+            "mean": -0.3177613479539528,
+            "effect_size": -0.09367177130205091
+          },
+          "3": {
+            "mean": -0.34762285207413246,
+            "effect_size": -0.1405058390372217
+          }
+        }
+      },
+      "retention_time": {
+        "global_mean": 6440.902793078613,
+        "global_std": 6380.224965868754,
+        "clusters": {
+          "0": {
+            "mean": 1258.68959669085,
+            "effect_size": -0.8122304815441778
+          },
+          "1": {
+            "mean": 7476.692309234683,
+            "effect_size": 0.16234372952318513
+          },
+          "2": {
+            "mean": 12945.093344590354,
+            "effect_size": 1.019429657466021
+          },
+          "3": {
+            "mean": 4311.685066916726,
+            "effect_size": -0.3337214185318253
+          }
+        }
+      },
+      "n_peaks": {
+        "global_mean": 114.0435,
+        "global_std": 61.58934492061107,
+        "clusters": {
+          "0": {
+            "mean": 140.28373155305692,
+            "effect_size": 0.4260514799577865
+          },
+          "1": {
+            "mean": 80.86065328139047,
+            "effect_size": -0.5387757697598888
+          },
+          "2": {
+            "mean": 88.62787193973635,
+            "effect_size": -0.4126627437428422
+          },
+          "3": {
+            "mean": 179.7163120567376,
+            "effect_size": 1.0663015192220364
+          }
+        }
+      },
+      "peak_center_of_mass": {
+        "global_mean": 672.0730845268249,
+        "global_std": 213.49971437425108,
+        "clusters": {
+          "0": {
+            "mean": 811.4883800675478,
+            "effect_size": 0.6529999159452597
+          },
+          "1": {
+            "mean": 526.3884723081466,
+            "effect_size": -0.682364436157056
+          },
+          "2": {
+            "mean": 692.6285522345994,
+            "effect_size": 0.09627866607700508
+          },
+          "3": {
+            "mean": 675.2110526640134,
+            "effect_size": 0.014697762694370021
+          }
+        }
+      },
+      "peak_spread": {
+        "global_mean": 307.3183880870996,
+        "global_std": 74.53854640147605,
+        "clusters": {
+          "0": {
+            "mean": 291.1438372579782,
+            "effect_size": -0.21699579090263985
+          },
+          "1": {
+            "mean": 304.634285142331,
+            "effect_size": -0.03600959603252264
+          },
+          "2": {
+            "mean": 311.1231872616066,
+            "effect_size": 0.051044719251885265
+          },
+          "3": {
+            "mean": 311.8372225635364,
+            "effect_size": 0.060624129320924015
+          }
+        }
+      },
+      "annotation_ratio": {
+        "global_mean": 0.36339486827513323,
+        "global_std": 0.13825194757761913,
+        "clusters": {
+          "0": {
+            "mean": 0.3111905629001037,
+            "effect_size": -0.3776026760543125
+          },
+          "1": {
+            "mean": 0.4177661173610513,
+            "effect_size": 0.3932765508087492
+          },
+          "2": {
+            "mean": 0.33308594153959586,
+            "effect_size": -0.21922965474696804
+          },
+          "3": {
+            "mean": 0.3706016956890383,
+            "effect_size": 0.052128216203673375
+          }
+        }
+      },
+      "backbone_coverage": {
+        "global_mean": 0.678389278472575,
+        "global_std": 0.2176276872846669,
+        "clusters": {
+          "0": {
+            "mean": 0.6538329826405781,
+            "effect_size": -0.11283626701356328
+          },
+          "1": {
+            "mean": 0.7217423664503624,
+            "effect_size": 0.1992075940276825
+          },
+          "2": {
+            "mean": 0.5610110816414543,
+            "effect_size": -0.5393532334770654
+          },
+          "3": {
+            "mean": 0.8134601818004936,
+            "effect_size": 0.6206512829924978
+          }
+        }
+      },
+      "signal_intensity_ratio": {
+        "global_mean": 0.4001066954278104,
+        "global_std": 0.14824117506313625,
+        "clusters": {
+          "0": {
+            "mean": 0.3668402825429244,
+            "effect_size": -0.22440737447418224
+          },
+          "1": {
+            "mean": 0.41137630492002264,
+            "effect_size": 0.07602212737056677
+          },
+          "2": {
+            "mean": 0.37868735157992034,
+            "effect_size": -0.14448984122506803
+          },
+          "3": {
+            "mean": 0.4228413968721103,
+            "effect_size": 0.15336293330525164
+          }
+        }
+      },
+      "median_ppm_error": {
+        "global_mean": 9.155339119841416,
+        "global_std": 10.455182949933759,
+        "clusters": {
+          "0": {
+            "mean": 18.505376502946504,
+            "effect_size": 0.8942968695889082
+          },
+          "1": {
+            "mean": 5.299113288213651,
+            "effect_size": -0.36883389320817167
+          },
+          "2": {
+            "mean": 7.66234109919594,
+            "effect_size": -0.14279979870222506
+          },
+          "3": {
+            "mean": 3.578365261634652,
+            "effect_size": -0.5334171467790623
+          }
+        }
+      },
+      "hyperscore": {
+        "global_mean": 37.66428999218941,
+        "global_std": 12.922039089265375,
+        "clusters": {
+          "0": {
+            "mean": 35.680428655065455,
+            "effect_size": -0.15352540906427006
+          },
+          "1": {
+            "mean": 35.45208270799124,
+            "effect_size": -0.1711964550576156
+          },
+          "2": {
+            "mean": 35.96105460761406,
+            "effect_size": -0.13180856154430504
+          },
+          "3": {
+            "mean": 44.262411399167405,
+            "effect_size": 0.5106099247493533
+          }
+        }
+      }
+    },
+    "cluster_sizes": {
+      "0": 5692,
+      "1": 3337,
+      "2": 2655,
+      "3": 1551
+    }
+  },
+  "zoom_story": [
+    {
+      "level": 0,
+      "node": [
+        6,
+        0
+      ],
+      "n_members": 20000,
+      "selected_field": "search_instrument",
+      "nmi": 0.476617326721121,
+      "per_child_dominant": {
+        "-1": "Q Exactive HF-X",
+        "0": "timsTOF Pro",
+        "1": "Q Exactive HF-X",
+        "2": "Q Exactive HF-X",
+        "3": "Q Exactive HF",
+        "4": "Q Exactive HF",
+        "5": "Q Exactive HF-X",
+        "6": "Q Exactive HF-X",
+        "7": "timsTOF Pro",
+        "8": "Q Exactive Plus",
+        "9": "Q Exactive HF",
+        "10": "Q Exactive HF",
+        "11": "Q Exactive HF-X",
+        "12": "Q Exactive HF",
+        "13": "Q Exactive HF-X",
+        "14": "Q Exactive HF-X",
+        "15": "Q Exactive HF-X",
+        "16": "Q Exactive HF-X",
+        "17": "Q Exactive HF",
+        "18": "Q Exactive HF-X",
+        "19": "Q Exactive HF-X",
+        "20": "Q Exactive HF-X",
+        "21": "Q Exactive HF-X",
+        "22": "Q Exactive HF-X",
+        "23": "Q Exactive HF-X",
+        "24": "Q Exactive HF-X",
+        "25": "Q Exactive HF-X",
+        "26": "Q Exactive HF-X",
+        "27": "Q Exactive HF",
+        "28": "Q Exactive HF-X",
+        "29": "Q Exactive HF",
+        "30": "Q Exactive HF-X",
+        "31": "Q Exactive HF-X",
+        "32": "Q Exactive HF-X",
+        "33": "Q Exactive HF-X",
+        "34": "Q Exactive HF-X",
+        "35": "Q Exactive HF-X",
+        "36": "Q Exactive HF-X",
+        "37": "Q Exactive HF-X",
+        "38": "Q Exactive HF-X",
+        "39": "Q Exactive HF-X",
+        "40": "Q Exactive HF-X",
+        "41": "Q Exactive HF-X",
+        "42": "Q Exactive HF-X",
+        "43": "Q Exactive HF-X",
+        "44": "Q Exactive HF-X",
+        "45": "Q Exactive HF-X",
+        "46": "Q Exactive HF-X",
+        "47": "Q Exactive HF-X",
+        "48": "Q Exactive HF-X",
+        "49": "Q Exactive HF-X",
+        "50": "Q Exactive Plus",
+        "51": "Q Exactive HF-X",
+        "52": "Q Exactive HF-X",
+        "53": "Q Exactive HF-X",
+        "54": "Q Exactive HF-X",
+        "55": "Q Exactive Plus",
+        "56": "Q Exactive HF",
+        "57": "Q Exactive HF",
+        "58": "Q Exactive HF-X",
+        "59": "Q Exactive HF-X",
+        "60": "Q Exactive HF-X",
+        "61": "Q Exactive HF-X",
+        "62": "Q Exactive HF-X",
+        "63": "Q Exactive HF",
+        "64": "Q Exactive HF-X",
+        "65": "Q Exactive HF",
+        "66": "Q Exactive HF"
+      }
+    },
+    {
+      "level": 1,
+      "node": [
+        5,
+        0
+      ],
+      "n_members": 5692,
+      "selected_field": "precursor_charge",
+      "nmi": 0.06441763320009698,
+      "per_child_dominant": {
+        "-1": "2",
+        "0": "2",
+        "1": "2",
+        "2": "3",
+        "3": "2",
+        "4": "2",
+        "5": "2",
+        "6": "2",
+        "7": "2",
+        "8": "2",
+        "9": "3",
+        "10": "3",
+        "11": "2",
+        "12": "2",
+        "13": "2",
+        "14": "2",
+        "15": "2",
+        "16": "2",
+        "17": "2",
+        "18": "3",
+        "19": "3",
+        "20": "2",
+        "21": "2",
+        "22": "3",
+        "23": "2",
+        "24": "2"
+      }
+    },
+    {
+      "level": 2,
+      "node": [
+        4,
+        0
+      ],
+      "n_members": 1360,
+      "selected_field": "precursor_charge",
+      "nmi": 0.1628202553036521,
+      "per_child_dominant": {
+        "-1": "2",
+        "0": "2",
+        "1": "3",
+        "2": "2"
+      }
+    }
+  ],
+  "mean_purity_frag_type": 0.9966872311548054,
+  "save_paths": [
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/40M/geometry/eval_20260926_181528/evocclusteringtask/evoc_figs/evoc_enrichment_heatmap.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/40M/geometry/eval_20260926_181528/evocclusteringtask/evoc_figs/evoc_clusters_umap.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/40M/geometry/eval_20260926_181528/evocclusteringtask/evoc_figs/evoc_layer_panel.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/40M/geometry/eval_20260926_181528/evocclusteringtask/evoc_figs/evoc_zoom_cascade.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/40M/geometry/eval_20260926_181528/evocclusteringtask/evoc_figs/evoc_cluster_zoom_recolor.png"
+  ],
+  "save_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/40M/geometry/eval_20260926_181528/evocclusteringtask/evoc_figs",
+  "execution_time": 26.522672176361084,
+  "evoc_params": {},
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/40M/geometry/eval_20260926_181528/evocclusteringtask"
+}

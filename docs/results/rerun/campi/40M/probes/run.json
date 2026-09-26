@@ -1,0 +1,37 @@
+{
+ "script": "campi/40M/probes",
+ "model": "instanovo-fm-mcfm-90k-v0.1.0",
+ "checkpoint": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
+ "tier": "mcfm",
+ "split": "test",
+ "overrides": [
+  "evaluation.enabled=True",
+  "evaluation.checkpoint_path=/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
+  "evaluation.split=test",
+  "evaluation.output_dir=/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/campi/40M/probes",
+  "dataset=mcfm",
+  "dataset.train_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/campi/campi-probe-train.parquet",
+  "dataset.valid_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/campi/campi-probe-valid.parquet",
+  "dataset.test_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/campi/campi-probe-test.parquet",
+  "dataset.search_data_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/search_data.xlsx",
+  "num_workers=0",
+  "evaluation.max_samples=null",
+  "evaluation.batch_size=256",
+  "evaluation.random_state=42",
+  "evaluation.embedding_pooling=[mean_pool]",
+  "evaluation.tasks_to_run=[linearprobetask]",
+  "evaluation.task_configs.linearprobetask.use_project_split=false",
+  "evaluation.task_configs.linearprobetask.max_iter=5000"
+ ],
+ "tasks_written": [
+  "linearprobetask"
+ ],
+ "seconds": 1152,
+ "commit": "c72c17d",
+ "host": "g19.nibi.sharcnet",
+ "dataset": "campi",
+ "protocol": "probes",
+ "evaluated_file": "probe-test",
+ "rows_in_file": 76997,
+ "max_samples": null
+}
