@@ -1,0 +1,71 @@
+{
+ "name": "ups1",
+ "files": 1,
+ "spectra": 115758,
+ "identified": 27023,
+ "runs": 3,
+ "projects": {
+  "PXD001819": 115758
+ },
+ "matched_in_search_data": 115758,
+ "peptides": 5941,
+ "frag_type": {
+  "CID": 115758
+ },
+ "acquisition": {
+  "DDA": 115758
+ },
+ "collision_energy": {
+  "30.0": 115758
+ },
+ "precursor_charge": {
+  "2": 68876,
+  "3": 38959,
+  "4": 6975,
+  "5": 811,
+  "6": 136,
+  "1": 1
+ },
+ "search_instrument": {
+  "LTQ Orbitrap Velos": 115758
+ },
+ "search_detector": {
+  "IonTrap": 115758
+ },
+ "search_fragmentation": {
+  "CID": 115758
+ },
+ "search_organism": {
+  "Saccharomyces cerevisiae; Homo sapiens": 115758
+ },
+ "search_enzyme": {
+  "trypsin": 115758
+ },
+ "search_quant": {
+  "precursor": 115758
+ },
+ "modification_tokens": {
+  "C[UNIMOD:4]": 2838,
+  "M[UNIMOD:35]": 410,
+  "[UNIMOD:1]-": 281
+ },
+ "modified_fraction": 0.1133,
+ "peaks_per_spectrum": {
+  "p05": 368.0,
+  "median": 658.0,
+  "p95": 958.0,
+  "mean": 661.78
+ },
+ "precursor_mz": {
+  "p05": 382.223,
+  "median": 608.82,
+  "p95": 1049.494,
+  "mean": 648.372
+ },
+ "peptide_length": {
+  "p05": 8.0,
+  "median": 14.0,
+  "p95": 27.0,
+  "mean": 15.122
+ }
+}

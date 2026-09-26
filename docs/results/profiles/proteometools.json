@@ -1,0 +1,79 @@
+{
+ "name": "proteometools",
+ "files": 1,
+ "spectra": 639632,
+ "identified": 466891,
+ "runs": 11,
+ "projects": {
+  "PXD010595": 385676,
+  "PXD004732": 253956
+ },
+ "matched_in_search_data": 639632,
+ "peptides": 4873,
+ "frag_type": {
+  "HCD": 557161,
+  "CID": 82471
+ },
+ "acquisition": {
+  "DDA": 639632
+ },
+ "collision_energy": {
+  "35.0": 185835,
+  "25.0": 103442,
+  "30.0": 103391,
+  "28.0": 82460,
+  "20.0": 82296,
+  "23.0": 82208
+ },
+ "precursor_charge": {
+  "2": 629984,
+  "3": 9605,
+  "4": 27,
+  "1": 9,
+  "7": 6,
+  "6": 1
+ },
+ "search_instrument": {
+  "Orbitrap Fusion": 639632
+ },
+ "search_detector": {
+  "Orbitrap|IonTrap": 329435,
+  "Orbitrap": 310197
+ },
+ "search_fragmentation": {
+  "HCD|CID": 329435,
+  "HCD": 310197
+ },
+ "search_organism": {
+  "Homo sapiens": 639632
+ },
+ "search_enzyme": {
+  "trypsin": 639632
+ },
+ "search_quant": {
+  "precursor": 639632
+ },
+ "modification_tokens": {
+  "M[UNIMOD:35]": 46212,
+  "C[UNIMOD:4]": 35356
+ },
+ "modified_fraction": 0.153,
+ "peaks_per_spectrum": {
+  "p05": 29.0,
+  "median": 142.0,
+  "p95": 734.0,
+  "mean": 248.64
+ },
+ "precursor_mz": {
+  "p05": 379.232,
+  "median": 440.222,
+  "p95": 633.324,
+  "mean": 459.425
+ },
+ "peptide_length": {
+  "p05": 7.0,
+  "median": 7.0,
+  "p95": 11.0,
+  "mean": 7.662
+ }
+}

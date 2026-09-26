@@ -1,0 +1,73 @@
+{
+ "name": "ms2bac",
+ "files": 1,
+ "spectra": 42410,
+ "identified": 20269,
+ "runs": 3,
+ "projects": {
+  "MSV000096603": 42410
+ },
+ "matched_in_search_data": 42410,
+ "peptides": 16197,
+ "frag_type": {
+  "HCD": 42410
+ },
+ "acquisition": {
+  "DDA": 42410
+ },
+ "collision_energy": {
+  "28.0": 42410
+ },
+ "precursor_charge": {
+  "2": 29403,
+  "3": 10951,
+  "4": 1606,
+  "5": 325,
+  "6": 88,
+  "1": 37
+ },
+ "search_instrument": {
+  "Orbitrap Exploris 480": 42410
+ },
+ "search_detector": {
+  "Orbitrap": 42410
+ },
+ "search_fragmentation": {
+  "HCD": 42410
+ },
+ "search_organism": {
+  "Escherichia coli DSM 30083": 14392,
+  "Bacillus cereus DSM 31": 14156,
+  "Staphylococcus aureus DSM 20231": 13862
+ },
+ "search_enzyme": {
+  "trypsin": 42410
+ },
+ "search_quant": {
+  "precursor": 42410
+ },
+ "modification_tokens": {
+  "C[UNIMOD:4]": 1703,
+  "M[UNIMOD:35]": 898,
+  "[UNIMOD:1]-": 6
+ },
+ "modified_fraction": 0.1137,
+ "peaks_per_spectrum": {
+  "p05": 8.0,
+  "median": 63.0,
+  "p95": 231.0,
+  "mean": 82.21
+ },
+ "precursor_mz": {
+  "p05": 380.24,
+  "median": 595.365,
+  "p95": 1072.568,
+  "mean": 642.021
+ },
+ "peptide_length": {
+  "p05": 7.0,
+  "median": 12.0,
+  "p95": 25.0,
+  "mean": 13.807
+ }
+}
