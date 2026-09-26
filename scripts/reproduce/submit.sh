@@ -18,6 +18,7 @@ source .envrc
 unset PYTHONPATH
 export TORCH_HOME="$HOME/scratch/torch-hub"
 export NUMBA_THREADING_LAYER=tbb   # Numba's default workqueue layer aborted under EVoC (SIGABRT, jobs 22695360/1)
+export LD_LIBRARY_PATH="$HOME/scratch/venvs/instanovo-fm/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"  # libtbb.so.12 lives in the venv
 export INSTANOVO_FM_DATA_DIR="$PWD/data"
 echo "host $(hostname)  gpu $(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)  commit $(git rev-parse --short HEAD)  script $1"
 exec "$HOME/scratch/venvs/instanovo-fm/bin/python" "$1"
