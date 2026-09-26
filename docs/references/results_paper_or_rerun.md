@@ -76,19 +76,19 @@ Checkpoint `instanovo-fm-v0.1.0`.
 
 | No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| 1 | Fragment type macro-F1 (4 classes) | | | 0.855 | Tables S5, S10 | LCFM test, probe protocol |
-| 2 | Instrument macro-F1 (13 classes) | | | 0.804 | Tables S5, S10 | LCFM test, probe protocol |
-| 3 | PTM presence balanced accuracy | | | 0.802 | Tables S5, S10 | LCFM test, probe protocol |
-| 4 | Modification class macro-F1 | | | 0.622 | Table S10 | LCFM test, probe protocol |
-| 5 | Hydrophobicity R² | | | 0.605 | Tables S5, S10 | LCFM test, probe protocol |
-| 6 | Precursor mass R² | | | 0.732 | Tables S5, S10 | LCFM test, probe protocol |
-| 7 | Precursor m/z R² | | | 0.929 | Tables S5, S10 | LCFM test, probe protocol |
-| 8 | Precursor charge macro-F1 (7 classes) | | | 0.650 | Tables S5, S10 | LCFM test, probe protocol |
-| 9 | Spectrum confidence R² | | | 0.973 | Table S5 | LCFM test, probe protocol |
-| 10 | Duplicate retrieval Recall@1 | | | 0.215 | Tables S5, S10 | LCFM test, 20,000 groups in a 200,000 pool |
-| 11 | Duplicate retrieval mAP@20 | | | 0.076 | Tables S5, S10 | LCFM test, same pool |
-| 12 | Precursor charge probe macro-AUROC | | | 0.956 | Fig. 5 caption (line 4450) | LCFM test |
-| 13 | Fragmentation method probe macro-AUROC | | | 0.962 | Fig. 5 caption | LCFM test |
+| 1 | Fragment type macro-F1 (4 classes) | 0.817 | `rerun/result1_89M_probes_retrieval/linearprobetask.json` @ 769aaf6 | 0.855 | Tables S5, S10 | LCFM test, probe protocol |
+| 2 | Instrument macro-F1 (13 classes) | 0.817 | `rerun/result1_89M_probes_retrieval/linearprobetask.json` @ 769aaf6 | 0.804 | Tables S5, S10 | LCFM test, probe protocol |
+| 3 | PTM presence balanced accuracy | 0.806 | `rerun/result1_89M_probes_retrieval/linearprobetask.json` @ 769aaf6 | 0.802 | Tables S5, S10 | LCFM test, probe protocol |
+| 4 | Modification class macro-F1 | 0.568 | `rerun/result1_89M_probes_retrieval/linearprobetask.json` @ 769aaf6 | 0.622 | Table S10 | LCFM test, probe protocol |
+| 5 | Hydrophobicity R² | 0.615 | `rerun/result1_89M_probes_retrieval/linearprobetask.json` @ 769aaf6 | 0.605 | Tables S5, S10 | LCFM test, probe protocol |
+| 6 | Precursor mass R² | 0.742 | `rerun/result1_89M_probes_retrieval/linearprobetask.json` @ 769aaf6 | 0.732 | Tables S5, S10 | LCFM test, probe protocol |
+| 7 | Precursor m/z R² | 0.932 | `rerun/result1_89M_probes_retrieval/linearprobetask.json` @ 769aaf6 | 0.929 | Tables S5, S10 | LCFM test, probe protocol |
+| 8 | Precursor charge macro-F1 (7 classes) | 0.609 | `rerun/result1_89M_probes_retrieval/linearprobetask.json` @ 769aaf6 | 0.650 | Tables S5, S10 | LCFM test, probe protocol |
+| 9 | Spectrum confidence R² | 0.973 | `rerun/result1_89M_probes_retrieval/linearprobetask.json` @ 769aaf6 | 0.973 | Table S5 | LCFM test, probe protocol |
+| 10 | Duplicate retrieval Recall@1 | 0.209 | `rerun/result1_89M_probes_retrieval/duplicateretrievaltask.json` @ 769aaf6 | 0.215 | Tables S5, S10 | LCFM test, 20,000 groups in a 200,000 pool |
+| 11 | Duplicate retrieval mAP@20 | 0.074 | `rerun/result1_89M_probes_retrieval/duplicateretrievaltask.json` @ 769aaf6 | 0.076 | Tables S5, S10 | LCFM test, same pool |
+| 12 | Precursor charge probe macro-AUROC | 0.970 | `rerun/result1_89M_probes_retrieval/linearprobetask.results.json` @ 769aaf6 | 0.956 | Fig. 5 caption (line 4450) | LCFM test |
+| 13 | Fragmentation method probe macro-AUROC | 0.966 | `rerun/result1_89M_probes_retrieval/linearprobetask.results.json` @ 769aaf6 | 0.962 | Fig. 5 caption | LCFM test |
 
 ### Peak level and reconstruction (main text, sections "Peak-level representations" and "Reconstruction")
 
@@ -111,14 +111,14 @@ Checkpoint `instanovo-fm-v0.1.0`.
 
 | No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| 26 | Fragment type F1 (4 classes) | | | 0.865 | Table S4 | LCFM validation |
-| 27 | Instrument macro-F1 | | | 0.807 | Table S4 | LCFM validation |
-| 28 | Spectrum confidence R² | | | 0.973 | Table S4 | LCFM validation |
-| 29 | PTM balanced accuracy | | | 0.802 | Table S4 | LCFM validation |
-| 30 | Modification class macro-F1 | | | 0.620 | Table S4 | LCFM validation |
-| 31 | Precursor m/z R² | | | 0.929 | Table S4 | LCFM validation |
+| 26 | Fragment type F1 (4 classes) | 0.817 | `rerun/result4_89M_factorial_validation/linearprobetask.json` @ 769aaf6 | 0.865 | Table S4 | LCFM validation |
+| 27 | Instrument macro-F1 | 0.817 | `rerun/result4_89M_factorial_validation/linearprobetask.json` @ 769aaf6 | 0.807 | Table S4 | LCFM validation |
+| 28 | Spectrum confidence R² | 0.973 | `rerun/result4_89M_factorial_validation/linearprobetask.json` @ 769aaf6 | 0.973 | Table S4 | LCFM validation |
+| 29 | PTM balanced accuracy | 0.806 | `rerun/result4_89M_factorial_validation/linearprobetask.json` @ 769aaf6 | 0.802 | Table S4 | LCFM validation |
+| 30 | Modification class macro-F1 | 0.568 | `rerun/result4_89M_factorial_validation/linearprobetask.json` @ 769aaf6 | 0.620 | Table S4 | LCFM validation |
+| 31 | Precursor m/z R² | 0.932 | `rerun/result4_89M_factorial_validation/linearprobetask.json` @ 769aaf6 | 0.929 | Table S4 | LCFM validation |
 | 32 | Cross-spectrum AUROC | | | 0.857 | Table S4 | LCFM validation |
-| 33 | Recall@1 overall / CID | | | 0.400 / 0.426 | Table S4 | LCFM validation |
+| 33 | Recall@1 overall / CID | 0.398; CID 0.420 | `rerun/result4_89M_factorial_validation/duplicateretrievaltask.json` @ 769aaf6 | 0.400 / 0.426 | Table S4 | LCFM validation |
 | 34 | Structural attention heads of 12 | | | 8 | Table S4 | LCFM validation |
 | 35 | Mean isotope-spacing enrichment | | | 1.99 | Table S4 | LCFM validation |
 | 36 | Peak-type macro-F1 | | | 0.575 | Table S4 | LCFM validation |
