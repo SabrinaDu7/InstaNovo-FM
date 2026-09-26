@@ -1,0 +1,792 @@
+{
+  "task_name": "EVoC Clustering",
+  "skipped": false,
+  "num_embeddings": 20269,
+  "num_sampled": 20000,
+  "n_clusters": 5,
+  "noise_fraction": 0.5807,
+  "n_layers": 4,
+  "n_duplicates": 0,
+  "cluster_sizes": {
+    "0": 406,
+    "1": 2741,
+    "2": 764,
+    "3": 1752,
+    "4": 2723
+  },
+  "quality_metrics": {
+    "silhouette": 0.22040805220603943
+  },
+  "enrichment": {
+    "categorical": {
+      "frag_type": {
+        "global_rate": {
+          "HCD": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "HCD",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "HCD",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "HCD",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "HCD",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "4": {
+            "dominant": "HCD",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "search_detector": {
+        "global_rate": {
+          "Orbitrap": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "Orbitrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "Orbitrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "Orbitrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "Orbitrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "4": {
+            "dominant": "Orbitrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "search_instrument": {
+        "global_rate": {
+          "Orbitrap Exploris 480": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "Orbitrap Exploris 480",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "Orbitrap Exploris 480",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "Orbitrap Exploris 480",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "Orbitrap Exploris 480",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "4": {
+            "dominant": "Orbitrap Exploris 480",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "search_organism": {
+        "global_rate": {
+          "Bacillus cereus DSM 31": 0.34245,
+          "Escherichia coli DSM 30083": 0.4697,
+          "Staphylococcus aureus DSM 20231": 0.18785
+        },
+        "clusters": {
+          "0": {
+            "dominant": "Escherichia coli DSM 30083",
+            "purity": 0.6354679802955665,
+            "log2_enrichment": 0.4360798395297397
+          },
+          "1": {
+            "dominant": "Escherichia coli DSM 30083",
+            "purity": 0.6610726012404232,
+            "log2_enrichment": 0.4930691285121217
+          },
+          "2": {
+            "dominant": "Escherichia coli DSM 30083",
+            "purity": 0.46727748691099474,
+            "log2_enrichment": -0.00746006271498736
+          },
+          "3": {
+            "dominant": "Escherichia coli DSM 30083",
+            "purity": 0.6078767123287672,
+            "log2_enrichment": 0.372039156803689
+          },
+          "4": {
+            "dominant": "Staphylococcus aureus DSM 20231",
+            "purity": 0.44656628718325375,
+            "log2_enrichment": 1.2492932253074678
+          }
+        }
+      },
+      "search_enzyme": {
+        "global_rate": {
+          "trypsin": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "4": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "modification_types": {
+        "global_rate": {
+          "Acetyl": 0.00025,
+          "Acetyl + Oxidation": 5e-05,
+          "Carbamidomethyl": 0.07215,
+          "Carbamidomethyl + Oxidation": 0.00195,
+          "Oxidation": 0.0395,
+          "Unmodified": 0.8861
+        },
+        "clusters": {
+          "0": {
+            "dominant": "Unmodified",
+            "purity": 0.9113300492610837,
+            "log2_enrichment": 0.040504116229308794
+          },
+          "1": {
+            "dominant": "Unmodified",
+            "purity": 0.8573513316307917,
+            "log2_enrichment": -0.04758299847523997
+          },
+          "2": {
+            "dominant": "Unmodified",
+            "purity": 0.9659685863874345,
+            "log2_enrichment": 0.12450675092282025
+          },
+          "3": {
+            "dominant": "Unmodified",
+            "purity": 0.9092465753424658,
+            "log2_enrichment": 0.0372020648223094
+          },
+          "4": {
+            "dominant": "Unmodified",
+            "purity": 0.8652221814175541,
+            "log2_enrichment": -0.0343988703151623
+          }
+        }
+      }
+    },
+    "numeric": {
+      "precursor_charge": {
+        "global_mean": 2.341,
+        "global_std": 0.5916240360228783,
+        "clusters": {
+          "0": {
+            "mean": 2.0886699507389164,
+            "effect_size": -0.4265040530762448
+          },
+          "1": {
+            "mean": 2.6165632980663993,
+            "effect_size": 0.46577434534073425
+          },
+          "2": {
+            "mean": 2.026178010471204,
+            "effect_size": -0.5321318444820957
+          },
+          "3": {
+            "mean": 2.175228310502283,
+            "effect_size": -0.2801976921223441
+          },
+          "4": {
+            "mean": 2.306647080426001,
+            "effect_size": -0.05806545623962934
+          }
+        }
+      },
+      "precursor_mz": {
+        "global_mean": 659.4284506561279,
+        "global_std": 200.2992972456981,
+        "clusters": {
+          "0": {
+            "mean": 616.3705521005716,
+            "effect_size": -0.21496779643085392
+          },
+          "1": {
+            "mean": 858.9989523485776,
+            "effect_size": 0.9963614672479135
+          },
+          "2": {
+            "mean": 494.5485725602554,
+            "effect_size": -0.8231675316045756
+          },
+          "3": {
+            "mean": 514.7131829109366,
+            "effect_size": -0.7224951347067167
+          },
+          "4": {
+            "mean": 688.0842946389122,
+            "effect_size": 0.14306512492469436
+          }
+        }
+      },
+      "collision_energy": {
+        "global_mean": 28.0,
+        "global_std": 1.0,
+        "clusters": {
+          "0": {
+            "mean": 28.0,
+            "effect_size": 0.0
+          },
+          "1": {
+            "mean": 28.0,
+            "effect_size": 0.0
+          },
+          "2": {
+            "mean": 28.0,
+            "effect_size": 0.0
+          },
+          "3": {
+            "mean": 28.0,
+            "effect_size": 0.0
+          },
+          "4": {
+            "mean": 28.0,
+            "effect_size": 0.0
+          }
+        }
+      },
+      "sequence_length": {
+        "global_mean": 13.8038,
+        "global_std": 5.720157826493951,
+        "clusters": {
+          "0": {
+            "mean": 11.16256157635468,
+            "effect_size": -0.4617422287566866
+          },
+          "1": {
+            "mean": 20.06566946369938,
+            "effect_size": 1.094702218651449
+          },
+          "2": {
+            "mean": 8.835078534031414,
+            "effect_size": -0.8686336315678301
+          },
+          "3": {
+            "mean": 9.869292237442922,
+            "effect_size": -0.6878320287481738
+          },
+          "4": {
+            "mean": 14.039294895336026,
+            "effect_size": 0.04116930030239507
+          }
+        }
+      },
+      "hydrophobicity": {
+        "global_mean": -0.2028871241075103,
+        "global_std": 0.7003075250165915,
+        "clusters": {
+          "0": {
+            "mean": -0.5844591680221406,
+            "effect_size": -0.5448635496321279
+          },
+          "1": {
+            "mean": -0.12395972182638862,
+            "effect_size": 0.11270391858098591
+          },
+          "2": {
+            "mean": 0.0712015731607598,
+            "effect_size": 0.39138333871505443
+          },
+          "3": {
+            "mean": -0.17243526891175845,
+            "effect_size": 0.043483547024616646
+          },
+          "4": {
+            "mean": -0.2777116719373063,
+            "effect_size": -0.10684527176546224
+          }
+        }
+      },
+      "retention_time": {
+        "global_mean": 407.63461399211883,
+        "global_std": 151.31975222230568,
+        "clusters": {
+          "0": {
+            "mean": 280.3687247666232,
+            "effect_size": -0.8410395031477965
+          },
+          "1": {
+            "mean": 529.0971882015369,
+            "effect_size": 0.8026881648006928
+          },
+          "2": {
+            "mean": 359.9439511024515,
+            "effect_size": -0.31516482276288965
+          },
+          "3": {
+            "mean": 330.93248365132234,
+            "effect_size": -0.5068877606151011
+          },
+          "4": {
+            "mean": 409.53821589725226,
+            "effect_size": 0.01257999618144248
+          }
+        }
+      },
+      "n_peaks": {
+        "global_mean": 96.3288,
+        "global_std": 52.22694984928758,
+        "clusters": {
+          "0": {
+            "mean": 28.4064039408867,
+            "effect_size": -1.3005238914988986
+          },
+          "1": {
+            "mean": 172.61729295877416,
+            "effect_size": 1.4607112454187252
+          },
+          "2": {
+            "mean": 49.16361256544503,
+            "effect_size": -0.90308140855747
+          },
+          "3": {
+            "mean": 106.09417808219177,
+            "effect_size": 0.18697967448552774
+          },
+          "4": {
+            "mean": 41.53543885420492,
+            "effect_size": -1.0491395975432884
+          }
+        }
+      },
+      "peak_center_of_mass": {
+        "global_mean": 505.6365508544922,
+        "global_std": 126.26820407751589,
+        "clusters": {
+          "0": {
+            "mean": 529.7745404548833,
+            "effect_size": 0.1911644326989305
+          },
+          "1": {
+            "mean": 640.490964581261,
+            "effect_size": 1.0679997764439717
+          },
+          "2": {
+            "mean": 405.94726478616604,
+            "effect_size": -0.7895042682885316
+          },
+          "3": {
+            "mean": 407.0880532112296,
+            "effect_size": -0.7804696230791708
+          },
+          "4": {
+            "mean": 504.23463778402976,
+            "effect_size": -0.011102661043645027
+          }
+        }
+      },
+      "peak_spread": {
+        "global_mean": 283.2248319721222,
+        "global_std": 73.24635827988924,
+        "clusters": {
+          "0": {
+            "mean": 258.17695854450096,
+            "effect_size": -0.3419674918431881
+          },
+          "1": {
+            "mean": 339.53686784523677,
+            "effect_size": 0.7688032169180999
+          },
+          "2": {
+            "mean": 218.5542580170157,
+            "effect_size": -0.8829186252234833
+          },
+          "3": {
+            "mean": 221.86196887656433,
+            "effect_size": -0.8377599178525422
+          },
+          "4": {
+            "mean": 307.89407369926755,
+            "effect_size": 0.33679820139151684
+          }
+        }
+      },
+      "annotation_ratio": {
+        "global_mean": 0.4547368303507501,
+        "global_std": 0.13375090259794328,
+        "clusters": {
+          "0": {
+            "mean": 0.6163432665864111,
+            "effect_size": 1.2082642666079932
+          },
+          "1": {
+            "mean": 0.454316186822274,
+            "effect_size": -0.003144977120195994
+          },
+          "2": {
+            "mean": 0.5663543347054751,
+            "effect_size": 0.834517765388459
+          },
+          "3": {
+            "mean": 0.36521901299573106,
+            "effect_size": -0.6692875757564836
+          },
+          "4": {
+            "mean": 0.4953605863457436,
+            "effect_size": 0.3037269671151976
+          }
+        }
+      },
+      "backbone_coverage": {
+        "global_mean": 0.8153560388559893,
+        "global_std": 0.19407548824508888,
+        "clusters": {
+          "0": {
+            "mean": 0.5875980968302396,
+            "effect_size": -1.173553363617588
+          },
+          "1": {
+            "mean": 0.8646790693707381,
+            "effect_size": 0.2541435343574202
+          },
+          "2": {
+            "mean": 0.9108620433341614,
+            "effect_size": 0.49210750590802105
+          },
+          "3": {
+            "mean": 0.8890953910745443,
+            "effect_size": 0.37995190884401125
+          },
+          "4": {
+            "mean": 0.6327019608278266,
+            "effect_size": -0.9411496509930063
+          }
+        }
+      },
+      "signal_intensity_ratio": {
+        "global_mean": 0.4970601092945504,
+        "global_std": 0.15753974324931153,
+        "clusters": {
+          "0": {
+            "mean": 0.6119960115961923,
+            "effect_size": 0.7295676629341225
+          },
+          "1": {
+            "mean": 0.5166685061868374,
+            "effect_size": 0.12446635044501782
+          },
+          "2": {
+            "mean": 0.6285069928801965,
+            "effect_size": 0.8343728437948977
+          },
+          "3": {
+            "mean": 0.41801493210701024,
+            "effect_size": -0.5017475308592367
+          },
+          "4": {
+            "mean": 0.5009063786005272,
+            "effect_size": 0.02441459676552838
+          }
+        }
+      },
+      "median_ppm_error": {
+        "global_mean": 2.832144766197826,
+        "global_std": 1.2110899450161297,
+        "clusters": {
+          "0": {
+            "mean": 1.9748932259456482,
+            "effect_size": -0.7078347432244273
+          },
+          "1": {
+            "mean": 3.086591683156905,
+            "effect_size": 0.21009745643267666
+          },
+          "2": {
+            "mean": 1.441730057693901,
+            "effect_size": -1.1480689062160507
+          },
+          "3": {
+            "mean": 2.3423195124761156,
+            "effect_size": -0.4044499384520832
+          },
+          "4": {
+            "mean": 3.589678244785789,
+            "effect_size": 0.625497290028177
+          }
+        }
+      }
+    },
+    "cluster_sizes": {
+      "0": 406,
+      "1": 2741,
+      "2": 764,
+      "3": 1752,
+      "4": 2723
+    }
+  },
+  "zoom_story": [
+    {
+      "level": 0,
+      "node": [
+        4,
+        0
+      ],
+      "n_members": 20000,
+      "selected_field": "search_organism",
+      "nmi": 0.04903609125210369,
+      "per_child_dominant": {
+        "-1": "Escherichia coli DSM 30083",
+        "0": "Escherichia coli DSM 30083",
+        "1": "Escherichia coli DSM 30083",
+        "2": "Escherichia coli DSM 30083",
+        "3": "Escherichia coli DSM 30083",
+        "4": "Staphylococcus aureus DSM 20231",
+        "5": "Staphylococcus aureus DSM 20231",
+        "6": "Bacillus cereus DSM 31",
+        "7": "Bacillus cereus DSM 31",
+        "8": "Escherichia coli DSM 30083",
+        "9": "Escherichia coli DSM 30083",
+        "10": "Escherichia coli DSM 30083",
+        "11": "Bacillus cereus DSM 31",
+        "12": "Bacillus cereus DSM 31",
+        "13": "Escherichia coli DSM 30083",
+        "14": "Escherichia coli DSM 30083",
+        "15": "Escherichia coli DSM 30083",
+        "16": "Escherichia coli DSM 30083",
+        "17": "Escherichia coli DSM 30083",
+        "18": "Escherichia coli DSM 30083",
+        "19": "Escherichia coli DSM 30083",
+        "20": "Escherichia coli DSM 30083",
+        "21": "Bacillus cereus DSM 31",
+        "22": "Escherichia coli DSM 30083",
+        "23": "Escherichia coli DSM 30083",
+        "24": "Escherichia coli DSM 30083",
+        "25": "Bacillus cereus DSM 31",
+        "26": "Escherichia coli DSM 30083",
+        "27": "Bacillus cereus DSM 31",
+        "28": "Escherichia coli DSM 30083",
+        "29": "Escherichia coli DSM 30083",
+        "30": "Escherichia coli DSM 30083",
+        "31": "Escherichia coli DSM 30083",
+        "32": "Bacillus cereus DSM 31",
+        "33": "Escherichia coli DSM 30083",
+        "34": "Bacillus cereus DSM 31",
+        "35": "Escherichia coli DSM 30083",
+        "36": "Staphylococcus aureus DSM 20231",
+        "37": "Bacillus cereus DSM 31",
+        "38": "Bacillus cereus DSM 31",
+        "39": "Bacillus cereus DSM 31",
+        "40": "Escherichia coli DSM 30083",
+        "41": "Bacillus cereus DSM 31",
+        "42": "Escherichia coli DSM 30083",
+        "43": "Bacillus cereus DSM 31",
+        "44": "Escherichia coli DSM 30083",
+        "45": "Bacillus cereus DSM 31",
+        "46": "Escherichia coli DSM 30083",
+        "47": "Escherichia coli DSM 30083",
+        "48": "Bacillus cereus DSM 31",
+        "49": "Escherichia coli DSM 30083",
+        "50": "Staphylococcus aureus DSM 20231",
+        "51": "Escherichia coli DSM 30083",
+        "52": "Escherichia coli DSM 30083",
+        "53": "Escherichia coli DSM 30083",
+        "54": "Bacillus cereus DSM 31",
+        "55": "Bacillus cereus DSM 31",
+        "56": "Staphylococcus aureus DSM 20231",
+        "57": "Escherichia coli DSM 30083",
+        "58": "Bacillus cereus DSM 31",
+        "59": "Bacillus cereus DSM 31",
+        "60": "Bacillus cereus DSM 31",
+        "61": "Bacillus cereus DSM 31",
+        "62": "Bacillus cereus DSM 31",
+        "63": "Escherichia coli DSM 30083",
+        "64": "Bacillus cereus DSM 31",
+        "65": "Escherichia coli DSM 30083",
+        "66": "Bacillus cereus DSM 31",
+        "67": "Bacillus cereus DSM 31",
+        "68": "Staphylococcus aureus DSM 20231",
+        "69": "Escherichia coli DSM 30083",
+        "70": "Bacillus cereus DSM 31",
+        "71": "Bacillus cereus DSM 31",
+        "72": "Bacillus cereus DSM 31",
+        "73": "Escherichia coli DSM 30083",
+        "74": "Staphylococcus aureus DSM 20231",
+        "75": "Staphylococcus aureus DSM 20231",
+        "76": "Bacillus cereus DSM 31",
+        "77": "Bacillus cereus DSM 31",
+        "78": "Escherichia coli DSM 30083",
+        "79": "Bacillus cereus DSM 31",
+        "80": "Escherichia coli DSM 30083",
+        "81": "Escherichia coli DSM 30083",
+        "82": "Escherichia coli DSM 30083",
+        "83": "Escherichia coli DSM 30083",
+        "84": "Staphylococcus aureus DSM 20231",
+        "85": "Escherichia coli DSM 30083",
+        "86": "Escherichia coli DSM 30083",
+        "87": "Staphylococcus aureus DSM 20231",
+        "88": "Escherichia coli DSM 30083",
+        "89": "Escherichia coli DSM 30083",
+        "90": "Bacillus cereus DSM 31",
+        "91": "Escherichia coli DSM 30083",
+        "92": "Staphylococcus aureus DSM 20231",
+        "93": "Bacillus cereus DSM 31",
+        "94": "Escherichia coli DSM 30083",
+        "95": "Escherichia coli DSM 30083",
+        "96": "Staphylococcus aureus DSM 20231",
+        "97": "Escherichia coli DSM 30083",
+        "98": "Bacillus cereus DSM 31",
+        "99": "Escherichia coli DSM 30083",
+        "100": "Escherichia coli DSM 30083",
+        "101": "Escherichia coli DSM 30083",
+        "102": "Escherichia coli DSM 30083",
+        "103": "Staphylococcus aureus DSM 20231",
+        "104": "Escherichia coli DSM 30083",
+        "105": "Escherichia coli DSM 30083",
+        "106": "Escherichia coli DSM 30083",
+        "107": "Bacillus cereus DSM 31",
+        "108": "Escherichia coli DSM 30083",
+        "109": "Bacillus cereus DSM 31",
+        "110": "Escherichia coli DSM 30083",
+        "111": "Escherichia coli DSM 30083",
+        "112": "Bacillus cereus DSM 31",
+        "113": "Escherichia coli DSM 30083",
+        "114": "Staphylococcus aureus DSM 20231",
+        "115": "Staphylococcus aureus DSM 20231",
+        "116": "Bacillus cereus DSM 31",
+        "117": "Bacillus cereus DSM 31",
+        "118": "Escherichia coli DSM 30083",
+        "119": "Bacillus cereus DSM 31",
+        "120": "Bacillus cereus DSM 31",
+        "121": "Bacillus cereus DSM 31",
+        "122": "Bacillus cereus DSM 31",
+        "123": "Escherichia coli DSM 30083"
+      }
+    },
+    {
+      "level": 1,
+      "node": [
+        3,
+        1
+      ],
+      "n_members": 2741,
+      "selected_field": "precursor_charge",
+      "nmi": 0.17083361431015562,
+      "per_child_dominant": {
+        "-1": "2",
+        "0": "3",
+        "1": "3",
+        "2": "2",
+        "3": "2",
+        "4": "3",
+        "5": "2",
+        "6": "3",
+        "7": "2",
+        "8": "2",
+        "9": "3",
+        "10": "2",
+        "11": "2",
+        "12": "2",
+        "13": "2",
+        "14": "2",
+        "15": "3",
+        "16": "2",
+        "17": "2",
+        "18": "2",
+        "19": "3",
+        "20": "2",
+        "21": "5",
+        "22": "2",
+        "23": "2",
+        "24": "3",
+        "25": "3",
+        "26": "3",
+        "27": "2",
+        "28": "2",
+        "29": "3",
+        "30": "3"
+      }
+    },
+    {
+      "level": 2,
+      "node": [
+        2,
+        14
+      ],
+      "n_members": 508,
+      "selected_field": "precursor_charge",
+      "nmi": 0.0985697943966273,
+      "per_child_dominant": {
+        "-1": "3",
+        "0": "4",
+        "1": "3",
+        "2": "3",
+        "3": "3",
+        "4": "3",
+        "5": "3",
+        "6": "3",
+        "7": "3",
+        "8": "3",
+        "9": "3",
+        "10": "3",
+        "11": "4",
+        "12": "3",
+        "13": "3"
+      }
+    }
+  ],
+  "mean_purity_frag_type": 1.0,
+  "save_paths": [
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ms2bac/89M/geometry/eval_20260926_164130/evocclusteringtask/evoc_figs/evoc_enrichment_heatmap.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ms2bac/89M/geometry/eval_20260926_164130/evocclusteringtask/evoc_figs/evoc_clusters_umap.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ms2bac/89M/geometry/eval_20260926_164130/evocclusteringtask/evoc_figs/evoc_layer_panel.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ms2bac/89M/geometry/eval_20260926_164130/evocclusteringtask/evoc_figs/evoc_zoom_cascade.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ms2bac/89M/geometry/eval_20260926_164130/evocclusteringtask/evoc_figs/evoc_cluster_zoom_recolor.png"
+  ],
+  "save_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ms2bac/89M/geometry/eval_20260926_164130/evocclusteringtask/evoc_figs",
+  "execution_time": 23.698646306991577,
+  "evoc_params": {},
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ms2bac/89M/geometry/eval_20260926_164130/evocclusteringtask"
+}

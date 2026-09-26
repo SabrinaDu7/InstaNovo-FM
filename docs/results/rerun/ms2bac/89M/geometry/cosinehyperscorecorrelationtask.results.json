@@ -1,0 +1,40 @@
+{
+  "task_name": "Cosine vs. Hyperscore Correlation",
+  "num_embeddings": 20269,
+  "num_sampled": 10000,
+  "num_peptides": 9127,
+  "num_correlation_pairs": 1665,
+  "execution_time": 0.06056666374206543,
+  "correlation_results": {
+    "spearman_correlation": NaN,
+    "spearman_pvalue": NaN,
+    "pearson_correlation": NaN,
+    "num_pairs": 1665,
+    "cosine_stats": {
+      "mean": 0.973593095902566,
+      "std": 0.019521124660670203,
+      "min": 0.7826311588287354,
+      "max": 0.9982783794403076
+    },
+    "score_stats": {
+      "mean": NaN,
+      "std": NaN,
+      "min": NaN,
+      "max": NaN
+    },
+    "cosine_metric": "mean",
+    "max_peptide_spectra": 20
+  },
+  "config": {
+    "peptide_key": "peptides",
+    "score_key": "hyperscore",
+    "score_name": "hyperscore",
+    "max_samples": 10000,
+    "min_peptide_spectra": 2,
+    "use_log_expectation": false,
+    "random_state": 42,
+    "cosine_metric": "mean",
+    "max_peptide_spectra": 20
+  },
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ms2bac/89M/geometry/eval_20260926_164130/cosinehyperscorecorrelationtask"
+}
