@@ -154,6 +154,19 @@ def evaluate(*, dataset: str, model: str, protocol: str) -> Path:
     return dest
 
 
+ARCHITECTURE_KEYS = ("dim_model", "n_heads", "dim_feedforward", "n_layers")
+
+
+def architecture_overrides(checkpoint: Path) -> list[str]:
+    """`model.<key>=<value>` for the architecture stored in the checkpoint: the trainer builds the model from the Hydra
+    config (the 40M of `foundation_base.yaml`), the evaluator from the checkpoint; the released 89M has 12 layers and a
+    3,072-wide feed-forward, so its weights cannot load into the default model."""
+    import torch
+
+    config = torch.load(checkpoint, map_location="cpu", weights_only=False)["config"]
+    return [f"model.{k}={config[k]}" for k in ARCHITECTURE_KEYS if k in config]
+
+
 def validation_metrics(db: Path) -> dict[str, float]:
     """The `eval/*` metrics of the run's MLflow SQLite store (the trainer logs validation there)."""
     con = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
@@ -177,6 +190,7 @@ def validate(*, dataset: str, model: str) -> Path:
     out.mkdir(parents=True, exist_ok=True)
     checkpoint = env_path("CHECKPOINTS") / f"{MODELS[model]}.ckpt"
     overrides = [
+        *architecture_overrides(checkpoint),
         "dataset=mcfm",
         f"dataset.train_path={f['probe-train']}",
         f"dataset.valid_path={f['identified']}",
