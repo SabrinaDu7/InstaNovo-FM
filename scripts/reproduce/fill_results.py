@@ -158,6 +158,7 @@ R1_89, R2_89, R4_89 = "result1_89M_probes_retrieval", "result2_89M_peak_level", 
 R3_89 = "result3_89M_geometry"
 R5_40 = "result5_40M_mcfm_test"
 R6_40, R6_89 = "result6_40M_cosine_hyperscore", "result6_89M_cosine_hyperscore"
+R1_O, R2_O, R3_O, R5_O, R6_O = "result1_40Mours_probes_retrieval", "result2_40Mours_peak_level", "result3_40Mours_geometry", "result5_40Mours_mcfm_test", "result6_40Mours_cosine_hyperscore"
 
 ROWS: dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]] = {  # (section, No.) -> (script, file, getter)
     ("40M", 1): (R1_40, "linearprobetask.json", probe(R1_40, "frag_type/macro_f1")),
@@ -223,6 +224,44 @@ ROWS: dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]] = {  # (s
 }
 
 
+def _ours_rows() -> dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]]:
+    """The 40M rows again, for the checkpoint trained here: same files and keys under the *_40Mours_* scripts."""
+    swap = {R1_40: R1_O, R2_40: R2_O, R3_40: R3_O, R5_40: R5_O, R6_40: R6_O, "validate_released_40M": "train_40M_mcfm_90k"}
+    out: dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]] = {}
+    for (section, n), (script, name, _getter) in list(ROWS.items()):
+        if section != "40M" or script not in swap:
+            continue
+        ours_script = swap[script]
+        if script == "validate_released_40M":  # row 23: the run's own final validation, keys under final_eval_step_90001
+            g = joined(("median", keyed(ours_script, "metrics.json", "eval/median_ae_ppm", lambda x: f"{float(x):.0f} ppm")), ("MAE", keyed(ours_script, "metrics.json", "eval/mae_daltons", lambda x: f"{float(x):.2f} Da")), ("bin accuracy", keyed(ours_script, "metrics.json", "eval/bin_accuracy", lambda x: f"{float(x):.1f} %")), ("within 20 ppm", keyed(ours_script, "metrics.json", "eval/pct_within_20ppm", lambda x: f"{float(x):.1f} %")), ("intensity R²", keyed(ours_script, "metrics.json", "eval/intensity_r2")))
+        else:
+            g = _rebind(_getter, script, ours_script)
+        out[("40M-ours", n)] = (ours_script, name, g)
+    return out
+
+
+def _rebind(getter: Callable[[], str | None], old: str, new: str) -> Callable[[], str | None]:
+    """Re-run a row getter against another script's files by swapping the script name in `load`."""
+
+    def get() -> str | None:
+        global load
+        original = load
+
+        def swapped(script: str, name: str) -> dict[str, Any] | None:
+            return original(new if script == old else script, name)
+
+        load = swapped  # type: ignore[assignment]
+        try:
+            return getter()
+        finally:
+            load = original  # type: ignore[assignment]
+
+    return get
+
+
+ROWS.update(_ours_rows())
+
+
 def source_cell(script: str, name: str) -> str:
     run = load(script, "run.json") or {}
     return f"`rerun/{script}/{name}`" + (f" @ {run['commit']}" if run.get("commit") else "")
@@ -232,7 +271,7 @@ def fill(text: str) -> tuple[str, list[str]]:
     out, missing, section = [], [], ""
     for line in text.split("\n"):
         if line.startswith("## "):
-            section = "40M" if "40M" in line else "89M" if "89M" in line else ""
+            section = "40M-ours" if "trained here" in line else "40M" if "40M" in line else "89M" if "89M" in line else ""
         cells = line.split("|")
         if section and len(cells) >= 8 and cells[1].strip().isdigit():
             key = (section, int(cells[1]))
@@ -243,6 +282,11 @@ def fill(text: str) -> tuple[str, list[str]]:
                     missing.append(f"{section} row {key[1]}: {script}/{name}")
                 else:
                     cells[3], cells[4] = f" {value} ", f" {source_cell(script, name)} "
+                    if section == "40M-ours" and ("40M", key[1]) in ROWS:  # the released checkpoint's rerun as the comparison
+                        r_script, r_name, r_getter = ROWS[("40M", key[1])]
+                        released = r_getter()
+                        if released is not None:
+                            cells[5], cells[6] = f" {released} ", f" {source_cell(r_script, r_name)} "
                     line = "|".join(cells)
         out.append(line)
     return "\n".join(out), missing

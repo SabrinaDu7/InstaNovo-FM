@@ -68,6 +68,40 @@ for the first time and they go in the rows below as they arrive, with no author 
 | 22 | Cosine vs hyperscore: Spearman / Pearson | Spearman 0.148; Pearson 0.100; pairs 2252 | `rerun/result6_40M_cosine_hyperscore/cosinehyperscorecorrelationtask.results.json` @ c58e624 | none | | LCFM test, 20,000 spectra |
 | 23 | Trainer validation metrics: median ppm error, MAE (Da), bin accuracy, within 20 ppm, intensity R² | median 4493 ppm; MAE 5.99 Da; bin accuracy 27.4 %; within 20 ppm 4.1 %; intensity R² 0.980 | `rerun/validate_released_40M/metrics.json` | none (the training run's target, in the trainer's units) | | MCFM validation, 256,000 spectra, Thompson-span masking as in training |
 
+## 40M trained here
+
+Checkpoint `instanovo-fm-mcfm-90k-ours-2026-09-26` (`$CHECKPOINTS`), `model_best.ckpt` of run `train-40M-mcfm-90k`
+(job 22701776, `docs/agent_logs/session-2026-09-25-train40M.md`): the 40M architecture trained by us for 90,000 steps
+on MCFM with the paper's schedule. Row numbers match the 40M table above; the comparison column holds the
+**released 40M checkpoint's own rerun** from that table, not a paper number, so the two runs are compared under one
+protocol, one backend and one sampling seed. Filled by `scripts/reproduce/fill_results.py`.
+
+| No. | Metric | Result from our rerun | Source | Released 40M rerun | Source | Eval data used |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| 1 | Fragment type macro-F1 (4 classes) | | | | | LCFM test, probe protocol |
+| 2 | Instrument macro-F1 (13 classes) | | | | | LCFM test, probe protocol |
+| 3 | PTM presence balanced accuracy | | | | | LCFM test, probe protocol |
+| 4 | Hydrophobicity R² | | | | | LCFM test, probe protocol |
+| 5 | Precursor mass R² | | | | | LCFM test, probe protocol |
+| 6 | Precursor m/z R² | | | | | LCFM test, probe protocol |
+| 7 | Precursor charge macro-F1 (7 classes) | | | | | LCFM test, probe protocol |
+| 8 | Spectrum confidence R² | | | | | LCFM test, probe protocol |
+| 9 | Duplicate retrieval Recall@1 | | | | | LCFM test, 20,000 groups in a 200,000 pool |
+| 10 | Duplicate retrieval mAP@20 | | | | | LCFM test, same pool |
+| 11 | Masked-group bin accuracy, median ppm error | | | | | |
+| 12 | Peak-type 4-way accuracy and macro-F1 | | | | | |
+| 13 | Cross-spectrum same-ion AUROC | | | | | |
+| 14 | Per-spectrum confidence AUROC (annotated vs not) | | | | | |
+| 15 | Embedding statistics (anisotropy ratio, effective rank, top-component energy) | | | | | |
+| 16 | MCFM test, probes: fragment type / instrument / PTM presence / hydrophobicity / mass / m/z / charge / confidence | | | | | MCFM test, probe protocol |
+| 17 | MCFM test, duplicate retrieval Recall@1 / mAP@20 | | | | | MCFM test, 20,000 groups in a 200,000 pool |
+| 18 | UMAP kNN preservation at k 15: all / HCD-Orbitrap / CID | | | | | LCFM test, 20,000 spectra |
+| 19 | EVoC clustering: clusters, noise fraction, silhouette, fragmentation-type purity | | | | | LCFM test, 20,000 spectra |
+| 20 | ESM2 cross-modal alignment: RSA rho (all pairs), CKA; shuffled / metadata RSA baselines | | | | | LCFM test, 20,000 spectra |
+| 21 | Glass Box attribution: features, reconstruction residual, top feature importance | | | | | LCFM test, 20,000 spectra |
+| 22 | Cosine vs hyperscore: Spearman / Pearson | | | | | LCFM test, 20,000 spectra |
+| 23 | Trainer validation metrics: median ppm error, MAE (Da), bin accuracy, within 20 ppm, intensity R² | median 3897 ppm; MAE 5.25 Da; bin accuracy 27.2 %; within 20 ppm 4.2 %; intensity R² 0.990 | `rerun/train_40M_mcfm_90k/metrics.json` | median 4493 ppm; MAE 5.99 Da; bin accuracy 27.4 %; within 20 ppm 4.1 %; intensity R² 0.980 | `rerun/validate_released_40M/metrics.json` | MCFM validation, 256,000 spectra, Thompson-span masking as in training |
+
 ## 89M Results
 
 Checkpoint `instanovo-fm-v0.1.0`.
