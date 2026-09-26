@@ -35,6 +35,9 @@ Filled in as the session goes; every row names the artifact it produced.
 | Environment on nibi | `uv sync` into `~/scratch/venvs/instanovo-fm` (torch 2.8.0+cu128), extras `clustering` and `interpret` added; `fair-esm` is not a dependency of the fork, so an `esm` extra was added to `pyproject.toml` and the ESM2 650M weights are pre-fetched into `~/scratch/torch-hub` for the compute nodes. cuML is not installable from the lock, so probes run on scikit-learn: the guide says those numbers are not comparable with the paper's cuML ones. |
 | Local reference run of the 40M checkpoint (workstation, MCFM validation sample, seven tasks) | Pipeline check, not a reproduction (different split, backend, probe sample). Retrieval recall@1 0.566 on a 20,000-spectrum MCFM pool against the paper's 0.307 on a 200,000-spectrum LCFM pool; probes within 0.03 to 0.10 of Table S5 in both directions; anisotropy ratio 23.9. Full table in the workstation's `instanovo-fm-runs/NOTES.md`. |
 | First nibi job: `result5_40M_mcfm_test` (job 22690634, then 22691003 after the fix below; `rrg-hsn`, one H100, 128 GB, 8 h) | Submitted before the LCFM shards finished so the wrapper, the environment and the results path get exercised on the split that is already there. The model loads and samples 200,000 of the 5,761,808 MCFM test spectra in 25 s; theoretical-spectrum generation for them takes about 2.5 min. |
+| Smoke test passed: job 22691003, 1 h 37 min on g10 (`docs/references/rerun/result5_40M_mcfm_test/`, rows 16-17 of the results document, commit 53ba3e1) | 40M on MCFM test, 200,000-spectrum pool: recall@1 0.629, mAP@20 0.329; probes fragment type 0.776, instrument 0.680, PTM 0.799, hydrophobicity 0.622, mass 0.755, m/z 0.928, charge 0.608, confidence 0.981 (scikit-learn, shared projects). Where the time went: embedding 200,000 spectra with `num_workers=0` about 30 min (the GPU mostly idle), linear probe 34 min on CPU, duplicate retrieval 47 min because the installed `faiss-cpu` loads without its AVX2/AVX512 modules. Every 200,000-sample job will cost about this until workers and a faster FAISS build are restored. |
+| Step 2 closed at 20:04 (`ALL_DONE`, 215 files, 53 GiB MCFM + 163 GiB LCFM validation/test + 3.5 GiB checkpoints); `verify_data.py` running detached (sha256 of every shard against the saved listing, report in `$DATA/verify.csv`) | |
+| The watcher submitted the seven LCFM jobs at 21:20: 22694948 result1_40M, 22694949 result1_89M, 22694950 result2_40M, 22694951 result2_89M, 22694952 result3_40M, 22694953 result3_89M, 22694954 result4_89M | Each one H100, 128 GB, 8 h; results land in `docs/references/rerun/<script>/` and `fill_results.py` renders them into the document. |
 
 ## Problems encountered
 
@@ -53,9 +56,10 @@ Filled in as the session goes; every row names the artifact it produced.
 
 ## Next steps
 
-- When `fetch.log` says `ALL_DONE` (LCFM validation and test present): submit `result1..3` for both models and
-  `result4_89M_factorial_validation`; then fill the rerun columns of `results_paper_or_rerun.md` from
-  `docs/references/rerun/*/`.
+- As each of the seven LCFM jobs finishes: `python scripts/reproduce/fill_results.py`, commit, and compare with the
+  author column; the retrieval rows are the ones that must match, the probe rows carry the backend caveat.
+- Restore DataLoader workers for evaluation with `torch.multiprocessing.set_sharing_strategy("file_system")` (or
+  a larger `/dev/shm` request) and install a FAISS build with AVX2, so a 200,000-sample job takes under an hour.
 - Decide whether to install cuML (RAPIDS) on nibi so the probe backend matches the paper; the guide says
   scikit-learn scores are not comparable.
 - IG attribution: the Methods give 413 quality-gated spectra and 1,239 masked groups, which the task's default
