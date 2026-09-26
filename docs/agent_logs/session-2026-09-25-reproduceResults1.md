@@ -47,6 +47,7 @@ Filled in as the session goes; every row names the artifact it produced.
 | Step 2 closed for the whole corpus at 23:05: LCFM train (293 shards, 305 GiB) added; `verify_data.py` over the first download reported 499 entries, none failing size or sha256 (`$DATA/verify.csv`), and a second pass covering the train shards is running (`verify_after_train.log`) | The watcher submitted the three probe-and-retrieval jobs at 23:09: 22698441 `result1_40M`, 22698442 `result1_89M`, 22698443 `result4_89M`. These are the Table S5 / S10 / S4 comparisons; about two hours each on the current single-process loader and CPU probes. |
 | `result1_40M_probes_retrieval` done (job 22698441, 1 h 36 min; 40M rows 1-10, commit ba3d10e): the Table S5 comparison for the 40M model | Duplicate retrieval reproduces exactly: recall@1 0.305 vs 0.307, mAP@20 0.125 vs 0.126 (20,000 groups in a 200,000-spectrum LCFM test pool). Probes, scikit-learn with shared projects against the paper's cuML with project-disjoint splits: PTM 0.756 vs 0.751, hydrophobicity 0.528 vs 0.518, mass 0.702 vs 0.698, m/z 0.897 vs 0.896, confidence 0.978 vs 0.978, instrument 0.729 vs 0.697; fragment type 0.733 vs 0.781 and charge 0.515 vs 0.602 are the two that differ, both macro-F1 over rare classes, where the solver and the split regime matter most. Timing: probes 43 min on CPU, retrieval 36 min. |
 | Data verified twice: the second `verify_data.py` pass, with the LCFM train shards present, ends with 499 entries and none failing (`$DATA/verify_after_train.log`) | |
+| `result1_89M_probes_retrieval` (job 22698442, 1 h 39 min) and `result4_89M_factorial_validation` (22698443, 1 h 27 min) done; 89M rows 1-13 and 26-33; commit ef12da6. With them every row of `results_paper_or_rerun.md` that has a rerun source is filled (`fill_results.py`: 0 rows missing) | Retrieval reproduces on both splits: test recall@1 0.209 vs 0.215 and mAP@20 0.074 vs 0.076; validation recall@1 0.398 vs 0.400 and CID 0.420 vs 0.426. Probes on test: PTM 0.806 vs 0.802, hydrophobicity 0.615 vs 0.605, mass 0.742 vs 0.732, m/z 0.932 vs 0.929, confidence 0.973 vs 0.973, instrument 0.817 vs 0.804, charge macro-AUROC 0.970 vs 0.956, fragmentation macro-AUROC 0.966 vs 0.962; the three macro-F1 rows fall short (fragment type 0.817 vs 0.855, modification class 0.568 vs 0.622, charge 0.609 vs 0.650), the same pattern as the 40M model and the pattern the guide predicts for scikit-learn with shared projects against cuML with project-disjoint splits. Validation-split probes match their test-split values to three decimals because the probe task draws its own 100k/10k/10k from the corpus splits regardless of `--split`; only retrieval changes with the split. |
 
 ## Problems encountered
 
@@ -70,8 +71,9 @@ Filled in as the session goes; every row names the artifact it produced.
 
 ## Next steps
 
-- As each of the seven LCFM jobs finishes: `python scripts/reproduce/fill_results.py`, commit, and compare with the
-  author column; the retrieval rows are the ones that must match, the probe rows carry the backend caveat.
+- Done: every rerun row is filled. Open: cuML for the three macro-F1 probe rows; row 24 (HCFM validation confidence
+  analysis) and rows 32, 34-36 (peak-level tasks on the validation split) were not run; the ablation checkpoints
+  against Table S4's other columns.
 - Restore DataLoader workers for evaluation with `torch.multiprocessing.set_sharing_strategy("file_system")` (or
   a larger `/dev/shm` request) and install a FAISS build with AVX2, so a 200,000-sample job takes under an hour.
 - Decide whether to install cuML (RAPIDS) on nibi so the probe backend matches the paper; the guide says
