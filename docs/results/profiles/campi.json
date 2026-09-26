@@ -2,13 +2,13 @@
  "name": "campi",
  "files": 1,
  "spectra": 2424154,
- "identified": 797184,
+ "identified": 802128,
  "runs": 21,
  "projects": {
   "PXD023217": 2424154
  },
  "matched_in_search_data": 2424154,
- "peptides": 66910,
+ "peptides": 66982,
  "frag_type": {
   "HCD": 1528653,
   "CID": 895501
@@ -80,12 +80,13 @@
   "precursor": 2424154
  },
  "modification_tokens": {
-  "C[UNIMOD:4]": 166699,
-  "M[UNIMOD:35]": 100899,
+  "C[UNIMOD:4]": 172350,
+  "M[UNIMOD:35]": 103221,
   "Q[UNIMOD:28]": 7354,
+  "[UNIMOD:385]-": 4944,
   "E[UNIMOD:27]": 1259
  },
- "modified_fraction": 0.2804,
+ "modified_fraction": 0.2848,
  "peaks_per_spectrum": {
   "p05": 19.0,
   "median": 143.0,
@@ -102,6 +103,6 @@
   "p05": 9.0,
   "median": 16.0,
   "p95": 31.0,
-  "mean": 17.568
+  "mean": 17.579
  }
 }
