@@ -56,7 +56,7 @@ RESIDUE_MASS = {
     "R[UNIMOD:7]": 157.085127, "P[UNIMOD:35]": 113.047679, "S[UNIMOD:21]": 166.998028, "T[UNIMOD:21]": 181.01367,
     "Y[UNIMOD:21]": 243.029329, "Q[UNIMOD:28]": 111.032029, "E[UNIMOD:27]": 111.032028,
 }
-N_TERMINAL_MASS = {"[UNIMOD:1]": 42.010565}
+N_TERMINAL_MASS = {"[UNIMOD:1]": 42.010565, "[UNIMOD:385]": -17.026549}
 # Our label tables write modifications as `Name@pos` (1-based; 0 = N-terminus); the corpus attaches UNIMOD ids.
 RESIDUE_MODS = {  # (name, residue) -> corpus token
     ("Oxidation", "M"): "M[UNIMOD:35]",
@@ -68,6 +68,11 @@ RESIDUE_MODS = {  # (name, residue) -> corpus token
     ("Glu->pyro-Glu", "E"): "E[UNIMOD:27]",
 }
 TERMINAL_MODS = {"Acetyl": "[UNIMOD:1]"}
+# An N-terminal -17.027 Da that X!Tandem reports on a carbamidomethyl-cysteine (named Gln->pyro-Glu by mass in our tables) is
+# the ammonia loss of the alkylated N-terminus; the checkpoints' residue set carries it as the N-terminal token
+# `[UNIMOD:385]` (-17.026549, `configs/residues/default.yaml`), written like the other terminal tokens (inferred: the corpus
+# test shard holds no example of it).
+N_TERMINAL_RESIDUE_MODS = {("Gln->pyro-Glu", "C"): "[UNIMOD:385]"}
 TOKEN = re.compile(r"(\[UNIMOD:\d+\]-)?([A-Z](?:\[UNIMOD:\d+\])?)")
 
 MS_EXTENSIONS = (".mzML.gz", ".mzML", ".mgf")
@@ -237,6 +242,9 @@ def proforma(sequence: str, mods: str, *, fixed_carbamidomethyl: bool) -> str | 
             if name not in TERMINAL_MODS:
                 return None
             prefix = TERMINAL_MODS[name] + "-"
+            continue
+        if p == 1 and (name, sequence[0]) in N_TERMINAL_RESIDUE_MODS:
+            prefix = N_TERMINAL_RESIDUE_MODS[(name, sequence[0])] + "-"
             continue
         token = RESIDUE_MODS.get((name, sequence[p - 1]))
         if token is None:
