@@ -78,16 +78,16 @@ protocol, one backend and one sampling seed. Filled by `scripts/reproduce/fill_r
 
 | No. | Metric | Result from our rerun | Source | Released 40M rerun | Source | Eval data used |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| 1 | Fragment type macro-F1 (4 classes) | | | | | LCFM test, probe protocol |
-| 2 | Instrument macro-F1 (13 classes) | | | | | LCFM test, probe protocol |
-| 3 | PTM presence balanced accuracy | | | | | LCFM test, probe protocol |
-| 4 | Hydrophobicity R² | | | | | LCFM test, probe protocol |
-| 5 | Precursor mass R² | | | | | LCFM test, probe protocol |
-| 6 | Precursor m/z R² | | | | | LCFM test, probe protocol |
-| 7 | Precursor charge macro-F1 (7 classes) | | | | | LCFM test, probe protocol |
-| 8 | Spectrum confidence R² | | | | | LCFM test, probe protocol |
-| 9 | Duplicate retrieval Recall@1 | | | | | LCFM test, 20,000 groups in a 200,000 pool |
-| 10 | Duplicate retrieval mAP@20 | | | | | LCFM test, same pool |
+| 1 | Fragment type macro-F1 (4 classes) | 0.706 | `rerun/result1_40Mours_probes_retrieval/linearprobetask.json` @ 33adc4c | 0.733 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | LCFM test, probe protocol |
+| 2 | Instrument macro-F1 (13 classes) | 0.721 | `rerun/result1_40Mours_probes_retrieval/linearprobetask.json` @ 33adc4c | 0.729 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | LCFM test, probe protocol |
+| 3 | PTM presence balanced accuracy | 0.733 | `rerun/result1_40Mours_probes_retrieval/linearprobetask.json` @ 33adc4c | 0.756 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | LCFM test, probe protocol |
+| 4 | Hydrophobicity R² | 0.516 | `rerun/result1_40Mours_probes_retrieval/linearprobetask.json` @ 33adc4c | 0.528 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | LCFM test, probe protocol |
+| 5 | Precursor mass R² | 0.693 | `rerun/result1_40Mours_probes_retrieval/linearprobetask.json` @ 33adc4c | 0.702 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | LCFM test, probe protocol |
+| 6 | Precursor m/z R² | 0.894 | `rerun/result1_40Mours_probes_retrieval/linearprobetask.json` @ 33adc4c | 0.897 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | LCFM test, probe protocol |
+| 7 | Precursor charge macro-F1 (7 classes) | 0.494 | `rerun/result1_40Mours_probes_retrieval/linearprobetask.json` @ 33adc4c | 0.515 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | LCFM test, probe protocol |
+| 8 | Spectrum confidence R² | 0.977 | `rerun/result1_40Mours_probes_retrieval/linearprobetask.json` @ 33adc4c | 0.978 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | LCFM test, probe protocol |
+| 9 | Duplicate retrieval Recall@1 | 0.314 | `rerun/result1_40Mours_probes_retrieval/duplicateretrievaltask.json` @ 33adc4c | 0.305 | `rerun/result1_40M_probes_retrieval/duplicateretrievaltask.json` @ 90c274e | LCFM test, 20,000 groups in a 200,000 pool |
+| 10 | Duplicate retrieval mAP@20 | 0.130 | `rerun/result1_40Mours_probes_retrieval/duplicateretrievaltask.json` @ 33adc4c | 0.125 | `rerun/result1_40M_probes_retrieval/duplicateretrievaltask.json` @ 90c274e | LCFM test, same pool |
 | 11 | Masked-group bin accuracy, median ppm error | 49.2 % overall; y 50.9 % / b 44.6 %; 202.9 / 826.6 ppm | `rerun/result2_40Mours_peak_level/igattributiontask.results.json` @ 7adc03b | 55.0 % overall; y 56.9 % / b 50.0 %; 136.8 / 276.7 ppm | `rerun/result2_40M_peak_level/igattributiontask.results.json` @ ccf02d3 | |
 | 12 | Peak-type 4-way accuracy and macro-F1 | accuracy 72.6 %; macro-F1 0.510 | `rerun/result2_40Mours_peak_level/peaktypeclassificationtask.json` @ 7adc03b | accuracy 73.6 %; macro-F1 0.519 | `rerun/result2_40M_peak_level/peaktypeclassificationtask.json` @ ccf02d3 | |
 | 13 | Cross-spectrum same-ion AUROC | 0.869 | `rerun/result2_40Mours_peak_level/peaktypeclassificationtask.json` @ 7adc03b | 0.885 | `rerun/result2_40M_peak_level/peaktypeclassificationtask.json` @ ccf02d3 | |

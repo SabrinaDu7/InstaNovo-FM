@@ -26,6 +26,7 @@ loading, throughput, memory, checkpointing, in-loop evaluation and local MLflow;
 | Babysitting, first milestone at 02:29: step 10,000 validation, checkpoint and in-loop statistics all worked; first epoch closed at 1 h 13 min (11,428 steps of 1,024 over 11,703,040 spectra, so 90,000 steps is 7.9 epochs) | Validation at step 10,000 on the 256,000-spectrum protocol: loss 1.945, median 6,679 ppm, bin accuracy 10.7 %, within 20 ppm 1.5 %, intensity R² 0.974; anisotropy ratio 21.7, effective rank 50.3 (the released checkpoint: 4,493 ppm, 27.4 %, 25.0, 89.4). Throughput steady at 0.37-0.39 s/step, GPU 100 %, 47 GB of GPU memory in use; staging took 84 s on g19. Projected end of training about 11:05 EDT, post-training battery after. Checkpoints kept per interval as intended. |
 | Step 4 done: training completed at 10:58:35 EDT (job 22701776), 9 h 33 min wall from the first step for 90,000 steps at batch 1,024 (0.38 s/step), nine interval checkpoints plus `model_best.ckpt` at step 90,000; metrics and trajectories in `docs/references/rerun/train_40M_mcfm_90k/metrics.json` | Final validation (256,000 MCFM validation spectra, 9.7 M masked peaks): loss 1.520, median 3,897 ppm, MAE 5.25 Da, bin accuracy 27.2 % (group 62.3 %, offset 37.2 %), within 1 Da 40.7 %, within 20 ppm 4.2 %, intensity R² 0.990; embedding anisotropy ratio 22.5, effective rank 95.3. The released checkpoint on the same protocol: 4,493 ppm, 5.99 Da, 27.4 %, 39.8 %, 4.1 %, 0.980; 25.0, 89.4 (row 23). Median ppm improved monotonically at every checkpoint (6,679 → 5,653 → 5,048 → 4,600 → 4,375 → 4,175 → 4,055 → 3,952 → 3,897), bin accuracy 10.7 → 27.2 %, effective rank 50 → 95 while the anisotropy ratio stayed at 21-23 from the first checkpoint on. GPU idle: 98 of 1,139 thirty-second samples in the training window, about half of them the nine validation passes, the rest one-minute dips at shard boundaries, about 4-5 % of training time. Cost: one H100 for 9 h 55 min including set-up, about 10 GPU-hours. |
 | The post-training evaluation battery was OOM-killed (system RAM, MaxRSS 128 GB of 128 GB, `slurmstepd: Detected 1 oom_kill event`) while generating 100,000 model-train embeddings for the linear probe with the peak-type and IG tasks in the same process, which store per-peak embeddings for every sample | The checkpoints were on disk before it started, so nothing was lost. The battery runs as separate jobs through `scripts/reproduce/result*_40Mours_*.py` instead (Step 5), the way the released checkpoints were evaluated. |
+| Step 5: the trained checkpoint through the same result scripts as the released one (jobs 22721434-38; `docs/references/rerun/result*_40Mours_*/`; section "40M trained here" of `results_paper_or_rerun.md`, every row beside the released checkpoint's own rerun) | Defined before reading: reproduced if retrieval and peak-level rows sit within sampling noise of the released rerun, probes carrying the backend caveat. LCFM test, probes and retrieval (job 22721437, 1 h 27 min): duplicate retrieval recall@1 0.314 vs 0.305 and mAP@20 0.130 vs 0.125, so our model retrieves marginally better; probes fragment type 0.706 vs 0.733, instrument 0.721 vs 0.729, PTM 0.733 vs 0.756, hydrophobicity 0.516 vs 0.528, mass 0.693 vs 0.702, m/z 0.894 vs 0.897, charge 0.494 vs 0.515, confidence 0.977 vs 0.978, within 0.03 everywhere and mostly a point under. Peak level (job 22721434, 17 min): peak-type accuracy 72.6 % vs 73.6 % and macro-F1 0.510 vs 0.519, cross-spectrum AUROC 0.869 vs 0.885, confidence AUROC 0.726 vs 0.718, but the IG task's fragment-group reconstruction is clearly lower, bin accuracy 49.2 % vs 55.0 % and median errors 203 / 827 ppm vs 137 / 277 on y / b ions, while the trainer's own validation criterion is better (3,897 vs 4,493 ppm, row 23). Geometry (job 22721435, 30 min): anisotropy 24.9 vs 25.0, effective rank 88.6 vs 89.4, ESM2 RSA 0.047 vs 0.048, Glass Box identical, UMAP kNN 0.086 vs 0.098, EVoC 20 clusters at 0.72 purity vs 17 at 0.81; cosine-hyperscore Spearman 0.071 vs 0.148 (both weak). Verdict: the representation is reproduced (retrieval, probes, geometry within a few percent of the released checkpoint, retrieval slightly above it); what is not reproduced is fragment-ion reconstruction accuracy, which the trainer's checkpoint criterion does not measure. Whether the released checkpoint was selected on something else, or trained with a different seed or data order, the paper does not say. |
 
 ## Training choices
 
@@ -111,6 +112,13 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
   barely sensitive to how well the fragment ions are reconstructed. A criterion restricted to annotated
   peaks (the validation processor can carry sequences) would select on the quantity the downstream
   evaluations reward.
+- Every checkpoint carries two copies of each layer's attention weights, `self_attn.*` and `custom_attention.*`
+  (158 tensors, 61.1 M values for a 39.9 M-parameter model): the unified encoder registers both attention
+  backends and saves both. Half the file, and a source of confusion when counting parameters from a state dict.
+- Evidence for the checkpoint-criterion point above, from this run: our model beats the released one on the
+  trainer's median ppm over all masked peaks (3,897 vs 4,493) and loses to it on the IG task's fragment-group
+  bin accuracy (49.2 % vs 55.0 %) and median errors. The criterion the trainer optimises for checkpoint choice
+  and the reconstruction the paper reports move in opposite directions between these two models.
 - `main()` reads `model_save_folder_path` from the model config (`train.py:1697`) where it does not live, so
   `mlflow_run_id.txt` always lands in `./checkpoints` relative to the working directory.
 
@@ -145,8 +153,38 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
 - Those 14 minutes were the validation split loading into RAM (`to_dataset(in_memory=True)`): a fixed
   per-job cost before the first step, larger than the paper's whole validation pass (250 batches).
 
+## Methodology, timings and cost
+
+- One H100 (nibi `gpubase_bygpu_b3`, account rrg-hsn), 12 CPUs, 128 GB RAM, MCFM shards staged to node-local
+  disk (53 GB in 84-154 s). Command: `scripts/train/submit.sh train-40M-mcfm-90k training_steps=90000 num_workers=8
+  +mp_sharing_strategy=file_system keep_model_every_interval=True embedding_evaluation.tasks_to_run=[embeddingstatisticstask]`
+  on `foundational.yaml` with `dataset=mcfm` (batch 1,024, LR 1e-4, 5 % warm-up, 30 % hold, cosine to 1e-5, clip 1.0,
+  fp16, gradient checkpointing, `torch.compile`, validation and checkpoint every 10,000 steps).
+- Time: 15 min from job start to the first step (staging 1.5 min, validation split into RAM 12 min, compile 25 s),
+  9 h 33 min for 90,000 steps at 0.38 s/step (about 2,700 spectra/s), nine validation passes of about 80 s plus
+  the statistics task, checkpoint writes of a few seconds. Total job 9 h 54 min; about 10 GPU-hours. GPU utilisation
+  98-100 % between the one-minute shard-boundary dips (about 4-5 % of training time).
+- Evaluation of the trained checkpoint: five jobs, 3 h 45 min of H100 time in all (probes and retrieval on LCFM
+  test 1 h 27 min, on MCFM test about 1 h 30 min, geometry 30 min, peak level 17 min, cosine-hyperscore 3 min).
+
+## Where things are
+
+- Run directory `$RUNS/train-40M-mcfm-90k`: `train.log`, `gpu.log`, `checkpoints/` (nine `model_epoch_*_step_*.ckpt`,
+  `model_best.ckpt`, `accelerator_state/latest`), `evaluation/step_*/` (in-loop statistics), `mlflow.db`.
+- The checkpoint as a release-style file: `$CHECKPOINTS/instanovo-fm-mcfm-90k-ours-2026-09-26.ckpt`, model tag
+  `40M-ours` in `scripts/reproduce/_common.py`.
+- MLflow: `mlflow ui --backend-store-uri sqlite:///$RUNS/train-40M-mcfm-90k/mlflow.db --port 5000` on the nibi login
+  node, then `ssh -L 5000:localhost:5000 nibi` and open http://localhost:5000; experiment `instanovo-fm-reproduction`,
+  run `instanovo_foundational_26_09_26_01_13` (left in state RUNNING by the OOM kill after training). The same
+  numbers without a UI: `python scripts/train/status.py train-40M-mcfm-90k`, and the final metrics and per-checkpoint
+  trajectories in `docs/references/rerun/train_40M_mcfm_90k/metrics.json`.
+
 ## Next steps
 
-- Step 5 (running): `result1..3_*` with a `40M-ours` tag on `model_best.ckpt`, plus the trainer validation
-  metrics against row 23 (median 4,493 ppm, bin accuracy 27.4 %); the retrieval trajectory over the nine
-  kept checkpoints.
+- The retrieval-versus-training trajectory: `result1_*` on each of the nine kept checkpoints (about 1.5 h of H100
+  each), which the in-loop retrieval never produced for the authors either.
+- A checkpoint criterion restricted to annotated fragment peaks, and a run selected on it, to test whether the
+  fragment-reconstruction gap to the released checkpoint is selection or training.
+- cuML in the venv for the probe rows; the ablation checkpoints against Table S4.
+- The three dead or misleading configuration keys (`persistent_workers`, `max_checkpoints`, `fp16`) and the
+  duplicated attention weights, as a small upstream pull request with the tag-interpolation and metadata fixes.
