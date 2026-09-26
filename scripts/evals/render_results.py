@@ -102,16 +102,35 @@ def ig(which: str) -> Getter:
 
 
 # (protocol, reference script of the released 40M on the corpus test split) -> rows (label, getter)
+# The probe names its metric by the target's kind: macro-F1 for a multi-class target, balanced accuracy when it has two
+# classes, R² for a regression, macro-F1 again when a numeric target has few distinct values (collision energy on a dataset
+# with a handful of settings). A cell says which metric it holds when it is not the one in the row label.
+PROBE_METRICS = {"macro_f1": "macro-F1", "balanced_accuracy": "balanced accuracy", "r2": "R²"}
 PROBE_TARGETS = [
-    ("Fragment type (macro-F1)", "frag_type/macro_f1"), ("Instrument (macro-F1)", "search_instrument/macro_f1"),
-    ("PTM presence (balanced accuracy)", "ptm_present/balanced_accuracy"), ("Modification class (macro-F1)", "modification_class/macro_f1"),
-    ("Hydrophobicity (R²)", "hydrophobicity/r2"), ("Precursor mass (R²)", "precursor_mass/r2"), ("Precursor m/z (R²)", "precursor_mz/r2"),
-    ("Charge (macro-F1)", "precursor_charge/macro_f1"), ("Collision energy (R²)", "collision_energy/r2"),
-    ("Spectrum confidence (R²)", "spectrum_confidence/r2"),
+    ("Fragment type (macro-F1)", "frag_type", ("macro_f1", "balanced_accuracy")),
+    ("Instrument (macro-F1)", "search_instrument", ("macro_f1", "balanced_accuracy")),
+    ("PTM presence (balanced accuracy)", "ptm_present", ("balanced_accuracy", "macro_f1")),
+    ("Modification class (macro-F1)", "modification_class", ("macro_f1", "balanced_accuracy")),
+    ("Hydrophobicity (R²)", "hydrophobicity", ("r2",)), ("Precursor mass (R²)", "precursor_mass", ("r2",)), ("Precursor m/z (R²)", "precursor_mz", ("r2",)),
+    ("Charge (macro-F1)", "precursor_charge", ("macro_f1", "balanced_accuracy")),
+    ("Collision energy (R²)", "collision_energy", ("r2", "macro_f1", "balanced_accuracy")),
+    ("Spectrum confidence (R²)", "spectrum_confidence", ("r2",)),
 ]
+
+
+def probe(target: str, metrics: tuple[str, ...]) -> Getter:
+    def get(folder: Path) -> str | None:
+        d = load(folder, "linearprobetask.json") or {}
+        for i, m in enumerate(metrics):
+            v = d.get(f"{target}/{m}")
+            if v is not None and not (isinstance(v, float) and v != v):
+                return f3(v) if i == 0 else f"{f3(v)} ({PROBE_METRICS[m]})"
+        return None
+
+    return get
 TABLES: list[tuple[str, str, str, list[tuple[str, Getter]]]] = [
     ("probes", "Linear probes", "result1_40M_probes_retrieval",
-     [(label, key("linearprobetask.json", k)) for label, k in PROBE_TARGETS]),
+     [(label, probe(target, metrics)) for label, target, metrics in PROBE_TARGETS]),
     ("retrieval", "Duplicate-spectrum retrieval", "result1_40M_probes_retrieval",
      [("Recall@1", key("duplicateretrievaltask.json", "recall@1")), ("mAP@20", key("duplicateretrievaltask.json", "map@20")),
       ("Proportional recall@1", key("duplicateretrievaltask.json", "prop_recall@1")),
@@ -236,7 +255,7 @@ def render(dataset: str, registry: Path | None, external: Path) -> str:
         for label, get in rows_:
             cells = [get(f) or "-" for _, f in folders] + ([get(ref_folder) or "-"] if ref_folder else [])
             lines.append(f"| {label} | " + " | ".join(cells) + " |")
-        note = {"probes": "Probe train / valid / test are this dataset's own peptide-disjoint files (package caps 100,000 / 10,000 / 10,000). A one-class target (one instrument, one fragmentation) cannot be probed and shows \"-\".",
+        note = {"probes": "Probe train / valid / test are this dataset's own peptide-disjoint files (package caps 100,000 / 10,000 / 10,000). A one-class target (one instrument, one fragmentation) cannot be probed and shows \"-\". A cell names its metric when the probe chose another than the row label's (balanced accuracy for a two-class target, macro-F1 for a collision energy with few settings); the probe scores only the classes present in its test split.",
                 "retrieval": "Every identified spectrum is in the pool and every duplicate group is queried; a positive is an identical peptide string (charge ignored).",
                 "peak_level": "Theoretical b/y ions from the sequence with the checkpoint's residue masses; the column header says how many spectra were used.",
                 "geometry": "Header says how many spectra were used (the paper's 20,000 above 100,000). EVoC purity is by fragmentation type and is 1 by construction when a dataset has one. "
