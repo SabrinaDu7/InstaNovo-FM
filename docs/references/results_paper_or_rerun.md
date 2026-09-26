@@ -54,7 +54,7 @@ for the first time and they go in the rows below as they arrive, with no author 
 
 | No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| 11 | Masked-group bin accuracy, median ppm error | | | none | | |
+| 11 | Masked-group bin accuracy, median ppm error | 55.0 % overall; y 56.9 % / b 50.0 %; 136.8 / 276.7 ppm | `rerun/result2_40M_peak_level/igattributiontask.results.json` @ ccf02d3 | none | | |
 | 12 | Peak-type 4-way accuracy and macro-F1 | accuracy 73.6 %; macro-F1 0.519 | `rerun/result2_40M_peak_level/peaktypeclassificationtask.json` @ ccf02d3 | none | | |
 | 13 | Cross-spectrum same-ion AUROC | 0.885 | `rerun/result2_40M_peak_level/peaktypeclassificationtask.json` @ ccf02d3 | none | | |
 | 14 | Per-spectrum confidence AUROC (annotated vs not) | per-spectrum mean 0.718; pooled 0.705 | `rerun/result2_40M_peak_level/confidencesignalanalysistask.json` @ ccf02d3 | none | | |

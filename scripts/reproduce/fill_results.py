@@ -44,6 +44,18 @@ def find(node: Any, *tokens: str) -> Any:
     return walk(node, ())
 
 
+def find_key(node: Any, key: str) -> Any:
+    """Value of the first dict entry named exactly `key`, depth first (for dict-valued blocks)."""
+    if isinstance(node, dict):
+        if key in node:
+            return node[key]
+        for v in node.values():
+            hit = find_key(v, key)
+            if hit is not None:
+                return hit
+    return None
+
+
 def f3(x: Any) -> str:
     return f"{float(x):.3f}"
 
@@ -63,7 +75,7 @@ def summary(script: str, task: str, key: str, fmt: Callable[[Any], str] = f3) ->
 def ig_quality(script: str, which: str) -> Callable[[], str | None]:
     def get() -> str | None:
         d = load(script, "igattributiontask.results.json")
-        q = find(d, "prediction_quality") if d else None
+        q = find_key(d, "prediction_quality") if d else None
         if not isinstance(q, dict):
             return None
         ion = q.get("by_ion_type", {})
