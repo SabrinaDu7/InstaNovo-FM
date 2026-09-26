@@ -145,6 +145,7 @@ def joined(*parts: tuple[str, Callable[[], str | None]]) -> Callable[[], str | N
 
 R1_40, R2_40, R3_40 = "result1_40M_probes_retrieval", "result2_40M_peak_level", "result3_40M_geometry"
 R1_89, R2_89, R4_89 = "result1_89M_probes_retrieval", "result2_89M_peak_level", "result4_89M_factorial_validation"
+R3_89 = "result3_89M_geometry"
 R5_40 = "result5_40M_mcfm_test"
 R6_40, R6_89 = "result6_40M_cosine_hyperscore", "result6_89M_cosine_hyperscore"
 
