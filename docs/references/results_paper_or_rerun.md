@@ -56,8 +56,8 @@ for the first time and they go in the rows below as they arrive, with no author 
 | 13 | Cross-spectrum same-ion AUROC | | | none | | |
 | 14 | Per-spectrum confidence AUROC (annotated vs not) | | | none | | |
 | 15 | Embedding statistics (anisotropy ratio, effective rank, top-component energy) | | | none | | |
-| 16 | MCFM test, probes: fragment type / instrument / PTM presence / hydrophobicity / mass / m/z / charge / confidence | | | none (our own number on the training tier) | | MCFM test, probe protocol |
-| 17 | MCFM test, duplicate retrieval Recall@1 / mAP@20 | | | none (our own number on the training tier) | | MCFM test, 20,000 groups in a 200,000 pool |
+| 16 | MCFM test, probes: fragment type / instrument / PTM presence / hydrophobicity / mass / m/z / charge / confidence | 0.776; 0.680; 0.799; 0.622; 0.755; 0.928; 0.608; 0.981 | `rerun/result5_40M_mcfm_test/linearprobetask.json` @ 17c0043 | none (our own number on the training tier) | | MCFM test, probe protocol |
+| 17 | MCFM test, duplicate retrieval Recall@1 / mAP@20 | 0.629; 0.329 | `rerun/result5_40M_mcfm_test/duplicateretrievaltask.json` @ 17c0043 | none (our own number on the training tier) | | MCFM test, 20,000 groups in a 200,000 pool |
 
 ## 89M Results
 

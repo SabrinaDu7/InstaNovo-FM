@@ -1,0 +1,15 @@
+{
+  "task_name": "duplicateretrievaltask",
+  "timestamp": "2026-09-25T21:20:13.832176",
+  "execution_time": 2825.3292949199677,
+  "success": true,
+  "recall@1": 0.6293123057093032,
+  "prop_recall@1": 0.11793266013916319,
+  "map@20": 0.32896120938036566,
+  "cond_hcd_orbitrap_recall@1": 0.6646131122100796,
+  "cond_hcd_orbitrap_prop_recall@1": 0.1464560070294881,
+  "cond_hcd_orbitrap_map@20": 0.3947686520262339,
+  "cond_cid_recall@1": 0.6574478122420097,
+  "cond_cid_prop_recall@1": 0.21261379787781337,
+  "cond_cid_map@20": 0.4175631459092526
+}
