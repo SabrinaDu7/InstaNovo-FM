@@ -132,4 +132,6 @@ COSINE_HYPERSCORE = [  # on its own: it ran after UMAP in the geometry jobs and 
     "evaluation.batch_size=256",
     "evaluation.random_state=42",
     "evaluation.tasks_to_run=[cosinehyperscorecorrelationtask]",
+    "evaluation.task_configs.cosinehyperscorecorrelationtask.peptide_key=peptides",  # the shipped default says
+    # `peptide`, but the evaluator stores sequences under `peptides` (jobs 22697191/2 failed on the default)
 ]
