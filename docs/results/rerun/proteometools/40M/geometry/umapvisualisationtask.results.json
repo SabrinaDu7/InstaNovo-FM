@@ -1,0 +1,361 @@
+{
+  "task_name": "UMAP Visualisation",
+  "num_embeddings": 20000,
+  "num_sampled": 20000,
+  "save_paths": [
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/COORDS_BLOCK_REACHED.txt",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/umap_coordinates.npz",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/umap_coordinates.parquet",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_precursor_charge.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_spectrum_confidence.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_sequence_length.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_hydrophobicity.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_retention_time.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_collision_energy.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_precursor_mz.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_n_peaks.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_peak_center_of_mass.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_peak_spread.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_modification_types.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_ptm_present.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_frag_type.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_acquisition.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_instrument.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_detector.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_organism.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_enzyme.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_project.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_quant.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_modifications.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_top_duplicate_peptides.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_annotation_ratio.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_backbone_coverage.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_signal_intensity_ratio.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_n_fragment_groups_metric.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_median_ppm_error.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_summary_panel.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_precursor_charge.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_spectrum_confidence.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_sequence_length.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_hydrophobicity.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_retention_time.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_collision_energy.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_precursor_mz.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_n_peaks.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_peak_center_of_mass.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_peak_spread.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_modification_types.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_ptm_present.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_frag_type.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_search_acquisition.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_search_instrument.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_search_detector.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_search_organism.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_search_enzyme.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_search_project.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_search_quant.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_search_modifications.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_top_duplicate_peptides.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_annotation_ratio.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_backbone_coverage.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_signal_intensity_ratio.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_n_fragment_groups_metric.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_median_ppm_error.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap/umap_summary_panel.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_precursor_charge.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_spectrum_confidence.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_sequence_length.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_hydrophobicity.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_retention_time.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_collision_energy.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_precursor_mz.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_n_peaks.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_peak_center_of_mass.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_peak_spread.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_modification_types.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_ptm_present.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_frag_type.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_search_acquisition.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_search_instrument.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_search_detector.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_search_organism.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_search_enzyme.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_search_project.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_search_quant.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_search_modifications.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_top_duplicate_peptides.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_annotation_ratio.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_backbone_coverage.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_signal_intensity_ratio.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_n_fragment_groups_metric.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_median_ppm_error.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid/umap_summary_panel.png"
+  ],
+  "execution_time": 182.34695839881897,
+  "quality_metrics": {
+    "trustworthiness_k5": 0.8924952826130452,
+    "trustworthiness_k15": 0.8886201583487677,
+    "knn_preservation_k15": 0.14281333333333338
+  },
+  "visualization_stats": {
+    "precursor_charge": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_precursor_charge.png",
+      "title": "Precursor Charge",
+      "colormap": "viridis",
+      "created": true
+    },
+    "spectrum_confidence": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_spectrum_confidence.png",
+      "title": "Spectrum Confidence (Model)",
+      "colormap": "RdYlGn",
+      "created": true
+    },
+    "sequence_length": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_sequence_length.png",
+      "title": "Peptide Sequence Length",
+      "colormap": "viridis",
+      "created": true
+    },
+    "hydrophobicity": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_hydrophobicity.png",
+      "title": "Peptide Hydrophobicity",
+      "colormap": "RdBu_r",
+      "created": true
+    },
+    "retention_time": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_retention_time.png",
+      "title": "Retention Time (s)",
+      "colormap": "plasma",
+      "created": true
+    },
+    "collision_energy": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_collision_energy.png",
+      "title": "Collision Energy (V)",
+      "colormap": "inferno",
+      "created": true
+    },
+    "precursor_mz": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_precursor_mz.png",
+      "title": "Precursor m/z",
+      "colormap": "magma",
+      "created": true
+    },
+    "n_peaks": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_n_peaks.png",
+      "title": "Number of Peaks",
+      "colormap": "viridis",
+      "created": true
+    },
+    "peak_center_of_mass": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_peak_center_of_mass.png",
+      "title": "Peak Center of Mass (m/z)",
+      "colormap": "magma",
+      "created": true
+    },
+    "peak_spread": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_peak_spread.png",
+      "title": "Peak Spread (std m/z)",
+      "colormap": "plasma",
+      "created": true
+    },
+    "hyperscore": {
+      "plot_path": null,
+      "title": "Hyperscore",
+      "colormap": "YlOrRd",
+      "created": false
+    },
+    "modification_types": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_modification_types.png",
+      "title": "Modification Types",
+      "colormap": "tab10",
+      "created": true
+    },
+    "ptm_present": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_ptm_present.png",
+      "title": "PTM Presence",
+      "colormap": "Set1",
+      "created": true
+    },
+    "frag_type": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_frag_type.png",
+      "title": "Fragmentation Type",
+      "colormap": "tab10",
+      "created": true
+    },
+    "search_acquisition": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_acquisition.png",
+      "title": "Search Acquisition",
+      "colormap": "Set1",
+      "created": true
+    },
+    "search_instrument": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_instrument.png",
+      "title": "Search Instrument",
+      "colormap": "tab20",
+      "created": true
+    },
+    "search_detector": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_detector.png",
+      "title": "Search Detector",
+      "colormap": "tab20",
+      "created": true
+    },
+    "search_organism": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_organism.png",
+      "title": "Search Organism",
+      "colormap": "Set2",
+      "created": true
+    },
+    "search_enzyme": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_enzyme.png",
+      "title": "Search Enzyme",
+      "colormap": "tab10",
+      "created": true
+    },
+    "search_project": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_project.png",
+      "title": "Search Project",
+      "colormap": "tab20",
+      "created": true
+    },
+    "search_quant": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_quant.png",
+      "title": "Search Quant",
+      "colormap": "Set2",
+      "created": true
+    },
+    "search_modifications": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_search_modifications.png",
+      "title": "Search Modifications",
+      "colormap": "Set1",
+      "created": true
+    },
+    "seq_cluster_id": {
+      "plot_path": null,
+      "title": "Sequence Similarity Clusters",
+      "colormap": "tab10",
+      "created": false
+    },
+    "top_duplicate_peptides": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_top_duplicate_peptides.png",
+      "title": "Top 10 Duplicate Peptides",
+      "colormap": "tab10",
+      "created": true
+    },
+    "annotation_ratio": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_annotation_ratio.png",
+      "title": "Annotation Ratio (matched/total peaks)",
+      "colormap": "YlOrRd",
+      "created": true
+    },
+    "backbone_coverage": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_backbone_coverage.png",
+      "title": "Backbone Coverage",
+      "colormap": "YlGn",
+      "created": true
+    },
+    "signal_intensity_ratio": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_signal_intensity_ratio.png",
+      "title": "Signal Intensity Ratio",
+      "colormap": "RdYlGn",
+      "created": true
+    },
+    "n_fragment_groups_metric": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_n_fragment_groups_metric.png",
+      "title": "Number of Fragment Groups",
+      "colormap": "viridis",
+      "created": true
+    },
+    "median_ppm_error": {
+      "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/umap_median_ppm_error.png",
+      "title": "Median Mass Error (ppm)",
+      "colormap": "RdYlGn_r",
+      "created": true
+    }
+  },
+  "umap_parameters": {
+    "n_neighbors": 30,
+    "min_dist": 0.1,
+    "metric": "cosine",
+    "n_components": 2,
+    "spread": 1.0,
+    "local_connectivity": 1.0,
+    "repulsion_strength": 1.0,
+    "negative_sample_rate": 5,
+    "transform_queue_size": 4.0
+  },
+  "visualization_config": {
+    "max_samples": 20000,
+    "create_multiple_plots": true,
+    "create_summary_panel": true,
+    "compute_quality_metrics": true,
+    "plot_size": [
+      10,
+      8
+    ],
+    "dpi": 300,
+    "alpha": 0.5,
+    "point_size": 5,
+    "max_categories": 15,
+    "collapse_rare_categories": true,
+    "ckpt_step": "unknown",
+    "save_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures"
+  },
+  "metadata_availability": {
+    "precursor_charge": true,
+    "sequence": true,
+    "retention_time": true,
+    "collision_energy": true,
+    "precursor_mz": true,
+    "hyperscore": true,
+    "search_acquisition": true,
+    "search_enzyme": true,
+    "search_detector": true,
+    "search_instrument": true,
+    "search_project": true,
+    "search_organism": true,
+    "search_quant": true,
+    "modifications": false,
+    "frag_type": true,
+    "ptm_present": true,
+    "modified_peptide": false,
+    "hydrophobicity": true,
+    "modification_types": true,
+    "seq_cluster_id": false,
+    "spectrum_confidence": true,
+    "sequence_length": true,
+    "unmodified_peptide": true,
+    "annotation_ratio": true,
+    "backbone_coverage": true,
+    "signal_intensity_ratio": true,
+    "n_fragment_groups_metric": true,
+    "median_ppm_error": true
+  },
+  "conditional_umaps": {
+    "hcd_orbitrap": {
+      "skipped": false,
+      "n_samples": 9697,
+      "filter": "frag_type=['HCD', 'HCID'], detector=['Orbitrap']",
+      "quality_metrics": {
+        "trustworthiness_k5": 0.8595878633802481,
+        "trustworthiness_k15": 0.8528223353824451,
+        "knn_preservation_k15": 0.16962634491767214
+      },
+      "n_plots": 28,
+      "save_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_hcd_orbitrap"
+    },
+    "cid": {
+      "skipped": false,
+      "n_samples": 2686,
+      "filter": "frag_type=['CID']",
+      "quality_metrics": {
+        "trustworthiness_k5": 0.8527744057228113,
+        "trustworthiness_k15": 0.845278760529533,
+        "knn_preservation_k15": 0.24400595681310502
+      },
+      "n_plots": 28,
+      "save_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask/figures/conditional_cid"
+    }
+  },
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/geometry/eval_20260926_170129/umapvisualisationtask"
+}

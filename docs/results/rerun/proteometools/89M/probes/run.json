@@ -1,0 +1,37 @@
+{
+ "script": "proteometools/89M/probes",
+ "model": "instanovo-fm-v0.1.0",
+ "checkpoint": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-v0.1.0.ckpt",
+ "tier": "mcfm",
+ "split": "test",
+ "overrides": [
+  "evaluation.enabled=True",
+  "evaluation.checkpoint_path=/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-v0.1.0.ckpt",
+  "evaluation.split=test",
+  "evaluation.output_dir=/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/89M/probes",
+  "dataset=mcfm",
+  "dataset.train_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/proteometools/proteometools-probe-train.parquet",
+  "dataset.valid_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/proteometools/proteometools-probe-valid.parquet",
+  "dataset.test_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/proteometools/proteometools-probe-test.parquet",
+  "dataset.search_data_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/search_data.xlsx",
+  "num_workers=0",
+  "evaluation.max_samples=null",
+  "evaluation.batch_size=256",
+  "evaluation.random_state=42",
+  "evaluation.embedding_pooling=[mean_pool]",
+  "evaluation.tasks_to_run=[linearprobetask]",
+  "evaluation.task_configs.linearprobetask.use_project_split=false",
+  "evaluation.task_configs.linearprobetask.max_iter=5000"
+ ],
+ "tasks_written": [
+  "linearprobetask"
+ ],
+ "seconds": 1504,
+ "commit": "d8f651b",
+ "host": "g8.nibi.sharcnet",
+ "dataset": "proteometools",
+ "protocol": "probes",
+ "evaluated_file": "probe-test",
+ "rows_in_file": 44873,
+ "max_samples": null
+}

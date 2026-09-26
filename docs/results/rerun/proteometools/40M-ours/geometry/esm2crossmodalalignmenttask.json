@@ -1,0 +1,13 @@
+{
+  "task_name": "esm2crossmodalalignmenttask",
+  "timestamp": "2026-09-26T17:06:00.421072",
+  "execution_time": 12.576404571533203,
+  "success": true,
+  "rsa_diff_peptide_rho": 0.03089928614008326,
+  "rsa_all_pairs_rho": 0.03159790831847653,
+  "cka_score": 0.1047852411866188,
+  "baseline_shuffled_rsa_diff": -0.00714910299945176,
+  "baseline_shuffled_cka": 0.0018653961597010493,
+  "baseline_metadata_rsa_diff": 0.15600991367603884,
+  "baseline_metadata_cka": 0.12119997458011489
+}

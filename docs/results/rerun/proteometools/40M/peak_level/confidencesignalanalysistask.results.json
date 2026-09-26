@@ -1,0 +1,597 @@
+{
+  "success": true,
+  "metrics": {
+    "auroc": 0.7530469265286457,
+    "average_precision": 0.6562286497610668,
+    "ks_statistic": 0.3811343723795166,
+    "ks_pvalue": 0.0,
+    "cohens_d": 1.003865326641573,
+    "class_imbalance_ratio": 1.772394972483063,
+    "intensity_analysis": {
+      "intensity_auroc": 0.7144824405245773,
+      "confidence_auroc": 0.7530469265286457,
+      "confidence_delta_over_intensity": 0.038564486004068366,
+      "residual_confidence_auroc": 0.5343965475531481,
+      "spearman_overall": 0.5614561389561326,
+      "spearman_annotated": 0.6164911920945586,
+      "spearman_unannotated": 0.40215435803521943,
+      "stratified_bins": [
+        {
+          "intensity_lo": 0.02120027132332325,
+          "intensity_hi": 0.04364246353507042,
+          "n_peaks": 122112,
+          "n_annotated": 21507,
+          "pct_annotated": 17.61251965408805,
+          "confidence_auroc": 0.6146351359969863
+        },
+        {
+          "intensity_lo": 0.04364246353507042,
+          "intensity_hi": 0.05553015917539597,
+          "n_peaks": 122112,
+          "n_annotated": 28351,
+          "pct_annotated": 23.21721042976939,
+          "confidence_auroc": 0.6533135997432078
+        },
+        {
+          "intensity_lo": 0.05553015917539597,
+          "intensity_hi": 0.07366449981927872,
+          "n_peaks": 122111,
+          "n_annotated": 37480,
+          "pct_annotated": 30.69338552628346,
+          "confidence_auroc": 0.6737984193910441
+        },
+        {
+          "intensity_lo": 0.07366449981927872,
+          "intensity_hi": 0.11262941509485247,
+          "n_peaks": 122112,
+          "n_annotated": 51086,
+          "pct_annotated": 41.8353642557652,
+          "confidence_auroc": 0.6761581990816603
+        },
+        {
+          "intensity_lo": 0.11262941509485247,
+          "intensity_hi": 0.8449462056159973,
+          "n_peaks": 122112,
+          "n_annotated": 81804,
+          "pct_annotated": 66.99095911949685,
+          "confidence_auroc": 0.7401246255684439
+        }
+      ]
+    },
+    "decomposed": {
+      "joint": {
+        "auroc": 0.7530469265286457,
+        "average_precision": 0.6562286497610668,
+        "cohens_d": 1.003865326641573
+      },
+      "group": {
+        "auroc": 0.7315137420452507,
+        "average_precision": 0.6701167190247075,
+        "cohens_d": 0.8069590429249085
+      },
+      "offset": {
+        "auroc": 0.741829544226396,
+        "average_precision": 0.6332324896809076,
+        "cohens_d": 0.9126507722186096
+      }
+    },
+    "per_spectrum_auroc": {
+      "n_spectra_evaluated": 7438,
+      "n_spectra_skipped": 50,
+      "mean": 0.7532156114681703,
+      "median": 0.753492211352424,
+      "std": 0.0962580952621366,
+      "q25": 0.691816686024003,
+      "q75": 0.8191131650433976
+    },
+    "quality_correlation": {
+      "n_spectra": 7488,
+      "confidence_vs_annotation_ratio": {
+        "spearman_rho": 0.7258689207291297,
+        "p_value": 0.0
+      },
+      "confidence_vs_n_peaks": {
+        "spearman_rho": -0.6123265085391764,
+        "p_value": 0.0
+      }
+    },
+    "ion_type_breakdown": {
+      "A-ion": {
+        "count": 12232,
+        "mean_conf": 0.6298112273216248,
+        "median_conf": 0.6902365684509277,
+        "std_conf": 0.33496588468551636,
+        "mean_conf_group": 0.7947112917900085,
+        "median_conf_group": 0.8736538290977478,
+        "mean_conf_offset": 0.7374286651611328,
+        "median_conf_offset": 0.8784984946250916
+      },
+      "A-ion (Isotope)": {
+        "count": 6402,
+        "mean_conf": 0.4053240716457367,
+        "median_conf": 0.32581663131713867,
+        "std_conf": 0.29689207673072815,
+        "mean_conf_group": 0.7003306150436401,
+        "median_conf_group": 0.7088069915771484,
+        "mean_conf_offset": 0.5212706923484802,
+        "median_conf_offset": 0.48496633768081665
+      },
+      "A-ion (Loss)": {
+        "count": 5553,
+        "mean_conf": 0.41018226742744446,
+        "median_conf": 0.35254162549972534,
+        "std_conf": 0.2851126492023468,
+        "mean_conf_group": 0.6657757759094238,
+        "median_conf_group": 0.662494421005249,
+        "mean_conf_offset": 0.5666210651397705,
+        "median_conf_offset": 0.5499436855316162
+      },
+      "B-ion": {
+        "count": 22048,
+        "mean_conf": 0.6829264163970947,
+        "median_conf": 0.772868812084198,
+        "std_conf": 0.2930907905101776,
+        "mean_conf_group": 0.8570500016212463,
+        "median_conf_group": 0.9390484094619751,
+        "mean_conf_offset": 0.7618526220321655,
+        "median_conf_offset": 0.874780535697937
+      },
+      "B-ion (Isotope)": {
+        "count": 9757,
+        "mean_conf": 0.4705117642879486,
+        "median_conf": 0.45116180181503296,
+        "std_conf": 0.31049811840057373,
+        "mean_conf_group": 0.7743743658065796,
+        "median_conf_group": 0.8606471419334412,
+        "mean_conf_offset": 0.5525995492935181,
+        "median_conf_offset": 0.5452686548233032
+      },
+      "B-ion (Loss)": {
+        "count": 10840,
+        "mean_conf": 0.4496220648288727,
+        "median_conf": 0.4263986349105835,
+        "std_conf": 0.2682837247848511,
+        "mean_conf_group": 0.7053136825561523,
+        "median_conf_group": 0.7229273915290833,
+        "mean_conf_offset": 0.6004168391227722,
+        "median_conf_offset": 0.6117050647735596
+      },
+      "C-ion (Isotope)": {
+        "count": 3865,
+        "mean_conf": 0.3783644139766693,
+        "median_conf": 0.3210146427154541,
+        "std_conf": 0.24457807838916779,
+        "mean_conf_group": 0.6247816681861877,
+        "median_conf_group": 0.5967704653739929,
+        "mean_conf_offset": 0.5669857859611511,
+        "median_conf_offset": 0.5294249057769775
+      },
+      "Custom": {
+        "count": 5961,
+        "mean_conf": 0.46025270223617554,
+        "median_conf": 0.4083065092563629,
+        "std_conf": 0.26412782073020935,
+        "mean_conf_group": 0.6673431992530823,
+        "median_conf_group": 0.6520936489105225,
+        "mean_conf_offset": 0.653660237789154,
+        "median_conf_offset": 0.6896799802780151
+      },
+      "Immonium": {
+        "count": 14766,
+        "mean_conf": 0.436952143907547,
+        "median_conf": 0.3246573507785797,
+        "std_conf": 0.3232738673686981,
+        "mean_conf_group": 0.6075708270072937,
+        "median_conf_group": 0.5813194513320923,
+        "mean_conf_offset": 0.6395329236984253,
+        "median_conf_offset": 0.610795259475708
+      },
+      "Other": {
+        "count": 503,
+        "mean_conf": 0.32646241784095764,
+        "median_conf": 0.278785765171051,
+        "std_conf": 0.21406427025794983,
+        "mean_conf_group": 0.5799767971038818,
+        "median_conf_group": 0.5522420406341553,
+        "mean_conf_offset": 0.5331974029541016,
+        "median_conf_offset": 0.5375162959098816
+      },
+      "Precursor": {
+        "count": 7389,
+        "mean_conf": 0.36240917444229126,
+        "median_conf": 0.3158103823661804,
+        "std_conf": 0.21594515442848206,
+        "mean_conf_group": 0.7360135912895203,
+        "median_conf_group": 0.7537466883659363,
+        "mean_conf_offset": 0.46929141879081726,
+        "median_conf_offset": 0.43352124094963074
+      },
+      "Precursor (Isotope)": {
+        "count": 4150,
+        "mean_conf": 0.35764414072036743,
+        "median_conf": 0.3417949974536896,
+        "std_conf": 0.19860312342643738,
+        "mean_conf_group": 0.7678680419921875,
+        "median_conf_group": 0.8123432397842407,
+        "mean_conf_offset": 0.44564464688301086,
+        "median_conf_offset": 0.43454283475875854
+      },
+      "Y-ion": {
+        "count": 53435,
+        "mean_conf": 0.744586706161499,
+        "median_conf": 0.8713443279266357,
+        "std_conf": 0.28267452120780945,
+        "mean_conf_group": 0.8896873593330383,
+        "median_conf_group": 0.9743828177452087,
+        "mean_conf_offset": 0.8066981434822083,
+        "median_conf_offset": 0.931947648525238
+      },
+      "Y-ion (Isotope)": {
+        "count": 31298,
+        "mean_conf": 0.6074106693267822,
+        "median_conf": 0.6468254327774048,
+        "std_conf": 0.2726779282093048,
+        "mean_conf_group": 0.8820415735244751,
+        "median_conf_group": 0.9817291498184204,
+        "mean_conf_offset": 0.6597630977630615,
+        "median_conf_offset": 0.6952135562896729
+      },
+      "Y-ion (Loss)": {
+        "count": 32029,
+        "mean_conf": 0.5448790192604065,
+        "median_conf": 0.550478994846344,
+        "std_conf": 0.2953171133995056,
+        "mean_conf_group": 0.7754569053649902,
+        "median_conf_group": 0.8472493290901184,
+        "mean_conf_offset": 0.6632633805274963,
+        "median_conf_offset": 0.7064211368560791
+      },
+      "unannotated": {
+        "count": 390331,
+        "mean_conf": 0.30252769589424133,
+        "median_conf": 0.2152557522058487,
+        "std_conf": 0.2575441002845764,
+        "mean_conf_group": 0.6277722716331482,
+        "median_conf_group": 0.612385630607605,
+        "mean_conf_offset": 0.43119049072265625,
+        "median_conf_offset": 0.37407344579696655
+      }
+    },
+    "fragment_position_confidence": {
+      "b": {
+        "2": {
+          "base": {
+            "count": 7389,
+            "mean": 0.8545469641685486,
+            "std": 0.21177618205547333
+          },
+          "isotope": {
+            "count": 3836,
+            "mean": 0.5128417611122131,
+            "std": 0.32512572407722473
+          },
+          "loss": {
+            "count": 3173,
+            "mean": 0.4964287579059601,
+            "std": 0.27266359329223633
+          }
+        },
+        "3": {
+          "base": {
+            "count": 5420,
+            "mean": 0.6175448894500732,
+            "std": 0.27464157342910767
+          },
+          "isotope": {
+            "count": 2040,
+            "mean": 0.4492378532886505,
+            "std": 0.3184734284877777
+          },
+          "loss": {
+            "count": 2794,
+            "mean": 0.412903755903244,
+            "std": 0.2632327973842621
+          }
+        },
+        "4": {
+          "base": {
+            "count": 3350,
+            "mean": 0.6344309449195862,
+            "std": 0.29255688190460205
+          },
+          "isotope": {
+            "count": 1124,
+            "mean": 0.48651596903800964,
+            "std": 0.3046553432941437
+          },
+          "loss": {
+            "count": 1514,
+            "mean": 0.44203537702560425,
+            "std": 0.2692207992076874
+          }
+        },
+        "5": {
+          "base": {
+            "count": 2351,
+            "mean": 0.6215060949325562,
+            "std": 0.29865220189094543
+          },
+          "isotope": {
+            "count": 1146,
+            "mean": 0.45809313654899597,
+            "std": 0.3012203276157379
+          },
+          "loss": {
+            "count": 1396,
+            "mean": 0.46921780705451965,
+            "std": 0.2705064117908478
+          }
+        },
+        "6": {
+          "base": {
+            "count": 2167,
+            "mean": 0.4873813986778259,
+            "std": 0.278131902217865
+          },
+          "isotope": {
+            "count": 996,
+            "mean": 0.373923659324646,
+            "std": 0.2429886758327484
+          },
+          "loss": {
+            "count": 1166,
+            "mean": 0.3810828924179077,
+            "std": 0.24469637870788574
+          }
+        },
+        "7": {
+          "base": {
+            "count": 534,
+            "mean": 0.561319887638092,
+            "std": 0.28974881768226624
+          },
+          "isotope": {
+            "count": 253,
+            "mean": 0.4577449858188629,
+            "std": 0.2562359869480133
+          },
+          "loss": {
+            "count": 314,
+            "mean": 0.48691830039024353,
+            "std": 0.2423936128616333
+          }
+        },
+        "8": {
+          "base": {
+            "count": 356,
+            "mean": 0.5960755348205566,
+            "std": 0.2971346080303192
+          },
+          "isotope": {
+            "count": 157,
+            "mean": 0.49213510751724243,
+            "std": 0.25756144523620605
+          },
+          "loss": {
+            "count": 216,
+            "mean": 0.5036986470222473,
+            "std": 0.2801591455936432
+          }
+        },
+        "9": {
+          "base": {
+            "count": 217,
+            "mean": 0.6068924069404602,
+            "std": 0.3231586813926697
+          },
+          "isotope": {
+            "count": 106,
+            "mean": 0.3987180292606354,
+            "std": 0.25127020478248596
+          },
+          "loss": {
+            "count": 125,
+            "mean": 0.5086772441864014,
+            "std": 0.25516363978385925
+          }
+        },
+        "10": {
+          "base": {
+            "count": 264,
+            "mean": 0.4148358106613159,
+            "std": 0.27222591638565063
+          },
+          "isotope": {
+            "count": 99,
+            "mean": 0.27768921852111816,
+            "std": 0.23653411865234375
+          },
+          "loss": {
+            "count": 142,
+            "mean": 0.3605177402496338,
+            "std": 0.20607109367847443
+          }
+        }
+      },
+      "y": {
+        "1": {
+          "base": {
+            "count": 6961,
+            "mean": 0.8495716452598572,
+            "std": 0.1979077011346817
+          },
+          "isotope": {
+            "count": 1013,
+            "mean": 0.16933098435401917,
+            "std": 0.13203854858875275
+          },
+          "loss": {
+            "count": 7885,
+            "mean": 0.596371054649353,
+            "std": 0.3039278984069824
+          }
+        },
+        "2": {
+          "base": {
+            "count": 6648,
+            "mean": 0.7277089357376099,
+            "std": 0.26402443647384644
+          },
+          "isotope": {
+            "count": 2490,
+            "mean": 0.619178056716919,
+            "std": 0.2894119322299957
+          },
+          "loss": {
+            "count": 4521,
+            "mean": 0.4513874650001526,
+            "std": 0.28377917408943176
+          }
+        },
+        "3": {
+          "base": {
+            "count": 7293,
+            "mean": 0.7371155023574829,
+            "std": 0.2759568989276886
+          },
+          "isotope": {
+            "count": 4192,
+            "mean": 0.5847200751304626,
+            "std": 0.2919425070285797
+          },
+          "loss": {
+            "count": 3133,
+            "mean": 0.4869611859321594,
+            "std": 0.28816476464271545
+          }
+        },
+        "4": {
+          "base": {
+            "count": 7988,
+            "mean": 0.7997418642044067,
+            "std": 0.273684024810791
+          },
+          "isotope": {
+            "count": 5471,
+            "mean": 0.6767420768737793,
+            "std": 0.23723982274532318
+          },
+          "loss": {
+            "count": 3409,
+            "mean": 0.6051767468452454,
+            "std": 0.28077763319015503
+          }
+        },
+        "5": {
+          "base": {
+            "count": 9872,
+            "mean": 0.7296667695045471,
+            "std": 0.29932451248168945
+          },
+          "isotope": {
+            "count": 7866,
+            "mean": 0.6495301723480225,
+            "std": 0.26038259267807007
+          },
+          "loss": {
+            "count": 5632,
+            "mean": 0.5768144130706787,
+            "std": 0.2750886380672455
+          }
+        },
+        "6": {
+          "base": {
+            "count": 9058,
+            "mean": 0.6633883714675903,
+            "std": 0.29911312460899353
+          },
+          "isotope": {
+            "count": 6312,
+            "mean": 0.576221764087677,
+            "std": 0.24512100219726562
+          },
+          "loss": {
+            "count": 4302,
+            "mean": 0.5118759870529175,
+            "std": 0.2863663136959076
+          }
+        },
+        "7": {
+          "base": {
+            "count": 2364,
+            "mean": 0.7255386114120483,
+            "std": 0.29683923721313477
+          },
+          "isotope": {
+            "count": 1769,
+            "mean": 0.6212690472602844,
+            "std": 0.2627888321876526
+          },
+          "loss": {
+            "count": 1305,
+            "mean": 0.5257375240325928,
+            "std": 0.27497148513793945
+          }
+        },
+        "8": {
+          "base": {
+            "count": 1369,
+            "mean": 0.7389140725135803,
+            "std": 0.2944048047065735
+          },
+          "isotope": {
+            "count": 953,
+            "mean": 0.5921724438667297,
+            "std": 0.24923792481422424
+          },
+          "loss": {
+            "count": 650,
+            "mean": 0.5248557925224304,
+            "std": 0.31873735785484314
+          }
+        },
+        "9": {
+          "base": {
+            "count": 1152,
+            "mean": 0.7449902296066284,
+            "std": 0.3042486906051636
+          },
+          "isotope": {
+            "count": 860,
+            "mean": 0.627162754535675,
+            "std": 0.2787944972515106
+          },
+          "loss": {
+            "count": 857,
+            "mean": 0.561960756778717,
+            "std": 0.3305940330028534
+          }
+        },
+        "10": {
+          "base": {
+            "count": 730,
+            "mean": 0.6492831110954285,
+            "std": 0.3283102810382843
+          },
+          "isotope": {
+            "count": 372,
+            "mean": 0.5236802697181702,
+            "std": 0.2748422920703888
+          },
+          "loss": {
+            "count": 335,
+            "mean": 0.47931432723999023,
+            "std": 0.33872056007385254
+          }
+        }
+      }
+    }
+  },
+  "n_spectra_analyzed": 7488,
+  "n_spectra_total": 10000,
+  "n_peaks_total": 610559,
+  "n_theoretical_peaks": 220228,
+  "fraction_theoretical": 0.36069896602949103,
+  "execution_time": 11.346620798110962,
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/peak_level/eval_20260926_164525/confidencesignalanalysistask"
+}

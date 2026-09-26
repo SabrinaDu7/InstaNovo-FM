@@ -1,0 +1,2570 @@
+{
+  "task_name": "headanalysistask",
+  "success": true,
+  "num_spectra_analyzed": 5000,
+  "n_spectra_with_theory": 3736,
+  "n_skipped_low_quality": 1223,
+  "n_heads": 12,
+  "execution_time": 134.69112539291382,
+  "per_head_summary": {
+    "0": {
+      "series_adjacent_fraction": {
+        "mean": 0.016449993228583416,
+        "std": 0.016157279327898767,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 0.752470175755893,
+        "std": 0.33161024011394863,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.004505223532026246,
+        "std": 0.006412213430983904,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.5208366964824334,
+        "std": 0.32474060986875036,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.01799225639380058,
+        "std": 0.01763258065287841,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 2.3650747270072476,
+        "std": 0.8907003454887501,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.018707173535448172,
+        "std": 0.022086101835081758,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 2.3484777824117593,
+        "std": 1.2224335606299712,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.04994699016830347,
+        "std": 0.017284186644357998,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 0.9507955941408242,
+        "std": 0.21125865674004035,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.01811316252120154,
+        "std": 0.019838462159213886,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 2.5108333370304874,
+        "std": 1.1155473107104112,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.06459149064392115,
+        "std": 0.01955504144994364,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 1.9260432833634924,
+        "std": 0.4256184005522528,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.005095071462295717,
+        "std": 0.012175201706580445,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 0.9931095695515969,
+        "std": 0.6131221683808292,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.00522560468029869,
+        "std": 0.006726609156710604,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 1.7037637828795962,
+        "std": 1.0866376620145382,
+        "count": 3776
+      },
+      "category_counts": {
+        "structural": 3161,
+        "mixed": 532,
+        "global": 69,
+        "local": 14
+      },
+      "annotated_to_annotated": {
+        "mean": 0.21978345018588333,
+        "std": 0.18445868253146053,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.2118601467085543,
+        "std": 0.060823614892612704,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.18441397947384286,
+        "std": 0.04960272799562397,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.37334920334609123,
+        "std": 0.19084255206925993,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.498922026512505,
+        "std": 0.6458866719953947,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.614233426243421,
+        "std": 0.06450616252402472,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 158.76701843856944,
+        "std": 38.007669221931735,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.08615306953966649,
+        "std": 0.05717259396656615,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.17543321077595217,
+        "std": 0.059688219182083564,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.10878601992664112,
+        "std": 0.029844948043421107,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.3182733548105639,
+        "std": 0.06905990116596714,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.25766774204483656,
+        "std": 0.056519751011977336,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.05368660152938615,
+        "std": 0.04891265619984462,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.26308264412785587,
+        "std": 0.08645510951871481,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.09581794975205907,
+        "std": 0.04425390752725756,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.0998451047111765,
+        "std": 0.06931754741572263,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.019870026494054,
+        "std": 0.885996533527707,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.03241427207979804,
+        "std": 0.03163443456890452,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.0116661266271913,
+        "std": 0.00869607759177756,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 2.4199635685231446,
+        "std": 1.5144176370409272,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "structural"
+    },
+    "1": {
+      "series_adjacent_fraction": {
+        "mean": 0.018288337533556118,
+        "std": 0.02073491569821398,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 0.8165232983671303,
+        "std": 0.5148623849958427,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.004142721933070264,
+        "std": 0.006881103556466764,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.4352737710362354,
+        "std": 0.36464836675501905,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.014590309636735459,
+        "std": 0.013980179270709884,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 1.9729672738364088,
+        "std": 0.8263108009296514,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.016785542721886728,
+        "std": 0.01890712684422578,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 2.1918567532831474,
+        "std": 1.213554358561525,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.05621116105996922,
+        "std": 0.023708381396225983,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 1.0631673415673095,
+        "std": 0.31782803928791753,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.016557228180656056,
+        "std": 0.01834242633771904,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 2.2823548225207557,
+        "std": 0.9741240835377228,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.05773539028446593,
+        "std": 0.01820097220092143,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 1.7110813577047936,
+        "std": 0.3512573685749634,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.0037001611001719376,
+        "std": 0.01109142041918186,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 0.7223860416362011,
+        "std": 0.4532100666280047,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.0013522888043928374,
+        "std": 0.0017989001998689243,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 0.4991118019570744,
+        "std": 0.38140573811982265,
+        "count": 3776
+      },
+      "category_counts": {
+        "structural": 2560,
+        "mixed": 1202,
+        "local": 6,
+        "global": 7,
+        "sparse": 1
+      },
+      "annotated_to_annotated": {
+        "mean": 0.21771422111105945,
+        "std": 0.18149252068188654,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.21591999046268004,
+        "std": 0.06988946849711715,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.17904002397498714,
+        "std": 0.05460170015031681,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.376732543515498,
+        "std": 0.19071719576633706,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.3502408933231487,
+        "std": 0.6662732533863669,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.6703516615105525,
+        "std": 0.05683866173329485,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 172.29918592000948,
+        "std": 46.05920560768313,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.07679418326006271,
+        "std": 0.05306926539280059,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.14774116445316735,
+        "std": 0.055612594046855285,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.11567094461065994,
+        "std": 0.031481660199204224,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.33297919805834497,
+        "std": 0.06448716451861841,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.2550803926221876,
+        "std": 0.058374035681192926,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.07173411701972239,
+        "std": 0.058012651284229944,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.328010447402693,
+        "std": 0.1102344752890655,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.07276961075648421,
+        "std": 0.031045754362244573,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.1169139951744271,
+        "std": 0.08209692826887867,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.4989226520471197,
+        "std": 1.0851988435011488,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.03725612190282144,
+        "std": 0.036289548738392394,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.009245024160722773,
+        "std": 0.0071036757929333295,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 2.7951125053744823,
+        "std": 1.6230409416352227,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "structural"
+    },
+    "2": {
+      "series_adjacent_fraction": {
+        "mean": 0.040484024686281796,
+        "std": 0.04124254377083901,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 1.9598761882360454,
+        "std": 1.2058456588403934,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.003917630800994686,
+        "std": 0.006795702827178007,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.45610711040636814,
+        "std": 0.47706371517818974,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.011302917133565392,
+        "std": 0.010824536782036383,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 1.6039427072174077,
+        "std": 0.7026814910998171,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.012243385230690728,
+        "std": 0.014466023831855726,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 1.6265823804472013,
+        "std": 0.9779921036403811,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.08704698063674605,
+        "std": 0.03714052831647915,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 1.6408632926673612,
+        "std": 0.4642357222928741,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.012704353755195024,
+        "std": 0.015836086244216105,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 1.6515450494009973,
+        "std": 0.6900804160545246,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.05077943966882815,
+        "std": 0.01681890201508285,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 1.498259350825385,
+        "std": 0.2949866750209287,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.004777239779803068,
+        "std": 0.012321773941762317,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 1.008961023745389,
+        "std": 0.8732239535719959,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.0014151290550989037,
+        "std": 0.0021509338625920345,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 0.5174193346711932,
+        "std": 0.40510773988159837,
+        "count": 3776
+      },
+      "category_counts": {
+        "mixed": 1080,
+        "structural": 2638,
+        "sparse": 39,
+        "local": 5,
+        "global": 14
+      },
+      "annotated_to_annotated": {
+        "mean": 0.23862466785352313,
+        "std": 0.1861357464102849,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.19592327591664999,
+        "std": 0.0631468693423062,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.19294933074049922,
+        "std": 0.055165207858923516,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.36190950517225057,
+        "std": 0.18650704728642603,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.301723386289231,
+        "std": 0.6975469258250461,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.6757584676025834,
+        "std": 0.07526670516586048,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 169.4612710755871,
+        "std": 47.07260959633124,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.058798996024267844,
+        "std": 0.046140169174256215,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.11747074013689243,
+        "std": 0.04517304477632614,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.101445156797928,
+        "std": 0.030713065442748468,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.41468677056511327,
+        "std": 0.08037098828172631,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.24343768050484715,
+        "std": 0.06856922520048489,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.06416065559860187,
+        "std": 0.05689893469551264,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.31976592561599104,
+        "std": 0.10978349858930446,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.08758918374275743,
+        "std": 0.03944146383533125,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.10886364347111925,
+        "std": 0.07288560001530281,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.5629090473813645,
+        "std": 1.4092988542362137,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.044982494507945926,
+        "std": 0.04215921198857492,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.011043746059317657,
+        "std": 0.007902123407272891,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 3.402050810928003,
+        "std": 1.8595786193355173,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "structural"
+    },
+    "3": {
+      "series_adjacent_fraction": {
+        "mean": 0.008198349279575735,
+        "std": 0.008783077079929265,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 0.3500237149101072,
+        "std": 0.18153423536825786,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.00351656356810254,
+        "std": 0.005572030705484515,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.384097490353482,
+        "std": 0.30725774461571936,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.03135078082494408,
+        "std": 0.028934774231482045,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 4.109474419347552,
+        "std": 1.4961411324534708,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.03414454387212866,
+        "std": 0.038346451182840996,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 4.195833232407471,
+        "std": 2.155857873515448,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.033831219484264534,
+        "std": 0.011480259044639847,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 0.6474413544710901,
+        "std": 0.15357122535606485,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.026910062775468077,
+        "std": 0.026220018176237505,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 3.645963454233336,
+        "std": 1.5881360877306767,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.08109734821863417,
+        "std": 0.025507709603928758,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 2.4054681064444883,
+        "std": 0.5627893423299298,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.004370933210134989,
+        "std": 0.011495546024345014,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 0.8760110559061607,
+        "std": 0.821868388706287,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.0013070661772734045,
+        "std": 0.0014947206168764186,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 0.4985739592342215,
+        "std": 0.3774020645601153,
+        "count": 3776
+      },
+      "category_counts": {
+        "structural": 3715,
+        "mixed": 44,
+        "local": 8,
+        "global": 9
+      },
+      "annotated_to_annotated": {
+        "mean": 0.2283386174920792,
+        "std": 0.18415598539980996,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.20916106793963735,
+        "std": 0.060440561478934555,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.18402330421475835,
+        "std": 0.052056930239701815,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.36788378939289085,
+        "std": 0.18948032415755917,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.306352324597298,
+        "std": 0.6247824456880722,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.676687696937215,
+        "std": 0.07040134968272668,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 135.63786258457733,
+        "std": 37.80780095512841,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.10546944524315423,
+        "std": 0.06879189184142694,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.2290438432070097,
+        "std": 0.06921755936007795,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.1422848175151542,
+        "std": 0.0372445250707176,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.2608481949282577,
+        "std": 0.05305636695869224,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.21639161548425317,
+        "std": 0.05861250859128875,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.04596208315397966,
+        "std": 0.04103660234307631,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.267551681471243,
+        "std": 0.08832250833043558,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.07283621035779493,
+        "std": 0.03292373624594079,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.12194858299425577,
+        "std": 0.08020875914162277,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.1075079946514133,
+        "std": 1.0441936616540028,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.03590046900373355,
+        "std": 0.03453989464443957,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.010188298614756456,
+        "std": 0.007233584959335682,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 2.652561931658234,
+        "std": 1.456938425493554,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "structural"
+    },
+    "4": {
+      "series_adjacent_fraction": {
+        "mean": 0.020105072766682396,
+        "std": 0.02134971202662872,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 0.969396972171594,
+        "std": 0.7598876236762862,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.0036842066164440943,
+        "std": 0.00605876514902373,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.43561017234350824,
+        "std": 0.4060894914207833,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.01829566511039501,
+        "std": 0.01601219048838112,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 2.7280860574387265,
+        "std": 1.311011710922196,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.01598931533669215,
+        "std": 0.016559986329250095,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 2.3416235728965655,
+        "std": 1.3670513244658182,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.05110317921369484,
+        "std": 0.020505231804611328,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 0.9756947631026195,
+        "std": 0.29023965850226885,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.015521982580899856,
+        "std": 0.012135617910641943,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 2.3609942254262655,
+        "std": 1.1422137899629707,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.06929812200357036,
+        "std": 0.027271434384875757,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 2.0281197327218843,
+        "std": 0.5213501856326743,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.002626865885451134,
+        "std": 0.008690892445777386,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 0.5915261330748548,
+        "std": 0.5088395144022247,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.0013397825681793465,
+        "std": 0.0019388784127697752,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 0.4995459199295398,
+        "std": 0.40833307975479655,
+        "count": 3776
+      },
+      "category_counts": {
+        "structural": 3080,
+        "mixed": 624,
+        "sparse": 60,
+        "global": 10,
+        "local": 2
+      },
+      "annotated_to_annotated": {
+        "mean": 0.23306744227519835,
+        "std": 0.18194649549763559,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.20376148175158215,
+        "std": 0.0677756567371371,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.191067245822103,
+        "std": 0.05525316745782311,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.36151060942757546,
+        "std": 0.18826730106234035,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.3207493278605518,
+        "std": 0.6947472918945761,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.670811502104578,
+        "std": 0.06867177933259738,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 161.09599586232898,
+        "std": 46.54171326706246,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.07472528626804903,
+        "std": 0.04167032256415421,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.17706912406180692,
+        "std": 0.05931847938251239,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.12851021360136472,
+        "std": 0.03850430487172865,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.3156508135170798,
+        "std": 0.058706526858129236,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.24473249910436806,
+        "std": 0.07456916903296687,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.05931206317217464,
+        "std": 0.0516010185035078,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.3055913507874142,
+        "std": 0.1206704157517159,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.06484990094622846,
+        "std": 0.028303994708867596,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.128141885964345,
+        "std": 0.08405909173663274,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.5616134472770455,
+        "std": 1.77375184955684,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.0413779900817304,
+        "std": 0.042329881897000494,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.010031751164785748,
+        "std": 0.006709160314022299,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 3.1456282220623772,
+        "std": 1.9144974103092285,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "structural"
+    },
+    "5": {
+      "series_adjacent_fraction": {
+        "mean": 0.03121713296330829,
+        "std": 0.031079078210743776,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 1.4471722297811873,
+        "std": 0.9983548949880591,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.0028901781062350396,
+        "std": 0.004862459046692045,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.313370494856802,
+        "std": 0.2681285520468017,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.019622323230388487,
+        "std": 0.017503279514388476,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 2.735939596572337,
+        "std": 0.9482081570059857,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.016157104846148313,
+        "std": 0.01991862723739095,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 2.0716253391666966,
+        "std": 1.0590578235727552,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.06692920784683941,
+        "std": 0.024047228508373302,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 1.2782329283870506,
+        "std": 0.3231081933919912,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.016501865950181258,
+        "std": 0.020681114216375637,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 2.2293025352689186,
+        "std": 0.8535247085285024,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.06987899908290933,
+        "std": 0.02348272106492028,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 2.0625401280108053,
+        "std": 0.45006585919362146,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.004026919888991853,
+        "std": 0.012617617863344194,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 0.7275958291289977,
+        "std": 0.5947917588709364,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.001637329568733076,
+        "std": 0.002216093631083441,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 0.5861901690110443,
+        "std": 0.46989196343403816,
+        "count": 3776
+      },
+      "category_counts": {
+        "structural": 3407,
+        "mixed": 350,
+        "local": 8,
+        "sparse": 4,
+        "global": 7
+      },
+      "annotated_to_annotated": {
+        "mean": 0.23003038218538768,
+        "std": 0.18322818670512564,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.20607945622419818,
+        "std": 0.06086852912832118,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.1798376460501546,
+        "std": 0.05101942594587708,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.3734592946244616,
+        "std": 0.19172397932642424,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.346649472415694,
+        "std": 0.663015666504249,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.6677097730651885,
+        "std": 0.061937969850455535,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 137.6219898650533,
+        "std": 38.55871932065031,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.07485191826363315,
+        "std": 0.05567911471761595,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.1645494258149391,
+        "std": 0.05322359930021894,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.1332401257516768,
+        "std": 0.03668505595158941,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.3960630386432443,
+        "std": 0.06771539004357609,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.19195069036227247,
+        "std": 0.05841899720437626,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.03934480059210275,
+        "std": 0.042358855772530755,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.2718726694680472,
+        "std": 0.09422796273201142,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.08162378695844574,
+        "std": 0.03772371316385647,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.1118093290299146,
+        "std": 0.07713642534513919,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.1077967683461165,
+        "std": 1.0479858163549918,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.03360148685364946,
+        "std": 0.031517496659890634,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.010861973648902776,
+        "std": 0.007903288595562266,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 2.577027322866025,
+        "std": 1.5503501989140904,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "structural"
+    },
+    "6": {
+      "series_adjacent_fraction": {
+        "mean": 0.010269763861760412,
+        "std": 0.011535650130817298,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 0.44527668471821574,
+        "std": 0.23505802087220976,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.00524812066749411,
+        "std": 0.008782340177262947,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.5388995083512288,
+        "std": 0.4172377426352922,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.009181921159894333,
+        "std": 0.008646755688678927,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 1.319874043287343,
+        "std": 0.5939473336924712,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.008276133799404088,
+        "std": 0.010731589547476925,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 1.0370310324557659,
+        "std": 0.5513307636359926,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.04153820229920479,
+        "std": 0.014754404405713129,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 0.7880860287724702,
+        "std": 0.1788191284387647,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.01049427962047472,
+        "std": 0.014169971560644234,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 1.4236678915665666,
+        "std": 0.6387624471419384,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.048725640495815424,
+        "std": 0.016715413612292663,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 1.432456662907442,
+        "std": 0.26584848214433915,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.004391290396768167,
+        "std": 0.013009514952457472,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 0.8583381149788859,
+        "std": 0.4488004048564456,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.003111365399070206,
+        "std": 0.004652584876745762,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 1.0487156628631513,
+        "std": 0.7182832032585024,
+        "count": 3776
+      },
+      "category_counts": {
+        "structural": 1136,
+        "mixed": 2522,
+        "sparse": 6,
+        "global": 106,
+        "local": 6
+      },
+      "annotated_to_annotated": {
+        "mean": 0.21744717927079937,
+        "std": 0.18190762457389717,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.22166788339000557,
+        "std": 0.07251323006820057,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.18795457432058177,
+        "std": 0.05437794881599624,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.36233714197575334,
+        "std": 0.18893798615283985,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.4198160496737366,
+        "std": 0.6910632647913186,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.6452816222358105,
+        "std": 0.07526438789267335,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 201.28501216791003,
+        "std": 52.37347705201744,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.05444521700689112,
+        "std": 0.043363189908009234,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.12164622864915824,
+        "std": 0.038573829414690466,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.10516484463745254,
+        "std": 0.03041538874484973,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.30827294162674845,
+        "std": 0.06602415113342162,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.32484320717295473,
+        "std": 0.07335781090215689,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.08562756028418797,
+        "std": 0.0731396459516826,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.34947661274387537,
+        "std": 0.10597368413815679,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.07485983633165805,
+        "std": 0.03442680074719836,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.11829499229203054,
+        "std": 0.07980967361723579,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.785900293030146,
+        "std": 1.4148217330182378,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.04289827807072363,
+        "std": 0.04096208772646853,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.010490108080727596,
+        "std": 0.007357417440618888,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 3.1967021859548623,
+        "std": 1.7014045606263903,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "mixed"
+    },
+    "7": {
+      "series_adjacent_fraction": {
+        "mean": 0.008912313051811775,
+        "std": 0.010221604184504223,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 0.38960303522899564,
+        "std": 0.23728036245142903,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.00369904447910209,
+        "std": 0.006277351036007718,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.41098938658057066,
+        "std": 0.3552024057004834,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.012434695716941809,
+        "std": 0.011345766250972025,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 1.7095162229744667,
+        "std": 0.7500203804497573,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.008953562624850165,
+        "std": 0.010646116626556136,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 1.1383992228471675,
+        "std": 0.5814741014437365,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.03850569970773254,
+        "std": 0.014121347417083556,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 0.7318045065025648,
+        "std": 0.18234738838902284,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.009322973919281727,
+        "std": 0.008989883331332802,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 1.3388194789090988,
+        "std": 0.6076006792620048,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.0602880850266301,
+        "std": 0.02164078647643601,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 1.7799475112454242,
+        "std": 0.4216462710689968,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.002592922592624879,
+        "std": 0.009367617554145936,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 0.5492448959123479,
+        "std": 0.3878783116720103,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.00620910685646824,
+        "std": 0.010052154456522022,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 1.9303188658910195,
+        "std": 1.4111116548751206,
+        "count": 3776
+      },
+      "category_counts": {
+        "structural": 2433,
+        "sparse": 44,
+        "mixed": 1268,
+        "global": 27,
+        "local": 4
+      },
+      "annotated_to_annotated": {
+        "mean": 0.22118064670935858,
+        "std": 0.18811843288605348,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.21251687953051046,
+        "std": 0.07462686722933506,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.18974344980024438,
+        "std": 0.05951286226934587,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.3659658026312146,
+        "std": 0.19327767174195432,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.2546139790646653,
+        "std": 0.729089238719056,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.6911740907422225,
+        "std": 0.07665506747722003,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 182.59324833809129,
+        "std": 50.146164890462906,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.05280101191305745,
+        "std": 0.03584101247671239,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.14283565568719928,
+        "std": 0.04987965309063155,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.13304585853485013,
+        "std": 0.038534635862796866,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.29255143783499943,
+        "std": 0.06595198699756204,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.3132722408148673,
+        "std": 0.08235266632064664,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.06549379650418698,
+        "std": 0.06141288932470186,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.3427058132530242,
+        "std": 0.12138806092760458,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.08561594105028841,
+        "std": 0.040805181610904184,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.1058822620389406,
+        "std": 0.07402556782517808,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.719414754500387,
+        "std": 1.5172306778243867,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.040839170655609526,
+        "std": 0.04138058617097232,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.010468130135676717,
+        "std": 0.0080240007324466,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 3.0893310920625243,
+        "std": 1.94292760912675,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "structural"
+    },
+    "8": {
+      "series_adjacent_fraction": {
+        "mean": 0.026614036152745834,
+        "std": 0.02787089568249617,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 1.2167276074319153,
+        "std": 0.6584054133517064,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.004278886846108705,
+        "std": 0.008761396285428628,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.43399819787495314,
+        "std": 0.4471337214802006,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.006488188538526621,
+        "std": 0.0067680241680093305,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 0.8855626455902971,
+        "std": 0.3847522353606164,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.007306101442765014,
+        "std": 0.009869032618006443,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 0.8942288362000427,
+        "std": 0.501788344461711,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.06741311045417578,
+        "std": 0.024012975246479593,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 1.2870047868846048,
+        "std": 0.3086329528598669,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.007463777025907703,
+        "std": 0.009495140781091732,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 0.9798181785999676,
+        "std": 0.42570379070988534,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.048308037046884605,
+        "std": 0.019203312662655198,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 1.4298268924723465,
+        "std": 0.35746987722742,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.002993071364404386,
+        "std": 0.009652879488250587,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 0.5791969446281972,
+        "std": 0.39660639919993323,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.001325729253027375,
+        "std": 0.001913508018857332,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 0.5107692495689927,
+        "std": 0.4650828230654498,
+        "count": 3776
+      },
+      "category_counts": {
+        "mixed": 2823,
+        "structural": 794,
+        "sparse": 146,
+        "global": 10,
+        "local": 3
+      },
+      "annotated_to_annotated": {
+        "mean": 0.2221782337135267,
+        "std": 0.18575782470714156,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.21441912076342542,
+        "std": 0.07129169977773488,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.1804105785212188,
+        "std": 0.05942949476630313,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.3723988465179805,
+        "std": 0.19036279393864833,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.2522687711740845,
+        "std": 0.7047548326160833,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.6974599245208111,
+        "std": 0.06943613839529342,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 183.13807955651023,
+        "std": 48.94277638783494,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.046952652041030794,
+        "std": 0.04016313715770961,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.10729536487420865,
+        "std": 0.0447205019303311,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.11499023023756987,
+        "std": 0.03490368974409299,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.3875654041540209,
+        "std": 0.0683946401374233,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.26574629107445785,
+        "std": 0.06719884053089172,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.07745005696302018,
+        "std": 0.06237062978500767,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.36924620444454076,
+        "std": 0.12045159137523583,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.07654113027106407,
+        "std": 0.03376115516615926,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.12213136335651444,
+        "std": 0.08034939751597515,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.9207513782682226,
+        "std": 1.5310852977647276,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.04979713660105239,
+        "std": 0.04842828689237635,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.009946585305600279,
+        "std": 0.007641838096731211,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 3.7352872488516167,
+        "std": 2.2443088494979224,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "mixed"
+    },
+    "9": {
+      "series_adjacent_fraction": {
+        "mean": 0.022597086270966734,
+        "std": 0.02284916790415795,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 1.045287694967955,
+        "std": 0.613608120083131,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.0055362854264774265,
+        "std": 0.008190788495447054,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.6561466119315918,
+        "std": 0.4190863993446178,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.0062612581824003,
+        "std": 0.005474877203000639,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 0.9680625070129838,
+        "std": 0.46581646376508234,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.005671832946518979,
+        "std": 0.006345866033866407,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 0.8581393586907157,
+        "std": 0.6104888497198688,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.05689088128340537,
+        "std": 0.01857966809503599,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 1.0837777546984535,
+        "std": 0.21993551578178192,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.006501889227975099,
+        "std": 0.0056723996136183955,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 0.945668195553394,
+        "std": 0.41118105318864523,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.036514268734082,
+        "std": 0.01673570926194297,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 1.058650958969232,
+        "std": 0.21314951672214436,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.0033494531221181403,
+        "std": 0.009174677097694388,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 0.7430106741187685,
+        "std": 0.39695569342920217,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.0017013874974831857,
+        "std": 0.002486060429769725,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 0.6543226008114895,
+        "std": 0.4436237447460966,
+        "count": 3776
+      },
+      "category_counts": {
+        "mixed": 2523,
+        "global": 708,
+        "structural": 543,
+        "local": 2
+      },
+      "annotated_to_annotated": {
+        "mean": 0.2148234912290533,
+        "std": 0.17746427638353662,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.2165543818057035,
+        "std": 0.06367099121020653,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.1832436741983667,
+        "std": 0.04814677272344235,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.37478523187252666,
+        "std": 0.193947503965463,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.637638029682427,
+        "std": 0.697356624234293,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.553420612271628,
+        "std": 0.06698449850383145,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 204.49889337861026,
+        "std": 46.548998020441786,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.03793360286745464,
+        "std": 0.029175832612893877,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.08599033690265738,
+        "std": 0.03323929939076451,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.0795154694197216,
+        "std": 0.02674040401969331,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.3811584533788106,
+        "std": 0.06892108267307802,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.34257280632411524,
+        "std": 0.06831396889879872,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.07282933097846611,
+        "std": 0.060070166965042596,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.2882423683628188,
+        "std": 0.1003313995812689,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.10653603515957737,
+        "std": 0.04202650676905681,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.08864792372857283,
+        "std": 0.06951536825017963,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.2365926727271854,
+        "std": 1.130899714749849,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.03579084577218376,
+        "std": 0.03445916657572265,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.012415426102086622,
+        "std": 0.009024869947352984,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 2.66361176537817,
+        "std": 1.446658342874454,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "mixed"
+    },
+    "10": {
+      "series_adjacent_fraction": {
+        "mean": 0.05998834700612755,
+        "std": 0.059103670719002965,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 2.800407901076123,
+        "std": 1.7419526964251693,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.00317823887054156,
+        "std": 0.005630732716556049,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.35467260212754065,
+        "std": 0.34070001820080387,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.0060245330618867,
+        "std": 0.006261040383424036,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 0.8836994273674776,
+        "std": 0.48716645514238205,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.005323920204240589,
+        "std": 0.006885272616396461,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 0.7359849550769423,
+        "std": 0.52854167238863,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.10049988825668633,
+        "std": 0.037875694716657075,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 1.9334242752196542,
+        "std": 0.5953189220950915,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.00762226395602836,
+        "std": 0.0104034359984557,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 1.0237385968495827,
+        "std": 0.5065948203264714,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.042289840673065855,
+        "std": 0.017385890686272016,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 1.2372427973636784,
+        "std": 0.3038911031959972,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.003062181598781617,
+        "std": 0.008821041481761596,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 0.6608949111186818,
+        "std": 0.6107740529597807,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.0021006732544069824,
+        "std": 0.0032139971624713893,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 0.7472403724374564,
+        "std": 0.49050411252611287,
+        "count": 3776
+      },
+      "category_counts": {
+        "structural": 2607,
+        "mixed": 1132,
+        "global": 33,
+        "local": 4
+      },
+      "annotated_to_annotated": {
+        "mean": 0.23654201659908963,
+        "std": 0.1841038871516804,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.19848659727072274,
+        "std": 0.06130809552769347,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.19065888006183132,
+        "std": 0.05034433189345558,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.363719285299448,
+        "std": 0.18686932976386264,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.3819506339695313,
+        "std": 0.6783454880717624,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.6529875712004498,
+        "std": 0.06739505830788482,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 169.89177768814804,
+        "std": 38.924846395645304,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.03718459867907814,
+        "std": 0.032784219216330665,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.0791969197332299,
+        "std": 0.03302166744170126,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.08516487169722727,
+        "std": 0.03019972440125959,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.4975347678745323,
+        "std": 0.08115579502753772,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.24918474830140486,
+        "std": 0.062489354229771886,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.0517340927653272,
+        "std": 0.04854951276355057,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.29557993117440784,
+        "std": 0.0971726759315305,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.08634974450257783,
+        "std": 0.040316552570808045,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.10410632051975953,
+        "std": 0.07289942298518233,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.309181753911196,
+        "std": 1.1400837597700149,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.039231424160831856,
+        "std": 0.03596370517405942,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.010759575580291645,
+        "std": 0.00741276237920568,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 3.0012666053877686,
+        "std": 1.6396774631748698,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "structural"
+    },
+    "11": {
+      "series_adjacent_fraction": {
+        "mean": 0.013849198353134064,
+        "std": 0.013045274285743765,
+        "count": 3736
+      },
+      "series_adjacent_enrichment": {
+        "mean": 0.6648084485523874,
+        "std": 0.31508241245244833,
+        "count": 3736
+      },
+      "by_complement_fraction": {
+        "mean": 0.0036689907860362352,
+        "std": 0.005367823446539164,
+        "count": 3736
+      },
+      "by_complement_enrichment": {
+        "mean": 0.42379680181344853,
+        "std": 0.30103234572267656,
+        "count": 3736
+      },
+      "parent_child_fraction": {
+        "mean": 0.029627937929505018,
+        "std": 0.02622328318262066,
+        "count": 3736
+      },
+      "parent_child_enrichment": {
+        "mean": 4.00336438142038,
+        "std": 1.4675667469007885,
+        "count": 3736
+      },
+      "fragment_group_fraction": {
+        "mean": 0.03941311546570018,
+        "std": 0.038331609783561586,
+        "count": 3736
+      },
+      "fragment_group_enrichment": {
+        "mean": 5.2072677899087125,
+        "std": 2.3007389231799484,
+        "count": 3736
+      },
+      "ion_ladder_fraction": {
+        "mean": 0.050214122272363756,
+        "std": 0.018099091505041028,
+        "count": 3776
+      },
+      "ion_ladder_enrichment": {
+        "mean": 0.9514246627849131,
+        "std": 0.2188149143832475,
+        "count": 3776
+      },
+      "isotope_spacing_fraction": {
+        "mean": 0.033324636312818255,
+        "std": 0.028504978628584386,
+        "count": 3776
+      },
+      "isotope_spacing_enrichment": {
+        "mean": 4.587570077057816,
+        "std": 1.8084461215696834,
+        "count": 3776
+      },
+      "neutral_loss_fraction": {
+        "mean": 0.05940861946760695,
+        "std": 0.01859438036909517,
+        "count": 3776
+      },
+      "neutral_loss_enrichment": {
+        "mean": 1.7685156145834888,
+        "std": 0.4105665298774549,
+        "count": 3776
+      },
+      "by_complement_mz_fraction": {
+        "mean": 0.005631829292498406,
+        "std": 0.011684291233275952,
+        "count": 3776
+      },
+      "by_complement_mz_enrichment": {
+        "mean": 1.2288612744224443,
+        "std": 1.0615747558522142,
+        "count": 3776
+      },
+      "charge_state_variant_fraction": {
+        "mean": 0.0019812858056259676,
+        "std": 0.0019470095997733586,
+        "count": 3776
+      },
+      "charge_state_variant_enrichment": {
+        "mean": 0.7480576956737466,
+        "std": 0.4741243713066426,
+        "count": 3776
+      },
+      "category_counts": {
+        "structural": 3721,
+        "local": 14,
+        "global": 10,
+        "mixed": 31
+      },
+      "annotated_to_annotated": {
+        "mean": 0.2382498285435286,
+        "std": 0.18753085206828124,
+        "count": 3776
+      },
+      "annotated_to_unannotated": {
+        "mean": 0.1978172027299499,
+        "std": 0.05507204012936505,
+        "count": 3776
+      },
+      "unannotated_to_annotated": {
+        "mean": 0.1878918800733317,
+        "std": 0.05245798701005593,
+        "count": 3776
+      },
+      "unannotated_to_unannotated": {
+        "mean": 0.36544786899508436,
+        "std": 0.18795203303800567,
+        "count": 3776
+      },
+      "row_entropy": {
+        "mean": 3.4583673942030977,
+        "std": 0.6406968051119482,
+        "count": 3776
+      },
+      "gini": {
+        "mean": 0.6288665964608937,
+        "std": 0.05892221836187925,
+        "count": 3776
+      },
+      "attn_mean_distance": {
+        "mean": 153.50237205109195,
+        "std": 38.88505313045032,
+        "count": 3776
+      },
+      "dist_bin_0_2": {
+        "mean": 0.1225014480977256,
+        "std": 0.0694758638061845,
+        "count": 3776
+      },
+      "dist_bin_2_25": {
+        "mean": 0.16915566679800592,
+        "std": 0.06336818497100949,
+        "count": 3776
+      },
+      "dist_bin_25_50": {
+        "mean": 0.09590794358081116,
+        "std": 0.02750887785261569,
+        "count": 3776
+      },
+      "dist_bin_50_200": {
+        "mean": 0.3206372273848116,
+        "std": 0.07652618153630492,
+        "count": 3776
+      },
+      "dist_bin_200_500": {
+        "mean": 0.2370428332404857,
+        "std": 0.053495904788042434,
+        "count": 3776
+      },
+      "dist_bin_500_inf": {
+        "mean": 0.05475488185739562,
+        "std": 0.047050066170840794,
+        "count": 3776
+      },
+      "attn_intensity_spearman": {
+        "mean": -0.23188633518189053,
+        "std": 0.16178533662273092,
+        "count": 3776
+      },
+      "annotated_attn_ratio": {
+        "mean": 1223016704.8510296,
+        "std": 26705581739.817604,
+        "count": 3776
+      },
+      "region_frag_to_imm": {
+        "mean": 0.2913858742623614,
+        "std": 0.0902352515844797,
+        "count": 3776
+      },
+      "region_imm_to_frag": {
+        "mean": 0.0947372763350147,
+        "std": 0.043015277144866075,
+        "count": 3776
+      },
+      "region_imm_to_imm": {
+        "mean": 0.09617056466381484,
+        "std": 0.07012243744178843,
+        "count": 3776
+      },
+      "region_frag_to_imm_enrichment": {
+        "mean": 2.2334089488764275,
+        "std": 0.9052101146218723,
+        "count": 3776
+      },
+      "ann_backbone_to_immonium": {
+        "mean": 0.03242702624787245,
+        "std": 0.029800066915056714,
+        "count": 2766
+      },
+      "ann_immonium_to_backbone": {
+        "mean": 0.010679745063955066,
+        "std": 0.007595293881440195,
+        "count": 2766
+      },
+      "ann_backbone_to_immonium_enrichment": {
+        "mean": 2.3899710342632337,
+        "std": 1.154866020182169,
+        "count": 2766
+      },
+      "n_with_theory": 3736,
+      "dominant_category": "structural"
+    }
+  },
+  "mean_series_adjacent_enrichment": 1.0714644959331292,
+  "max_series_adjacent_enrichment": 2.800407901076123,
+  "mean_by_complement_enrichment": 0.44698323701318027,
+  "max_by_complement_enrichment": 0.6561466119315918,
+  "mean_parent_child_enrichment": 2.1071303340893857,
+  "max_parent_child_enrichment": 4.109474419347552,
+  "mean_ion_ladder_enrichment": 1.110976440766576,
+  "max_ion_ladder_enrichment": 1.9334242752196542,
+  "mean_isotope_spacing_enrichment": 2.0816896535347653,
+  "max_isotope_spacing_enrichment": 4.587570077057816,
+  "mean_charge_state_variant_enrichment": 0.8286691179107105,
+  "max_charge_state_variant_enrichment": 1.9303188658910195,
+  "n_structural_heads": 9.0,
+  "n_local_heads": 0.0,
+  "n_global_heads": 0.0,
+  "n_sparse_heads": 0.0,
+  "n_mixed_heads": 3.0,
+  "mean_annotated_to_annotated": 0.22649834809737393,
+  "mean_head_entropy": 3.377441024063831,
+  "mean_neutral_loss_enrichment": 1.6948460330510382,
+  "mean_attn_distance_da": 169.14939224387396,
+  "attn_intensity_correlation": -0.23188633518189053,
+  "annotated_attn_ratio": 1223016704.8510299,
+  "mean_region_frag_to_imm": 0.30770929359285604,
+  "mean_region_imm_to_frag": 0.08334388384699586,
+  "mean_region_frag_to_imm_enrichment": 2.4219891447925566,
+  "max_region_frag_to_imm_enrichment": 2.9207513782682226,
+  "mean_ann_backbone_to_immonium": 0.038876392994829374,
+  "mean_ann_immonium_to_backbone": 0.010649707545334551,
+  "mean_ann_backbone_to_immonium_enrichment": 2.9223761911092034,
+  "max_ann_backbone_to_immonium_enrichment": 3.7352872488516167,
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/proteometools/40M/peak_level/eval_20260926_164525/headanalysistask"
+}

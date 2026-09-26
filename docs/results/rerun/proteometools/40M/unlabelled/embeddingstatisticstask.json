@@ -1,0 +1,12 @@
+{
+  "task_name": "embeddingstatisticstask",
+  "timestamp": "2026-09-26T17:07:03.583292",
+  "execution_time": 7.375870704650879,
+  "success": true,
+  "centroid_norm": 0.8587879538536072,
+  "anisotropy_ratio": 23.79942990404102,
+  "pca_energy_top1": 0.14806696772575378,
+  "effective_rank": 68.34629821777344,
+  "mean_similarity": 0.7377357482910156,
+  "uniformity": -0.9601410031318665
+}
