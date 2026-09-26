@@ -1,0 +1,107 @@
+{
+ "name": "campi",
+ "files": 1,
+ "spectra": 2424154,
+ "identified": 797184,
+ "runs": 21,
+ "projects": {
+  "PXD023217": 2424154
+ },
+ "matched_in_search_data": 2424154,
+ "peptides": 66910,
+ "frag_type": {
+  "HCD": 1528653,
+  "CID": 895501
+ },
+ "acquisition": {
+  "DDA": 2424154
+ },
+ "collision_energy": {
+  "25.0": 1018267,
+  "(missing)": 895501,
+  "27.0": 395788,
+  "28.0": 67751,
+  "30.0": 46847
+ },
+ "precursor_charge": {
+  "2": 1266851,
+  "3": 838539,
+  "4": 191451,
+  "1": 48222,
+  "5": 37005,
+  "0": 25159,
+  "6": 7217,
+  "55": 2051,
+  "8": 1041,
+  "7": 942,
+  "56": 775,
+  "9": 668,
+  "54": 582,
+  "10": 566,
+  "28": 326,
+  "53": 222,
+  "12": 212,
+  "11": 199,
+  "57": 181,
+  "27": 166,
+  "15": 130,
+  "52": 110,
+  "13": 91,
+  "49": 85,
+  "51": 75,
+  "58": 65,
+  "29": 65,
+  "14": 62,
+  "46": 62,
+  "50": 62,
+  "(other)": 972
+ },
+ "search_instrument": {
+  "Q Exactive HF-X": 1018267,
+  "timsTOF Pro": 895501,
+  "Q Exactive HF": 428732,
+  "Q Exactive Plus": 81654
+ },
+ "search_detector": {
+  "Orbitrap": 1528653,
+  "TOF": 895501
+ },
+ "search_fragmentation": {
+  "HCD": 1528653,
+  "CID": 895501
+ },
+ "search_organism": {
+  "Anaerostipes caccae; Bacteroides thetaiotaomicron; Bifidobacterium longum; Blautia producta; Clostridium butyricum; Escherichia coli; Lactiplantibacillus plantarum; Thomasclavelia ramosa": 2424154
+ },
+ "search_enzyme": {
+  "trypsin": 2424154
+ },
+ "search_quant": {
+  "precursor": 2424154
+ },
+ "modification_tokens": {
+  "C[UNIMOD:4]": 166699,
+  "M[UNIMOD:35]": 100899,
+  "Q[UNIMOD:28]": 7354,
+  "E[UNIMOD:27]": 1259
+ },
+ "modified_fraction": 0.2804,
+ "peaks_per_spectrum": {
+  "p05": 19.0,
+  "median": 143.0,
+  "p95": 581.0,
+  "mean": 206.72
+ },
+ "precursor_mz": {
+  "p05": 423.882,
+  "median": 747.383,
+  "p95": 1338.737,
+  "mean": 797.843
+ },
+ "peptide_length": {
+  "p05": 9.0,
+  "median": 16.0,
+  "p95": 31.0,
+  "mean": 17.568
+ }
+}
