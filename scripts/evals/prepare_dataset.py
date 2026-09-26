@@ -23,7 +23,8 @@ writes under `<out>/<dataset>/`:
 
 Schema: the 30 columns of the corpus shards (read from `mcfm-test-00000-of-00014.parquet`, 2026-09-26), filled from
 the deposit where the value exists and null otherwise, plus our own columns (`run`, `species`, `category`,
-`passes_floor`, `explained`, `engine`, `engine_score`, `analyzer`, `identified`), which the loader ignores.
+`passes_floor`, `explained`, `engine`, `engine_score`, `analyzer`, `identified`), which the loader ignores; the two flags are
+0/1 integers because the trainer's streaming schema (`to_dataset(force_unified_schema=True)`) has no Boolean type.
 Sequences use the corpus's ProForma notation (`C[UNIMOD:4]`, `M[UNIMOD:35]`, `[UNIMOD:1]-` N-terminal acetyl,
 `Q[UNIMOD:28]`, `E[UNIMOD:27]`); a modification outside that table blanks the sequence and is counted.
 """
@@ -97,9 +98,9 @@ SCHEMA = pa.schema(
         ("nextscore", pa.float64()), ("probability", pa.float64()), ("auc_intensity", pa.float64()),
         ("protein", pa.string()), ("experiment_name", pa.string()), ("unmodified_peptide", pa.string()),
         ("sequence", pa.string()),
-        ("run", pa.string()), ("species", pa.string()), ("category", pa.string()), ("passes_floor", pa.bool_()),
-        ("explained", pa.float64()), ("engine", pa.string()), ("engine_score", pa.float64()),
-        ("analyzer", pa.string()), ("identified", pa.bool_()),
+        ("run", pa.string()), ("species", pa.string()), ("category", pa.string()), ("passes_floor", pa.int64()),  # 0/1: the
+        ("explained", pa.float64()), ("engine", pa.string()), ("engine_score", pa.float64()),  # trainer's streaming
+        ("analyzer", pa.string()), ("identified", pa.int64()),  # schema drops Boolean columns and then fails to cast the file
     ]
 )
 SEARCH_DATA_COLUMNS = ["project", "file path", "workflow", "acquisition", "detector", "fragmentation", "instrument",
@@ -334,12 +335,12 @@ def run_rows(*, manifest_row: pd.Series, labels: pd.DataFrame, fixed_carbamidome
                 "run": run,
                 "species": str(lab["label"]) if lab is not None and lab["label_kind"] == "species" else None,
                 "category": str(lab["category"]) if lab is not None else "unlabelled",
-                "passes_floor": bool(lab["passes_floor"]) if identified else False,
+                "passes_floor": int(bool(lab["passes_floor"])) if identified else 0,
                 "explained": float(lab["explained"]) if lab is not None and pd.notna(lab["explained"]) else np.nan,
                 "engine": engine,
                 "engine_score": float(lab["score"]) if identified and pd.notna(lab["score"]) else np.nan,
                 "analyzer": p.analyzer,
-                "identified": identified,
+                "identified": int(identified),
             }
         )
     counts["labelled_rows"] = len(labels)
@@ -420,7 +421,7 @@ def main() -> None:
         print(f"{m.run}: {counts['ms2']} MS2, {counts['identified']} identified, {counts.get('unsupported_modification', 0)} unsupported mods", flush=True)
         table = pa.Table.from_pylist(rows, schema=SCHEMA)
         del rows
-        identified = table.filter(pa.compute.equal(table["identified"], True))
+        identified = table.filter(pa.compute.equal(table["identified"], 1))
         all_w.append(table)
         ident_w.append(identified)
         keys.extend(peptide_key(s) for s in identified["sequence"].to_pylist())
