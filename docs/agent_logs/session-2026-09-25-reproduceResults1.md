@@ -53,6 +53,10 @@ Filled in as the session goes; every row names the artifact it produced.
   written under `$RESULTS`, outside the checkout, and only summaries are copied into `docs/references/rerun/`.
 - `.envrc` quoted `~`, which bash does not expand inside quotes; changed to `$HOME`.
 - SLURM copies the batch script at submission: a wrapper fix after `sbatch` needs a resubmission, a venv fix does not.
+- The shipped evaluation config sets `cosinehyperscorecorrelationtask.peptide_key: peptide`, a key the evaluator
+  never stores (sequences are under `peptides`; the task's own code default is `sequence`), so the task fails on
+  its defaults (jobs 22697191/2). Overridden in the `COSINE_HYPERSCORE` protocol (commit 5d204a5);
+  resubmitted as 22697455/6.
 - Job 22690634 (`result5_40M_mcfm_test`) failed 50 s into embedding generation with
   `rebuild_storage_fd: unable to mmap ... Cannot allocate memory (12)`: the evaluation DataLoader's eight
   workers (top-level `num_workers`) could not hand tensors to the main process through shared memory on
