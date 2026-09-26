@@ -65,7 +65,7 @@ def key(name: str, k: str, fmt: Callable[[Any], str] = f3) -> Getter:
     def get(folder: Path) -> str | None:
         d = load(folder, name)
         v = d.get(k) if isinstance(d, dict) and k in d else find_key(d, k)
-        return None if v is None or isinstance(v, (dict, list)) else fmt(v)
+        return None if v is None or isinstance(v, (dict, list)) or (isinstance(v, float) and v != v) else fmt(v)
 
     return get
 
@@ -239,7 +239,9 @@ def render(dataset: str, registry: Path | None, external: Path) -> str:
         note = {"probes": "Probe train / valid / test are this dataset's own peptide-disjoint files (package caps 100,000 / 10,000 / 10,000). A one-class target (one instrument, one fragmentation) cannot be probed and shows \"-\".",
                 "retrieval": "Every identified spectrum is in the pool and every duplicate group is queried; a positive is an identical peptide string (charge ignored).",
                 "peak_level": "Theoretical b/y ions from the sequence with the checkpoint's residue masses; the column header says how many spectra were used.",
-                "geometry": "Header says how many spectra were used (the paper's 20,000 above 100,000).",
+                "geometry": "Header says how many spectra were used (the paper's 20,000 above 100,000). EVoC purity is by fragmentation type and is 1 by construction when a dataset has one. "
+                            "The cosine-hyperscore correlation needs a hyperscore (X!Tandem or MSFragger); a dataset searched with another engine has none and shows \"-\". "
+                            "Glass Box attribution returned the same values for every checkpoint here and in the reproduction (released 40M against the one trained here); its output does not separate models.",
                 "unlabelled": "Identified and unidentified spectra together (`dataset.is_annotated=false`); no reference column because the corpus holds identified spectra only.",
                 "validation": "The trainer's validation loop on every identified spectrum (masking in the collate, seed fixed), the criterion the trainer selects checkpoints on."}[protocol]
         lines += ["", note, ""]
