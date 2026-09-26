@@ -37,16 +37,16 @@ held-out **LCFM** spectra (the same pool as the 89M model), not on MCFM.
 
 | No. | Metric | Result from our rerun | Source | Author-shared result | Source | Eval data used |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| 1 | Fragment type macro-F1 (4 classes) | | | 0.781 | Table S5 | LCFM test, probe protocol |
-| 2 | Instrument macro-F1 (13 classes) | | | 0.697 | Table S5 | LCFM test, probe protocol |
-| 3 | PTM presence balanced accuracy | | | 0.751 | Table S5 | LCFM test, probe protocol |
-| 4 | Hydrophobicity R² | | | 0.518 | Table S5 | LCFM test, probe protocol |
-| 5 | Precursor mass R² | | | 0.698 | Table S5 | LCFM test, probe protocol |
-| 6 | Precursor m/z R² | | | 0.896 | Table S5 | LCFM test, probe protocol |
-| 7 | Precursor charge macro-F1 (7 classes) | | | 0.602 | Table S5 | LCFM test, probe protocol |
-| 8 | Spectrum confidence R² | | | 0.978 | Table S5 | LCFM test, probe protocol |
-| 9 | Duplicate retrieval Recall@1 | | | 0.307 | Table S5 | LCFM test, 20,000 groups in a 200,000 pool |
-| 10 | Duplicate retrieval mAP@20 | | | 0.126 | Table S5 | LCFM test, same pool |
+| 1 | Fragment type macro-F1 (4 classes) | 0.733 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | 0.781 | Table S5 | LCFM test, probe protocol |
+| 2 | Instrument macro-F1 (13 classes) | 0.729 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | 0.697 | Table S5 | LCFM test, probe protocol |
+| 3 | PTM presence balanced accuracy | 0.756 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | 0.751 | Table S5 | LCFM test, probe protocol |
+| 4 | Hydrophobicity R² | 0.528 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | 0.518 | Table S5 | LCFM test, probe protocol |
+| 5 | Precursor mass R² | 0.702 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | 0.698 | Table S5 | LCFM test, probe protocol |
+| 6 | Precursor m/z R² | 0.897 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | 0.896 | Table S5 | LCFM test, probe protocol |
+| 7 | Precursor charge macro-F1 (7 classes) | 0.515 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | 0.602 | Table S5 | LCFM test, probe protocol |
+| 8 | Spectrum confidence R² | 0.978 | `rerun/result1_40M_probes_retrieval/linearprobetask.json` @ 90c274e | 0.978 | Table S5 | LCFM test, probe protocol |
+| 9 | Duplicate retrieval Recall@1 | 0.305 | `rerun/result1_40M_probes_retrieval/duplicateretrievaltask.json` @ 90c274e | 0.307 | Table S5 | LCFM test, 20,000 groups in a 200,000 pool |
+| 10 | Duplicate retrieval mAP@20 | 0.125 | `rerun/result1_40M_probes_retrieval/duplicateretrievaltask.json` @ 90c274e | 0.126 | Table S5 | LCFM test, same pool |
 
 No 40M number exists in the paper for reconstruction accuracy, peak-type classification, cross-spectrum ion
 identity, attention-head structure, IG attribution, UMAP quality or clustering; the rerun will produce those

@@ -1,0 +1,16 @@
+{
+  "task_name": "linearprobetask",
+  "timestamp": "2026-09-26T00:10:39.727761",
+  "execution_time": 2586.792191505432,
+  "success": true,
+  "precursor_charge/macro_f1": 0.5146765691662328,
+  "precursor_mz/r2": 0.8973726315339846,
+  "precursor_mass/r2": 0.7017602324485779,
+  "hydrophobicity/r2": 0.5278317928314209,
+  "ptm_present/balanced_accuracy": 0.7556511476755721,
+  "modification_class/macro_f1": 0.46635354965602366,
+  "search_instrument/macro_f1": 0.7287133420857329,
+  "frag_type/macro_f1": 0.7325241403936033,
+  "collision_energy/r2": -1.6784443855285645,
+  "spectrum_confidence/r2": 0.9783148169517517
+}
