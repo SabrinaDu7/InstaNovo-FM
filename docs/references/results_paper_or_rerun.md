@@ -88,18 +88,18 @@ protocol, one backend and one sampling seed. Filled by `scripts/reproduce/fill_r
 | 8 | Spectrum confidence R² | | | | | LCFM test, probe protocol |
 | 9 | Duplicate retrieval Recall@1 | | | | | LCFM test, 20,000 groups in a 200,000 pool |
 | 10 | Duplicate retrieval mAP@20 | | | | | LCFM test, same pool |
-| 11 | Masked-group bin accuracy, median ppm error | | | | | |
-| 12 | Peak-type 4-way accuracy and macro-F1 | | | | | |
-| 13 | Cross-spectrum same-ion AUROC | | | | | |
-| 14 | Per-spectrum confidence AUROC (annotated vs not) | | | | | |
-| 15 | Embedding statistics (anisotropy ratio, effective rank, top-component energy) | | | | | |
+| 11 | Masked-group bin accuracy, median ppm error | 49.2 % overall; y 50.9 % / b 44.6 %; 202.9 / 826.6 ppm | `rerun/result2_40Mours_peak_level/igattributiontask.results.json` @ 7adc03b | 55.0 % overall; y 56.9 % / b 50.0 %; 136.8 / 276.7 ppm | `rerun/result2_40M_peak_level/igattributiontask.results.json` @ ccf02d3 | |
+| 12 | Peak-type 4-way accuracy and macro-F1 | accuracy 72.6 %; macro-F1 0.510 | `rerun/result2_40Mours_peak_level/peaktypeclassificationtask.json` @ 7adc03b | accuracy 73.6 %; macro-F1 0.519 | `rerun/result2_40M_peak_level/peaktypeclassificationtask.json` @ ccf02d3 | |
+| 13 | Cross-spectrum same-ion AUROC | 0.869 | `rerun/result2_40Mours_peak_level/peaktypeclassificationtask.json` @ 7adc03b | 0.885 | `rerun/result2_40M_peak_level/peaktypeclassificationtask.json` @ ccf02d3 | |
+| 14 | Per-spectrum confidence AUROC (annotated vs not) | per-spectrum mean 0.726; pooled 0.716 | `rerun/result2_40Mours_peak_level/confidencesignalanalysistask.json` @ 7adc03b | per-spectrum mean 0.718; pooled 0.705 | `rerun/result2_40M_peak_level/confidencesignalanalysistask.json` @ ccf02d3 | |
+| 15 | Embedding statistics (anisotropy ratio, effective rank, top-component energy) | anisotropy ratio 24.9; effective rank 88.6; top-component energy 0.132; mean cosine 0.809 | `rerun/result3_40Mours_geometry/embeddingstatisticstask.json` @ 7adc03b | anisotropy ratio 25.0; effective rank 89.4; top-component energy 0.132; mean cosine 0.811 | `rerun/result3_40M_geometry/embeddingstatisticstask.json` @ a772f6d | |
 | 16 | MCFM test, probes: fragment type / instrument / PTM presence / hydrophobicity / mass / m/z / charge / confidence | | | | | MCFM test, probe protocol |
 | 17 | MCFM test, duplicate retrieval Recall@1 / mAP@20 | | | | | MCFM test, 20,000 groups in a 200,000 pool |
-| 18 | UMAP kNN preservation at k 15: all / HCD-Orbitrap / CID | | | | | LCFM test, 20,000 spectra |
-| 19 | EVoC clustering: clusters, noise fraction, silhouette, fragmentation-type purity | | | | | LCFM test, 20,000 spectra |
-| 20 | ESM2 cross-modal alignment: RSA rho (all pairs), CKA; shuffled / metadata RSA baselines | | | | | LCFM test, 20,000 spectra |
-| 21 | Glass Box attribution: features, reconstruction residual, top feature importance | | | | | LCFM test, 20,000 spectra |
-| 22 | Cosine vs hyperscore: Spearman / Pearson | | | | | LCFM test, 20,000 spectra |
+| 18 | UMAP kNN preservation at k 15: all / HCD-Orbitrap / CID | 0.086; HCD-Orbitrap 0.089; CID 0.243 | `rerun/result3_40Mours_geometry/umapvisualisationtask.json` @ 7adc03b | 0.098; HCD-Orbitrap 0.101; CID 0.264 | `rerun/result3_40M_geometry/umapvisualisationtask.json` @ a772f6d | LCFM test, 20,000 spectra |
+| 19 | EVoC clustering: clusters, noise fraction, silhouette, fragmentation-type purity | clusters 20; noise 0.557; silhouette 0.046; purity 0.721 | `rerun/result3_40Mours_geometry/evocclusteringtask.json` @ 7adc03b | clusters 17; noise 0.502; silhouette 0.006; purity 0.811 | `rerun/result3_40M_geometry/evocclusteringtask.json` @ a772f6d | LCFM test, 20,000 spectra |
+| 20 | ESM2 cross-modal alignment: RSA rho (all pairs), CKA; shuffled / metadata RSA baselines | RSA 0.047; CKA 0.058; shuffled RSA 0.004; metadata RSA 0.198 | `rerun/result3_40Mours_geometry/esm2crossmodalalignmenttask.json` @ 7adc03b | RSA 0.048; CKA 0.060; shuffled RSA 0.005; metadata RSA 0.198 | `rerun/result3_40M_geometry/esm2crossmodalalignmenttask.json` @ a772f6d | LCFM test, 20,000 spectra |
+| 21 | Glass Box attribution: features, reconstruction residual, top feature importance | features 14; residual 0.000; top importance 3.704 | `rerun/result3_40Mours_geometry/glassboxattributiontask.json` @ 7adc03b | features 14; residual 0.000; top importance 3.704 | `rerun/result3_40M_geometry/glassboxattributiontask.json` @ a772f6d | LCFM test, 20,000 spectra |
+| 22 | Cosine vs hyperscore: Spearman / Pearson | Spearman 0.071; Pearson 0.045; pairs 2359 | `rerun/result6_40Mours_cosine_hyperscore/cosinehyperscorecorrelationtask.results.json` @ 7adc03b | Spearman 0.148; Pearson 0.100; pairs 2252 | `rerun/result6_40M_cosine_hyperscore/cosinehyperscorecorrelationtask.results.json` @ c58e624 | LCFM test, 20,000 spectra |
 | 23 | Trainer validation metrics: median ppm error, MAE (Da), bin accuracy, within 20 ppm, intensity R² | median 3897 ppm; MAE 5.25 Da; bin accuracy 27.2 %; within 20 ppm 4.2 %; intensity R² 0.990 | `rerun/train_40M_mcfm_90k/metrics.json` | median 4493 ppm; MAE 5.99 Da; bin accuracy 27.4 %; within 20 ppm 4.1 %; intensity R² 0.980 | `rerun/validate_released_40M/metrics.json` | MCFM validation, 256,000 spectra, Thompson-span masking as in training |
 
 ## 89M Results
