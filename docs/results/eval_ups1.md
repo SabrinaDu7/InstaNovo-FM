@@ -63,7 +63,7 @@ From `docs/results/profiles/*.json` (`scripts/evals/corpus_profile.py`, metadata
 | Collision energy (R²) | - | - | - | -1.678 |
 | Spectrum confidence (R²) | 0.952 | 0.940 | 0.920 | 0.978 |
 
-Probe train / valid / test are this dataset's own peptide-disjoint files (package caps 100,000 / 10,000 / 10,000). A one-class target (one instrument, one fragmentation) cannot be probed and shows "-".
+Probe train / valid / test are this dataset's own peptide-disjoint files (package caps 100,000 / 10,000 / 10,000). A one-class target (one instrument, one fragmentation) cannot be probed and shows "-". A cell names its metric when the probe chose another than the row label's (balanced accuracy for a two-class target, macro-F1 for a collision energy with few settings); the probe scores only the classes present in its test split.
 
 ### Duplicate-spectrum retrieval
 

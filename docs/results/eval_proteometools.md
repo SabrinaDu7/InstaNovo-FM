@@ -60,18 +60,18 @@ From `docs/results/profiles/*.json` (`scripts/evals/corpus_profile.py`, metadata
 
 | metric | released 40M (all 44,873) | 40M trained here (all 44,873) | released 89M (all 44,873) | released 40M, LCFM test (reproduction) |
 |---|---|---|---|---|
-| Fragment type (macro-F1) | - | - | - | 0.733 |
+| Fragment type (macro-F1) | 0.998 (balanced accuracy) | 0.998 (balanced accuracy) | 0.998 (balanced accuracy) | 0.733 |
 | Instrument (macro-F1) | - | - | - | 0.729 |
 | PTM presence (balanced accuracy) | 0.853 | 0.839 | 0.897 | 0.756 |
 | Modification class (macro-F1) | 0.765 | 0.625 | 0.775 | 0.466 |
 | Hydrophobicity (R²) | 0.651 | 0.639 | 0.719 | 0.528 |
 | Precursor mass (R²) | 0.872 | 0.875 | 0.853 | 0.702 |
 | Precursor m/z (R²) | 0.889 | 0.890 | 0.891 | 0.897 |
-| Charge (macro-F1) | - | - | - | 0.515 |
-| Collision energy (R²) | - | - | - | -1.678 |
+| Charge (macro-F1) | 0.929 (balanced accuracy) | 0.975 (balanced accuracy) | 0.940 (balanced accuracy) | 0.515 |
+| Collision energy (R²) | 0.840 (macro-F1) | 0.840 (macro-F1) | 0.888 (macro-F1) | -1.678 |
 | Spectrum confidence (R²) | 0.955 | 0.951 | 0.938 | 0.978 |
 
-Probe train / valid / test are this dataset's own peptide-disjoint files (package caps 100,000 / 10,000 / 10,000). A one-class target (one instrument, one fragmentation) cannot be probed and shows "-".
+Probe train / valid / test are this dataset's own peptide-disjoint files (package caps 100,000 / 10,000 / 10,000). A one-class target (one instrument, one fragmentation) cannot be probed and shows "-". A cell names its metric when the probe chose another than the row label's (balanced accuracy for a two-class target, macro-F1 for a collision energy with few settings); the probe scores only the classes present in its test split.
 
 ### Duplicate-spectrum retrieval
 
