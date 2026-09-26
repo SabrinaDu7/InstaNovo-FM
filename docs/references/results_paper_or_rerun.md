@@ -65,7 +65,7 @@ for the first time and they go in the rows below as they arrive, with no author 
 | 19 | EVoC clustering: clusters, noise fraction, silhouette, fragmentation-type purity | clusters 17; noise 0.502; silhouette 0.006; purity 0.811 | `rerun/result3_40M_geometry/evocclusteringtask.json` @ a772f6d | none | | LCFM test, 20,000 spectra |
 | 20 | ESM2 cross-modal alignment: RSA rho (all pairs), CKA; shuffled / metadata RSA baselines | RSA 0.048; CKA 0.060; shuffled RSA 0.005; metadata RSA 0.198 | `rerun/result3_40M_geometry/esm2crossmodalalignmenttask.json` @ a772f6d | reported with shuffled and metadata baselines, values not given in the text | text, section "Cross-modal alignment" | LCFM test, 20,000 spectra |
 | 21 | Glass Box attribution: features, reconstruction residual, top feature importance | features 14; residual 0.000; top importance 3.704 | `rerun/result3_40M_geometry/glassboxattributiontask.json` @ a772f6d | none | | LCFM test, 20,000 spectra |
-| 22 | Cosine vs hyperscore: Spearman / Pearson | | | none | | LCFM test, 20,000 spectra |
+| 22 | Cosine vs hyperscore: Spearman / Pearson | Spearman 0.148; Pearson 0.100; pairs 2252 | `rerun/result6_40M_cosine_hyperscore/cosinehyperscorecorrelationtask.results.json` @ c58e624 | none | | LCFM test, 20,000 spectra |
 
 ## 89M Results
 
@@ -135,7 +135,7 @@ pass once the two main checkpoints match.
 | 43 | EVoC clustering: clusters, noise fraction, silhouette, fragmentation-type purity | clusters 15; noise 0.405; silhouette 0.060; purity 0.789 | `rerun/result3_89M_geometry/evocclusteringtask.json` @ a772f6d | none | | LCFM test, 20,000 spectra |
 | 44 | ESM2 cross-modal alignment: RSA rho (all pairs), CKA; shuffled / metadata RSA baselines | RSA 0.039; CKA 0.046; shuffled RSA 0.006; metadata RSA 0.198 | `rerun/result3_89M_geometry/esm2crossmodalalignmenttask.json` @ a772f6d | reported with shuffled and metadata baselines, values not given in the text | text, section "Cross-modal alignment" | LCFM test, 20,000 spectra |
 | 45 | Glass Box attribution: features, reconstruction residual, top feature importance | features 14; residual 0.000; top importance 3.704 | `rerun/result3_89M_geometry/glassboxattributiontask.json` @ a772f6d | none | | LCFM test, 20,000 spectra |
-| 46 | Cosine vs hyperscore: Spearman / Pearson | | | none | | LCFM test, 20,000 spectra |
+| 46 | Cosine vs hyperscore: Spearman / Pearson | Spearman 0.189; Pearson 0.168; pairs 2350 | `rerun/result6_89M_cosine_hyperscore/cosinehyperscorecorrelationtask.results.json` @ c58e624 | none | | LCFM test, 20,000 spectra |
 
 ### Results that need data we do not have
 

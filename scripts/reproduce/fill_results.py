@@ -134,6 +134,16 @@ def per_class(script: str, metric: str, class_name: str, fmt: Callable[[Any], st
     return get
 
 
+def keyed(script: str, name: str, key: str, fmt: Callable[[Any], str] = f3) -> Callable[[], str | None]:
+    """The first value stored under exactly `key`, at any depth of the file."""
+
+    def get() -> str | None:
+        v = find_key(load(script, name), key)
+        return None if v is None or isinstance(v, (dict, list)) else fmt(v)
+
+    return get
+
+
 def joined(*parts: tuple[str, Callable[[], str | None]]) -> Callable[[], str | None]:
     def get() -> str | None:
         got = [(label, p()) for label, p in parts]
@@ -171,13 +181,13 @@ ROWS: dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]] = {  # (s
     ("40M", 19): (R3_40, "evocclusteringtask.json", joined(("clusters", summary(R3_40, "evocclusteringtask", "n_clusters", lambda x: str(int(float(x))))), ("noise", summary(R3_40, "evocclusteringtask", "noise_fraction")), ("silhouette", summary(R3_40, "evocclusteringtask", "silhouette")), ("purity", summary(R3_40, "evocclusteringtask", "mean_purity_frag_type")))),
     ("40M", 20): (R3_40, "esm2crossmodalalignmenttask.json", joined(("RSA", summary(R3_40, "esm2crossmodalalignmenttask", "rsa_all_pairs_rho")), ("CKA", summary(R3_40, "esm2crossmodalalignmenttask", "cka_score")), ("shuffled RSA", summary(R3_40, "esm2crossmodalalignmenttask", "baseline_shuffled_rsa_diff")), ("metadata RSA", summary(R3_40, "esm2crossmodalalignmenttask", "baseline_metadata_rsa_diff")))),
     ("40M", 21): (R3_40, "glassboxattributiontask.json", joined(("features", summary(R3_40, "glassboxattributiontask", "n_features", lambda x: str(int(float(x))))), ("residual", summary(R3_40, "glassboxattributiontask", "reconstruction_residual")), ("top importance", summary(R3_40, "glassboxattributiontask", "top_feature_importance")))),
-    ("40M", 22): (R6_40, "cosinehyperscorecorrelationtask.results.json", joined(("Spearman", at(R6_40, "cosinehyperscorecorrelationtask.results.json", f3, "spearman_correlation")), ("Pearson", at(R6_40, "cosinehyperscorecorrelationtask.results.json", f3, "pearson_correlation")))),
+    ("40M", 22): (R6_40, "cosinehyperscorecorrelationtask.results.json", joined(("Spearman", keyed(R6_40, "cosinehyperscorecorrelationtask.results.json", "spearman_correlation")), ("Pearson", keyed(R6_40, "cosinehyperscorecorrelationtask.results.json", "pearson_correlation")), ("pairs", keyed(R6_40, "cosinehyperscorecorrelationtask.results.json", "num_correlation_pairs", lambda x: str(int(x)))))),
     ("89M", 41): (R3_89, "embeddingstatisticstask.json", joined(("anisotropy ratio", summary(R3_89, "embeddingstatisticstask", "anisotropy_ratio", lambda x: f"{float(x):.1f}")), ("effective rank", summary(R3_89, "embeddingstatisticstask", "effective_rank", lambda x: f"{float(x):.1f}")), ("top-component energy", summary(R3_89, "embeddingstatisticstask", "pca_energy_top1")), ("mean cosine", summary(R3_89, "embeddingstatisticstask", "mean_similarity")))),
     ("89M", 42): (R3_89, "umapvisualisationtask.json", joined(("", summary(R3_89, "umapvisualisationtask", "knn_preservation_k15")), ("HCD-Orbitrap", summary(R3_89, "umapvisualisationtask", "cond_hcd_orbitrap_knn_preservation_k15")), ("CID", summary(R3_89, "umapvisualisationtask", "cond_cid_knn_preservation_k15")))),
     ("89M", 43): (R3_89, "evocclusteringtask.json", joined(("clusters", summary(R3_89, "evocclusteringtask", "n_clusters", lambda x: str(int(float(x))))), ("noise", summary(R3_89, "evocclusteringtask", "noise_fraction")), ("silhouette", summary(R3_89, "evocclusteringtask", "silhouette")), ("purity", summary(R3_89, "evocclusteringtask", "mean_purity_frag_type")))),
     ("89M", 44): (R3_89, "esm2crossmodalalignmenttask.json", joined(("RSA", summary(R3_89, "esm2crossmodalalignmenttask", "rsa_all_pairs_rho")), ("CKA", summary(R3_89, "esm2crossmodalalignmenttask", "cka_score")), ("shuffled RSA", summary(R3_89, "esm2crossmodalalignmenttask", "baseline_shuffled_rsa_diff")), ("metadata RSA", summary(R3_89, "esm2crossmodalalignmenttask", "baseline_metadata_rsa_diff")))),
     ("89M", 45): (R3_89, "glassboxattributiontask.json", joined(("features", summary(R3_89, "glassboxattributiontask", "n_features", lambda x: str(int(float(x))))), ("residual", summary(R3_89, "glassboxattributiontask", "reconstruction_residual")), ("top importance", summary(R3_89, "glassboxattributiontask", "top_feature_importance")))),
-    ("89M", 46): (R6_89, "cosinehyperscorecorrelationtask.results.json", joined(("Spearman", at(R6_89, "cosinehyperscorecorrelationtask.results.json", f3, "spearman_correlation")), ("Pearson", at(R6_89, "cosinehyperscorecorrelationtask.results.json", f3, "pearson_correlation")))),
+    ("89M", 46): (R6_89, "cosinehyperscorecorrelationtask.results.json", joined(("Spearman", keyed(R6_89, "cosinehyperscorecorrelationtask.results.json", "spearman_correlation")), ("Pearson", keyed(R6_89, "cosinehyperscorecorrelationtask.results.json", "pearson_correlation")), ("pairs", keyed(R6_89, "cosinehyperscorecorrelationtask.results.json", "num_correlation_pairs", lambda x: str(int(x)))))),
     ("89M", 1): (R1_89, "linearprobetask.json", probe(R1_89, "frag_type/macro_f1")),
     ("89M", 2): (R1_89, "linearprobetask.json", probe(R1_89, "search_instrument/macro_f1")),
     ("89M", 3): (R1_89, "linearprobetask.json", probe(R1_89, "ptm_present/balanced_accuracy")),
