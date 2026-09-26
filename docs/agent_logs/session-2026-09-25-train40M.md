@@ -56,6 +56,52 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
 - The masking function's own defaults (`masking.py:464-486`: spans 4-7, kappa 4, gamma 0.7, cap 0.40) are not the
   config's (spans 3-4, kappa 8, gamma 1.2, cap 1.0); the config wins, but a reader of the function is misled.
 
+- Data integrity: the trainer validates nothing about the shards beyond the unified-schema cast (`to_dataset(
+  force_unified_schema=True)`); `perform_data_checks` (off, above) is the only content check and it is row-wise
+  Python. The sha256 check of every shard against the Hugging Face manifest is ours (`scripts/reproduce/verify_data.py`),
+  run once after the download, and the shard shuffle is `shuffle=True` with no seed tied to the run
+  (`common/trainer.py:615-625`), so the sample order of a run is not reconstructible from its config.
+
+**Architecture**
+
+- Peak token: `MultiScalePeakEmbedding` (`model/embeddings.py:15-54`). The m/z, normalised by `max_mz` 2,500 to
+  [0, 1], meets 384 sinusoid frequencies (sin and cos, 768 values), then a two-layer MLP; the intensity is
+  concatenated as one scalar and a second two-layer MLP makes the 768-d token. The frequencies are an
+  `nn.Parameter` with initial periods of 2.5 to 25 Da (`logspace(-3, -2)` in normalised units). Confirmed on both
+  checkpoints: after 90,000 steps they sit at most 0.01 % from their initialisation (largest absolute move 0.10 on
+  values of 628 to 6,283), so the "learnable" frequency bank is the initialisation; Adam moves a parameter by about
+  the learning rate per step whatever its scale, and 90,000 × 1e-4 is 9 against magnitudes of hundreds (inferred;
+  a per-parameter-group learning rate would test it). The finest period, 2.5 Da, is above the isotope spacing and
+  twelve times the 0.2 Da bin, so sub-Dalton resolution is the MLP's to build from phase; the `fourier` alternative
+  has the same floor (`x_min: 0.001`). Improvable: frequencies below 1 Da in the bank, or their own learning rate.
+- No positional encoding and no relative bias (`foundation_base.yaml`, `architecture.positional_encoding.type:
+  none`, `relative_bias.type: none`): the encoder is a set transformer over peak tokens; m/z order and Δm/z
+  between peaks reach attention only through the token values. The pairwise-attention bias (`pa`, Fourier features
+  of Δm/z projected to per-head biases, `model/pairwise_bias.py`) is the ablation the `*-pa` LCFM checkpoints
+  carry; the released 40M and 89M models do without it.
+- Layers: `UnifiedEncoderLayer` subclasses `nn.TransformerEncoderLayer` with its defaults
+  (`encoder_layers/unified_encoder.py:41-43`): post-norm, ReLU, dropout 0.1, plus one final LayerNorm copied from
+  `norm1` (`unified_encoder.py:305`). Nine layers, 12 heads, d 768 and a feed-forward width of 1,024, one third
+  over d rather than the customary four times (the 89M model's is 3,072). Attention is `FlashMHA` over PyTorch
+  SDPA (`encoder_layers/factories.py:120-122`); the layer builds it as `custom_attention` and then assigns it to
+  `self_attn` after the parent has already registered its own `nn.MultiheadAttention`
+  (`unified_encoder.py:72-80`), which is where the two copies of every attention weight in the state dict come
+  from (below).
+- Latent token (`model/encoder.py:196`, prepended at `encoder.py:622-623`, read back at `encoder.py:910-911`): its
+  output feeds only the charge and retention-time auxiliary heads (`model/heads.py:535-548`), both at weight 0.0
+  in the paper config, so no loss trains it as a summary vector; the embedding evaluations mean-pool the peak
+  tokens instead (`evaluation.embedding_pooling=[mean_pool]` in every reproduction protocol). A CLS token that
+  nothing reads: ad hoc.
+- No precursor information: `meta_token.enabled: False` in `foundation_base.yaml` (the code's default is True,
+  `encoder.py:1429`), so precursor m/z, charge, instrument and collision energy never enter the encoder, and the
+  `precursors` argument of `forward` is marked deprecated. Every probe result (charge, instrument, mass) therefore
+  measures what the peaks alone carry, which is the interesting reading of those rows; the configuration that
+  would add the metadata tokens exists and is untested in the paper.
+- Options carried in the config and off in every released model: ion-ladder encoder, noise injection, RBF,
+  Fourier and linear peak encoders, regression m/z head with heteroscedastic sigma, sinusoidal and rotary
+  positional encodings, ALiBi and RPE biases, meta token, `signal_aware_fragment` masking. The model config
+  is a research surface with one point used; reading it does not tell a newcomer which paths are live.
+
 **Objective**
 
 - Thompson-span masking with isotope co-masking (`masking.py:464`): anchors sampled by a Beta(0.5, 0.5) prior
@@ -88,8 +134,16 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
   `encoder_layers/unified_encoder.py:227` with `use_reentrant=False`). Justified at 1,024 spectra × 200 peaks
   per GPU; at 256 per GPU on four H100s it costs about 30 % compute for memory that is not needed. It is a
   fixed setting, not a function of the per-device batch.
-- Mixed precision is hard-coded to fp16 when CUDA is present (`common/trainer.py:315`); the `fp16: True` key
-  in the config is decorative and bf16, the natural choice on H100, is not selectable.
+- Mixed precision is hard-coded to fp16 when CUDA is present (`common/trainer.py:319`); the `fp16: True` key
+  in the config is decorative and bf16, the natural choice on H100, is not selectable. Loss scaling is
+  Accelerate's dynamic `GradScaler` (its state is `scaler.pt` in the accelerator state): at the end of our run
+  the scale was 2,097,152 (2^21) with growth interval 2,000 and growth tracker 813, so the last overflow, which
+  halves the scale and skips the optimizer step, happened about 10,800 steps before the end (inferred from the
+  scaler arithmetic; init 65,536 would have reached 2^61 without overflows). Overflow-skipped steps are logged
+  nowhere; `train.log` has no NaN or inf line. Logging `scaler.get_scale()` with the metrics would make the
+  overflow history visible. The Fourier peak encoder forces fp32 for its sinusoids "to prevent fp16 NaN"
+  (`model/embeddings.py:95-100`) while the multiscale encoder's equivalent guard is commented out
+  (`embeddings.py:44`).
 - `torch.compile` is applied only on a single GPU without the pairwise bias (`train.py:236-257`); the code
   documents why (backward partitioner crashes with checkpointing, NCCL hangs without). A multi-GPU run gives
   up the compile speed-up.
@@ -113,14 +167,59 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
   peaks (the validation processor can carry sequences) would select on the quantity the downstream
   evaluations reward.
 - Every checkpoint carries two copies of each layer's attention weights, `self_attn.*` and `custom_attention.*`
-  (158 tensors, 61.1 M values for a 39.9 M-parameter model): the unified encoder registers both attention
-  backends and saves both. Half the file, and a source of confusion when counting parameters from a state dict.
+  (158 tensors, 61.1 M values for a 39.9 M-parameter model): both names point at the same `FlashMHA` module
+  (`unified_encoder.py:72-80`), so `state_dict()` writes its tensors twice. Half the file, and a source of
+  confusion when counting parameters from a state dict.
 - Evidence for the checkpoint-criterion point above, from this run: our model beats the released one on the
   trainer's median ppm over all masked peaks (3,897 vs 4,493) and loses to it on the IG task's fragment-group
   bin accuracy (49.2 % vs 55.0 %) and median errors. The criterion the trainer optimises for checkpoint choice
   and the reconstruction the paper reports move in opposite directions between these two models.
 - `main()` reads `model_save_folder_path` from the model config (`train.py:1697`) where it does not live, so
   `mlflow_run_id.txt` always lands in `./checkpoints` relative to the working directory.
+
+**Checkpoints, resume and tracking**
+
+- A `.ckpt` is `state_dict`, the model config as a plain dict, the residue masses, epoch and step
+  (`trainer/train.py:469-478`): self-describing, loadable without the Hydra tree. Good. With
+  `keep_model_every_interval` the file is named `step_{global_step + 1}` (`train.py:459`), so the files read
+  `step_10001` … `step_90001` and the in-loop evaluation directories and MLflow eval points carry the same +1
+  while the training metrics are logged at the round step.
+- The accelerator state (`common/trainer.py:796-845`) is `model.safetensors`, `optimizer.bin`, `scheduler.bin`,
+  `scaler.pt`, the RNG states and a `TrainingState` of epoch and step (`common/utils.py:14`), 457 MB, written to
+  `accelerator_state/latest` at every checkpoint interval by `rmtree` then `save_state` (`trainer.py:808-814`):
+  not atomic, a crash inside the save leaves no resumable state. `resume_accelerator_state` restores all of it
+  (`trainer.py:186-188, 909`), but nothing restores the data position: no `skip_first_batches` anywhere in the
+  trainer and no run-dependent shuffle seed, so a resumed run starts the stream over from the first shard while
+  the step counter continues (inferred from the absence; the grep is the evidence). For a 90,000-step run over
+  11.7 M spectra that is 7.9 epochs, so a resume repeats data rather than losing it.
+- Tracking: MLflow to a SQLite file (`mlflow_tracking_uri=sqlite:///…/mlflow.db`, 54 metric keys, 12,470 rows
+  for this run) plus TensorBoard (`tb_summarywriter`), and Hydra's own `outputs/<date>/<time>/.hydra/
+  {config,overrides}.yaml` with the resolved config. Good: the run is reconstructible from its directory. Less
+  good: `mlflow_log_checkpoints` defaults to True and `_log_checkpoint_artifact` (`trainer.py:790-794`, called
+  at 825 and 845) copies every accelerator state into `mlruns/…/artifacts/checkpoints`, 913 MB of duplicates next
+  to `checkpoints/`; and the SQLite backend exhausted its connection pool once during the run (`train.log`
+  lines 1187-1188, "QueuePool limit of size 5 overflow 10 reached", the async logger reporting one failed
+  batch of run data at 06:44). Checked: the 1,000-step training series and the nine validation points have no
+  gap, so what was lost, if anything, was a system-metrics sample.
+
+**Hyperparameters and sweeps**
+
+- Every optimisation hyperparameter sits in `foundational.yaml:19-31`: seed 101, learning rate 1e-4, weight decay
+  0, batch 1,024, gradient accumulation 1, clip 1.0, cosine schedule with 5 % warm-up, 30 % hold and a 0.1 floor.
+  The global batch of 1,024 is the paper's on four GPUs (256 per device); one GPU here holds all 1,024, so the
+  optimisation is identical and only the gradient-checkpointing trade-off differs (above). `training_steps:
+  30_000` is the shipped default, which is neither released model's (90,000 and 230,000): a run that omits the
+  override reproduces nothing.
+- Data-derived constants are justified in comments, `intensity_head.max_intensity: 0.7` from an observed
+  maximum of 0.603 and p99 of 0.197, `huber_delta: 0.05` from a standard deviation of 0.034 and kurtosis of 11.3
+  (`foundation_base.yaml`). Good that the numbers are there; ad hoc that they live only in comments, with no
+  script in the repository that recomputes them from the shards.
+- There is no sweep infrastructure: no Hydra sweeper, Optuna or Weights & Biases configuration anywhere under
+  `configs/` or in `pyproject.toml`, and one seed. The paper's ablations (Tables S3 and S4) survive as the three
+  released LCFM checkpoints (`*-ts-pa`, `*-sa-nopa`, `*-sa-pa`, all in `$CHECKPOINTS`) and as "ablation optimum"
+  comments on four masking keys in `foundation_base.yaml` (spans 3-4, isotopes on, no hard cap, intensity visible).
+  Nothing in the repository re-runs the sweep or states its seeds and budgets; the provenance of the chosen
+  hyperparameters is a comment.
 
 **Evaluation during training**
 
@@ -130,6 +229,31 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
   and retrieval trajectory over training comes free.
 - Validation reseeds the RNGs to a fixed `validation_seed` and restores them afterwards
   (`train.py:836-845, 1050-1054`), so the masked positions are the same at every validation. Good.
+
+**Evaluation harness**
+
+- The harness is the package's own (`eval/embed_eval_tasks/`); the paper's
+  protocols are pinned in `scripts/reproduce/_common.py` and its bugs fixed here are listed in
+  `session-2026-09-25-reproduceResults1.md`. Component-level observations:
+- Duplicate retrieval's positive is an identical peptide string after `str().strip()`
+  (`duplicate_retrieval.py:199-208`): charge is ignored, so the same peptide at 2+ and 3+ is a duplicate pair, and
+  nothing normalises modification notation or I/L. The definition has to travel with every recall number.
+- The linear probe uses cuML when it imports and scikit-learn otherwise, silently (`linear_probe.py:30-39`); the
+  backend moves the macro-F1 rows by up to 5 points on the same embeddings (released 40M fragment type 0.733
+  here against 0.781 in the paper), so a probe number without its backend is not comparable.
+- In-loop and post-training evaluation share one code path with the standalone one but not one data path: the
+  training validation batches carry no peptide strings (retrieval cannot run in the loop, Problems below) and the
+  post-training battery runs every task in one process while the peak-type and IG tasks keep per-peak embeddings
+  for every sample (OOM at 128 GB). The standalone result scripts, one task family per job, are the working
+  configuration.
+- The checkpoint criterion and the harness disagree about what "better" means (median ppm over all masked peaks
+  against fragment-group accuracy over annotated peaks, above); the harness is the one the paper reports, so the
+  trainer selects on a quantity nobody publishes.
+- `faiss-cpu` loads without AVX2 on nibi, so the 200,000-spectrum retrieval pools take 36 to 47 min; a wheel built
+  for the node or the GPU index would make retrieval the cheapest task rather than the longest.
+- The methodological review of the tasks themselves (population choice, the m/z-distance confound in retrieval,
+  anisotropy) is the workstation's `instanovo-fm-evals` repository, `docs/claude_logs/review-2026-09-25.md`, not
+  this fork.
 
 ## Problems encountered
 
@@ -153,6 +277,11 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
 - Those 14 minutes were the validation split loading into RAM (`to_dataset(in_memory=True)`): a fixed
   per-job cost before the first step, larger than the paper's whole validation pass (250 batches).
 
+- MLflow's SQLite backend hit its connection-pool limit once (06:44, `train.log` lines 1187-1188): a warning from
+  the system-metrics monitor and one failed asynchronous log batch. No metric series shows a gap at 1,000-step
+  resolution, so the loss was a system-metrics sample; a run that logs more often than every 1,000 steps into
+  SQLite would hit it harder, and the fix is a file-based `mlruns` store or a larger pool.
+
 ## Methodology, timings and cost
 
 - One H100 (nibi `gpubase_bygpu_b3`, account rrg-hsn), 12 CPUs, 128 GB RAM, MCFM shards staged to node-local
@@ -171,7 +300,9 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
 ## Where things are
 
 - Run directory `$RUNS/train-40M-mcfm-90k`: `train.log`, `gpu.log`, `checkpoints/` (nine `model_epoch_*_step_*.ckpt`,
-  `model_best.ckpt`, `accelerator_state/latest`), `evaluation/step_*/` (in-loop statistics), `mlflow.db`.
+  `model_best.ckpt`, `accelerator_state/latest`), `evaluation/step_*/` (in-loop statistics), `mlflow.db`,
+  `mlruns/` (913 MB of checkpoint copies logged as MLflow artifacts) and `outputs/2026-09-26/01-13-54/.hydra/`
+  (the resolved config and the overrides).
 - The checkpoint as a release-style file: `$CHECKPOINTS/instanovo-fm-mcfm-90k-ours-2026-09-26.ckpt`, model tag
   `40M-ours` in `scripts/reproduce/_common.py`.
 - MLflow: `mlflow ui --backend-store-uri sqlite:///$RUNS/train-40M-mcfm-90k/mlflow.db --port 5000` on the nibi login
