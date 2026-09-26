@@ -1686,6 +1686,12 @@ def main(config: DictConfig) -> None:
     """
     logger.info("Initializing InstaNovo Foundation Model training")
     logger.info("Self-supervised learning via masked m/z reconstruction")
+    if strategy := config.get("mp_sharing_strategy", None):
+        # How DataLoader workers hand tensors to the main process. The torch default (file_descriptor)
+        # failed on nibi compute nodes with "unable to mmap ... Cannot allocate memory"; file_system
+        # names shared-memory files instead of passing descriptors.
+        torch.multiprocessing.set_sharing_strategy(str(strategy))
+        logger.info(f"torch.multiprocessing sharing strategy: {strategy}")
 
     try:
         trainer = FoundationalTrainer(config)

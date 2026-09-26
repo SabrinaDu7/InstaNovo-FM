@@ -2,3 +2,5 @@
 export DATA="path/to/proteometoolsI"
 export CHECKPOINTS="path/to/checkpoints/instanovofm"
 export RESULTS="path/to/results/instanovofm"
+export COMET_API="path/to/comet_api_key.txt"
+export RUNS="path/to/runs/instanovofm"
