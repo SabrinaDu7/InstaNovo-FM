@@ -66,7 +66,7 @@ for the first time and they go in the rows below as they arrive, with no author 
 | 20 | ESM2 cross-modal alignment: RSA rho (all pairs), CKA; shuffled / metadata RSA baselines | RSA 0.048; CKA 0.060; shuffled RSA 0.005; metadata RSA 0.198 | `rerun/result3_40M_geometry/esm2crossmodalalignmenttask.json` @ a772f6d | reported with shuffled and metadata baselines, values not given in the text | text, section "Cross-modal alignment" | LCFM test, 20,000 spectra |
 | 21 | Glass Box attribution: features, reconstruction residual, top feature importance | features 14; residual 0.000; top importance 3.704 | `rerun/result3_40M_geometry/glassboxattributiontask.json` @ a772f6d | none | | LCFM test, 20,000 spectra |
 | 22 | Cosine vs hyperscore: Spearman / Pearson | Spearman 0.148; Pearson 0.100; pairs 2252 | `rerun/result6_40M_cosine_hyperscore/cosinehyperscorecorrelationtask.results.json` @ c58e624 | none | | LCFM test, 20,000 spectra |
-| 23 | Trainer validation metrics: median ppm error, MAE (Da), bin accuracy, within 20 ppm, intensity R² | | | none (the training run's target, in the trainer's units) | | MCFM validation, 256,000 spectra, Thompson-span masking as in training |
+| 23 | Trainer validation metrics: median ppm error, MAE (Da), bin accuracy, within 20 ppm, intensity R² | median 4493 ppm; MAE 5.99 Da; bin accuracy 27.4 %; within 20 ppm 4.1 %; intensity R² 0.980 | `rerun/validate_released_40M/metrics.json` | none (the training run's target, in the trainer's units) | | MCFM validation, 256,000 spectra, Thompson-span masking as in training |
 
 ## 89M Results
 
