@@ -20,6 +20,7 @@ loading, throughput, memory, checkpointing, in-loop evaluation and local MLflow;
 | :---- | :---- |
 | Step 1: the training path read end to end (`trainer/train.py`, `common/trainer.py`, `data/data.py`, `data/masking.py`, `model/encoder.py`, `model/heads.py`, `trainer/losses.py`, `trainer/metrics.py`, `configs/foundational.yaml`, `configs/model/foundation_base.yaml`, Table S8) | The entries under "Training choices" below. The run itself is one command: `instanovo-fm train dataset=mcfm training_steps=90000` plus the three split paths, because `foundation_base.yaml` already is the 40M architecture and `foundational.yaml` already carries Table S8's schedule (LR 1e-4, 5 % warmup, 30 % hold, cosine to 0.1×, batch 1,024, clip 1.0, fp16, checkpoints every 10,000 steps on median ppm error, top 3). The paper never states the MCFM run's batch size or GPU count; "differs only in depth, parameter count, training budget and corpus" is the whole specification. |
 | Step 2 launched: `scripts/train/submit.sh` (run directory under `$RUNS`, local MLflow in `sqlite:///<run>/mlflow.db`, optional staging to node disk, a GPU sampler) and `scripts/train/status.py` (SLURM state, log, MLflow metrics from the SQLite store, checkpoints in one screen); jobs 22699796 (failed) and 22700328 | The trainer already has a validation-only path: `resume_checkpoint_path` loads weights (`common/trainer.py:912`), `validate_before_training=True` validates before any step, and `training_steps=1` ends the run after one step, so no code was added for Step 2. A config-driven `mp_sharing_strategy` hook was added to `trainer/train.py::main` (commit f93cece) for the loader-worker test. |
+| Step 2 done: job 22700328, 16 min; the released 40M checkpoint through the trainer's validation loop on 256,000 MCFM validation spectra (9.7 M masked peaks); metrics in `docs/references/rerun/validate_released_40M/metrics.json` and row 23 of the 40M table | The targets in the trainer's own units: `eval/median_ae_ppm` 4,493 ppm (the checkpoint criterion), `eval/mae_daltons` 5.99, bin accuracy 27.4 % (±1 bin 31.5 %; group 62.4 %, top-5 99.5 %; offset 37.5 %, top-5 70.4 %), within 0.1 Da 27.4 %, within 1 Da 39.8 %, within 20 ppm 4.1 %, intensity R² 0.980, loss 1.517. Eight loader workers with the `file_system` sharing strategy ran the 250 validation batches in 2 min (the single-process evaluation jobs took 30 min for 200,000 spectra); the in-memory validation load took 12 min before the first batch. |
 
 ## Training choices
 
@@ -99,6 +100,12 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
 - The checkpoint criterion is the median absolute ppm error over masked peaks of 250 validation batches
   (`metrics.py:641`, `foundational.yaml`), with `<=` so a tie moves the best checkpoint forward; the median
   is taken over an accumulator that keeps every per-peak error in memory.
+- That criterion is measured over every masked peak, and about two thirds of the peaks in an HCD spectrum are
+  unannotated (the paper's own figure). For the released 40M model it is 4,493 ppm, about 3 Da at m/z 700,
+  against a 0.2 Da bin: the median sits in the unpredictable-peak regime, so the checkpoint choice is
+  barely sensitive to how well the fragment ions are reconstructed. A criterion restricted to annotated
+  peaks (the validation processor can carry sequences) would select on the quantity the downstream
+  evaluations reward.
 - `main()` reads `model_save_folder_path` from the model config (`train.py:1697`) where it does not live, so
   `mlflow_run_id.txt` always lands in `./checkpoints` relative to the working directory.
 
