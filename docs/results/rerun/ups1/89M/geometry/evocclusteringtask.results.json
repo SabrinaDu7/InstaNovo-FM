@@ -1,0 +1,926 @@
+{
+  "task_name": "EVoC Clustering",
+  "skipped": false,
+  "num_embeddings": 27023,
+  "num_sampled": 20000,
+  "n_clusters": 7,
+  "noise_fraction": 0.5177,
+  "n_layers": 6,
+  "n_duplicates": 0,
+  "cluster_sizes": {
+    "0": 854,
+    "1": 543,
+    "2": 2902,
+    "3": 1242,
+    "4": 1221,
+    "5": 1480,
+    "6": 1404
+  },
+  "quality_metrics": {
+    "silhouette": 0.10687485337257385
+  },
+  "enrichment": {
+    "categorical": {
+      "frag_type": {
+        "global_rate": {
+          "CID": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "CID",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "CID",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "CID",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "CID",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "4": {
+            "dominant": "CID",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "5": {
+            "dominant": "CID",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "6": {
+            "dominant": "CID",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "search_detector": {
+        "global_rate": {
+          "IonTrap": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "IonTrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "IonTrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "IonTrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "IonTrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "4": {
+            "dominant": "IonTrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "5": {
+            "dominant": "IonTrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "6": {
+            "dominant": "IonTrap",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "search_instrument": {
+        "global_rate": {
+          "LTQ Orbitrap Velos": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "LTQ Orbitrap Velos",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "LTQ Orbitrap Velos",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "LTQ Orbitrap Velos",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "LTQ Orbitrap Velos",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "4": {
+            "dominant": "LTQ Orbitrap Velos",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "5": {
+            "dominant": "LTQ Orbitrap Velos",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "6": {
+            "dominant": "LTQ Orbitrap Velos",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "search_organism": {
+        "global_rate": {
+          "Saccharomyces cerevisiae; Homo sapiens": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "Saccharomyces cerevisiae; Homo sapiens",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "Saccharomyces cerevisiae; Homo sapiens",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "Saccharomyces cerevisiae; Homo sapiens",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "Saccharomyces cerevisiae; Homo sapiens",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "4": {
+            "dominant": "Saccharomyces cerevisiae; Homo sapiens",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "5": {
+            "dominant": "Saccharomyces cerevisiae; Homo sapiens",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "6": {
+            "dominant": "Saccharomyces cerevisiae; Homo sapiens",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "search_enzyme": {
+        "global_rate": {
+          "trypsin": 1.0
+        },
+        "clusters": {
+          "0": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "1": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "2": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "3": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "4": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "5": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          },
+          "6": {
+            "dominant": "trypsin",
+            "purity": 1.0,
+            "log2_enrichment": 0.0
+          }
+        }
+      },
+      "modification_types": {
+        "global_rate": {
+          "Acetyl": 0.0101,
+          "Acetyl + Carbamidomethyl": 0.0004,
+          "Acetyl + Oxidation": 0.00015,
+          "Carbamidomethyl": 0.08955,
+          "Carbamidomethyl + Oxidation": 0.00195,
+          "Oxidation": 0.0118,
+          "Unmodified": 0.88605
+        },
+        "clusters": {
+          "0": {
+            "dominant": "Unmodified",
+            "purity": 0.8185011709601874,
+            "log2_enrichment": -0.11440363203947063
+          },
+          "1": {
+            "dominant": "Unmodified",
+            "purity": 0.9355432780847146,
+            "log2_enrichment": 0.07841628117338785
+          },
+          "2": {
+            "dominant": "Unmodified",
+            "purity": 0.9541695382494831,
+            "log2_enrichment": 0.10685751650576923
+          },
+          "3": {
+            "dominant": "Unmodified",
+            "purity": 0.7697262479871175,
+            "log2_enrichment": -0.2030426680341496
+          },
+          "4": {
+            "dominant": "Unmodified",
+            "purity": 0.9533169533169533,
+            "log2_enrichment": 0.1055678401264639
+          },
+          "5": {
+            "dominant": "Unmodified",
+            "purity": 0.8547297297297297,
+            "log2_enrichment": -0.05191980872905633
+          },
+          "6": {
+            "dominant": "Unmodified",
+            "purity": 0.8005698005698005,
+            "log2_enrichment": -0.14636091787805133
+          }
+        }
+      }
+    },
+    "numeric": {
+      "precursor_charge": {
+        "global_mean": 2.34215,
+        "global_std": 0.5195992470163906,
+        "clusters": {
+          "0": {
+            "mean": 3.03864168618267,
+            "effect_size": 1.3404401376291817
+          },
+          "1": {
+            "mean": 2.14548802946593,
+            "effect_size": -0.378487789702025
+          },
+          "2": {
+            "mean": 2.236733287388008,
+            "effect_size": -0.20288080326772817
+          },
+          "3": {
+            "mean": 3.111111111111111,
+            "effect_size": 1.4799119042735147
+          },
+          "4": {
+            "mean": 2.7952497952497954,
+            "effect_size": 0.8720178057446307
+          },
+          "5": {
+            "mean": 2.0067567567567566,
+            "effect_size": -0.6454844674412389
+          },
+          "6": {
+            "mean": 2.0,
+            "effect_size": -0.6584882521764069
+          }
+        }
+      },
+      "precursor_mz": {
+        "global_mean": 715.3004600204467,
+        "global_std": 221.15325399030704,
+        "clusters": {
+          "0": {
+            "mean": 1075.4241452362276,
+            "effect_size": 1.628389719427618
+          },
+          "1": {
+            "mean": 635.736385001223,
+            "effect_size": -0.3597689547118804
+          },
+          "2": {
+            "mean": 500.8176236721173,
+            "effect_size": -0.9698380307699658
+          },
+          "3": {
+            "mean": 785.5058721029432,
+            "effect_size": 0.31745140899248747
+          },
+          "4": {
+            "mean": 591.9325020904915,
+            "effect_size": -0.557839216489043
+          },
+          "5": {
+            "mean": 772.2230010573928,
+            "effect_size": 0.257389570399181
+          },
+          "6": {
+            "mean": 1000.4524047503784,
+            "effect_size": 1.2893861590769522
+          }
+        }
+      },
+      "collision_energy": {
+        "global_mean": 30.0,
+        "global_std": 1.0,
+        "clusters": {
+          "0": {
+            "mean": 30.0,
+            "effect_size": 0.0
+          },
+          "1": {
+            "mean": 30.0,
+            "effect_size": 0.0
+          },
+          "2": {
+            "mean": 30.0,
+            "effect_size": 0.0
+          },
+          "3": {
+            "mean": 30.0,
+            "effect_size": 0.0
+          },
+          "4": {
+            "mean": 30.0,
+            "effect_size": 0.0
+          },
+          "5": {
+            "mean": 30.0,
+            "effect_size": 0.0
+          },
+          "6": {
+            "mean": 30.0,
+            "effect_size": 0.0
+          }
+        }
+      },
+      "sequence_length": {
+        "global_mean": 15.12735,
+        "global_std": 6.138895012744557,
+        "clusters": {
+          "0": {
+            "mean": 30.43559718969555,
+            "effect_size": 2.493648638381191
+          },
+          "1": {
+            "mean": 12.154696132596685,
+            "effect_size": -0.4842327261228581
+          },
+          "2": {
+            "mean": 9.782563749138525,
+            "effect_size": -0.870643045656509
+          },
+          "3": {
+            "mean": 22.438003220611915,
+            "effect_size": 1.1908744497885608
+          },
+          "4": {
+            "mean": 15.082719082719082,
+            "effect_size": -0.007270187417810908
+          },
+          "5": {
+            "mean": 13.925675675675675,
+            "effect_size": -0.1957476584677873
+          },
+          "6": {
+            "mean": 18.37962962962963,
+            "effect_size": 0.5297825786037692
+          }
+        }
+      },
+      "hydrophobicity": {
+        "global_mean": -0.11968746469179169,
+        "global_std": 0.7597400943934647,
+        "clusters": {
+          "0": {
+            "mean": -0.0379839235490332,
+            "effect_size": 0.10754143653295825
+          },
+          "1": {
+            "mean": 0.08082613284471504,
+            "effect_size": 0.26392393795747465
+          },
+          "2": {
+            "mean": 0.000758232059102277,
+            "effect_size": 0.1585353960383666
+          },
+          "3": {
+            "mean": 0.14265878010322242,
+            "effect_size": 0.3453105170189249
+          },
+          "4": {
+            "mean": 0.10697660199805094,
+            "effect_size": 0.29834422108628994
+          },
+          "5": {
+            "mean": -0.527619239146431,
+            "effect_size": -0.5369359567370339
+          },
+          "6": {
+            "mean": -0.018534789471475785,
+            "effect_size": 0.13314115704406876
+          }
+        }
+      },
+      "retention_time": {
+        "global_mean": 3974.7034203842163,
+        "global_std": 1896.8111442711104,
+        "clusters": {
+          "0": {
+            "mean": 6131.822152131056,
+            "effect_size": 1.1372343199595436
+          },
+          "1": {
+            "mean": 4272.257810195726,
+            "effect_size": 0.1568708570224324
+          },
+          "2": {
+            "mean": 2689.713062751712,
+            "effect_size": -0.6774477055944801
+          },
+          "3": {
+            "mean": 5871.61968647685,
+            "effect_size": 1.0000554202888572
+          },
+          "4": {
+            "mean": 4942.196390262888,
+            "effect_size": 0.5100628878108215
+          },
+          "5": {
+            "mean": 3099.121921312487,
+            "effect_size": -0.461607103962999
+          },
+          "6": {
+            "mean": 5272.059116048351,
+            "effect_size": 0.6839667193977136
+          }
+        }
+      },
+      "n_peaks": {
+        "global_mean": 167.7585,
+        "global_std": 52.1189723397344,
+        "clusters": {
+          "0": {
+            "mean": 197.52576112412177,
+            "effect_size": 0.5711405998200745
+          },
+          "1": {
+            "mean": 197.7661141804788,
+            "effect_size": 0.5757522229117638
+          },
+          "2": {
+            "mean": 89.60027567195039,
+            "effect_size": -1.4996117693683582
+          },
+          "3": {
+            "mean": 197.53220611916265,
+            "effect_size": 0.5712642591086512
+          },
+          "4": {
+            "mean": 195.79443079443078,
+            "effect_size": 0.5379217880905296
+          },
+          "5": {
+            "mean": 196.0689189189189,
+            "effect_size": 0.5431883563317239
+          },
+          "6": {
+            "mean": 191.0242165242165,
+            "effect_size": 0.44639630214809944
+          }
+        }
+      },
+      "peak_center_of_mass": {
+        "global_mean": 749.8560047653199,
+        "global_std": 221.5506849673689,
+        "clusters": {
+          "0": {
+            "mean": 1143.7004739730085,
+            "effect_size": 1.7776720900939482
+          },
+          "1": {
+            "mean": 679.6375833585117,
+            "effect_size": -0.31694066491895645
+          },
+          "2": {
+            "mean": 526.1660276343295,
+            "effect_size": -1.009655994356039
+          },
+          "3": {
+            "mean": 844.9863246850153,
+            "effect_size": 0.4293840027337615
+          },
+          "4": {
+            "mean": 636.963016044498,
+            "effect_size": -0.5095582924397157
+          },
+          "5": {
+            "mean": 790.6951119912637,
+            "effect_size": 0.1843330217280025
+          },
+          "6": {
+            "mean": 1038.6040793307486,
+            "effect_size": 1.3033048153651927
+          }
+        }
+      },
+      "peak_spread": {
+        "global_mean": 220.35945929980278,
+        "global_std": 68.31255920917945,
+        "clusters": {
+          "0": {
+            "mean": 296.0821454229065,
+            "effect_size": 1.1084738589756788
+          },
+          "1": {
+            "mean": 186.79632880279374,
+            "effect_size": -0.49131712946422623
+          },
+          "2": {
+            "mean": 163.25917362000186,
+            "effect_size": -0.8358680503383645
+          },
+          "3": {
+            "mean": 205.966901610247,
+            "effect_size": -0.21068684669658513
+          },
+          "4": {
+            "mean": 169.71985425644482,
+            "effect_size": -0.7412927524541241
+          },
+          "5": {
+            "mean": 255.23841760996226,
+            "effect_size": 0.5105790020742282
+          },
+          "6": {
+            "mean": 316.7103229750935,
+            "effect_size": 1.4104414296682306
+          }
+        }
+      },
+      "annotation_ratio": {
+        "global_mean": 0.3388205150820129,
+        "global_std": 0.10165333146974302,
+        "clusters": {
+          "0": {
+            "mean": 0.2741296103014774,
+            "effect_size": -0.6363874537627979
+          },
+          "1": {
+            "mean": 0.2778453310166055,
+            "effect_size": -0.5998345866663164
+          },
+          "2": {
+            "mean": 0.3867561068496466,
+            "effect_size": 0.47155947645357493
+          },
+          "3": {
+            "mean": 0.29516223479728193,
+            "effect_size": -0.42948204110482874
+          },
+          "4": {
+            "mean": 0.2826869442729458,
+            "effect_size": -0.5522059139377561
+          },
+          "5": {
+            "mean": 0.36381435158750597,
+            "effect_size": 0.24587326498918008
+          },
+          "6": {
+            "mean": 0.4046272750694485,
+            "effect_size": 0.6473645185649712
+          }
+        }
+      },
+      "backbone_coverage": {
+        "global_mean": 0.8083340429721737,
+        "global_std": 0.17206579624457852,
+        "clusters": {
+          "0": {
+            "mean": 0.5720377391164978,
+            "effect_size": -1.3732903866599877
+          },
+          "1": {
+            "mean": 0.898376342231617,
+            "effect_size": 0.523301558035712
+          },
+          "2": {
+            "mean": 0.8172033151685009,
+            "effect_size": 0.05154581787841298
+          },
+          "3": {
+            "mean": 0.6978563253382362,
+            "effect_size": -0.6420666980025584
+          },
+          "4": {
+            "mean": 0.8211943110806545,
+            "effect_size": 0.07474040971048625
+          },
+          "5": {
+            "mean": 0.8811431896721793,
+            "effect_size": 0.42314712330458115
+          },
+          "6": {
+            "mean": 0.7934168211139335,
+            "effect_size": -0.08669487012419644
+          }
+        }
+      },
+      "signal_intensity_ratio": {
+        "global_mean": 0.4014948334336539,
+        "global_std": 0.12142066575807349,
+        "clusters": {
+          "0": {
+            "mean": 0.30758309491476005,
+            "effect_size": -0.7734411430918173
+          },
+          "1": {
+            "mean": 0.34141433789200987,
+            "effect_size": -0.49481276656275586
+          },
+          "2": {
+            "mean": 0.4476695831933249,
+            "effect_size": 0.3802874038894879
+          },
+          "3": {
+            "mean": 0.331303531864895,
+            "effect_size": -0.5780836493567962
+          },
+          "4": {
+            "mean": 0.33138482534859776,
+            "effect_size": -0.5774141300192499
+          },
+          "5": {
+            "mean": 0.4363646139315254,
+            "effect_size": 0.28718159532536564
+          },
+          "6": {
+            "mean": 0.4932507221849683,
+            "effect_size": 0.7556859302199419
+          }
+        }
+      },
+      "median_ppm_error": {
+        "global_mean": 111.92091777752644,
+        "global_std": 48.18439815596473,
+        "clusters": {
+          "0": {
+            "mean": 77.60986531367067,
+            "effect_size": -0.7120780538297212
+          },
+          "1": {
+            "mean": 114.57758445809998,
+            "effect_size": 0.05513541275278269
+          },
+          "2": {
+            "mean": 144.4035544810661,
+            "effect_size": 0.6741318340928295
+          },
+          "3": {
+            "mean": 112.33199309074169,
+            "effect_size": 0.008531294961590441
+          },
+          "4": {
+            "mean": 148.56828368715728,
+            "effect_size": 0.7605649818642441
+          },
+          "5": {
+            "mean": 84.27619719634185,
+            "effect_size": -0.5737276305019586
+          },
+          "6": {
+            "mean": 61.9488791169604,
+            "effect_size": -1.0370999861576569
+          }
+        }
+      }
+    },
+    "cluster_sizes": {
+      "0": 854,
+      "1": 543,
+      "2": 2902,
+      "3": 1242,
+      "4": 1221,
+      "5": 1480,
+      "6": 1404
+    }
+  },
+  "zoom_story": [
+    {
+      "level": 0,
+      "node": [
+        6,
+        0
+      ],
+      "n_members": 20000,
+      "selected_field": "precursor_charge",
+      "nmi": 0.19327461757788492,
+      "per_child_dominant": {
+        "-1": "2",
+        "0": "2",
+        "1": "2",
+        "2": "3",
+        "3": "3",
+        "4": "2",
+        "5": "3",
+        "6": "2",
+        "7": "3",
+        "8": "3",
+        "9": "2",
+        "10": "2",
+        "11": "3",
+        "12": "3",
+        "13": "3",
+        "14": "3",
+        "15": "4",
+        "16": "3",
+        "17": "2",
+        "18": "3",
+        "19": "2",
+        "20": "3",
+        "21": "3",
+        "22": "2",
+        "23": "3",
+        "24": "3",
+        "25": "2",
+        "26": "3",
+        "27": "2",
+        "28": "2",
+        "29": "3",
+        "30": "2",
+        "31": "3",
+        "32": "2",
+        "33": "2",
+        "34": "2",
+        "35": "2",
+        "36": "2",
+        "37": "2",
+        "38": "2",
+        "39": "2",
+        "40": "2",
+        "41": "2",
+        "42": "2",
+        "43": "2",
+        "44": "3",
+        "45": "3",
+        "46": "2",
+        "47": "3",
+        "48": "3",
+        "49": "3",
+        "50": "3",
+        "51": "2",
+        "52": "3",
+        "53": "2",
+        "54": "3",
+        "55": "2",
+        "56": "3",
+        "57": "2",
+        "58": "3",
+        "59": "2",
+        "60": "2",
+        "61": "3",
+        "62": "2",
+        "63": "4",
+        "64": "2",
+        "65": "2",
+        "66": "3",
+        "67": "2",
+        "68": "2",
+        "69": "3",
+        "70": "3",
+        "71": "2",
+        "72": "2",
+        "73": "2",
+        "74": "3",
+        "75": "3",
+        "76": "2",
+        "77": "3",
+        "78": "2",
+        "79": "2",
+        "80": "3",
+        "81": "2",
+        "82": "2",
+        "83": "2",
+        "84": "3",
+        "85": "2",
+        "86": "3",
+        "87": "3",
+        "88": "5",
+        "89": "2",
+        "90": "2",
+        "91": "2",
+        "92": "2",
+        "93": "2",
+        "94": "3",
+        "95": "3",
+        "96": "2",
+        "97": "2",
+        "98": "2",
+        "99": "2",
+        "100": "2",
+        "101": "2",
+        "102": "2",
+        "103": "2",
+        "104": "2",
+        "105": "2",
+        "106": "2",
+        "107": "2",
+        "108": "3",
+        "109": "2",
+        "110": "2",
+        "111": "2",
+        "112": "2",
+        "113": "3",
+        "114": "2",
+        "115": "2",
+        "116": "3",
+        "117": "2",
+        "118": "2",
+        "119": "2",
+        "120": "2",
+        "121": "3",
+        "122": "2",
+        "123": "2",
+        "124": "2",
+        "125": "2",
+        "126": "2",
+        "127": "2",
+        "128": "2",
+        "129": "2",
+        "130": "2",
+        "131": "2",
+        "132": "3"
+      }
+    },
+    {
+      "level": 1,
+      "node": [
+        5,
+        0
+      ],
+      "n_members": 4991,
+      "selected_field": "modification_types",
+      "nmi": 0.01735032002407267,
+      "per_child_dominant": {
+        "-1": "Unmodified",
+        "0": "Unmodified",
+        "1": "Unmodified",
+        "2": "Unmodified",
+        "3": "Unmodified",
+        "4": "Unmodified",
+        "5": "Unmodified",
+        "6": "Unmodified",
+        "7": "Unmodified",
+        "8": "Unmodified",
+        "9": "Unmodified",
+        "10": "Unmodified",
+        "11": "Unmodified",
+        "12": "Unmodified",
+        "13": "Unmodified",
+        "14": "Unmodified",
+        "15": "Unmodified"
+      }
+    }
+  ],
+  "mean_purity_frag_type": 1.0,
+  "save_paths": [
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ups1/89M/geometry/eval_20260926_165328/evocclusteringtask/evoc_figs/evoc_enrichment_heatmap.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ups1/89M/geometry/eval_20260926_165328/evocclusteringtask/evoc_figs/evoc_clusters_umap.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ups1/89M/geometry/eval_20260926_165328/evocclusteringtask/evoc_figs/evoc_layer_panel.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ups1/89M/geometry/eval_20260926_165328/evocclusteringtask/evoc_figs/evoc_zoom_cascade.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ups1/89M/geometry/eval_20260926_165328/evocclusteringtask/evoc_figs/evoc_cluster_zoom_recolor.png"
+  ],
+  "save_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ups1/89M/geometry/eval_20260926_165328/evocclusteringtask/evoc_figs",
+  "execution_time": 23.124439239501953,
+  "evoc_params": {},
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ups1/89M/geometry/eval_20260926_165328/evocclusteringtask"
+}

@@ -1,0 +1,8 @@
+{
+  "task_name": "umapvisualisationtask",
+  "timestamp": "2026-09-26T17:03:01.105954",
+  "execution_time": 186.75399565696716,
+  "success": true,
+  "knn_preservation_k15": 0.16117000000000004,
+  "cond_cid_knn_preservation_k15": 0.16117000000000004
+}

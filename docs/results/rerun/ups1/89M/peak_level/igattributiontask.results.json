@@ -1,0 +1,216 @@
+{
+  "task_name": "ig_attribution",
+  "success": true,
+  "prediction_attribution": {
+    "success": true,
+    "prediction_quality": {
+      "bin_accuracy": 0.46938775510204084,
+      "group_bin_accuracy": 0.3496857790735342,
+      "median_error_da": 0.11054748296737671,
+      "median_error_ppm": 171.21522929790194,
+      "n_predictions": 1470,
+      "by_ion_type": {
+        "b": {
+          "bin_accuracy": 0.4161849710982659,
+          "group_bin_accuracy": 0.3140758326451968,
+          "median_error_da": 0.15788209438323975,
+          "median_error_ppm": 258.66271261797647,
+          "n_predictions": 692
+        },
+        "y": {
+          "bin_accuracy": 0.5167095115681234,
+          "group_bin_accuracy": 0.38135940751621983,
+          "median_error_da": 0.09468984603881836,
+          "median_error_ppm": 130.3603420918911,
+          "n_predictions": 778
+        }
+      }
+    },
+    "topk_analysis": {
+      "top1_distribution": {
+        "ladder_neighbor": 0.21020408163265306,
+        "near_ladder": 0.04897959183673469,
+        "distant_same_series": 0.04149659863945578,
+        "complementary_pair": 0.018367346938775512,
+        "opposite_series": 0.2272108843537415,
+        "precursor": 0.0013605442176870747,
+        "other_annotated": 0.04081632653061224,
+        "charge_variant_leakage": 0.03605442176870748,
+        "internal_fragment": 0.021768707482993196,
+        "d_ion": 0.004081632653061225,
+        "w_ion": 0.004761904761904762,
+        "side_chain_loss": 0.013605442176870748,
+        "immonium_related": 0.0,
+        "precursor_combined_loss": 0.017687074829931974,
+        "unannotated": 0.31360544217687075
+      },
+      "topk_fractions": {
+        "1": {
+          "ladder_neighbor": 0.21020408163265306,
+          "near_ladder": 0.04897959183673469,
+          "distant_same_series": 0.04149659863945578,
+          "complementary_pair": 0.018367346938775512,
+          "opposite_series": 0.2272108843537415,
+          "precursor": 0.0013605442176870747,
+          "other_annotated": 0.04081632653061224,
+          "charge_variant_leakage": 0.03605442176870748,
+          "internal_fragment": 0.021768707482993196,
+          "d_ion": 0.004081632653061225,
+          "w_ion": 0.004761904761904762,
+          "side_chain_loss": 0.013605442176870748,
+          "immonium_related": 0.0,
+          "precursor_combined_loss": 0.017687074829931974,
+          "unannotated": 0.31360544217687075
+        },
+        "3": {
+          "ladder_neighbor": 0.1784580498866213,
+          "near_ladder": 0.06598639455782312,
+          "distant_same_series": 0.037188208616780044,
+          "complementary_pair": 0.013151927437641726,
+          "opposite_series": 0.21768707482993194,
+          "precursor": 0.0018140589569161,
+          "other_annotated": 0.037641723356009064,
+          "charge_variant_leakage": 0.027891156462585033,
+          "internal_fragment": 0.026984126984126982,
+          "d_ion": 0.0038548752834467116,
+          "w_ion": 0.005895691609977324,
+          "side_chain_loss": 0.01904761904761905,
+          "immonium_related": 0.0004535147392290249,
+          "precursor_combined_loss": 0.01927437641723356,
+          "unannotated": 0.3446712018140589
+        },
+        "5": {
+          "ladder_neighbor": 0.15401360544217688,
+          "near_ladder": 0.06965986394557823,
+          "distant_same_series": 0.04353741496598639,
+          "complementary_pair": 0.01020408163265306,
+          "opposite_series": 0.22000000000000003,
+          "precursor": 0.0016326530612244896,
+          "other_annotated": 0.03537414965986395,
+          "charge_variant_leakage": 0.023537414965986395,
+          "internal_fragment": 0.029115646258503405,
+          "d_ion": 0.0036734693877551023,
+          "w_ion": 0.005034013605442177,
+          "side_chain_loss": 0.01795918367346939,
+          "immonium_related": 0.00027210884353741496,
+          "precursor_combined_loss": 0.021768707482993196,
+          "unannotated": 0.36421768707483
+        },
+        "10": {
+          "ladder_neighbor": 0.11895691609977324,
+          "near_ladder": 0.06892668178382465,
+          "distant_same_series": 0.051103552532123966,
+          "complementary_pair": 0.00653061224489796,
+          "opposite_series": 0.2214512471655329,
+          "precursor": 0.00163265306122449,
+          "other_annotated": 0.03464096749811035,
+          "charge_variant_leakage": 0.018571428571428576,
+          "internal_fragment": 0.03164021164021164,
+          "d_ion": 0.005442176870748299,
+          "w_ion": 0.0055782312925170075,
+          "side_chain_loss": 0.020680272108843538,
+          "immonium_related": 0.00013605442176870748,
+          "precursor_combined_loss": 0.024021164021164026,
+          "unannotated": 0.3906878306878307
+        }
+      },
+      "ladder_neighbor": {
+        "mean_present": 0.27346938775510204,
+        "mean_in_top5": 0.14421768707482993,
+        "top5_hit_rate": 0.11632653061224489,
+        "median_best_rank": 6.0,
+        "fraction_present": 0.24761904761904763,
+        "fraction_top1_ladder_or_near": 0.25918367346938775
+      },
+      "concentration": {
+        "mean_top5": 0.2376161672732457,
+        "mean_top10": 0.35430840982669065,
+        "mean_gini": 0.5802650396949923
+      },
+      "n": 1470
+    },
+    "convergence": {
+      "mean_delta": 0.8531662324760236,
+      "max_delta": 8.540641784667969
+    },
+    "novel_chemistry": {
+      "n_unannotated_peaks": 56050,
+      "n_unannotated_peaks_deleakage": 55578,
+      "n_charge_variant_peaks": 472,
+      "n_matched": 9751,
+      "overall_hit_rate": 0.17396966993755575,
+      "overall_hit_rate_deleakage": 0.17544711936377702,
+      "hit_rates": {
+        "d_ion": 0.014112399643175736,
+        "w_ion": 0.01584299732381802,
+        "internal_fragment": 0.06442462087421945,
+        "side_chain_loss": 0.04751115075825156,
+        "immonium_related": 0.00016057091882247992,
+        "precursor_combined_loss": 0.04768956289027654
+      },
+      "null_models": {
+        "shift": {
+          "hit_rate": 0.13924472197442758,
+          "enrichment": 1.2493807123942942,
+          "shifts_da": [
+            3.7,
+            7.3,
+            11.1
+          ]
+        },
+        "scramble": {
+          "hit_rate": 0.16407136485281,
+          "enrichment": 1.0603292664361366,
+          "n_trials": 5
+        },
+        "immonium_composition": {
+          "true_rate": 0.00016057091882247992,
+          "null_rate": 0.00048171275646743977,
+          "enrichment": 0.3333333333333333
+        }
+      },
+      "n_leu_ile_discriminators": 708,
+      "by_fragmentation_type": {
+        "CID": {
+          "internal_fragment": 3611,
+          "side_chain_loss": 2663,
+          "d_ion": 791,
+          "precursor_combined_loss": 2673,
+          "w_ion": 888,
+          "immonium_related": 9
+        }
+      },
+      "confidence_profile": {
+        "mean_conf_matched": 0.06368582020077947,
+        "mean_conf_unmatched": 0.058651970968990864,
+        "median_conf_matched": 0.03832588344812393,
+        "median_conf_unmatched": 0.03504865989089012,
+        "n_matched": 9751,
+        "n_unmatched": 46299,
+        "auroc": 0.5272264249906253
+      },
+      "attribution_profile": {
+        "mean_attr_matched": 0.10196272278348399,
+        "mean_attr_unmatched": 0.0983874640604867,
+        "median_attr_matched": 0.06272675096988678,
+        "median_attr_unmatched": 0.05852677300572395,
+        "n_matched": 9751,
+        "n_unmatched": 46299,
+        "auroc": 0.5203734493455168
+      },
+      "has_confidence_data": true,
+      "config": {
+        "max_internal_length": 6,
+        "ppm_tol": 10.0,
+        "da_tol": 0.5
+      }
+    },
+    "n_spectra": 490,
+    "n_masked_groups": 1470,
+    "n_hero_plots": 20,
+    "n_ig_failures": 0
+  },
+  "execution_time_s": 417.51761054992676,
+  "execution_time": 417.5426924228668,
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ups1/89M/peak_level/eval_20260926_162142/igattributiontask"
+}

@@ -1,0 +1,13 @@
+{
+  "task_name": "linearprobetask",
+  "timestamp": "2026-09-26T17:00:08.679226",
+  "execution_time": 43.830394983291626,
+  "success": true,
+  "precursor_charge/macro_f1": 0.9122149890810958,
+  "precursor_mz/r2": 0.9815634496494221,
+  "precursor_mass/r2": 0.9364883899688721,
+  "hydrophobicity/r2": 0.5651190280914307,
+  "ptm_present/balanced_accuracy": 0.7059575034569237,
+  "modification_class/macro_f1": 0.4558716340658885,
+  "spectrum_confidence/r2": 0.9197927713394165
+}

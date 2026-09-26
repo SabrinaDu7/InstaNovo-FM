@@ -1,0 +1,41 @@
+{
+ "script": "ups1/89M/geometry",
+ "model": "instanovo-fm-v0.1.0",
+ "checkpoint": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-v0.1.0.ckpt",
+ "tier": "mcfm",
+ "split": "test",
+ "overrides": [
+  "evaluation.enabled=True",
+  "evaluation.checkpoint_path=/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-v0.1.0.ckpt",
+  "evaluation.split=test",
+  "evaluation.output_dir=/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/evals/ups1/89M/geometry",
+  "dataset=mcfm",
+  "dataset.train_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/ups1/ups1-probe-train.parquet",
+  "dataset.valid_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/ups1/ups1-probe-valid.parquet",
+  "dataset.test_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/ups1/ups1-identified.parquet",
+  "dataset.search_data_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/search_data.xlsx",
+  "num_workers=0",
+  "evaluation.max_samples=null",
+  "evaluation.batch_size=256",
+  "evaluation.random_state=42",
+  "evaluation.embedding_pooling=[mean_pool]",
+  "evaluation.tasks_to_run=[embeddingstatisticstask,umapvisualisationtask,evocclusteringtask,esm2crossmodalalignmenttask,glassboxattributiontask,cosinehyperscorecorrelationtask]",
+  "evaluation.task_configs.cosinehyperscorecorrelationtask.peptide_key=peptides"
+ ],
+ "tasks_written": [
+  "cosinehyperscorecorrelationtask",
+  "embeddingstatisticstask",
+  "esm2crossmodalalignmenttask",
+  "evocclusteringtask",
+  "glassboxattributiontask",
+  "umapvisualisationtask"
+ ],
+ "seconds": 1692,
+ "commit": "1cd9c25",
+ "host": "g16.nibi.sharcnet",
+ "dataset": "ups1",
+ "protocol": "geometry",
+ "evaluated_file": "identified",
+ "rows_in_file": 27023,
+ "max_samples": null
+}
