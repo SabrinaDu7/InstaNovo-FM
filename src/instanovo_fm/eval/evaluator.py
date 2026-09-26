@@ -251,7 +251,7 @@ class EmbeddingEvaluator:
             normalize_mz=self.model_config.get("normalize_mz", True),
             peak_ordering=masking_cfg.get("ordering_strategy", self.model_config.get("peak_ordering", "sorted")),
             residue_set=residue_set,
-            annotated=True,  # Include sequences for evaluation
+            annotated=self.config.dataset.get("is_annotated", True),  # False: label-free tasks on spectra without sequences
             return_str=True,  # Keep sequences as strings
             metadata_columns=metadata_columns,  # Use metadata columns from config
             # Masking configuration (same as trainer)
@@ -303,7 +303,7 @@ class EmbeddingEvaluator:
             source=dataset_path,
             source_type=dataset_config.get("source_type", "default"),
             lazy=dataset_config.get("lazy_loading", True),
-            is_annotated=True,  # Include sequences for evaluation
+            is_annotated=dataset_config.get("is_annotated", True),  # False: label-free tasks on spectra without sequences
             shuffle=False,  # No shuffling for evaluation
             partition=None,
             column_mapping=dataset_config.get("column_remapping", None),

@@ -51,28 +51,43 @@ def dataset_overrides(tier: str) -> list[str]:
     ]
 
 
-def run(*, script: str, model: str, tier: str, split: str, overrides: list[str], num_workers: int = 0) -> Path:
+def run(
+    *,
+    script: str,
+    model: str,
+    tier: str,
+    split: str,
+    overrides: list[str],
+    num_workers: int = 0,
+    dataset_paths: list[str] | None = None,
+    output_dir: Path | None = None,
+    dest: Path | None = None,
+) -> Path:
     """Evaluate `model` on `split` of `tier` with `overrides`; returns the directory the summaries were copied to.
+
+    `dataset_paths` replaces the tier's split globs under `$DATA/splits/<tier>` (an external dataset written in the
+    corpus schema, `scripts/evals/`), `output_dir` the run directory under `$RESULTS`, and `dest` the folder the
+    summaries are copied into (`docs/references/rerun/<script>` by default).
 
     `num_workers` is the evaluation DataLoader's worker count (top-level `num_workers` of the config, 8 by default).
     It is 0 here because on nibi's compute nodes the worker-to-main shared-memory handoff failed 50 s into
     embedding generation (`rebuild_storage_fd: unable to mmap ... Cannot allocate memory`, job 22690634,
     2026-09-25); single-process loading changes throughput, not numbers."""
     checkpoint = env_path("CHECKPOINTS") / f"{MODELS[model]}.ckpt"
-    out = env_path("RESULTS") / script
+    out = output_dir or env_path("RESULTS") / script
     os.environ.setdefault("INSTANOVO_FM_DATA_DIR", str(REPO / "data"))
     all_overrides = [
         "evaluation.enabled=True",
         f"evaluation.checkpoint_path={checkpoint}",
         f"evaluation.split={split}",
         f"evaluation.output_dir={out}",
-        *dataset_overrides(tier),
+        *(dataset_paths if dataset_paths is not None else dataset_overrides(tier)),
         f"num_workers={num_workers}",
         *overrides,
     ]
     t0 = time.time()
     run_evaluation(compose_fm_config("foundational", all_overrides))
-    dest = REPO / "docs" / "references" / "rerun" / script
+    dest = dest or REPO / "docs" / "references" / "rerun" / script
     dest.mkdir(parents=True, exist_ok=True)
     summaries = sorted(p for p in out.rglob("task_summary.json") if p.stat().st_mtime >= t0)
     for path in summaries:
