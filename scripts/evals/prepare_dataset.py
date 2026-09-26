@@ -25,6 +25,9 @@ Schema: the 30 columns of the corpus shards (read from `mcfm-test-00000-of-00014
 the deposit where the value exists and null otherwise, plus our own columns (`run`, `species`, `category`,
 `passes_floor`, `explained`, `engine`, `engine_score`, `analyzer`, `identified`), which the loader ignores; the two flags are
 0/1 integers because the trainer's streaming schema (`to_dataset(force_unified_schema=True)`) has no Boolean type.
+Intensities are divided by the spectrum's base peak, as in the corpus (every corpus spectrum has a maximum of 1 and
+`scale_factor` holds the raw magnitude): the processor drops peaks below `min_intensity` 0.01 on that scale before keeping
+the 200 most intense (`data/data.py`), so raw intensities would keep peaks the corpus preprocessing removes.
 Sequences use the corpus's ProForma notation (`C[UNIMOD:4]`, `M[UNIMOD:35]`, `[UNIMOD:1]-` N-terminal acetyl,
 `Q[UNIMOD:28]`, `E[UNIMOD:27]`); a modification outside that table blanks the sequence and is counted.
 """
@@ -299,6 +302,7 @@ def run_rows(*, manifest_row: pd.Series, labels: pd.DataFrame, fixed_carbamidome
         if identified:
             counts["passes_floor"] += bool(lab["passes_floor"])
         scores = engine_scores(engine, lab) if identified else {"hyperscore": np.nan, "expectation": np.nan, "probability": np.nan}
+        scale = float(p.intensity.max()) if p.intensity.size else 0.0
         calc = calc_mz(seq, charge) if identified else np.nan
         rows.append(
             {
@@ -317,8 +321,8 @@ def run_rows(*, manifest_row: pd.Series, labels: pd.DataFrame, fixed_carbamidome
                 "lower_offset": p.lower_offset,
                 "upper_offset": p.upper_offset,
                 "mz_array": p.mz,
-                "intensity_array": p.intensity,
-                "scale_factor": np.nan,  # the corpus's meaning is not documented in the package; left empty
+                "intensity_array": p.intensity / scale if scale > 0 else p.intensity,  # base peak = 1, as the corpus stores them
+                "scale_factor": scale,  # the raw base-peak intensity (the corpus column: every corpus spectrum has max 1 and a scale_factor of raw magnitude)
                 "peptide_observed_mz": p.precursor_mz if identified else np.nan,
                 "peptide_calc_mz": calc,
                 "delta_mass": (p.precursor_mz - calc) * charge if identified else np.nan,

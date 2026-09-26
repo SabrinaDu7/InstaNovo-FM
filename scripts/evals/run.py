@@ -190,6 +190,7 @@ def validate(*, dataset: str, model: str) -> Path:
         "num_workers=8",
         "+mp_sharing_strategy=file_system",  # the loader setting the 90k training run used on nibi
         "post_training_evaluation.enabled=false",
+        "compile_model=False",  # a compiled model prefixes its keys with _orig_mod.; load_model_state then matches nothing and only warns
         "embedding_evaluation.tasks_to_run=[embeddingstatisticstask]",
         f"model_save_folder_path={out / 'checkpoints'}",
         f"tb_summarywriter={out / 'logs'}",
