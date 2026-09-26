@@ -19,6 +19,7 @@ loading, throughput, memory, checkpointing, in-loop evaluation and local MLflow;
 | Task | What we learned |
 | :---- | :---- |
 | Step 1: the training path read end to end (`trainer/train.py`, `common/trainer.py`, `data/data.py`, `data/masking.py`, `model/encoder.py`, `model/heads.py`, `trainer/losses.py`, `trainer/metrics.py`, `configs/foundational.yaml`, `configs/model/foundation_base.yaml`, Table S8) | The entries under "Training choices" below. The run itself is one command: `instanovo-fm train dataset=mcfm training_steps=90000` plus the three split paths, because `foundation_base.yaml` already is the 40M architecture and `foundational.yaml` already carries Table S8's schedule (LR 1e-4, 5 % warmup, 30 % hold, cosine to 0.1×, batch 1,024, clip 1.0, fp16, checkpoints every 10,000 steps on median ppm error, top 3). The paper never states the MCFM run's batch size or GPU count; "differs only in depth, parameter count, training budget and corpus" is the whole specification. |
+| Step 2 launched: `scripts/train/submit.sh` (run directory under `$RUNS`, local MLflow in `sqlite:///<run>/mlflow.db`, optional staging to node disk, a GPU sampler) and `scripts/train/status.py` (SLURM state, log, MLflow metrics from the SQLite store, checkpoints in one screen); jobs 22699796 (failed) and 22700328 | The trainer already has a validation-only path: `resume_checkpoint_path` loads weights (`common/trainer.py:912`), `validate_before_training=True` validates before any step, and `training_steps=1` ends the run after one step, so no code was added for Step 2. A config-driven `mp_sharing_strategy` hook was added to `trainer/train.py::main` (commit f93cece) for the loader-worker test. |
 
 ## Training choices
 
@@ -112,7 +113,14 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
 
 ## Problems encountered
 
-- Filled in as they come.
+- With MLflow on, `setup_tracking` resolves the whole config to YAML (`common/trainer.py:464`) and the `tags`
+  block of `foundation_base.yaml` interpolated `${architecture...}`, `${dim_model}` and eleven more relative to
+  the model file, not the composed root: `InterpolationKeyError`. The paper config has `mlflow_enabled: False`,
+  so the authors never hit it; `setup_model` (`train.py:203`) even avoids resolving for the same reason. Fixed by
+  writing the thirteen interpolations as `${model....}` (commit bf802db), checked by resolving the composed
+  config. Job 22699796 died 14 min in on it.
+- Those 14 minutes were the validation split loading into RAM (`to_dataset(in_memory=True)`): a fixed
+  per-job cost before the first step, larger than the paper's whole validation pass (250 batches).
 
 ## Next steps
 
