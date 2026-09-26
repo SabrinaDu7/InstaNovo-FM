@@ -22,6 +22,7 @@ loading, throughput, memory, checkpointing, in-loop evaluation and local MLflow;
 | Step 2 launched: `scripts/train/submit.sh` (run directory under `$RUNS`, local MLflow in `sqlite:///<run>/mlflow.db`, optional staging to node disk, a GPU sampler) and `scripts/train/status.py` (SLURM state, log, MLflow metrics from the SQLite store, checkpoints in one screen); jobs 22699796 (failed) and 22700328 | The trainer already has a validation-only path: `resume_checkpoint_path` loads weights (`common/trainer.py:912`), `validate_before_training=True` validates before any step, and `training_steps=1` ends the run after one step, so no code was added for Step 2. A config-driven `mp_sharing_strategy` hook was added to `trainer/train.py::main` (commit f93cece) for the loader-worker test. |
 | Step 2 done: job 22700328, 16 min; the released 40M checkpoint through the trainer's validation loop on 256,000 MCFM validation spectra (9.7 M masked peaks); metrics in `docs/references/rerun/validate_released_40M/metrics.json` and row 23 of the 40M table | The targets in the trainer's own units: `eval/median_ae_ppm` 4,493 ppm (the checkpoint criterion), `eval/mae_daltons` 5.99, bin accuracy 27.4 % (±1 bin 31.5 %; group 62.4 %, top-5 99.5 %; offset 37.5 %, top-5 70.4 %), within 0.1 Da 27.4 %, within 1 Da 39.8 %, within 20 ppm 4.1 %, intensity R² 0.980, loss 1.517. Eight loader workers with the `file_system` sharing strategy ran the 250 validation batches in 2 min (the single-process evaluation jobs took 30 min for 200,000 spectra); the in-memory validation load took 12 min before the first batch. |
 | Step 3 done: smoke job 22700918 (`smoke-40M`), one H100 on g7, 500 steps at batch 1,024, 25 min wall | Staging the 53 GB MCFM tier to node-local disk took 154 s. Node: 12 CPUs, 128 GB, /dev/shm 377 GB (so the earlier worker failure was the descriptor-passing strategy, not shared-memory size), open-file limit 131,072. Timeline: data handles open at +1 min, validation split in RAM and model set up by +15 min (torch.compile itself 25 s), then 500 steps in 3 min 53 s: the first 50 at 1.59 s/step while compiling, the remaining 450 at 0.34 s/step, about 3,000 spectra/s, GPU at 98-100 % throughout with eight `file_system` workers. Validation (250 batches) 80 s; in-loop embedding evaluation 34 s; `model_best.ckpt`, `model_latest.ckpt` (152 MB each) and `accelerator_state/latest` (optimizer 304 MB) written; every training and validation metric in the run's SQLite MLflow store. Validation at step 500: loss 2.32, median 10,927 ppm, bin accuracy 3.9 %, anisotropy ratio 24.4, effective rank 6.3. So the 90,000-step run is about 8.5 h of training plus about 40 min of validation, evaluation and checkpoints on one H100, inside the 12-hour partition bucket; one GPU also keeps `torch.compile` and avoids the multi-GPU caveats in the code. |
+| Step 4 launched at 01:20 EDT on 26/09: job 22701776 (`train-40M-mcfm-90k`), one H100, `--time=14:00:00` (the 24-hour bucket), 128 GB, staging on; overrides `training_steps=90000 num_workers=8 +mp_sharing_strategy=file_system keep_model_every_interval=True embedding_evaluation.tasks_to_run=[embeddingstatisticstask]`, everything else `foundational.yaml`, so batch 1,024, LR 1e-4 with 5 % warm-up, 30 % hold and cosine to 1e-5, clip 1.0, fp16, gradient checkpointing, checkpoint and validation every 10,000 steps, post-training evaluation battery at the end | Expected from the smoke job: about 15 min to the first step, 8.5 h of steps, about 40 min of validation, evaluation and checkpoints, about 1 h of post-training evaluation; first validation and checkpoint at step 10,000 about 1 h 15 min after the first step. Every 10,000-step checkpoint is kept (`model_epoch_*_step_*.ckpt`) so the retrieval-versus-training trajectory can be computed afterwards with the result scripts. Run directory `$RUNS/train-40M-mcfm-90k`; status with `python scripts/train/status.py train-40M-mcfm-90k`. |
 
 ## Training choices
 
@@ -127,11 +128,19 @@ Good, ad hoc, improvable, and problems, in the order the pipeline runs. File ref
   so the authors never hit it; `setup_model` (`train.py:203`) even avoids resolving for the same reason. Fixed by
   writing the thirteen interpolations as `${model....}` (commit bf802db), checked by resolving the composed
   config. Job 22699796 died 14 min in on it.
+- The in-loop `duplicateretrievaltask` fails at every interval: the training-time validation batches carry no
+  peptide field (the metadata keys are the search columns and masks; no `peptides`, `peptide` or `sequence`),
+  while the standalone evaluation path builds `peptides` itself. The paper's in-loop configuration
+  (`embedding_evaluation.tasks_to_run: [embeddingstatisticstask, duplicateretrievaltask]`) therefore never
+  produced a retrieval curve; the run keeps only the statistics task in the loop and every checkpoint on disk.
+- `max_checkpoints: 3` in `foundational.yaml` (and Table S8's "top-3 retained") is read nowhere in the
+  package; without `keep_model_every_interval` the trainer keeps `model_latest` and `model_best` only.
 - Those 14 minutes were the validation split loading into RAM (`to_dataset(in_memory=True)`): a fixed
   per-job cost before the first step, larger than the paper's whole validation pass (250 batches).
 
 ## Next steps
 
-- Step 2: the released 40M checkpoint through the trainer's validation loop (`resume_checkpoint_path` plus
-  `validate_before_training`), which is also the first test of loader workers with the `file_system` sharing
-  strategy and of local MLflow.
+- Babysit job 22701776 to its first checkpoint (step 10,000), then every 45 minutes through the status script.
+- Step 5 when it ends: `result1..3_*` with a `40M-ours` tag on `model_best.ckpt`, plus the trainer validation
+  metrics against row 23 (median 4,493 ppm, bin accuracy 27.4 %); the retrieval trajectory over the nine
+  kept checkpoints.
