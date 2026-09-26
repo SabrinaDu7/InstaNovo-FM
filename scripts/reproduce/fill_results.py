@@ -105,6 +105,35 @@ def nested(script: str, name: str, fmt: Callable[[Any], str], *tokens: str) -> C
     return get
 
 
+def at(script: str, name: str, fmt: Callable[[Any], str], *keys: str | int) -> Callable[[], str | None]:
+    """Exact path lookup: `keys` are dict keys or list indices, walked in order."""
+
+    def get() -> str | None:
+        node: Any = load(script, name)
+        for k in keys:
+            if isinstance(node, dict) and k in node:
+                node = node[k]
+            elif isinstance(node, list) and isinstance(k, int) and k < len(node):
+                node = node[k]
+            else:
+                return None
+        return None if isinstance(node, (dict, list)) or node is None else fmt(node)
+
+    return get
+
+
+def per_class(script: str, metric: str, class_name: str, fmt: Callable[[Any], str] = f3) -> Callable[[], str | None]:
+    """A per-class value of the peak-type multiclass probe, addressed by class name (`class_names` gives the order)."""
+
+    def get() -> str | None:
+        d = load(script, "peaktypeclassificationtask.results.json")
+        mc = (d or {}).get("multiclass_classification") or {}
+        names, values = mc.get("class_names") or [], mc.get(metric) or []
+        return fmt(values[names.index(class_name)]) if class_name in names and len(values) == len(names) else None
+
+    return get
+
+
 def joined(*parts: tuple[str, Callable[[], str | None]]) -> Callable[[], str | None]:
     def get() -> str | None:
         got = [(label, p()) for label, p in parts]
@@ -130,7 +159,7 @@ ROWS: dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]] = {  # (s
     ("40M", 9): (R1_40, "duplicateretrievaltask.json", summary(R1_40, "duplicateretrievaltask", "recall@1")),
     ("40M", 10): (R1_40, "duplicateretrievaltask.json", summary(R1_40, "duplicateretrievaltask", "map@20")),
     ("40M", 11): (R2_40, "igattributiontask.results.json", ig_quality(R2_40, "all")),
-    ("40M", 12): (R2_40, "peaktypeclassificationtask.json", joined(("accuracy", nested(R2_40, "peaktypeclassificationtask.results.json", pct, "multiclass", "accuracy")), ("macro-F1", summary(R2_40, "peaktypeclassificationtask", "multiclass_macro_f1")))),
+    ("40M", 12): (R2_40, "peaktypeclassificationtask.json", joined(("accuracy", at(R2_40, "peaktypeclassificationtask.results.json", pct, "multiclass_classification", "accuracy")), ("macro-F1", summary(R2_40, "peaktypeclassificationtask", "multiclass_macro_f1")))),
     ("40M", 13): (R2_40, "peaktypeclassificationtask.json", summary(R2_40, "peaktypeclassificationtask", "cross_spectrum_auroc")),
     ("40M", 14): (R2_40, "confidencesignalanalysistask.json", joined(("per-spectrum mean", summary(R2_40, "confidencesignalanalysistask", "per_spectrum_auroc_mean")), ("pooled", summary(R2_40, "confidencesignalanalysistask", "auroc")))),
     ("40M", 15): (R3_40, "embeddingstatisticstask.json", joined(("anisotropy ratio", summary(R3_40, "embeddingstatisticstask", "anisotropy_ratio", lambda x: f"{float(x):.1f}")), ("effective rank", summary(R3_40, "embeddingstatisticstask", "effective_rank", lambda x: f"{float(x):.1f}")), ("top-component energy", summary(R3_40, "embeddingstatisticstask", "pca_energy_top1")))),
@@ -153,12 +182,12 @@ ROWS: dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]] = {  # (s
     ("89M", 15): (R2_89, "igattributiontask.results.json", ig_quality(R2_89, "yb_acc")),
     ("89M", 16): (R2_89, "igattributiontask.results.json", ig_quality(R2_89, "yb_ppm")),
     ("89M", 17): (R2_89, "confidencesignalanalysistask.json", summary(R2_89, "confidencesignalanalysistask", "per_spectrum_auroc_mean")),
-    ("89M", 18): (R2_89, "peaktypeclassificationtask.results.json", joined(("after transformer", nested(R2_89, "peaktypeclassificationtask.results.json", pct, "multiclass", "accuracy")), ("pre-transformer", nested(R2_89, "peaktypeclassificationtask.results.json", pct, "pretransformer", "accuracy")))),
+    ("89M", 18): (R2_89, "peaktypeclassificationtask.results.json", joined(("after transformer", at(R2_89, "peaktypeclassificationtask.results.json", pct, "multiclass_classification", "accuracy")), ("pre-transformer", at(R2_89, "peaktypeclassificationtask.results.json", pct, "pretransformer_probe", "pretransformer_multiclass", "accuracy")))),
     ("89M", 19): (R2_89, "peaktypeclassificationtask.json", summary(R2_89, "peaktypeclassificationtask", "multiclass_macro_f1")),
-    ("89M", 20): (R2_89, "peaktypeclassificationtask.results.json", joined(("precision", nested(R2_89, "peaktypeclassificationtask.results.json", f3, "unannotated", "precision")), ("F1", nested(R2_89, "peaktypeclassificationtask.results.json", f3, "unannotated", "f1")))),
-    ("89M", 21): (R2_89, "peaktypeclassificationtask.results.json", joined(("y", nested(R2_89, "peaktypeclassificationtask.results.json", f3, "y", "f1")), ("b", nested(R2_89, "peaktypeclassificationtask.results.json", f3, "b", "f1")))),
+    ("89M", 20): (R2_89, "peaktypeclassificationtask.results.json", joined(("precision", per_class(R2_89, "per_class_precision", "unannotated")), ("F1", per_class(R2_89, "per_class_f1", "unannotated")))),
+    ("89M", 21): (R2_89, "peaktypeclassificationtask.results.json", joined(("y", per_class(R2_89, "per_class_f1", "y-ion")), ("b", per_class(R2_89, "per_class_f1", "b-ion")))),
     ("89M", 22): (R2_89, "peaktypeclassificationtask.json", summary(R2_89, "peaktypeclassificationtask", "cross_spectrum_auroc")),
-    ("89M", 23): (R2_89, "peaktypeclassificationtask.results.json", joined(("same ion", nested(R2_89, "peaktypeclassificationtask.results.json", f3, "same_ion", "cosine")), ("m/z-matched", nested(R2_89, "peaktypeclassificationtask.results.json", f3, "mz_matched", "cosine")))),
+    ("89M", 23): (R2_89, "peaktypeclassificationtask.results.json", joined(("same ion", at(R2_89, "peaktypeclassificationtask.results.json", f3, "cross_spectrum_identity", "same_ion_cross_spectrum", "mean")), ("m/z-matched", at(R2_89, "peaktypeclassificationtask.results.json", f3, "cross_spectrum_identity", "different_ion_similar_mz", "mean")), ("random", at(R2_89, "peaktypeclassificationtask.results.json", f3, "cross_spectrum_identity", "random_cross_spectrum", "mean")))),
     ("89M", 25): (R2_89, "igattributiontask.json", joined(("top-1", summary(R2_89, "igattributiontask", "topk_top1_ladder", pct)), ("top-5", summary(R2_89, "igattributiontask", "topk_ladder_top5_hit_rate", pct)))),
     ("89M", 26): (R4_89, "linearprobetask.json", probe(R4_89, "frag_type/macro_f1")),
     ("89M", 27): (R4_89, "linearprobetask.json", probe(R4_89, "search_instrument/macro_f1")),
