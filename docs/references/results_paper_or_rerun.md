@@ -22,10 +22,13 @@ ablation (Table S4) is on the LCFM **validation** split; the deployed-model tabl
 
 **Comparability rules for the rerun column.** The repo's own reproduction command differs from the paper's
 protocol in two ways that change what a number means, and each rerun records both:
-`config.projects_shared_across_splits` (the documented command uses `use_project_split=false`, the paper
-used project-disjoint splits) and `config.backend` (cuML on GPU in the paper; scikit-learn on CPU when cuML is
-absent, and the two are stated to be non-comparable). Sampling seeds and the exact 20,000 / 200,000 subsets
-are not published, so agreement is expected within sampling noise, not to the third decimal.
+`config.projects_shared_across_splits` (the documented command uses `use_project_split=false`: the probe still
+draws 100,000 / 10,000 / 10,000 samples from the corpus's own train / validation / test files, the paper's
+sizes, but without the paper's project assignment; `evaluator.py` line 1340) and `config.backend` (cuML on GPU
+in the paper; scikit-learn on CPU when cuML is absent, and the two are stated to be non-comparable). Because
+the probe reads the train split, every probe job needs the tier's training shards present. Sampling seeds and
+the exact 20,000 / 200,000 subsets are not published, so agreement is expected within sampling noise, not to
+the third decimal.
 
 ## 40M Results
 
@@ -56,8 +59,8 @@ for the first time and they go in the rows below as they arrive, with no author 
 | 13 | Cross-spectrum same-ion AUROC | | | none | | |
 | 14 | Per-spectrum confidence AUROC (annotated vs not) | | | none | | |
 | 15 | Embedding statistics (anisotropy ratio, effective rank, top-component energy) | | | none | | |
-| 16 | MCFM test, probes: fragment type / instrument / PTM presence / hydrophobicity / mass / m/z / charge / confidence | 0.776; 0.680; 0.799; 0.622; 0.755; 0.928; 0.608; 0.981 | `rerun/result5_40M_mcfm_test/linearprobetask.json` @ 17c0043 | none (our own number on the training tier) | | MCFM test, probe protocol |
-| 17 | MCFM test, duplicate retrieval Recall@1 / mAP@20 | 0.629; 0.329 | `rerun/result5_40M_mcfm_test/duplicateretrievaltask.json` @ 17c0043 | none (our own number on the training tier) | | MCFM test, 20,000 groups in a 200,000 pool |
+| 16 | MCFM test, probes: fragment type / instrument / PTM presence / hydrophobicity / mass / m/z / charge / confidence | | | none (our own number on the training tier) | | MCFM test, probe protocol |
+| 17 | MCFM test, duplicate retrieval Recall@1 / mAP@20 | | | none (our own number on the training tier) | | MCFM test, 20,000 groups in a 200,000 pool |
 
 ## 89M Results
 
