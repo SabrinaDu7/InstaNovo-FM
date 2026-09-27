@@ -26,7 +26,7 @@ from _common import MODELS, env_path  # noqa: E402
 
 RESOURCES: dict[str, tuple[str, str]] = {  # protocol -> (memory, time)
     "probes": ("96G", "06:00:00"),
-    "retrieval": ("128G", "24:00:00"),  # CPU FAISS without AVX2 scales with the square of the pool: 466,891 spectra took 9-10 h; see RETRIEVAL_TIME
+    "retrieval": ("128G", "24:00:00"),  # CPU FAISS without AVX2 scales with the square of the pool: 466,891 spectra took 9-10 h; `retrieval_time` sizes it per dataset
     "geometry": ("128G", "08:00:00"),
     "peak_level": ("250G", "08:00:00"),
     "unlabelled": ("128G", "08:00:00"),
