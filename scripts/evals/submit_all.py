@@ -26,13 +26,26 @@ from _common import MODELS, env_path  # noqa: E402
 
 RESOURCES: dict[str, tuple[str, str]] = {  # protocol -> (memory, time)
     "probes": ("96G", "06:00:00"),
-    "retrieval": ("128G", "24:00:00"),
+    "retrieval": ("128G", "24:00:00"),  # CPU FAISS without AVX2 scales with the square of the pool: 466,891 spectra took 9-10 h; see RETRIEVAL_TIME
     "geometry": ("128G", "08:00:00"),
     "peak_level": ("250G", "08:00:00"),
     "unlabelled": ("128G", "08:00:00"),
     "validation": ("128G", "06:00:00"),
 }
 SUBMIT = Path(__file__).resolve().parent / "submit.sh"
+
+
+def retrieval_time(dataset: str) -> str:
+    """Wall time for the retrieval pool of `dataset`: the ProteomeTools pool (466,891) took 10 h, and the search is
+    quadratic in the pool, so 12 h per (pool / 466,891)^2 with a 6 h floor, rounded up to whole hours."""
+    import math
+
+    import pyarrow.parquet as pq
+
+    from run import files
+
+    n = pq.ParquetFile(files(dataset)["identified"]).metadata.num_rows
+    return f"{max(6, math.ceil(12 * (n / 466_891) ** 2)):02d}:00:00"
 
 
 def main() -> None:
@@ -53,6 +66,8 @@ def main() -> None:
             for model in args.models:
                 for protocol in args.protocols:
                     mem, hours = RESOURCES[protocol]
+                    if protocol == "retrieval":
+                        hours = retrieval_time(dataset)
                     cmd = [
                         "sbatch", "--parsable", f"--job-name=ev_{dataset}_{model}_{protocol}", f"--mem={mem}", f"--time={hours}",
                         str(SUBMIT), "--dataset", dataset, "--model", model, "--protocol", protocol,
