@@ -85,13 +85,13 @@ Probe train / valid / test are this dataset's own peptide-disjoint files (packag
 
 ### Duplicate-spectrum retrieval
 
-| metric | released 40M (-) | 40M trained here (-) | released 89M (-) | released 40M, LCFM test (reproduction) |
+| metric | released 40M (all 802,128) | 40M trained here (all 802,128) | released 89M (all 802,128) | released 40M, LCFM test (reproduction) |
 |---|---|---|---|---|
-| Recall@1 | - | - | - | 0.305 |
-| mAP@20 | - | - | - | 0.125 |
-| Proportional recall@1 | - | - | - | 0.068 |
-| Recall@1, HCD Orbitrap subset | - | - | - | 0.328 |
-| Recall@1, CID subset | - | - | - | 0.365 |
+| Recall@1 | 0.740 | 0.756 | 0.685 | 0.305 |
+| mAP@20 | 0.392 | 0.403 | 0.309 | 0.125 |
+| Proportional recall@1 | 0.051 | 0.053 | 0.044 | 0.068 |
+| Recall@1, HCD Orbitrap subset | 0.842 | 0.846 | 0.777 | 0.328 |
+| Recall@1, CID subset | 0.504 | 0.551 | 0.472 | 0.365 |
 
 Every identified spectrum is in the pool and every duplicate group is queried; a positive is an identical peptide string (charge ignored).
 
