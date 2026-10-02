@@ -7,6 +7,7 @@ venv/
 # notebooks, and figures/3/plotly alone is ~292 MB of vector SVG, so the tree is
 # kept out of git rather than versioned.
 figures/
+outputs/
 
 # Notebook cruft
 .ipynb_checkpoints/
