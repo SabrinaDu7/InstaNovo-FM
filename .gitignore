@@ -32,3 +32,6 @@ __pycache__/
 # so any run or test that exercises it drops these in the working tree
 error_log.txt
 batch_error_log.txt
+
+# Figures rendered by scripts/evals/plot_results.py (regenerate locally; too heavy to commit)
+docs/results/*.png
