@@ -224,19 +224,24 @@ ROWS: dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]] = {  # (s
 }
 
 
-def _ours_rows() -> dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]]:
-    """The 40M rows again, for the checkpoint trained here: same files and keys under the *_40Mours_* scripts."""
-    swap = {R1_40: R1_O, R2_40: R2_O, R3_40: R3_O, R5_40: R5_O, R6_40: R6_O, "validate_released_40M": "train_40M_mcfm_90k"}
+def _trainer_validation(script: str) -> Callable[[], str | None]:
+    """Row 23 from a run's `metrics.json`: the first `eval/*` keys of the file (the final validation, or the one step
+    a `step_*/metrics.json` holds)."""
+    return joined(("median", keyed(script, "metrics.json", "eval/median_ae_ppm", lambda x: f"{float(x):.0f} ppm")), ("MAE", keyed(script, "metrics.json", "eval/mae_daltons", lambda x: f"{float(x):.2f} Da")), ("bin accuracy", keyed(script, "metrics.json", "eval/bin_accuracy", lambda x: f"{float(x):.1f} %")), ("within 20 ppm", keyed(script, "metrics.json", "eval/pct_within_20ppm", lambda x: f"{float(x):.1f} %")), ("intensity R²", keyed(script, "metrics.json", "eval/intensity_r2")))
+
+
+def _retrain_rows(section: str, tag: str, validation: str) -> dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]]:
+    """The 40M rows again for a checkpoint trained here: same files and keys under the `*_<tag>_*` scripts, and row 23
+    (trainer validation) from the training run's own `metrics.json` (`validation`)."""
     out: dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]] = {}
-    for (section, n), (script, name, _getter) in list(ROWS.items()):
-        if section != "40M" or script not in swap:
+    for (sec, n), (script, name, getter) in list(ROWS.items()):
+        if sec != "40M":
             continue
-        ours_script = swap[script]
-        if script == "validate_released_40M":  # row 23: the run's own final validation, keys under final_eval_step_90001
-            g = joined(("median", keyed(ours_script, "metrics.json", "eval/median_ae_ppm", lambda x: f"{float(x):.0f} ppm")), ("MAE", keyed(ours_script, "metrics.json", "eval/mae_daltons", lambda x: f"{float(x):.2f} Da")), ("bin accuracy", keyed(ours_script, "metrics.json", "eval/bin_accuracy", lambda x: f"{float(x):.1f} %")), ("within 20 ppm", keyed(ours_script, "metrics.json", "eval/pct_within_20ppm", lambda x: f"{float(x):.1f} %")), ("intensity R²", keyed(ours_script, "metrics.json", "eval/intensity_r2")))
-        else:
-            g = _rebind(_getter, script, ours_script)
-        out[("40M-ours", n)] = (ours_script, name, g)
+        if script == "validate_released_40M":
+            out[(section, n)] = (validation, name, _trainer_validation(validation))
+        elif script.startswith(("result1_40M_", "result2_40M_", "result3_40M_", "result5_40M_", "result6_40M_")):
+            new = script.replace("_40M_", f"_{tag}_")
+            out[(section, n)] = (new, name, _rebind(getter, script, new))
     return out
 
 
@@ -259,7 +264,9 @@ def _rebind(getter: Callable[[], str | None], old: str, new: str) -> Callable[[]
     return get
 
 
-ROWS.update(_ours_rows())
+ROWS.update(_retrain_rows("40M-ours", "40Mours", "train_40M_mcfm_90k"))
+ROWS.update(_retrain_rows("40M-b2048", "40Mb2048", "train_40M_mcfm_90k_b2048/step_80001"))
+ROWS.update(_retrain_rows("40M-b2048-90k", "40Mb2048s90k", "train_40M_mcfm_90k_b2048"))
 
 
 def source_cell(script: str, name: str) -> str:
@@ -271,14 +278,28 @@ def fill(text: str) -> tuple[str, list[str]]:
     out, missing, section = [], [], ""
     for line in text.split("\n"):
         if line.startswith("## "):
-            section = "40M-ours" if "trained here" in line else "40M" if "40M" in line else "89M" if "89M" in line else ""
+            section = "40M-b2048" if "batch of 2,048" in line else "40M-ours" if "trained here" in line else "40M" if "40M" in line else "89M" if "89M" in line else ""
         cells = line.split("|")
+        if section == "40M-b2048" and len(cells) < 11:
+            out.append(line)
+            continue
         if section and len(cells) >= 8 and cells[1].strip().isdigit():
             key = (section, int(cells[1]))
             if key in ROWS:
                 script, name, getter = ROWS[key]
                 value = getter()
-                if value is None:
+                if section == "40M-b2048":  # step 80,001 | source | step 90,001 | source | 40M trained here | released 40M rerun
+                    for i, (sec, label) in ((3, ("40M-b2048", "")), (5, ("40M-b2048-90k", "")), (7, ("40M-ours", None)), (8, ("40M", None))):
+                        s_, n_, g_ = ROWS.get((sec, key[1]), (None, None, None))
+                        v = g_() if g_ else None
+                        if v is None:
+                            missing.append(f"{sec} row {key[1]}: {s_}/{n_}")
+                            continue
+                        cells[i] = f" {v} "
+                        if label is not None:
+                            cells[i + 1] = f" {source_cell(s_, n_)} "
+                    line = "|".join(cells)
+                elif value is None:
                     missing.append(f"{section} row {key[1]}: {script}/{name}")
                 else:
                     cells[3], cells[4] = f" {value} ", f" {source_cell(script, name)} "

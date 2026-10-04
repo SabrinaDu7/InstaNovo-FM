@@ -25,9 +25,10 @@ REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # render_results, for the corpus getters
 RESULTS = REPO / "docs" / "results"
 DATASETS = [("ms2bac", "MS2Bac"), ("ups1", "UPS1"), ("proteometools", "ProteomeTools"), ("campi", "CAMPI")]
-MODELS = ["released 40M", "40M trained here", "released 89M"]
-SHORT_MODELS = ["released\n40M", "40M trained\nhere", "released\n89M"]  # tick labels of eval_metrics2
-COLORS = ["#2a78d6", "#eb6834", "#1baf7a"]  # categorical slots 1-3 of the dataviz reference palette
+MODELS = ["released 40M", "40M trained here", "released 89M", "40M batch 2,048, step 80k", "40M batch 2,048, step 90k"]
+SHORT_MODELS = ["released\n40M", "40M trained\nhere", "released\n89M", "40M b2048\nstep 80k", "40M b2048\nstep 90k"]  # tick labels of eval_metrics2
+COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]  # categorical slots 1-5 of the dataviz reference palette, in slot order
+# (validated: an order with yellow beside orange fails the normal-vision floor, so the batch-2,048 checkpoints come last)
 DATASET_COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"]  # slots 1-4, for eval_metrics2 (bars per dataset)
 CORPUS_COLOR = "#a3a29c"  # neutral grey: the corpus split is the reference, not another dataset
 INK, MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
@@ -46,8 +47,8 @@ SPLITS = {
 # (`docs/references/results_paper_or_rerun.md`: Table S5 for the 40M; Tables S5, S10 and the main text for the 89M).
 CORPUS = "LCFM test"
 REFERENCE = REPO / "docs" / "references" / "rerun"
-MODEL_TAGS = ["40M", "40Mours", "89M"]
-VALIDATION = {"40M": "validate_released_40M", "40Mours": "train_40M_mcfm_90k"}  # MCFM validation; none for the 89M
+MODEL_TAGS = ["40M", "40Mours", "89M", "40Mb2048", "40Mb2048s90k"]
+VALIDATION = {"40M": "validate_released_40M", "40Mours": "train_40M_mcfm_90k", "40Mb2048": "train_40M_mcfm_90k_b2048/step_80001", "40Mb2048s90k": "train_40M_mcfm_90k_b2048"}  # MCFM validation; none for the 89M
 PAPER = {
     "Fragment type (macro-F1)": [0.781, None, 0.855],
     "Instrument (macro-F1)": [0.697, None, 0.804],

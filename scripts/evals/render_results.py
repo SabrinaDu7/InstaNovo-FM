@@ -27,7 +27,8 @@ RERUN = REPO / "docs" / "results" / "rerun"
 REFERENCE = REPO / "docs" / "references" / "rerun"
 PROFILES = REPO / "docs" / "results" / "profiles"
 OUT = REPO / "docs" / "results"
-MODELS = [("40M", "released 40M"), ("40M-ours", "40M trained here"), ("89M", "released 89M")]
+MODELS = [("40M", "released 40M"), ("40M-ours", "40M trained here"), ("89M", "released 89M"),
+          ("40M-b2048", "40M trained here, batch 2,048, step 80k"), ("40M-b2048-90k", "40M trained here, batch 2,048, step 90k")]
 Getter = Callable[[Path], str | None]
 
 
