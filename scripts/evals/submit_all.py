@@ -36,8 +36,10 @@ SUBMIT = Path(__file__).resolve().parent / "submit.sh"
 
 
 def retrieval_time(dataset: str) -> str:
-    """Wall time for the retrieval pool of `dataset`: the ProteomeTools pool (466,891) took 10 h, and the search is
-    quadratic in the pool, so 12 h per (pool / 466,891)^2 with a 6 h floor, rounded up to whole hours."""
+    """Wall time for the retrieval pool of `dataset`: the ProteomeTools pool (466,891) took 6 h 19 min to 10 h 04 min
+    depending on the node (jobs 22735748/54/60), CAMPI's 802,128 took 23 h 14 min to 28 h 03 min (jobs 22764621-3), and
+    the search is quadratic in the pool, so 18 h per (pool / 466,891)^2 (about 1.5 times the slowest measurement) with
+    a 6 h floor, rounded up to whole hours. It was 12 h per unit pool until 03/10, which left a 20 % margin."""
     import math
 
     import pyarrow.parquet as pq
@@ -45,7 +47,7 @@ def retrieval_time(dataset: str) -> str:
     from run import files
 
     n = pq.ParquetFile(files(dataset)["identified"]).metadata.num_rows
-    return f"{max(6, math.ceil(12 * (n / 466_891) ** 2)):02d}:00:00"
+    return f"{max(6, math.ceil(18 * (n / 466_891) ** 2)):02d}:00:00"
 
 
 def main() -> None:
