@@ -1,0 +1,233 @@
+{
+ "final_eval_step_90001": {
+  "eval/bin_accuracy": 29.6378613872974,
+  "eval/bin_pm1_accuracy": 33.93785754443681,
+  "eval/conf_joint_mean": 0.29558067040889296,
+  "eval/ece_group": 0.007509940303862095,
+  "eval/ece_offset": 0.006411760114133358,
+  "eval/embed/embeddingstatisticstask/anisotropy_ratio": 24.310844228257658,
+  "eval/embed/embeddingstatisticstask/centroid_norm": 0.8772420287132263,
+  "eval/embed/embeddingstatisticstask/effective_rank": 82.9121322631836,
+  "eval/embed/embeddingstatisticstask/mean_similarity": 0.7696186900138855,
+  "eval/embed/embeddingstatisticstask/pca_energy_top1": 0.1113726943731308,
+  "eval/embed/embeddingstatisticstask/uniformity": -0.8881286382675171,
+  "eval/embed/mean_norm": 1.0,
+  "eval/embed/num_embeddings": 20000.0,
+  "eval/embed/std_norm": 4.6855088697839165e-08,
+  "eval/entropy_total_mean": 2.8993056259962846,
+  "eval/group_accuracy": 63.88992687335075,
+  "eval/group_top5_accuracy": 99.58293114654991,
+  "eval/intensity_mae": 0.0030158665031194687,
+  "eval/intensity_r2": 0.9901085452301857,
+  "eval/intensity_spearman_mean": 0.9802369100928306,
+  "eval/intensity_top10_recall_mean": 0.944389894650711,
+  "eval/loss": 1.4634777622222899,
+  "eval/mae_daltons": 5.052269864678762,
+  "eval/median_ae_ppm": 3214.681396484375,
+  "eval/offset_accuracy": 39.49372732853914,
+  "eval/offset_pm1_accuracy": 46.15417742126746,
+  "eval/offset_top5_accuracy": 71.65240223602973,
+  "eval/pct_within_01da": 30.154164646074083,
+  "eval/pct_within_10ppm": 2.114830237770045,
+  "eval/pct_within_1da": 43.10822103268688,
+  "eval/pct_within_20ppm": 4.555870917385606,
+  "eval/total_masked_tokens": 9706311.0,
+  "eval/total_spectra": 256000.0
+ },
+ "trajectory": {
+  "median_ae_ppm": [
+   [
+    10001,
+    6341.56298828125
+   ],
+   [
+    20001,
+    5413.79052734375
+   ],
+   [
+    30001,
+    4712.004150390625
+   ],
+   [
+    40001,
+    4325.78759765625
+   ],
+   [
+    50001,
+    3896.8167724609375
+   ],
+   [
+    60001,
+    3609.1939697265625
+   ],
+   [
+    70001,
+    3371.943603515625
+   ],
+   [
+    80001,
+    3305.8033447265625
+   ],
+   [
+    90001,
+    3214.681396484375
+   ]
+  ],
+  "bin_accuracy": [
+   [
+    10001,
+    12.034149740308136
+   ],
+   [
+    20001,
+    19.25328788661315
+   ],
+   [
+    30001,
+    22.78509312137227
+   ],
+   [
+    40001,
+    24.949870244215337
+   ],
+   [
+    50001,
+    26.811597114495918
+   ],
+   [
+    60001,
+    28.195954158073032
+   ],
+   [
+    70001,
+    28.9394085971488
+   ],
+   [
+    80001,
+    29.424649591384412
+   ],
+   [
+    90001,
+    29.6378613872974
+   ]
+  ],
+  "effective_rank": [
+   [
+    10001,
+    50.96928405761719
+   ],
+   [
+    20001,
+    57.240421295166016
+   ],
+   [
+    30001,
+    66.04471588134766
+   ],
+   [
+    40001,
+    73.13512420654297
+   ],
+   [
+    50001,
+    88.40430450439453
+   ],
+   [
+    60001,
+    95.59212493896484
+   ],
+   [
+    70001,
+    88.92589569091797
+   ],
+   [
+    80001,
+    83.49784851074219
+   ],
+   [
+    90001,
+    82.9121322631836
+   ]
+  ],
+  "anisotropy_ratio": [
+   [
+    10001,
+    21.501630056160373
+   ],
+   [
+    20001,
+    21.935007808586338
+   ],
+   [
+    30001,
+    23.622605041656758
+   ],
+   [
+    40001,
+    24.904365189944375
+   ],
+   [
+    50001,
+    24.89654055474821
+   ],
+   [
+    60001,
+    24.77259846538595
+   ],
+   [
+    70001,
+    24.420316441259693
+   ],
+   [
+    80001,
+    24.315684038501434
+   ],
+   [
+    90001,
+    24.310844228257658
+   ]
+  ]
+ },
+ "_run": {
+  "job": 23151784,
+  "run": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k-b2048",
+  "mlflow_run": "instanovo_foundational_26_10_02_16_21",
+  "global_batch": 2048,
+  "grad_accumulation": 2
+ },
+ "eval_step_80001": {
+  "eval/bin_accuracy": 29.424649591384412,
+  "eval/bin_pm1_accuracy": 33.71165420106568,
+  "eval/conf_joint_mean": 0.291729773088475,
+  "eval/ece_group": 0.006143676117062569,
+  "eval/ece_offset": 0.0061564319767057896,
+  "eval/embed/embeddingstatisticstask/anisotropy_ratio": 24.315684038501434,
+  "eval/embed/embeddingstatisticstask/centroid_norm": 0.8774166703224182,
+  "eval/embed/embeddingstatisticstask/effective_rank": 83.49784851074219,
+  "eval/embed/embeddingstatisticstask/mean_similarity": 0.7699230909347534,
+  "eval/embed/embeddingstatisticstask/pca_energy_top1": 0.1155317947268486,
+  "eval/embed/embeddingstatisticstask/uniformity": -0.8859695196151733,
+  "eval/embed/mean_norm": 1.0,
+  "eval/embed/num_embeddings": 20000.0,
+  "eval/embed/std_norm": 4.725900382140935e-08,
+  "eval/entropy_total_mean": 2.9179144299918396,
+  "eval/group_accuracy": 63.765245107023674,
+  "eval/group_top5_accuracy": 99.58006703061544,
+  "eval/intensity_mae": 0.003045083722099662,
+  "eval/intensity_r2": 0.9900225237960607,
+  "eval/intensity_spearman_mean": 0.9798931419968605,
+  "eval/intensity_top10_recall_mean": 0.943950086938734,
+  "eval/loss": 1.4686311411857604,
+  "eval/mae_daltons": 5.067286420337756,
+  "eval/median_ae_ppm": 3305.8033447265625,
+  "eval/offset_accuracy": 39.28512078378696,
+  "eval/offset_pm1_accuracy": 45.93166239985511,
+  "eval/offset_top5_accuracy": 71.50608506156459,
+  "eval/pct_within_01da": 29.93825357543149,
+  "eval/pct_within_10ppm": 2.101509007902178,
+  "eval/pct_within_1da": 42.927575677309335,
+  "eval/pct_within_20ppm": 4.530279320330865,
+  "eval/total_masked_tokens": 9706311.0,
+  "eval/total_spectra": 256000.0
+ }
+}
