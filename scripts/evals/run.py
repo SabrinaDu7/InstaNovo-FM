@@ -4,7 +4,7 @@
     sbatch --job-name=ev_ms2bac_40M_retrieval scripts/evals/submit.sh --dataset ms2bac --model 40M --protocol retrieval
 
 Datasets are the exports of `prepare_dataset.py` under `$EXTERNAL/<dataset>/`; models are the tags of
-`scripts/reproduce/_common.py::MODELS` (`40M` released, `40M-ours` trained here, `89M` released). The protocols
+`scripts/reproduce/_common.py::MODELS` (`40M` released, `40M-ours` trained here, `40M-b2048` and `40M-b2048-90k` retrained at a global batch of 2,048, `89M` released). The protocols
 are the paper's, as pinned in `scripts/reproduce/_common.py`, with the sample caps lifted (`evaluation.max_samples=null`
 evaluates every spectrum of the file) except where a task's memory or time grows faster than linearly, where the
 paper's own cap applies above a size and the run.json says so:

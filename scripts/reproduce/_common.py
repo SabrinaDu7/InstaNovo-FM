@@ -31,6 +31,8 @@ MODELS: dict[str, str] = {  # tag used in script names -> release checkpoint id
     "89M-sa-nopa": "instanovo-fm-lcfm-sa-nopa-v0.1.0",
     "89M-sa-pa": "instanovo-fm-lcfm-sa-pa-v0.1.0",
     "40M-ours": "instanovo-fm-mcfm-90k-ours-2026-09-26",  # trained here: job 22701776, model_best at step 90,000, copied into $CHECKPOINTS
+    "40M-b2048": "instanovo-fm-mcfm-90k-b2048-step80k-2026-10-03",  # trained here at global batch 2,048: job 23151784, step 80,001 (epoch 14, the released counter), copied into $CHECKPOINTS
+    "40M-b2048-90k": "instanovo-fm-mcfm-90k-b2048-step90k-2026-10-03",  # same run, step 90,001 (epoch 15), its model_best
 }
 SPLIT_GLOB = {"train": "*train*", "valid": "*valid*", "test": "*test*"}
 RESULTS_MAX_BYTES = 20 * 2**20  # task_results.json above this stays under $RESULTS only
