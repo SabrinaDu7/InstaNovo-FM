@@ -1,0 +1,33 @@
+{
+ "script": "result5_40M_mcfm_test",
+ "model": "instanovo-fm-mcfm-90k-v0.1.0",
+ "checkpoint": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
+ "tier": "mcfm",
+ "split": "test",
+ "overrides": [
+  "evaluation.enabled=True",
+  "evaluation.checkpoint_path=/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
+  "evaluation.split=test",
+  "evaluation.output_dir=/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result5_40M_mcfm_test",
+  "dataset=mcfm",
+  "dataset.train_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/mcfm/mcfm-*train*.parquet",
+  "dataset.valid_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/mcfm/mcfm-*valid*.parquet",
+  "dataset.test_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/mcfm/mcfm-*test*.parquet",
+  "num_workers=0",
+  "evaluation.max_samples=200000",
+  "evaluation.batch_size=256",
+  "evaluation.random_state=42",
+  "evaluation.embedding_pooling=[mean_pool]",
+  "evaluation.tasks_to_run=[linearprobetask,duplicateretrievaltask]",
+  "evaluation.task_configs.duplicateretrievaltask.max_samples=20000",
+  "evaluation.task_configs.linearprobetask.use_project_split=false",
+  "evaluation.task_configs.linearprobetask.max_iter=5000"
+ ],
+ "tasks_written": [
+  "duplicateretrievaltask",
+  "linearprobetask"
+ ],
+ "seconds": 5794,
+ "commit": "17c0043",
+ "host": "g10.nibi.sharcnet"
+}

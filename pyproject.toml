@@ -17,6 +17,9 @@ dependencies = [
   # instanovo.utils.residues and SpectrumDataFrame (including its private
   # _cast_columns), none of which are API-stable across releases.
   "instanovo==1.2.2",
+  # The evaluation suite, extracted from this package into its own repository (SabrinaDu7/instanovofm-evals);
+  # `scripts/reproduce` and `scripts/evals` run it, nothing in `src/` does. Pinned to a commit in [tool.uv.sources].
+  "instanovofm-evals",
   # torch is not used directly by the scripts; it arrives transitively via
   # instanovo -> accelerate>=1.6.0. instanovo 1.2.2 does pin torch, but only inside
   # its cpu/cu124/cu126 extras, and we select none of them -- so nothing enforced
@@ -119,6 +122,10 @@ dev = [
 
 [tool.uv]
 package = true
+
+[tool.uv.sources]
+# ssh: the repository is private. Move `rev` to take a newer suite.
+instanovofm-evals = { git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git", rev = "d326878" }
 
 [build-system]
 requires = ["hatchling"]

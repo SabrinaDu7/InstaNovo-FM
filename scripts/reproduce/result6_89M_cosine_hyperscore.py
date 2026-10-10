@@ -5,4 +5,4 @@ Row 46 of docs/references/results_paper_or_rerun.md (89M table). Protocol: `COSI
 
 from _common import COSINE_HYPERSCORE, run
 
-run(script="result6_89M_cosine_hyperscore", model="89M", tier="lcfm", split="test", overrides=COSINE_HYPERSCORE)
+run(script="result6_89M_cosine_hyperscore", model="89M", tier="lcfm", split="test", protocol=COSINE_HYPERSCORE)

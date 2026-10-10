@@ -5,4 +5,4 @@ Rows 16-17 of docs/references/results_paper_or_rerun.md (40M trained here). Prot
 
 from _common import PROBES_RETRIEVAL, run
 
-run(script="result5_40Mours_mcfm_test", model="40M-ours", tier="mcfm", split="test", overrides=PROBES_RETRIEVAL)
+run(script="result5_40Mours_mcfm_test", model="40M-ours", tier="mcfm", split="test", protocol=PROBES_RETRIEVAL)

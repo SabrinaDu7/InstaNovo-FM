@@ -5,4 +5,4 @@ Rows none (our own number) of docs/references/results_paper_or_rerun.md (40M on 
 
 from _common import PROBES_RETRIEVAL, run
 
-run(script="result5_40M_mcfm_test", model="40M", tier="mcfm", split="test", overrides=PROBES_RETRIEVAL)
+run(script="result5_40M_mcfm_test", model="40M", tier="mcfm", split="test", protocol=PROBES_RETRIEVAL)

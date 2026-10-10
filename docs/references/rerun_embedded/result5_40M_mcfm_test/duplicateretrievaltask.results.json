@@ -1,0 +1,303 @@
+{
+  "task_name": "Duplicate Spectrum Retrieval",
+  "num_embeddings": 200000,
+  "num_duplicate_groups": 27862,
+  "num_sampled_groups": 20000,
+  "execution_time": 2825.3292949199677,
+  "recall_metrics": {
+    "recall@1": 0.6293123057093032,
+    "recall@5": 0.6807777525041913,
+    "recall@10": 0.6975762630474891,
+    "recall@20": 0.7136586886378379
+  },
+  "prop_recall_metrics": {
+    "prop_recall@1": 0.11793266013916319,
+    "prop_recall@5": 0.2290925894887153,
+    "prop_recall@10": 0.268359242251705,
+    "prop_recall@20": 0.3000536789174414
+  },
+  "map@20": 0.32896120938036566,
+  "summary": {
+    "total_duplicate_spectra": 164998,
+    "avg_group_size": 5.921972579140047,
+    "max_group_size": 407
+  },
+  "aggregate_stats": {
+    "binary_recall_mean": 0.6803312524747054,
+    "binary_recall_std": 0.0316671781273228,
+    "prop_recall_mean": 0.2288595426992562,
+    "prop_recall_std": 0.06879981628226556,
+    "recall_difference_mean": 0.45147170977544915
+  },
+  "top_duplicates": {
+    "top_n": 20,
+    "top_duplicates_list": [
+      {
+        "rank": 1,
+        "peptide": "VGAHAGEYGAEALER",
+        "full_peptide": "VGAHAGEYGAEALER",
+        "peptide_length": 15,
+        "count": 407,
+        "percentage": 0.203,
+        "cumulative_count": 407,
+        "cumulative_percentage": 0.203
+      },
+      {
+        "rank": 2,
+        "peptide": "THINIVVIGHVDSGK",
+        "full_peptide": "THINIVVIGHVDSGK",
+        "peptide_length": 15,
+        "count": 323,
+        "percentage": 0.161,
+        "cumulative_count": 730,
+        "cumulative_percentage": 0.365
+      },
+      {
+        "rank": 3,
+        "peptide": "M[UNIMOD:35]FLSFPTTK",
+        "full_peptide": "M[UNIMOD:35]FLSFPTTK",
+        "peptide_length": 20,
+        "count": 268,
+        "percentage": 0.134,
+        "cumulative_count": 998,
+        "cumulative_percentage": 0.499
+      },
+      {
+        "rank": 4,
+        "peptide": "TAVC[UNIMOD:4]DIPPR",
+        "full_peptide": "TAVC[UNIMOD:4]DIPPR",
+        "peptide_length": 19,
+        "count": 232,
+        "percentage": 0.116,
+        "cumulative_count": 1230,
+        "cumulative_percentage": 0.615
+      },
+      {
+        "rank": 5,
+        "peptide": "EFNAETFTFHADIC[UNIMOD:4]TLSEK",
+        "full_peptide": "EFNAETFTFHADIC[UNIMOD:4]TLSEK",
+        "peptide_length": 29,
+        "count": 218,
+        "percentage": 0.109,
+        "cumulative_count": 1448,
+        "cumulative_percentage": 0.724
+      },
+      {
+        "rank": 6,
+        "peptide": "WGDAGAEYVVESTGVFTTMEK",
+        "full_peptide": "WGDAGAEYVVESTGVFTTMEK",
+        "peptide_length": 21,
+        "count": 195,
+        "percentage": 0.097,
+        "cumulative_count": 1643,
+        "cumulative_percentage": 0.822
+      },
+      {
+        "rank": 7,
+        "peptide": "ESTLHLVLR",
+        "full_peptide": "ESTLHLVLR",
+        "peptide_length": 9,
+        "count": 185,
+        "percentage": 0.092,
+        "cumulative_count": 1828,
+        "cumulative_percentage": 0.914
+      },
+      {
+        "rank": 8,
+        "peptide": "EHALLAYTLGVK",
+        "full_peptide": "EHALLAYTLGVK",
+        "peptide_length": 12,
+        "count": 181,
+        "percentage": 0.09,
+        "cumulative_count": 2009,
+        "cumulative_percentage": 1.004
+      },
+      {
+        "rank": 9,
+        "peptide": "QLFHPEQLITGK",
+        "full_peptide": "QLFHPEQLITGK",
+        "peptide_length": 12,
+        "count": 180,
+        "percentage": 0.09,
+        "cumulative_count": 2189,
+        "cumulative_percentage": 1.095
+      },
+      {
+        "rank": 10,
+        "peptide": "HFSVEGQLEFR",
+        "full_peptide": "HFSVEGQLEFR",
+        "peptide_length": 11,
+        "count": 179,
+        "percentage": 0.089,
+        "cumulative_count": 2368,
+        "cumulative_percentage": 1.184
+      },
+      {
+        "rank": 11,
+        "peptide": "HQGVMVGMGQK",
+        "full_peptide": "HQGVMVGMGQK",
+        "peptide_length": 11,
+        "count": 176,
+        "percentage": 0.088,
+        "cumulative_count": 2544,
+        "cumulative_percentage": 1.272
+      },
+      {
+        "rank": 12,
+        "peptide": "FGANAILGVSLAVC[UNIMOD:4]K",
+        "full_peptide": "FGANAILGVSLAVC[UNIMOD:4]K",
+        "peptide_length": 25,
+        "count": 175,
+        "percentage": 0.088,
+        "cumulative_count": 2719,
+        "cumulative_percentage": 1.359
+      },
+      {
+        "rank": 13,
+        "peptide": "LC[UNIMOD:4]YVALDFEQEMATAASSSSLEK",
+        "full_peptide": "LC[UNIMOD:4]YVALDFEQEMATAASSSSLEK",
+        "peptide_length": 33,
+        "count": 171,
+        "percentage": 0.085,
+        "cumulative_count": 2890,
+        "cumulative_percentage": 1.445
+      },
+      {
+        "rank": 14,
+        "peptide": "HLQLAIR",
+        "full_peptide": "HLQLAIR",
+        "peptide_length": 7,
+        "count": 160,
+        "percentage": 0.08,
+        "cumulative_count": 3050,
+        "cumulative_percentage": 1.525
+      },
+      {
+        "rank": 15,
+        "peptide": "VFDEFKPLVEEPQNLIK",
+        "full_peptide": "VFDEFKPLVEEPQNLIK",
+        "peptide_length": 17,
+        "count": 156,
+        "percentage": 0.078,
+        "cumulative_count": 3206,
+        "cumulative_percentage": 1.603
+      },
+      {
+        "rank": 16,
+        "peptide": "HAVSEGTK",
+        "full_peptide": "HAVSEGTK",
+        "peptide_length": 8,
+        "count": 156,
+        "percentage": 0.078,
+        "cumulative_count": 3362,
+        "cumulative_percentage": 1.681
+      },
+      {
+        "rank": 17,
+        "peptide": "IWHHTFYNELR",
+        "full_peptide": "IWHHTFYNELR",
+        "peptide_length": 11,
+        "count": 148,
+        "percentage": 0.074,
+        "cumulative_count": 3510,
+        "cumulative_percentage": 1.755
+      },
+      {
+        "rank": 18,
+        "peptide": "HALIIYDDLSK",
+        "full_peptide": "HALIIYDDLSK",
+        "peptide_length": 11,
+        "count": 143,
+        "percentage": 0.072,
+        "cumulative_count": 3653,
+        "cumulative_percentage": 1.827
+      },
+      {
+        "rank": 19,
+        "peptide": "MFLSFPTTK",
+        "full_peptide": "MFLSFPTTK",
+        "peptide_length": 9,
+        "count": 138,
+        "percentage": 0.069,
+        "cumulative_count": 3791,
+        "cumulative_percentage": 1.895
+      },
+      {
+        "rank": 20,
+        "peptide": "DLYANTVLSGGTTMYPGIADR",
+        "full_peptide": "DLYANTVLSGGTTMYPGIADR",
+        "peptide_length": 21,
+        "count": 138,
+        "percentage": 0.069,
+        "cumulative_count": 3929,
+        "cumulative_percentage": 1.964
+      }
+    ],
+    "overall_stats": {
+      "total_spectra": 200000,
+      "total_unique_peptides": 62864,
+      "total_duplicated_peptides": 27862,
+      "total_duplicate_spectra": 164998,
+      "duplicate_spectra_percentage": 82.5,
+      "unique_peptide_percentage": 31.43
+    },
+    "top_n_coverage": {
+      "spectra_count": 3929,
+      "percentage_of_total": 1.96,
+      "description": "Top 20 most duplicated peptides account for 3929 spectra (2.0% of dataset)"
+    }
+  },
+  "conditional_eval": {
+    "hcd_orbitrap": {
+      "skipped": false,
+      "n_samples": 138411,
+      "filter": "frag_type=['HCD', 'HCID'], detector=['Orbitrap']",
+      "num_duplicate_groups": 20442,
+      "num_sampled_groups": 20000,
+      "recall_metrics": {
+        "recall@1": 0.6646131122100796,
+        "recall@5": 0.7167310155278632,
+        "recall@10": 0.7333713505782049,
+        "recall@20": 0.7492451083958904
+      },
+      "prop_recall_metrics": {
+        "prop_recall@1": 0.1464560070294881,
+        "prop_recall@5": 0.2885030587979429,
+        "prop_recall@10": 0.33866631148131393,
+        "prop_recall@20": 0.3777472800597337
+      },
+      "map@20": 0.3947686520262339,
+      "summary": {
+        "total_duplicate_spectra": 109260,
+        "avg_group_size": 5.344878191957734,
+        "max_group_size": 277
+      }
+    },
+    "cid": {
+      "skipped": false,
+      "n_samples": 25521,
+      "filter": "frag_type=['CID']",
+      "num_duplicate_groups": 4312,
+      "num_sampled_groups": 4312,
+      "recall_metrics": {
+        "recall@1": 0.6574478122420097,
+        "recall@5": 0.7220780752447222,
+        "recall@10": 0.7424814246963085,
+        "recall@20": 0.7638282816369855
+      },
+      "prop_recall_metrics": {
+        "prop_recall@1": 0.21261379787781337,
+        "prop_recall@5": 0.3704012566738019,
+        "prop_recall@10": 0.4196383359204102,
+        "prop_recall@20": 0.46219988211484153
+      },
+      "map@20": 0.4175631459092526,
+      "summary": {
+        "total_duplicate_spectra": 16958,
+        "avg_group_size": 3.9327458256029684,
+        "max_group_size": 131
+      }
+    }
+  },
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result5_40M_mcfm_test/eval_20260925_194343/duplicateretrievaltask"
+}

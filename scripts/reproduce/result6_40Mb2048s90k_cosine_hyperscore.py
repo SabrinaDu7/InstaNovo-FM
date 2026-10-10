@@ -5,4 +5,4 @@ Rows 22 of docs/references/results_paper_or_rerun.md (40M retrained at batch 2,0
 
 from _common import COSINE_HYPERSCORE, run
 
-run(script="result6_40Mb2048s90k_cosine_hyperscore", model="40M-b2048-90k", tier="lcfm", split="test", overrides=COSINE_HYPERSCORE)
+run(script="result6_40Mb2048s90k_cosine_hyperscore", model="40M-b2048-90k", tier="lcfm", split="test", protocol=COSINE_HYPERSCORE)

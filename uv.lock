@@ -1896,6 +1896,7 @@ dependencies = [
     { name = "fastexcel" },
     { name = "h5py" },
     { name = "instanovo" },
+    { name = "instanovofm-evals" },
     { name = "lxml" },
     { name = "mlflow" },
     { name = "numba" },
@@ -1972,6 +1973,7 @@ requires-dist = [
     { name = "glass-box-umap", marker = "extra == 'interpret'", specifier = ">=0.1" },
     { name = "h5py", specifier = ">=3.12.0" },
     { name = "instanovo", specifier = "==1.2.2" },
+    { name = "instanovofm-evals", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=d326878" },
     { name = "lxml", specifier = ">=4.9.4" },
     { name = "mlflow", specifier = ">=2.17.0" },
     { name = "numba", specifier = ">=0.60.0" },
@@ -2017,6 +2019,33 @@ figures = [
     { name = "plotly", specifier = ">=6.8.0" },
     { name = "scipy", specifier = ">=1.13.1" },
     { name = "seaborn", specifier = ">=0.13.2" },
+]
+
+[[package]]
+name = "instanovofm-evals"
+version = "0.2.0"
+source = { git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=d326878#d326878d1b6e17b1788a3e23b11d445b5fcb3532" }
+dependencies = [
+    { name = "faiss-cpu" },
+    { name = "h5py" },
+    { name = "matplotlib", version = "3.10.9", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "matplotlib", version = "3.11.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "numpy" },
+    { name = "omegaconf" },
+    { name = "pandas" },
+    { name = "polars" },
+    { name = "pyarrow" },
+    { name = "pyopenms" },
+    { name = "pyteomics" },
+    { name = "scikit-learn", version = "1.7.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "scikit-learn", version = "1.9.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "scipy", version = "1.16.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "seaborn" },
+    { name = "torch", version = "2.7.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'darwin'" },
+    { name = "torch", version = "2.8.0", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'darwin'" },
+    { name = "tqdm" },
+    { name = "umap-learn" },
 ]
 
 [[package]]

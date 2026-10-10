@@ -1,0 +1,10 @@
+{
+  "task_name": "confidencesignalanalysistask",
+  "timestamp": "2026-09-25T21:33:28.654697",
+  "execution_time": 14.011366605758667,
+  "success": true,
+  "auroc": 0.7049675695516868,
+  "per_spectrum_auroc_mean": 0.7178333760028779,
+  "intensity_auroc": 0.6849278903581685,
+  "residual_auroc": 0.5113438475670082
+}

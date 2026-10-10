@@ -5,4 +5,4 @@ Rows none with an author number; Fig. 3A is the UMAP of docs/references/results_
 
 from _common import GEOMETRY, run
 
-run(script="result3_89M_geometry", model="89M", tier="lcfm", split="test", overrides=GEOMETRY)
+run(script="result3_89M_geometry", model="89M", tier="lcfm", split="test", protocol=GEOMETRY)

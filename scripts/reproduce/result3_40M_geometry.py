@@ -5,4 +5,4 @@ Rows 15 of docs/references/results_paper_or_rerun.md (40M table). Protocol: `GEO
 
 from _common import GEOMETRY, run
 
-run(script="result3_40M_geometry", model="40M", tier="lcfm", split="test", overrides=GEOMETRY)
+run(script="result3_40M_geometry", model="40M", tier="lcfm", split="test", protocol=GEOMETRY)

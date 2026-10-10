@@ -5,4 +5,4 @@ Rows 1-10 of docs/references/results_paper_or_rerun.md (40M retrained at batch 2
 
 from _common import PROBES_RETRIEVAL, run
 
-run(script="result1_40Mb2048_probes_retrieval", model="40M-b2048", tier="lcfm", split="test", overrides=PROBES_RETRIEVAL)
+run(script="result1_40Mb2048_probes_retrieval", model="40M-b2048", tier="lcfm", split="test", protocol=PROBES_RETRIEVAL)

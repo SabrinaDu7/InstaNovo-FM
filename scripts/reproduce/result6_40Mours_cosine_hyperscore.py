@@ -5,4 +5,4 @@ Rows 22 of docs/references/results_paper_or_rerun.md (40M trained here). Protoco
 
 from _common import COSINE_HYPERSCORE, run
 
-run(script="result6_40Mours_cosine_hyperscore", model="40M-ours", tier="lcfm", split="test", overrides=COSINE_HYPERSCORE)
+run(script="result6_40Mours_cosine_hyperscore", model="40M-ours", tier="lcfm", split="test", protocol=COSINE_HYPERSCORE)

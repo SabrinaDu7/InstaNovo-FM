@@ -1,0 +1,31 @@
+{
+ "script": "result2_40M_peak_level",
+ "model": "instanovo-fm-mcfm-90k-v0.1.0",
+ "checkpoint": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
+ "tier": "lcfm",
+ "split": "test",
+ "overrides": [
+  "evaluation.enabled=True",
+  "evaluation.checkpoint_path=/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
+  "evaluation.split=test",
+  "evaluation.output_dir=/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result2_40M_peak_level",
+  "dataset=lcfm",
+  "dataset.train_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/lcfm/lcfm-*train*.parquet",
+  "dataset.valid_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/lcfm/lcfm-*valid*.parquet",
+  "dataset.test_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/lcfm/lcfm-*test*.parquet",
+  "num_workers=0",
+  "evaluation.max_samples=10000",
+  "evaluation.batch_size=128",
+  "evaluation.random_state=42",
+  "evaluation.tasks_to_run=[peaktypeclassificationtask,confidencesignalanalysistask,headanalysistask,igattributiontask]"
+ ],
+ "tasks_written": [
+  "confidencesignalanalysistask",
+  "headanalysistask",
+  "igattributiontask",
+  "peaktypeclassificationtask"
+ ],
+ "seconds": 834,
+ "commit": "ccf02d3",
+ "host": "g6.nibi.sharcnet"
+}

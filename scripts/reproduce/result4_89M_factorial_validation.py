@@ -5,4 +5,4 @@ Rows 26-36 of docs/references/results_paper_or_rerun.md (factorial ablation, LCF
 
 from _common import PROBES_RETRIEVAL, run
 
-run(script="result4_89M_factorial_validation", model="89M", tier="lcfm", split="valid", overrides=PROBES_RETRIEVAL)
+run(script="result4_89M_factorial_validation", model="89M", tier="lcfm", split="valid", protocol=PROBES_RETRIEVAL)

@@ -1,0 +1,196 @@
+{
+ "final_eval_step_90001": {
+  "eval/bin_accuracy": 27.157166095337352,
+  "eval/bin_pm1_accuracy": 31.21953335309367,
+  "eval/conf_joint_mean": 0.269560271712127,
+  "eval/ece_group": 0.007391547318547964,
+  "eval/ece_offset": 0.00585203617811203,
+  "eval/embed/embeddingstatisticstask/anisotropy_ratio": 22.46736381002843,
+  "eval/embed/embeddingstatisticstask/centroid_norm": 0.8107211589813232,
+  "eval/embed/embeddingstatisticstask/effective_rank": 95.34507751464844,
+  "eval/embed/embeddingstatisticstask/mean_similarity": 0.6578007936477661,
+  "eval/embed/embeddingstatisticstask/pca_energy_top1": 0.11474194377660751,
+  "eval/embed/embeddingstatisticstask/uniformity": -1.2810521125793457,
+  "eval/embed/mean_norm": 1.0,
+  "eval/embed/num_embeddings": 20000.0,
+  "eval/embed/std_norm": 4.010156828826439e-08,
+  "eval/entropy_total_mean": 3.0179875115349346,
+  "eval/group_accuracy": 62.305349581318794,
+  "eval/group_top5_accuracy": 99.56016245512842,
+  "eval/intensity_mae": 0.0029707748908549547,
+  "eval/intensity_r2": 0.9900208753003958,
+  "eval/intensity_spearman_mean": 0.9818403080940247,
+  "eval/intensity_top10_recall_mean": 0.944819474276363,
+  "eval/loss": 1.520183866024018,
+  "eval/mae_daltons": 5.245740939516054,
+  "eval/median_ae_ppm": 3897.15087890625,
+  "eval/offset_accuracy": 37.2378342297089,
+  "eval/offset_pm1_accuracy": 43.70224691955574,
+  "eval/offset_top5_accuracy": 70.26536652287362,
+  "eval/pct_within_01da": 27.67271726611686,
+  "eval/pct_within_10ppm": 1.9319595261268676,
+  "eval/pct_within_1da": 40.702384252884535,
+  "eval/pct_within_20ppm": 4.179734195617676,
+  "eval/total_masked_tokens": 9706311.0,
+  "eval/total_spectra": 256000.0
+ },
+ "trajectory": {
+  "median_ae_ppm": [
+   [
+    10001,
+    6679.499755859375
+   ],
+   [
+    20001,
+    5653.38720703125
+   ],
+   [
+    30001,
+    5048.076904296875
+   ],
+   [
+    40001,
+    4599.573974609375
+   ],
+   [
+    50001,
+    4375.117431640625
+   ],
+   [
+    60001,
+    4174.905517578125
+   ],
+   [
+    70001,
+    4055.245361328125
+   ],
+   [
+    80001,
+    3952.388427734375
+   ],
+   [
+    90001,
+    3897.15087890625
+   ]
+  ],
+  "bin_accuracy": [
+   [
+    10001,
+    10.704818751428839
+   ],
+   [
+    20001,
+    17.29690095444088
+   ],
+   [
+    30001,
+    20.977403258560333
+   ],
+   [
+    40001,
+    23.147084407248027
+   ],
+   [
+    50001,
+    24.62773962219014
+   ],
+   [
+    60001,
+    25.778403350150224
+   ],
+   [
+    70001,
+    26.527812677751623
+   ],
+   [
+    80001,
+    26.95353569445694
+   ],
+   [
+    90001,
+    27.157166095337352
+   ]
+  ],
+  "effective_rank": [
+   [
+    10001,
+    50.31632614135742
+   ],
+   [
+    20001,
+    51.45029067993164
+   ],
+   [
+    30001,
+    66.53179931640625
+   ],
+   [
+    40001,
+    83.31224822998047
+   ],
+   [
+    50001,
+    88.98426818847656
+   ],
+   [
+    60001,
+    92.16183471679688
+   ],
+   [
+    70001,
+    93.8370361328125
+   ],
+   [
+    80001,
+    94.9559326171875
+   ],
+   [
+    90001,
+    95.34507751464844
+   ]
+  ],
+  "anisotropy_ratio": [
+   [
+    10001,
+    21.65218614642629
+   ],
+   [
+    20001,
+    20.884278397413265
+   ],
+   [
+    30001,
+    21.628418218235954
+   ],
+   [
+    40001,
+    22.120129724504555
+   ],
+   [
+    50001,
+    22.29165887643095
+   ],
+   [
+    60001,
+    22.486853544180754
+   ],
+   [
+    70001,
+    22.785867923002826
+   ],
+   [
+    80001,
+    22.6414235385055
+   ],
+   [
+    90001,
+    22.46736381002843
+   ]
+  ]
+ },
+ "_run": {
+  "job": 22701776,
+  "run": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k",
+  "mlflow_run": "instanovo_foundational_26_09_26_01_13"
+ }
+}

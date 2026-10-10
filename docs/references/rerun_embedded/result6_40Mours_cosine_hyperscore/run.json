@@ -1,0 +1,29 @@
+{
+ "script": "result6_40Mours_cosine_hyperscore",
+ "model": "instanovo-fm-mcfm-90k-ours-2026-09-26",
+ "checkpoint": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-ours-2026-09-26.ckpt",
+ "tier": "lcfm",
+ "split": "test",
+ "overrides": [
+  "evaluation.enabled=True",
+  "evaluation.checkpoint_path=/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-ours-2026-09-26.ckpt",
+  "evaluation.split=test",
+  "evaluation.output_dir=/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result6_40Mours_cosine_hyperscore",
+  "dataset=lcfm",
+  "dataset.train_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/lcfm/lcfm-*train*.parquet",
+  "dataset.valid_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/lcfm/lcfm-*valid*.parquet",
+  "dataset.test_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/lcfm/lcfm-*test*.parquet",
+  "num_workers=0",
+  "evaluation.max_samples=20000",
+  "evaluation.batch_size=256",
+  "evaluation.random_state=42",
+  "evaluation.tasks_to_run=[cosinehyperscorecorrelationtask]",
+  "evaluation.task_configs.cosinehyperscorecorrelationtask.peptide_key=peptides"
+ ],
+ "tasks_written": [
+  "cosinehyperscorecorrelationtask"
+ ],
+ "seconds": 87,
+ "commit": "7adc03b",
+ "host": "g8.nibi.sharcnet"
+}

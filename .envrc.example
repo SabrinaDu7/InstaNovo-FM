@@ -5,3 +5,6 @@ export RESULTS="path/to/results/instanovofm"
 export COMET_API="path/to/comet_api_key.txt"
 export RUNS="path/to/runs/instanovofm"
 export EXTERNAL="$DATA/external"     # our datasets exported in the corpus schema (scripts/evals/prepare_dataset.py)
+export CORPUS="$DATA/splits"               # the corpus tiers <tier>/<tier>-*{train,valid,test}*.parquet (the paper's protocols in the suite)
+export EVAL_WORKDIR="$RESULTS/package-workdir"   # the suite's scratch for full task outputs
+export FM_VENV="$HOME/scratch/venvs/instanovo-fm-evalpkg"   # the venv of this checkout (scripts/*/submit.sh); unset = the original one

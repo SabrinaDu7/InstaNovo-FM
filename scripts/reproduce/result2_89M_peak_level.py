@@ -5,4 +5,4 @@ Rows 14-25 of docs/references/results_paper_or_rerun.md (89M table). Protocol: `
 
 from _common import PEAK_LEVEL, run
 
-run(script="result2_89M_peak_level", model="89M", tier="lcfm", split="test", overrides=PEAK_LEVEL)
+run(script="result2_89M_peak_level", model="89M", tier="lcfm", split="test", protocol=PEAK_LEVEL)

@@ -1,14 +1,17 @@
 """Shared plumbing for `scripts/reproduce/result*.py`.
 
-Every result script names one model, one corpus tier and split, and the evaluation overrides that define its
-protocol; this module turns that into a run: it resolves `$DATA`, `$CHECKPOINTS` and `$RESULTS` (from
-`.envrc`), composes the package's `foundational` config with the overrides, runs `run_evaluation`, and copies
-each task's `task_summary.json` (and its `task_results.json` when it is small) plus a `run.json` (overrides, commit, duration) into
-`docs/references/rerun/<script>/`, so the numbers quoted in `docs/references/results_paper_or_rerun.md`
-travel with the repository and name the command that made them.
+Every result script names one checkpoint, one corpus split and one of the paper's protocols. The evaluation itself is
+`instanovofm_evals`, the suite extracted from this package into its own repository (a dependency, see
+`pyproject.toml`): `instanovofm_evals.run("instanovo-fm", ...)` selects the spectra, builds the labels, runs the tasks
+and writes `<task>.json`, `<task>.results.json` and `run.json` under `$RESULTS/package/<dataset>/<model>/<protocol>/`.
+This module copies those files into `docs/references/rerun/<script>/`, so the numbers quoted in
+`docs/references/results_paper_or_rerun.md` travel with the repository and `fill_results.py` reads them as before.
 
     source .envrc && python scripts/reproduce/result1_40M_probes_retrieval.py      # on a GPU node
     sbatch --job-name=result1_40M scripts/reproduce/submit.sh scripts/reproduce/result1_40M_probes_retrieval.py
+
+The protocols (which spectra, caps, seed, batch size, tasks and their settings) are defined once, in the package's
+`protocols.py`; the names below are theirs. `$CORPUS`, `$EVAL_WORKDIR` and `$EXTERNAL` come from `.envrc`.
 """
 
 from __future__ import annotations
@@ -16,12 +19,9 @@ from __future__ import annotations
 import json
 import os
 import shutil
-import subprocess
-import time
 from pathlib import Path
 
-from instanovo_fm.eval.embed_evaluation import run_evaluation
-from instanovo_fm.utils.hydra_config import compose_fm_config
+from instanovofm_evals import run as suite_run
 
 REPO = Path(__file__).resolve().parents[2]
 MODELS: dict[str, str] = {  # tag used in script names -> release checkpoint id
@@ -31,11 +31,16 @@ MODELS: dict[str, str] = {  # tag used in script names -> release checkpoint id
     "89M-sa-nopa": "instanovo-fm-lcfm-sa-nopa-v0.1.0",
     "89M-sa-pa": "instanovo-fm-lcfm-sa-pa-v0.1.0",
     "40M-ours": "instanovo-fm-mcfm-90k-ours-2026-09-26",  # trained here: job 22701776, model_best at step 90,000, copied into $CHECKPOINTS
-    "40M-b2048": "instanovo-fm-mcfm-90k-b2048-step80k-2026-10-03",  # trained here at global batch 2,048: job 23151784, step 80,001 (epoch 14, the released counter), copied into $CHECKPOINTS
-    "40M-b2048-90k": "instanovo-fm-mcfm-90k-b2048-step90k-2026-10-03",  # same run, step 90,001 (epoch 15), its model_best
+    "40M-b2048": "instanovo-fm-mcfm-90k-b2048-step80k-2026-10-03",
+    "40M-b2048-90k": "instanovo-fm-mcfm-90k-b2048-step90k-2026-10-03",
 }
-SPLIT_GLOB = {"train": "*train*", "valid": "*valid*", "test": "*test*"}
-RESULTS_MAX_BYTES = 20 * 2**20  # task_results.json above this stays under $RESULTS only
+
+# The paper's protocols, by the names `instanovofm_evals.protocols.PROTOCOLS` gives them.
+PROBES_RETRIEVAL = "paper-probes-retrieval"  # 200,000 spectra, 20,000 duplicate groups; probes on the tier's three splits
+PEAK_LEVEL = "paper-peak-level"  # 10,000 spectra, batch 128
+GEOMETRY = "paper-geometry"  # 20,000 spectra, six tasks
+COSINE_HYPERSCORE = "paper-geometry"  # row 22 is the cosine-hyperscore task of the geometry run (same draw, same seed)
+VALIDATION = "paper-validation"  # the trainer's validation pass on 250 batches
 
 
 def env_path(name: str) -> Path:
@@ -45,111 +50,24 @@ def env_path(name: str) -> Path:
     return Path(os.path.expandvars(os.path.expanduser(raw)))
 
 
-def dataset_overrides(tier: str) -> list[str]:
-    """The tier's three split globs under `$DATA/splits/<tier>/`, on top of the package's `dataset=<tier>`."""
-    root = env_path("DATA") / "splits" / tier
-    return [f"dataset={tier}"] + [
-        f"dataset.{split}_path={root}/{tier}-{glob}.parquet" for split, glob in SPLIT_GLOB.items()
-    ]
-
-
-def run(
-    *,
-    script: str,
-    model: str,
-    tier: str,
-    split: str,
-    overrides: list[str],
-    num_workers: int = 0,
-    dataset_paths: list[str] | None = None,
-    output_dir: Path | None = None,
-    dest: Path | None = None,
-) -> Path:
-    """Evaluate `model` on `split` of `tier` with `overrides`; returns the directory the summaries were copied to.
-
-    `dataset_paths` replaces the tier's split globs under `$DATA/splits/<tier>` (an external dataset written in the
-    corpus schema, `scripts/evals/`), `output_dir` the run directory under `$RESULTS`, and `dest` the folder the
-    summaries are copied into (`docs/references/rerun/<script>` by default).
-
-    `num_workers` is the evaluation DataLoader's worker count (top-level `num_workers` of the config, 8 by default).
-    It is 0 here because on nibi's compute nodes the worker-to-main shared-memory handoff failed 50 s into
-    embedding generation (`rebuild_storage_fd: unable to mmap ... Cannot allocate memory`, job 22690634,
-    2026-09-25); single-process loading changes throughput, not numbers."""
-    checkpoint = env_path("CHECKPOINTS") / f"{MODELS[model]}.ckpt"
-    out = output_dir or env_path("RESULTS") / script
+def run(*, script: str, model: str, tier: str, split: str, protocol: str) -> Path:
+    """Evaluate `model` on the `split` of `tier` under `protocol`; returns the directory the summaries were copied to."""
     os.environ.setdefault("INSTANOVO_FM_DATA_DIR", str(REPO / "data"))
-    all_overrides = [
-        "evaluation.enabled=True",
-        f"evaluation.checkpoint_path={checkpoint}",
-        f"evaluation.split={split}",
-        f"evaluation.output_dir={out}",
-        *(dataset_paths if dataset_paths is not None else dataset_overrides(tier)),
-        f"num_workers={num_workers}",
-        *overrides,
-    ]
-    t0 = time.time()
-    run_evaluation(compose_fm_config("foundational", all_overrides))
-    dest = dest or REPO / "docs" / "references" / "rerun" / script
-    dest.mkdir(parents=True, exist_ok=True)
-    summaries = sorted(p for p in out.rglob("task_summary.json") if p.stat().st_mtime >= t0)
-    for path in summaries:
-        shutil.copy(path, dest / f"{path.parent.name}.json")
-        results = path.with_name("task_results.json")  # per-class and per-ion detail; kept when it is small
-        if results.exists() and results.stat().st_size <= RESULTS_MAX_BYTES:
-            shutil.copy(results, dest / f"{path.parent.name}.results.json")
-    commit = subprocess.run(
-        ["git", "rev-parse", "--short", "HEAD"], cwd=REPO, capture_output=True, text=True, check=False
-    ).stdout.strip()
-    (dest / "run.json").write_text(
-        json.dumps(
-            {
-                "script": script,
-                "model": MODELS[model],
-                "checkpoint": str(checkpoint),
-                "tier": tier,
-                "split": split,
-                "overrides": all_overrides,
-                "tasks_written": [p.parent.name for p in summaries],
-                "seconds": round(time.time() - t0),
-                "commit": commit,
-                "host": os.uname().nodename,
-            },
-            indent=1,
-        )
+    out = suite_run(
+        "instanovo-fm",
+        checkpoint=env_path("CHECKPOINTS") / f"{MODELS[model]}.ckpt",
+        name=model,
+        dataset=f"{tier}-{split}",
+        protocol=protocol,
+        results=env_path("RESULTS") / "package",
     )
-    print(f"{script}: {len(summaries)} task summaries -> {dest} ({time.time() - t0:.0f} s)", flush=True)
+    dest = REPO / "docs" / "references" / "rerun" / script
+    dest.mkdir(parents=True, exist_ok=True)
+    files = sorted(out.glob("*.json"))
+    for path in files:
+        shutil.copy(path, dest / path.name)
+    meta = json.loads((dest / "run.json").read_text())
+    meta["script"] = script
+    (dest / "run.json").write_text(json.dumps(meta, indent=1))
+    print(f"{script}: {len(files)} files -> {dest}", flush=True)
     return dest
-
-
-# The protocols, each used by one script per model.
-
-PROBES_RETRIEVAL = [  # docs/reproducing_paper_results.md, "Reproducing the probe results", verbatim
-    "evaluation.max_samples=200000",
-    "evaluation.batch_size=256",
-    "evaluation.random_state=42",
-    "evaluation.embedding_pooling=[mean_pool]",
-    "evaluation.tasks_to_run=[linearprobetask,duplicateretrievaltask]",
-    "evaluation.task_configs.duplicateretrievaltask.max_samples=20000",
-    "evaluation.task_configs.linearprobetask.use_project_split=false",
-    "evaluation.task_configs.linearprobetask.max_iter=5000",
-]
-PEAK_LEVEL = [  # the paper's peak-level battery: Table S9 says 10,000 test spectra
-    "evaluation.max_samples=10000",
-    "evaluation.batch_size=128",
-    "evaluation.random_state=42",
-    "evaluation.tasks_to_run=[peaktypeclassificationtask,confidencesignalanalysistask,headanalysistask,igattributiontask]",
-]
-GEOMETRY = [  # embedding-space tasks with no per-peak storage; the three opt-in tasks included
-    "evaluation.max_samples=20000",
-    "evaluation.batch_size=256",
-    "evaluation.random_state=42",
-    "evaluation.tasks_to_run=[embeddingstatisticstask,umapvisualisationtask,evocclusteringtask,cosinehyperscorecorrelationtask,esm2crossmodalalignmenttask,glassboxattributiontask]",
-]
-COSINE_HYPERSCORE = [  # on its own: it ran after UMAP in the geometry jobs and hit a metadata check (fixed in BaseTask)
-    "evaluation.max_samples=20000",
-    "evaluation.batch_size=256",
-    "evaluation.random_state=42",
-    "evaluation.tasks_to_run=[cosinehyperscorecorrelationtask]",
-    "evaluation.task_configs.cosinehyperscorecorrelationtask.peptide_key=peptides",  # the shipped default says
-    # `peptide`, but the evaluator stores sequences under `peptides` (jobs 22697191/2 failed on the default)
-]
