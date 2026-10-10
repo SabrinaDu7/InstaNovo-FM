@@ -1,0 +1,50 @@
+{
+ "parquet": "/home/sabrina/Documents/experiments/datasets/instanovo_fm/mcfm/mcfm-test-00000-of-00014.parquet",
+ "n": 3000,
+ "seeds": 3,
+ "batch_size": 64,
+ "checkpoints": {
+  "40M": "/home/sabrina/.cache/instanovo-fm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
+  "40M-ours": "/home/sabrina/.cache/instanovo-fm/instanovo-fm-mcfm-90k-ours-2026-09-26.ckpt",
+  "89M": "/home/sabrina/.cache/instanovo-fm/instanovo-fm-v0.1.0.ckpt"
+ },
+ "annotation": {
+  "ppm_tol": 10.0,
+  "ion_types": [
+   "b",
+   "y"
+  ],
+  "add_losses": true,
+  "loss_types": [
+   "H2O",
+   "NH3"
+  ],
+  "add_isotopes": true,
+  "max_isotope": 3,
+  "isotope_intensity_threshold": 0.02,
+  "add_precursor": true
+ },
+ "per_model": {
+  "40M": {
+   "spectra": 3000,
+   "spectra_with_groups": 2715,
+   "groups": 42441,
+   "seconds": 1710
+  },
+  "40M-ours": {
+   "spectra": 3000,
+   "spectra_with_groups": 2715,
+   "groups": 42441,
+   "seconds": 1700
+  },
+  "89M": {
+   "spectra": 3000,
+   "spectra_with_groups": 2715,
+   "groups": 42441,
+   "seconds": 3206
+  }
+ },
+ "commit": "c04a5d3",
+ "seconds": 6620,
+ "host": "sabrina-machine"
+}
