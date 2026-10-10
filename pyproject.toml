@@ -80,9 +80,11 @@ s3 = ["s3fs>=2024.12.0", "boto3>=1.35.36"]
 # pin. Development deliberately kept RAPIDS out of the lockfile for the same reason
 # and installed it as a separate step; see docs/gpu-probes.md. The cuML linear
 # probes fall back to scikit-learn when it is absent.
-interpret = ["glass-box-umap>=0.1"]  # pulls pytorch-lightning
-clustering = ["evoc>=0.3", "tbb>=2021.0"]  # EvoC clustering eval task; TBB gives Numba a thread-safe threading layer
-esm = ["fair-esm>=2.0.0"]           # ESM2 cross-modal alignment eval task
+# The evaluation tasks that need them live in the suite; these extras are the suite's, so `uv sync --extra clustering`
+# keeps working for the jobs that select them.
+interpret = ["instanovofm-evals[interpret]"]  # Glass Box attribution, integrated gradients (pulls pytorch-lightning)
+clustering = ["instanovofm-evals[clustering]"]  # EVoC clustering; TBB gives Numba a thread-safe threading layer
+esm = ["instanovofm-evals[esm]"]  # ESM2 cross-modal alignment
 # No `baselines` extra: casanovo pins numpy<2.0 while instanovo 1.2.2 requires
 # numpy>=2.0.2, so casanovo cannot share this environment at all. That is why the
 # internal repo installed it as a separate pip step rather than locking it.

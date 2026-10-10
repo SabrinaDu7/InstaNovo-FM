@@ -10,7 +10,7 @@ from typing import Any
 import numpy as np
 import pytest
 
-from instanovo_fm.eval._predict_de_novo_common import (
+from instanovo_fm.baselines._predict_de_novo_common import (
     CASANOVO_TO_UNIMOD,
     MODEL_SCORING,
     PREDICTION_CSV_COLUMNS,
@@ -22,7 +22,7 @@ from instanovo_fm.eval._predict_de_novo_common import (
     score_predictions,
     targets_in_model_vocab,
 )
-from instanovo_fm.eval.predict_casanovo_de_novo import (
+from instanovo_fm.baselines.predict_casanovo_de_novo import (
     _casanovo_preprocessing,
     _preprocess_spectrum,
     _resolve_group,
@@ -54,7 +54,7 @@ class TestCasanovoRemappingViaResidueSet:
 
     def test_compound_nterm_token_canonicalizes_to_two_mods(self) -> None:
         """The single compound carbamyl+ammonia-loss token expands to two scorable UNIMOD residues."""
-        from instanovo_fm.eval._predict_de_novo_common import _canonicalize_peptide
+        from instanovo_fm.baselines._predict_de_novo_common import _canonicalize_peptide
 
         rs = self._residue_set()
         assert _canonicalize_peptide("[+25.980265]PEPK", rs) == "[UNIMOD:5][UNIMOD:385]PEPK"
@@ -316,7 +316,7 @@ class TestScoringHandlesEmptyPredictions:
         """score_predictions fills NaN predictions so a blank cell scores as a miss, not a crash."""
         import pandas as pd
 
-        from instanovo_fm.eval._predict_de_novo_common import score_predictions
+        from instanovo_fm.baselines._predict_de_novo_common import score_predictions
 
         # Mix modified + unmodified peptides so run_all_analyses' mod-presence buckets are both
         # populated (an empty bucket would ZeroDivision inside the analyzer on tiny synthetic data).
@@ -358,7 +358,7 @@ class TestConfigDrivenResolution:
         """A config with no ``model`` fails fast (both inference configs set it explicitly)."""
         from omegaconf import OmegaConf
 
-        from instanovo_fm.eval.run_baseline_de_novo import _resolve_model_and_checkpoint
+        from instanovo_fm.baselines.run_baseline_de_novo import _resolve_model_and_checkpoint
 
         with pytest.raises(ValueError, match="model must be one of"):
             _resolve_model_and_checkpoint(OmegaConf.create({}))
@@ -367,7 +367,7 @@ class TestConfigDrivenResolution:
         """With an explicit model, checkpoint/url fall back to the registry when omitted."""
         from omegaconf import OmegaConf
 
-        from instanovo_fm.eval.run_baseline_de_novo import MODELS, _resolve_model_and_checkpoint
+        from instanovo_fm.baselines.run_baseline_de_novo import MODELS, _resolve_model_and_checkpoint
 
         model, checkpoint, url = _resolve_model_and_checkpoint(OmegaConf.create({"model": "casanovo"}))
         assert model == "casanovo"
@@ -378,7 +378,7 @@ class TestConfigDrivenResolution:
         """A config `checkpoint` wins over the registry default."""
         from omegaconf import OmegaConf
 
-        from instanovo_fm.eval.run_baseline_de_novo import _resolve_model_and_checkpoint
+        from instanovo_fm.baselines.run_baseline_de_novo import _resolve_model_and_checkpoint
 
         _model, checkpoint, _url = _resolve_model_and_checkpoint(OmegaConf.create({"model": "casanovo", "checkpoint": "/tmp/my.ckpt"}))
         assert checkpoint == "/tmp/my.ckpt"
@@ -387,7 +387,7 @@ class TestConfigDrivenResolution:
         """An unregistered model fails fast."""
         from omegaconf import OmegaConf
 
-        from instanovo_fm.eval.run_baseline_de_novo import _resolve_model_and_checkpoint
+        from instanovo_fm.baselines.run_baseline_de_novo import _resolve_model_and_checkpoint
 
         with pytest.raises(ValueError, match="model must be one of"):
             _resolve_model_and_checkpoint(OmegaConf.create({"model": "bogus"}))
@@ -396,7 +396,7 @@ class TestConfigDrivenResolution:
         """A string data_path becomes one group with result_name/input_path/output_path."""
         from omegaconf import OmegaConf
 
-        from instanovo_fm.eval.run_baseline_de_novo import _normalize_data_groups
+        from instanovo_fm.baselines.run_baseline_de_novo import _normalize_data_groups
 
         cfg = OmegaConf.create({"data_path": "data/foo.parquet", "output_path": "out/foo.csv"})
         groups = _normalize_data_groups(cfg, run_name="myrun")
@@ -409,7 +409,7 @@ class TestConfigDrivenResolution:
         """A list data_path (grouped benchmark) is returned as-is."""
         from omegaconf import OmegaConf
 
-        from instanovo_fm.eval.run_baseline_de_novo import _normalize_data_groups
+        from instanovo_fm.baselines.run_baseline_de_novo import _normalize_data_groups
 
         cfg = OmegaConf.create(
             {
@@ -426,14 +426,14 @@ class TestConfigDrivenResolution:
         """A missing data_path raises a clear ValueError."""
         from omegaconf import OmegaConf
 
-        from instanovo_fm.eval.run_baseline_de_novo import _normalize_data_groups
+        from instanovo_fm.baselines.run_baseline_de_novo import _normalize_data_groups
 
         with pytest.raises(ValueError, match="data_path is required"):
             _normalize_data_groups(OmegaConf.create({}), run_name="r")
 
     def test_build_result_row_flattens_all_per_group_metrics(self) -> None:
         """_build_result_row emits every metric in each dataset's dict as a {group}_{metric} column."""
-        from instanovo_fm.eval.run_baseline_de_novo import _build_result_row
+        from instanovo_fm.baselines.run_baseline_de_novo import _build_result_row
 
         row = _build_result_row(
             "run1",
@@ -483,7 +483,7 @@ class TestS3WriteFallback:
 
     def test_local_dest_writes_normally(self, tmp_path: Path) -> None:
         """A local destination is written and returned as-is."""
-        from instanovo_fm.eval.run_baseline_de_novo import _write_predictions_to_dest
+        from instanovo_fm.baselines.run_baseline_de_novo import _write_predictions_to_dest
 
         df, local = self._df_and_local(tmp_path)
         dest = str(tmp_path / "dest.csv")
@@ -493,7 +493,7 @@ class TestS3WriteFallback:
 
     def test_s3_failure_falls_back_to_local(self, tmp_path: Path) -> None:
         """A failing S3 upload falls back to the local copy instead of raising."""
-        from instanovo_fm.eval.run_baseline_de_novo import _write_predictions_to_dest
+        from instanovo_fm.baselines.run_baseline_de_novo import _write_predictions_to_dest
 
         df, local = self._df_and_local(tmp_path)
         out = _write_predictions_to_dest(df, "s3://bucket/x.csv", local, _StubS3(s3=object(), raise_on_upload=True), allow_fallback=True, label="x")
@@ -501,7 +501,7 @@ class TestS3WriteFallback:
 
     def test_s3_unconfigured_falls_back_to_local(self, tmp_path: Path) -> None:
         """An s3:// dest with no S3 client configured falls back to the local copy without attempting a write."""
-        from instanovo_fm.eval.run_baseline_de_novo import _write_predictions_to_dest
+        from instanovo_fm.baselines.run_baseline_de_novo import _write_predictions_to_dest
 
         df, local = self._df_and_local(tmp_path)
         out = _write_predictions_to_dest(df, "s3://bucket/x.csv", local, _StubS3(s3=None), allow_fallback=True, label="x")
@@ -509,7 +509,7 @@ class TestS3WriteFallback:
 
     def test_no_fallback_reraises(self, tmp_path: Path) -> None:
         """With allow_fallback=False a failing S3 upload propagates."""
-        from instanovo_fm.eval.run_baseline_de_novo import _write_predictions_to_dest
+        from instanovo_fm.baselines.run_baseline_de_novo import _write_predictions_to_dest
 
         df, local = self._df_and_local(tmp_path)
         with pytest.raises(PermissionError):
@@ -523,7 +523,7 @@ class TestOovAndResidueLogging:
         """_targets_in_vocab returns a mask and counts each out-of-vocab residue per target."""
         import pandas as pd
 
-        from instanovo_fm.eval._predict_de_novo_common import _build_residue_set, _targets_in_vocab
+        from instanovo_fm.baselines._predict_de_novo_common import _build_residue_set, _targets_in_vocab
 
         targets = pd.Series(["PEPTIDEK", "C[UNIMOD:312]PEK", "M[UNIMOD:35]AK", "K[UNIMOD:259]R"])
         mask, oov_counts = _targets_in_vocab(targets, _build_residue_set(None))
@@ -533,7 +533,7 @@ class TestOovAndResidueLogging:
 
     def test_log_supported_residues_runs(self) -> None:
         """log_supported_residues splits standard amino acids from modifications without error."""
-        from instanovo_fm.eval._predict_de_novo_common import log_supported_residues
+        from instanovo_fm.baselines._predict_de_novo_common import log_supported_residues
 
         log_supported_residues({"A": 71.03711, "M[UNIMOD:35]": 147.0354, "[UNIMOD:1]": 42.010565}, "TestModel")
 

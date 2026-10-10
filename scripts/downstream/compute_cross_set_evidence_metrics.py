@@ -4,11 +4,10 @@
 Decouples the expensive evidence-metrics computation from the fast embedding
 retrieval step of the Kostas cross-set annotation transfer pipeline.
 
-Run Stage 1 first -- the normal evaluator run with evidence metrics disabled:
-
-    uv run python -m instanovo_fm.eval.embed_evaluation \\
-        --config-name foundational_eval_cross_set_annotation_transfer \\
-        evaluation.task_configs.crosssetannotationtransfertask.compute_evidence_metrics=false
+Run Stage 1 first: the cross-set annotation transfer task with evidence metrics disabled. The task now lives in the
+evaluation suite (`instanovofm_evals.tasks.cross_set_annotation_transfer`); the embedded evaluator's configuration for
+it (`foundational_eval_cross_set_annotation_transfer.yaml`) left this package with the evaluator, so Stage 1 needs a
+suite protocol for the task before it runs again.
 
 That produces ``cross_set_topk_candidates.csv`` within the embedding-generation
 time (tens of minutes), instead of blocking for hours on evidence scoring.
@@ -45,8 +44,8 @@ import polars as pl
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from instanovo_fm.eval.spectrum_metrics.mcp_scoring import MCP_AVAILABLE  # noqa: E402
-from instanovo_fm.eval.spectrum_metrics.worker import (  # noqa: E402
+from instanovofm_evals.spectrum_metrics.mcp_scoring import MCP_AVAILABLE  # noqa: E402
+from instanovofm_evals.spectrum_metrics.worker import (  # noqa: E402
     LibrarySelfWorkItem,
     QueryRankWorkItem,
     SpectrumRecord,

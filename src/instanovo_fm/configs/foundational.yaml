@@ -3,7 +3,6 @@ defaults:
   - model: foundation_base
   - dataset: lcfm
   - residues: default
-  - evaluation: default
   - profiling: detailed
   - analysis: default
 
@@ -70,26 +69,13 @@ max_valid_steps: 250  # Cap validation at N batches (250 * 1024 = 256K spectra).
 # Number of model updates between validations
 validation_interval: 10_000 # ~1 epoch; profiling shows validation = 50% of wall time at 5k interval
 # Number of model updates between validations
-embedding_evaluation:
-  enabled: True
-  interval: 10_000  # Run every N training steps (should align with training_steps for final eval)
-  batch_size: 128    # Batch size for embedding generation (smaller than training to avoid OOM with PA/ion_ladder)
-  tasks_to_run:
-    - embeddingstatisticstask  # Minimal task during training; full eval runs post-training
-    - duplicateretrievaltask
-
-# Post-training full evaluation on best checkpoint (runs once after training completes)
+# After training: the evaluation suite (instanovofm_evals) on the best checkpoint, one run per protocol, on a corpus
+# split (lcfm-test, mcfm-test, ...) for the paper-* protocols or an exported dataset for the dataset protocols.
 post_training_evaluation:
   enabled: True
-  tasks_to_run:
-    - embeddingstatisticstask
-    - duplicateretrievaltask
-    - linearprobetask
-    - confidencesignalanalysistask
-    - headanalysistask
-    - igattributiontask
-    - peaktypeclassificationtask
-    - umapvisualisationtask
+  dataset: lcfm-test
+  protocols: [paper-probes-retrieval, paper-peak-level, paper-geometry]
+  results_dir: null   # default: <model_save_folder_path>/../evaluation
 
 # Checkpointing parameters
 save_model: True

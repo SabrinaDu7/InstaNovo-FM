@@ -53,31 +53,15 @@ Accelerate config for the visible devices with `accelerate config` before launch
 ## Evaluating a checkpoint
 
 ```bash
-instanovo-fm evaluate --checkpoint path/to/model_best.ckpt --split test
+instanovo-fm evaluate --checkpoint path/to/model_best.ckpt --dataset lcfm-test --protocol paper-probes-retrieval
 ```
 
-`--checkpoint` and `--split` are shorthand for the `evaluation.checkpoint_path` and
-`evaluation.split` overrides. Further Hydra overrides can be appended:
-
-```bash
-instanovo-fm evaluate \
-    --checkpoint checkpoints/instanovo-foundational-base/model_best.ckpt \
-    --split test \
-    evaluation.batch_size=256 \
-    evaluation.tasks_to_run=[linearprobetask,duplicateretrievaltask]
-```
-
-`evaluation.tasks_to_run` selects the battery; the available tasks live in
-`src/instanovo_fm/eval/embed_eval_tasks/`.
-
-This is the same code path as the module form used by the run scripts:
-
-```bash
-uv run python -m instanovo_fm.eval.embed_evaluation \
-    --config-name foundational evaluation.checkpoint_path=...
-```
-
-Both call `run_evaluation()` in `src/instanovo_fm/eval/embed_evaluation.py`.
+The command is the evaluation suite's `instanovofm_evals.run("instanovo-fm", ...)`; the protocol
+(`paper-probes-retrieval`, `paper-peak-level`, `paper-geometry`, `paper-validation` on a corpus
+split; `probes`, `retrieval`, `geometry`, `peak_level`, `unlabelled`, `validation` on an exported
+dataset) fixes the spectra, caps, seed, batch size and tasks, and the suite's README describes each
+task. After training, `post_training_evaluation` in `foundational.yaml` runs the listed protocols on
+`model_best.ckpt` the same way.
 
 > **Probe scores depend on the protocol**
 >
@@ -91,7 +75,7 @@ Both call `run_evaluation()` in `src/instanovo_fm/eval/embed_evaluation.py`.
 | Path | Default | Lifetime |
 |---|---|---|
 | Checkpoints | `checkpoints/instanovo-foundational-base` | written into, never cleared |
-| Evaluation results |  `instanovo_fm/eval/embed_eval_results` | one directory per task, overwritten per run |
+| Evaluation results | the suite's `results/<dataset>/<name>/<protocol>/` | one `<task>.json` per task, replaced per run |
 | Embedding cache | `<output>/embeddings_<split>/` | only when `save_embeddings=True`; **reused on the next run** unless `force_regenerate_embeddings=True` |
 | MLflow local fallback | `./mlruns` | only when the remote is unreachable and `mlflow_allow_local_fallback=True` |
 
@@ -128,5 +112,5 @@ Metrics are also written to the run's output directory as JSON, which does not d
 server being reachable at all:
 
 ```
-<output>/instanovo_fm/eval/embed_eval_results/<task>/task_summary.json
+<results>/<dataset>/<name>/<protocol>/<task>.json
 ```

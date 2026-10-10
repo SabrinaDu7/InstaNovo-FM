@@ -6,7 +6,7 @@ with ctcdecode, imputer-pytorch and cupy. Both therefore run from their own
 images (see docker/README.md).
 
 That arrangement only works while every third-party baseline import sits inside a
-function. If one drifts to module scope, importing instanovo_fm.eval starts
+function. If one drifts to module scope, importing instanovo_fm.baselines starts
 requiring a package that cannot be installed, and the whole eval harness breaks
 in the default environment. These tests pin the property down.
 """
@@ -53,9 +53,9 @@ def test_eval_package_imports_without_baseline_deps() -> None:
     """Importing the eval package must not require any isolated dependency."""
     import importlib
 
-    importlib.import_module("instanovo_fm.eval")
+    importlib.import_module("instanovo_fm.baselines")
 
     import sys
 
     leaked = ISOLATED & set(sys.modules)
-    assert not leaked, f"importing instanovo_fm.eval pulled in {sorted(leaked)}"
+    assert not leaked, f"importing instanovo_fm.baselines pulled in {sorted(leaked)}"

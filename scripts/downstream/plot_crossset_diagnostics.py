@@ -33,11 +33,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import polars as pl
 
-from instanovo_fm.eval.spectrum_metrics.mcp_scoring import (
+from instanovofm_evals.spectrum_metrics.mcp_scoring import (
     MCP_AVAILABLE,
     score_observed_vs_theoretical,
 )
-from instanovo_fm.eval.spectrum_metrics.observed_vs_observed import (
+from instanovofm_evals.spectrum_metrics.observed_vs_observed import (
     score_observed_vs_observed,
 )
 

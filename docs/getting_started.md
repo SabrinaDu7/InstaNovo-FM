@@ -108,28 +108,25 @@ is hard to read if you leave it out:
 
 ## Reading embeddings out
 
-Evaluation loads a checkpoint, computes embeddings and probes what they encode:
+Evaluation loads a checkpoint, computes embeddings and probes what they encode. It is the
+`instanovofm-evals` suite (a dependency of this package); a protocol fixes which spectra, caps,
+seed and tasks are used, so numbers are comparable between checkpoints:
 
 ```bash
-instanovo-fm evaluate \
-    --checkpoint ./checkpoints/instanovo-foundational-base/model_best.ckpt \
-    evaluation.tasks_to_run=[embeddingstatisticstask]
+instanovo-fm evaluate --checkpoint ./checkpoints/instanovo-foundational-base/model_best.ckpt \
+    --dataset lcfm-test --protocol paper-geometry
 ```
 
-`embeddingstatisticstask` needs no labels — it reports the geometry of the embedding space
-(effective rank, anisotropy, mean pairwise similarity). Results land in:
+`paper-geometry` includes the embedding-statistics task, which needs no labels — it reports the
+geometry of the embedding space (effective rank, anisotropy, mean pairwise similarity). Results
+land in the suite's `results/<dataset>/<name>/<protocol>/<task>.json`.
 
-```
-<output>/instanovo_fm/eval/embed_eval_results/<task>/task_summary.json
-```
-
-If your spectra *are* annotated, the probe tasks become available and will tell you what is
-linearly decodable from the frozen embeddings:
+If your spectra *are* annotated, the probe protocol tells you what is linearly decodable from the
+frozen embeddings:
 
 ```bash
-instanovo-fm evaluate \
-    --checkpoint ./checkpoints/instanovo-foundational-base/model_best.ckpt \
-    evaluation.tasks_to_run=[linearprobetask]
+instanovo-fm evaluate --checkpoint ./checkpoints/instanovo-foundational-base/model_best.ckpt \
+    --dataset lcfm-test --protocol paper-probes-retrieval
 ```
 
 ## Where to go next

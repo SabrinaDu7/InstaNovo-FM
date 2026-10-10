@@ -24,7 +24,7 @@ from typing import Any
 import numpy as np
 import polars as pl
 
-from instanovo_fm.eval.embed_eval_tasks.spectral_rescue_reformulated import (
+from instanovofm_evals.tasks.spectral_rescue_reformulated import (
     SpectralRescueTaskReformulated,
 )
 from instanovo.utils.s3 import S3FileHandler

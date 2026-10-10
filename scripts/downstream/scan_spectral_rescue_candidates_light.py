@@ -32,7 +32,7 @@ from typing import Any
 
 import polars as pl
 
-from instanovo_fm.eval.embed_eval_tasks.spectral_rescue_reformulated import (
+from instanovofm_evals.tasks.spectral_rescue_reformulated import (
     SpectralRescueTaskReformulated,
 )
 

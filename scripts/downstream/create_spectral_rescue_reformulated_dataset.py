@@ -30,10 +30,10 @@ from typing import Any, Dict, Iterable, List, Optional
 import numpy as np
 import polars as pl
 
-from instanovo_fm.eval.embed_eval_tasks.spectral_rescue_reformulated import (
+from instanovofm_evals.tasks.spectral_rescue_reformulated import (
     SpectralRescueTaskReformulated,
 )
-from instanovo_fm.eval.embed_eval_tasks.spectral_rescue_scope import (
+from instanovofm_evals.tasks.spectral_rescue_scope import (
     RescuePairSpec,
     resolve_rescue_scope_config,
     scope_guidance_text,

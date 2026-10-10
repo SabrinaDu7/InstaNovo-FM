@@ -33,7 +33,7 @@ Raw MS/MS
   → prediction heads               src/instanovo_fm/model/heads.py
   → loss                           src/instanovo_fm/trainer/losses.py
   → embeddings
-  → evaluation tasks               src/instanovo_fm/eval/embed_eval_tasks/
+  → evaluation tasks               instanovofm_evals/tasks/ (the instanovofm-evals package)
 ```
 
 Each stage owns one concern, and the boundaries are contracts rather than conventions. In

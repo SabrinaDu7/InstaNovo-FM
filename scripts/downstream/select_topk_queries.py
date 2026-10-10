@@ -182,7 +182,7 @@ def _score_rank1_annotation(
     annotation_metric: str,
 ) -> tuple[str, float]:
     """Score one query's rank-1 candidate via MCP block B (module-level for picklability)."""
-    from instanovo_fm.eval.spectrum_metrics.mcp_scoring import score_observed_vs_theoretical
+    from instanovofm_evals.spectrum_metrics.mcp_scoring import score_observed_vs_theoretical
 
     if not peptide:
         return query_id, float("-inf")
@@ -214,7 +214,7 @@ def compute_annotation_coverage_scores(
     cost is one MCP call per query instead of --top-k calls per query -- the same
     per-item cost as the expensive Stage 2 evidence scoring, but ~20x less work.
     """
-    from instanovo_fm.eval.spectrum_metrics.mcp_scoring import MCP_AVAILABLE
+    from instanovofm_evals.spectrum_metrics.mcp_scoring import MCP_AVAILABLE
 
     if not MCP_AVAILABLE:
         raise SystemExit(

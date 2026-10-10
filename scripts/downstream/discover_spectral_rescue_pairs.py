@@ -33,7 +33,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import polars as pl
 
-from instanovo_fm.eval.embed_eval_tasks.spectral_rescue_reformulated import (
+from instanovofm_evals.tasks.spectral_rescue_reformulated import (
     SpectralRescueTaskReformulated,
 )
 

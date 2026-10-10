@@ -56,5 +56,4 @@ trap 'kill $SAMPLER 2>/dev/null || true' EXIT
   mlflow_enabled=True \
   "mlflow_tracking_uri=sqlite:///$RUN/mlflow.db" \
   mlflow_experiment_name=instanovo-fm-reproduction \
-  "evaluation.output_dir=$RUN/evaluation" \
   "$@" 2>&1 | tee -a "$RUN/train.log"

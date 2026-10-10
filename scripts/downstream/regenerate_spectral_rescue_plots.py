@@ -26,10 +26,10 @@ import argparse
 import json
 from pathlib import Path
 
-from instanovo_fm.eval.embed_eval_tasks.spectral_rescue_reformulated import (
+from instanovofm_evals.tasks.spectral_rescue_reformulated import (
     SpectralRescueTaskReformulated,
 )
-from instanovo_fm.eval.embed_eval_tasks.spectral_rescue_reformulated_plots import (
+from instanovofm_evals.tasks.spectral_rescue_reformulated_plots import (
     load_rescue_artifacts_from_dir,
     save_rescue_publication_plots,
 )

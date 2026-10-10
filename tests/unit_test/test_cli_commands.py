@@ -26,17 +26,15 @@ from instanovo_fm.cli import cli
 runner = CliRunner()
 
 
-def test_evaluate_reaches_run_evaluation() -> None:
-    """`evaluate` must import `run_evaluation` and get as far as needing a checkpoint.
+def test_evaluate_delegates_to_the_suite() -> None:
+    """`evaluate` is the suite's `run` with the InstaNovo-FM adapter: it must import the suite and fail on its
+    arguments, never on imports."""
+    from instanovofm_evals import run
 
-    The regression this guards raised ImportError before any argument was read.
-    """
-    from instanovo_fm.eval.embed_evaluation import run_evaluation
+    assert callable(run)
 
-    assert callable(run_evaluation)
-
-    result = runner.invoke(cli, ["evaluate", "--checkpoint", "does-not-exist.ckpt"])
-    # It must fail for a reason about the *checkpoint*, never about imports.
+    args = ["evaluate", "--checkpoint", "does-not-exist.ckpt", "--dataset", "lcfm-test", "--protocol", "paper-geometry"]
+    result = runner.invoke(cli, args)
     assert not isinstance(result.exception, ImportError), result.output
 
 

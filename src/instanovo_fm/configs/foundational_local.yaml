@@ -3,7 +3,6 @@ defaults:
   - model: foundation_base
   - dataset: mcfm_local
   - residues: default
-  - evaluation: default
   - profiling: default
   - analysis: default
 
@@ -67,10 +66,13 @@ max_valid_steps: 50  # Cap validation at N batches. null = full dataset.
 
 # Number of model updates between validations
 validation_interval: 500 # roughly half an epoch
-embedding_evaluation:
+# After training: the evaluation suite (instanovofm_evals) on the best checkpoint, one run per protocol, on a corpus
+# split (lcfm-test, mcfm-test, ...) for the paper-* protocols or an exported dataset for the dataset protocols.
+post_training_evaluation:
   enabled: False
-  interval: 500  # Run every N training steps (should align with training_steps for final eval)
-  batch_size: 16  # Batch size for embedding generation
+  dataset: mcfm-test
+  protocols: [paper-probes-retrieval, paper-peak-level, paper-geometry]
+  results_dir: null   # default: <model_save_folder_path>/../evaluation
 
 # Checkpointing parameters
 save_model: False

@@ -66,69 +66,32 @@ def foundational_train(
 
 @cli.command("evaluate")
 def foundational_evaluate(
-    config_path: Annotated[
-        Optional[str],
+    checkpoint: Annotated[str, typer.Option("--checkpoint", help="Checkpoint to evaluate (.ckpt).")],
+    dataset: Annotated[
+        str,
+        typer.Option("--dataset", help="A corpus split (lcfm-test, mcfm-test, lcfm-valid, mcfm-valid) for the paper-* protocols, or an exported dataset."),
+    ],
+    protocol: Annotated[
+        str,
         typer.Option(
-            "--config-path",
-            "-cp",
-            help="Relative path to config directory.",
+            "--protocol",
+            help="paper-probes-retrieval, paper-peak-level, paper-geometry, paper-validation on a corpus split; probes, retrieval, geometry, "
+            "peak_level, unlabelled, validation on an exported dataset.",
         ),
-    ] = None,
-    config_name: Annotated[
-        Optional[str],
-        typer.Option(
-            "--config-name",
-            "-cn",
-            help="The name of the config (usually the file name without the .yaml extension).",
-        ),
-    ] = None,
-    checkpoint_path: Annotated[
-        Optional[str],
-        typer.Option(
-            "--checkpoint",
-            help="Checkpoint to evaluate. Overrides evaluation.checkpoint_path in the config.",
-        ),
-    ] = None,
-    split: Annotated[
-        Optional[str],
-        typer.Option(
-            "--split",
-            help="Dataset split to evaluate on (train, valid or test). Overrides evaluation.split.",
-        ),
-    ] = None,
-    overrides: Optional[List[str]] = typer.Argument(None, hidden=True),
+    ],
+    name: Annotated[str, typer.Option("--name", help="Results directory name: <results>/<dataset>/<name>/<protocol>.")] = "model",
+    results: Annotated[Optional[str], typer.Option("--results", help="Results root; default: the suite's own results/ directory.")] = None,
 ) -> None:
-    """Evaluate a Foundation Model checkpoint by computing and probing embeddings.
+    """Evaluate a Foundation Model checkpoint with the evaluation suite.
 
-    Runs the embedding evaluation suite (linear probes, retrieval, peak-type
-    classification, attribution) against a trained checkpoint. This is the same
-    code path as ``python -m instanovo_fm.eval.embed_evaluation``; the options
-    below are shorthand for the corresponding Hydra overrides.
+    The suite is the ``instanovofm_evals`` package (a dependency); this command is its
+    ``run("instanovo-fm", ...)``, the same as ``instanovofm-evals run --adapter instanovo-fm``.
+    The protocol fixes which spectra, caps, seed, batch size and tasks; see the suite's README.
     """
-    logger.info("Initializing InstaNovo Foundation Model evaluation.")
+    from instanovofm_evals import run
 
-    if config_name is None:
-        config_name = "foundational"
-
-    # Surface the two overrides people reach for most as first-class options,
-    # while still allowing arbitrary Hydra overrides as trailing arguments.
-    overrides = list(overrides or [])
-    overrides.append("evaluation.enabled=True")
-    if checkpoint_path is not None:
-        overrides.append(f"evaluation.checkpoint_path={checkpoint_path}")
-    if split is not None:
-        overrides.append(f"evaluation.split={split}")
-
-    config = compose_fm_config(
-        config_name=config_name,
-        overrides=overrides,
-        config_dir=config_path,
-    )
-
-    logger.info("Starting InstaNovo Foundation Model evaluation.")
-    from instanovo_fm.eval.embed_evaluation import run_evaluation
-
-    run_evaluation(config)
+    logger.info(f"Evaluating {checkpoint} on {dataset} under {protocol} with instanovofm_evals.")
+    run("instanovo-fm", checkpoint=checkpoint, name=name, dataset=dataset, protocol=protocol, **({"results": results} if results else {}))
 
 
 from instanovo_fm.downstream.de_novo_sequencing.cli import cli as _denovo_cli

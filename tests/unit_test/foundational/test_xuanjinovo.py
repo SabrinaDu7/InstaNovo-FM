@@ -12,9 +12,9 @@ import pandas as pd
 import pytest
 from pyteomics import mgf
 
-from instanovo_fm.eval import convert_parquet_to_mgf as conv
-from instanovo_fm.eval import run_xuanjinovo as runner
-from instanovo_fm.eval import score_xuanjinovo as scorer
+from instanovo_fm.baselines import convert_parquet_to_mgf as conv
+from instanovo_fm.baselines import run_xuanjinovo as runner
+from instanovo_fm.baselines import score_xuanjinovo as scorer
 
 # Two in-vocabulary targets (kept), one high-charge (dropped), one phospho / out-of-vocab (dropped).
 _SYNTHETIC_ROWS = [
@@ -573,7 +573,7 @@ class TestXuanjiNovoImageClosure:
     """
 
     _REPO_ROOT = Path(__file__).resolve().parents[3]
-    _ENTRYPOINT = "instanovo_fm.eval.run_xuanjinovo"
+    _ENTRYPOINT = "instanovo_fm.baselines.run_xuanjinovo"
 
     def _module_file(self, module: str) -> Path | None:
         """Resolve a dotted instanovo module name to its file, if it exists."""
@@ -586,7 +586,7 @@ class TestXuanjiNovoImageClosure:
     def _closure(self) -> set[str]:
         """Walk the runner's transitive import closure within our own packages.
 
-        Parent packages count: importing ``instanovo_fm.eval.run_xuanjinovo`` also executes
+        Parent packages count: importing ``instanovo_fm.baselines.run_xuanjinovo`` also executes
         ``instanovo/foundational/__init__.py`` and ``instanovo/foundational/eval/__init__.py``, so a
         heavy import added to one of those breaks the image just as surely as one in the runner.
         """

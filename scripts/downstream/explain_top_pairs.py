@@ -38,6 +38,7 @@ import argparse
 import html as html_lib
 import json
 import re
+from importlib.resources import files
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -48,11 +49,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import polars as pl
 
-from instanovo_fm.eval.spectrum_metrics.mcp_scoring import (
+from instanovofm_evals.spectrum_metrics.mcp_scoring import (
     MCP_AVAILABLE,
     build_predicted_spectrum,
 )
-from instanovo_fm.eval.spectrum_metrics.worker import (
+from instanovofm_evals.spectrum_metrics.worker import (
     LibrarySelfWorkItem,
     QueryRankWorkItem,
     SpectrumRecord,
@@ -95,7 +96,7 @@ def _skip_metric(short_key: str) -> bool:
 # Candidate locations for the shared Nature-methods palette (single source of truth).
 _METADATA_COLORS_PATHS = [
     Path(__file__).resolve().parents[2] / "config" / "metadata_colors.json",
-    Path(__file__).resolve().parents[2] / "src/instanovo_fm/eval/embed_eval_tasks/metadata_colors.json",
+    Path(str(files("instanovofm_evals.tasks") / "metadata_colors.json")),  # the suite's palette
 ]
 
 

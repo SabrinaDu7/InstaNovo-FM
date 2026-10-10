@@ -1231,18 +1231,6 @@ class FoundationalTrainer(AccelerateDeNovoTrainer):
                 self.model.eval()
                 self.validate_epoch()
 
-                # Check if we should run embedding evaluation
-                embed_eval_config = self.config.get("embedding_evaluation", {})
-                embed_eval_interval = embed_eval_config.get("interval", None)
-
-                if embed_eval_interval and self.global_step % embed_eval_interval == 0:
-                    logger.info("Running embedding evaluation at specified interval...")
-                    self.run_embedding_evaluation()
-                    # run_embedding_evaluation() returns immediately on non-main ranks.
-                    # Barrier here prevents rank 1 from advancing to save_accelerator_state()
-                    # (which calls collectives) while rank 0 is still in the evaluator.
-                    self.accelerator.wait_for_everyone()
-
                 logger.info("Validation complete, resuming training...")
                 self.model.train()
 
@@ -1290,306 +1278,55 @@ class FoundationalTrainer(AccelerateDeNovoTrainer):
 
             logger.info(f"[TRAIN] [Epoch {self.epoch:02d}] Epoch complete, total time {epoch_timer.get_time_str()}")
 
-    def run_embedding_evaluation(self) -> None:
-        """Run comprehensive embedding evaluation using EmbeddingEvaluator.
-
-        This method leverages the existing EmbeddingEvaluator infrastructure
-        while reusing the already-loaded validation dataloader for efficiency.
-
-        Results are saved to a timestamped subdirectory and key metrics are logged
-        to TensorBoard/Neptune under the 'eval/embed/' prefix.
-        """
-        if not self.accelerator.is_main_process:
-            return
-
-        embed_eval_config = self.config.get("embedding_evaluation", {})
-        if not embed_eval_config.get("enabled", False):
-            return
-
-        if self.valid_dataloader is None:
-            logger.warning("Validation dataloader not available, skipping embedding evaluation")
-            return
-
-        logger.info("=" * 80)
-        logger.info("Running comprehensive embedding evaluation...")
-        logger.info("=" * 80)
-
-        try:
-            from instanovo_fm.eval import embedding_io
-            from instanovo_fm.eval.evaluator import EmbeddingEvaluator
-
-            # Create evaluator config with step-specific output directory
-            eval_config_dict: dict[str, Any] = {
-                "evaluation": OmegaConf.to_container(self.config.evaluation, resolve=True),
-                "dataset": OmegaConf.to_container(self.config.dataset, resolve=True),
-                "residues": OmegaConf.to_container(self.config.residues, resolve=True),
-                "num_workers": self.config.get("num_workers", 4),
-                "model_save_folder_path": self.config.get("model_save_folder_path", "./checkpoints"),
-            }
-
-            # Override output directory to organize by training step
-            base_output_dir = Path(eval_config_dict["evaluation"].get("output_dir", "./evaluation_results"))
-            step_output_dir = base_output_dir / f"step_{self.global_step + 1:06d}"
-            eval_config_dict["evaluation"]["output_dir"] = str(step_output_dir)
-
-            # Override tasks list from embedding_evaluation section (keeps training-time eval minimal)
-            embed_tasks = embed_eval_config.get("tasks_to_run", None)
-            if embed_tasks is not None:
-                eval_config_dict["evaluation"]["tasks_to_run"] = list(embed_tasks)
-
-            evaluator_config = OmegaConf.create(eval_config_dict)
-
-            # Create evaluator
-            evaluator = EmbeddingEvaluator(evaluator_config)
-
-            # Use the in-training model directly (no checkpoint loading)
-            unwrapped_model = self._unwrap_model()
-            unwrapped_model.eval()
-            evaluator.model = unwrapped_model
-            evaluator.model_config = self.config.model
-            n_params = sum(p.numel() for p in unwrapped_model.parameters())
-            logger.info(f"Using in-training model at step {self.global_step + 1} ({n_params:,} parameters)")
-
-            # Build a fresh dataloader with a smaller batch size to avoid OOM.
-            # The training validation dataloader uses predict_batch_size (e.g. 1024)
-            # which is too large for models with O(B*L*L) intermediate tensors
-            # (e.g., PA pairwise bias). We reuse the dataset and collate_fn from
-            # the existing dataloader to ensure correct preprocessing.
-            eval_batch_size = embed_eval_config.get("batch_size", 32)
-            eval_dataloader = torch.utils.data.DataLoader(
-                self.valid_dataloader.dataset,
-                batch_size=eval_batch_size,
-                shuffle=False,
-                collate_fn=self.valid_dataloader.collate_fn,
-                num_workers=self.config.get("num_workers", 4),
-                pin_memory=False,
-            )
-            evaluator.dataloader = eval_dataloader
-
-            try:
-                n_batches = len(eval_dataloader)
-                logger.info(f"Eval dataloader: batch_size={eval_batch_size}, {n_batches} batches")
-            except TypeError:
-                logger.info("Using existing validation dataloader (streaming, unknown length)")
-
-            # Determine pooling strategies to evaluate
-            requested_pooling = evaluator.eval_config.get("embedding_pooling", "cls")
-            if requested_pooling == "both":
-                pooling_strategies = ["cls", "mean_pool"]
-            else:
-                pooling_strategies = [requested_pooling]
-
-            all_results: dict[str, Any] = {}
-            last_embeddings_info: dict[str, Any] = {}
-
-            for strategy in pooling_strategies:
-                tag = f"{strategy}/" if len(pooling_strategies) > 1 else ""
-                if tag:
-                    logger.info("-" * 40)
-                    logger.info(f"Embedding evaluation: pooling={strategy}")
-                    logger.info("-" * 40)
-
-                # Override pooling strategy for this iteration
-                from omegaconf import open_dict
-
-                with open_dict(evaluator.eval_config):
-                    evaluator.eval_config.embedding_pooling = strategy
-
-                # Generate embeddings
-                embeddings, metadata, faiss_index = evaluator.generate_embeddings(force_regenerate=True)
-
-                # Get embedding statistics
-                embeddings_info = embedding_io.get_embedding_stats(embeddings)
-                embeddings_info["embedding_pooling"] = strategy
-                logger.info(f"Embeddings ({strategy}): {embeddings_info['num_embeddings']} × {embeddings_info['embedding_dim']}")
-                last_embeddings_info = embeddings_info
-
-                # Run evaluation tasks with strategy-specific output subdirectory
-                output_subdir = strategy if len(pooling_strategies) > 1 else None
-                results = evaluator.run_evaluation_tasks(
-                    embeddings,
-                    metadata,
-                    faiss_index,
-                    output_subdir=output_subdir,
-                )
-
-                for task_name, task_results in results.items():
-                    all_results[f"{tag}{task_name}"] = task_results
-
-            # Restore original config value
-            with open_dict(evaluator.eval_config):
-                evaluator.eval_config.embedding_pooling = requested_pooling
-
-            # Save configuration files
-            evaluator._save_config_files()
-
-            # Log metrics to TensorBoard/Neptune
-            self._log_embedding_metrics(evaluator, all_results, last_embeddings_info)
-
-            # Print summary
-            evaluator.save_results(all_results, last_embeddings_info)
-
-            logger.info("=" * 80)
-            logger.info(f"Results saved to: {step_output_dir}")
-            logger.info("=" * 80)
-
-            # Restore model to train mode
-            self.model.train()
-
-        except Exception as e:
-            logger.error(f"Embedding evaluation failed: {e}")
-            logger.error("Training will continue...")
-            import traceback
-
-            traceback.print_exc()
-
-            # Ensure model is back in train mode
-            self.model.train()
-        finally:
-            # Clean up evaluator references to free CPU memory.
-            # IMPORTANT: Do NOT call torch.cuda.empty_cache() here.
-            # With torch.compile, clearing the CUDA cache mid-training forces
-            # recompilation of Triton kernels into a fresh allocator, causing
-            # severe memory fragmentation (5 GB → 85 GB → OOM). Let the CUDA
-            # allocator keep its existing blocks for stable memory reuse.
-            import gc
-
-            if "evaluator" in dir():
-                del evaluator
-            gc.collect()
-
     def run_post_training_evaluation(self) -> None:
-        """Run full embedding evaluation on the best checkpoint after training completes.
-
-        This is separate from the periodic training-time evaluation
-        (``run_embedding_evaluation``) and is intended to run once at the end
-        of a training job.  It uses the standalone ``EmbeddingEvaluator.evaluate()``
-        path, which supports multi-split tasks such as ``LinearProbeTask``.
-        """
+        """After training, the evaluation suite (`instanovofm_evals`) on the best checkpoint: one run per protocol of
+        `post_training_evaluation.protocols` on `post_training_evaluation.dataset` (a corpus split such as `lcfm-test` for
+        the paper's protocols, an exported dataset for the dataset protocols), results under
+        `post_training_evaluation.results_dir` (default: `<model_save_folder_path>/../evaluation`). Each task's summary
+        metrics are logged to the tracker as `post/<protocol>/<task>/<metric>`. A failed protocol is logged, not raised:
+        the training job's outcome is the checkpoint."""
         if not self.accelerator.is_main_process:
             return
-
-        post_eval_config = self.config.get("post_training_evaluation", {})
-        if not post_eval_config.get("enabled", False):
+        cfg = self.config.get("post_training_evaluation", {})
+        if not cfg.get("enabled", False):
             return
-
-        checkpoint_dir = self.config.get("model_save_folder_path", "./checkpoints")
-        best_checkpoint = os.path.join(checkpoint_dir, "model_best.ckpt")
-
-        if not Path(best_checkpoint).exists():
-            logger.warning(f"Best checkpoint not found at {best_checkpoint}, skipping post-training evaluation")
+        checkpoint_dir = Path(self.config.get("model_save_folder_path", "./checkpoints"))
+        best = checkpoint_dir / "model_best.ckpt"
+        if not best.exists():
+            logger.warning(f"Best checkpoint not found at {best}, skipping post-training evaluation")
             return
-
-        logger.info("Running post-training full evaluation on best checkpoint...")
-
-        # Capture MLflow run ID before cleanup (cleanup ends the MLflow run)
-        mlflow_run_id = None
-        if self.tracker is not None and hasattr(self.tracker, "run_id"):
-            mlflow_run_id = self.tracker.run_id
-        training_step = self.global_step + 1
-
-        # Free training model, optimizer, and dataloader workers to reclaim
-        # GPU and CPU memory before loading the evaluator's own model copy.
+        tracker = self.tracker
+        step = self.global_step + 1
+        # Free the training model, optimizer and loader workers: the suite loads its own copy of the checkpoint.
         self.cleanup()
         del self.model, self.optimizer
         if hasattr(self, "lr_scheduler_obj"):
             del self.lr_scheduler_obj
         import gc
+        import json
 
         gc.collect()
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
+        from instanovofm_evals import run as suite_run
 
-        try:
-            from instanovo_fm.eval.evaluator import EmbeddingEvaluator
-
-            eval_config_dict = {
-                "evaluation": OmegaConf.to_container(self.config.evaluation, resolve=True),
-                "dataset": OmegaConf.to_container(self.config.dataset, resolve=True),
-                "residues": OmegaConf.to_container(self.config.residues, resolve=True),
-                "num_workers": 0,  # Avoid /dev/shm exhaustion in Docker containers
-                "model_save_folder_path": checkpoint_dir,
-            }
-
-            # Point at the best checkpoint saved during this training run;
-            # remove checkpoint_paths (multi-checkpoint list from default.yaml)
-            # so only the best model from this experiment is evaluated.
-            eval_config_dict["evaluation"]["checkpoint_path"] = best_checkpoint
-            eval_config_dict["evaluation"].pop("checkpoint_paths", None)
-
-            # Override task list from post_training_evaluation config
-            tasks_to_run = post_eval_config.get("tasks_to_run", None)
-            if tasks_to_run is not None:
-                eval_config_dict["evaluation"]["tasks_to_run"] = list(tasks_to_run)
-
-            # Save results under a dedicated post_training subdirectory
-            base_output_dir = Path(eval_config_dict["evaluation"].get("output_dir", "./evaluation_results"))
-            eval_config_dict["evaluation"]["output_dir"] = str(base_output_dir / "post_training")
-
-            evaluator_config = OmegaConf.create(eval_config_dict)
-            evaluator = EmbeddingEvaluator(evaluator_config)
-            results = evaluator.evaluate()
-
-            # Log post-training metrics to MLflow under eval_post/ prefix.
-            if mlflow_run_id and results:
-                try:
-                    import mlflow
-
-                    embeddings_info = getattr(evaluator, "_last_embeddings_info", {}) or {}
-                    loggable = evaluator.get_metrics_for_logging(results, embeddings_info)
-                    logger.info(
-                        f"MLflow post-eval: run_id={mlflow_run_id}, "
-                        f"{len(loggable)} metrics to log, "
-                        f"active_run={'yes' if mlflow.active_run() else 'no'}"
-                    )
-                    # The run may still be active (accelerate doesn't always end it).
-                    # End any active run first, then reopen by ID to log metrics.
-                    try:
-                        mlflow.end_run()
-                    except Exception:
-                        pass
-                    mlflow.set_tracking_uri(self.config.get("mlflow_tracking_uri", ""))
-                    with mlflow.start_run(run_id=mlflow_run_id):
-                        for name, value in loggable.items():
-                            mlflow.log_metric(f"eval_post/{name}", value, step=training_step)
-                    logger.info(f"Logged {len(loggable)} post-training metrics to MLflow run {mlflow_run_id}")
-                except Exception as e:
-                    logger.warning(f"Failed to log post-training metrics to MLflow: {e}")
-
-            logger.info("Post-training evaluation complete!")
-
-        except Exception as e:
-            logger.error(f"Post-training evaluation failed: {e}")
-            import traceback
-
-            traceback.print_exc()
-        finally:
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
-
-    def _log_embedding_metrics(self, evaluator: Any, results: dict[str, Any], embeddings_info: dict[str, Any]) -> None:
-        """Log embedding evaluation metrics to TensorBoard/Neptune.
-
-        This method uses the evaluator's get_metrics_for_logging() to extract
-        loggable metrics from task results. Each task defines its own metrics
-        via get_loggable_metrics(), ensuring clean separation of concerns.
-
-        Args:
-            evaluator: EmbeddingEvaluator instance
-            results: Dictionary of task results from evaluator
-            embeddings_info: Dictionary of embedding statistics
-        """
-        if self.tracker is None:
-            return
-
-        validation_step = self.global_step + 1
-
-        # Get all loggable metrics from evaluator (delegates to task.get_loggable_metrics())
-        loggable_metrics = evaluator.get_metrics_for_logging(results, embeddings_info)
-
-        # Log all metrics to MLflow
-        for metric_name, metric_value in loggable_metrics.items():
-            self.tracker.log_scalar(f"eval/{metric_name}", metric_value, validation_step)
+        results_dir = cfg.get("results_dir") or str(checkpoint_dir.parent / "evaluation")
+        name = cfg.get("name") or str(self.config.get("run_name") or "model")
+        for protocol in cfg.get("protocols", []):
+            try:
+                out = suite_run("instanovo-fm", checkpoint=best, name=name, dataset=cfg["dataset"], protocol=protocol, results=results_dir)
+            except Exception as e:  # noqa: BLE001  (one protocol failing must not end the job without the others)
+                logger.error(f"Post-training evaluation {protocol} failed: {e}")
+                continue
+            logger.info(f"Post-training evaluation {protocol}: {out}")
+            if tracker is None:
+                continue
+            for summary in sorted(Path(out).glob("*.json")):
+                if summary.name == "run.json" or summary.name.endswith(".results.json"):
+                    continue
+                for key, value in json.loads(summary.read_text()).items():
+                    if isinstance(value, (int, float)) and not isinstance(value, bool):
+                        tracker.log_scalar(f"post/{protocol}/{summary.stem}/{key}", float(value), step)
 
     def cleanup(self) -> None:
         """Explicitly shut down dataloaders and accelerator to prevent hang on exit.

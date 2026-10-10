@@ -1921,14 +1921,13 @@ dependencies = [
 
 [package.optional-dependencies]
 clustering = [
-    { name = "evoc" },
-    { name = "tbb" },
+    { name = "instanovofm-evals", extra = ["clustering"] },
 ]
 esm = [
-    { name = "fair-esm" },
+    { name = "instanovofm-evals", extra = ["esm"] },
 ]
 interpret = [
-    { name = "glass-box-umap" },
+    { name = "instanovofm-evals", extra = ["interpret"] },
 ]
 s3 = [
     { name = "boto3" },
@@ -1966,14 +1965,14 @@ requires-dist = [
     { name = "boto3", marker = "extra == 's3'", specifier = ">=1.35.36" },
     { name = "captum", specifier = ">=0.7.0" },
     { name = "click", specifier = ">=8.1.7" },
-    { name = "evoc", marker = "extra == 'clustering'", specifier = ">=0.3" },
-    { name = "fair-esm", marker = "extra == 'esm'", specifier = ">=2.0.0" },
     { name = "faiss-cpu", specifier = ">=1.9.0" },
     { name = "fastexcel", specifier = ">=0.12.0" },
-    { name = "glass-box-umap", marker = "extra == 'interpret'", specifier = ">=0.1" },
     { name = "h5py", specifier = ">=3.12.0" },
     { name = "instanovo", specifier = "==1.2.2" },
     { name = "instanovofm-evals", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=d326878" },
+    { name = "instanovofm-evals", extras = ["clustering"], marker = "extra == 'clustering'", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=d326878" },
+    { name = "instanovofm-evals", extras = ["esm"], marker = "extra == 'esm'", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=d326878" },
+    { name = "instanovofm-evals", extras = ["interpret"], marker = "extra == 'interpret'", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=d326878" },
     { name = "lxml", specifier = ">=4.9.4" },
     { name = "mlflow", specifier = ">=2.17.0" },
     { name = "numba", specifier = ">=0.60.0" },
@@ -1988,7 +1987,6 @@ requires-dist = [
     { name = "rustyms", specifier = ">=0.10.0" },
     { name = "s3fs", marker = "extra == 's3'", specifier = ">=2024.12.0" },
     { name = "scikit-learn", specifier = ">=1.5.2" },
-    { name = "tbb", marker = "extra == 'clustering'", specifier = ">=2021.0" },
     { name = "torch", marker = "sys_platform != 'darwin'", specifier = ">=2.5,<2.9" },
     { name = "torch", marker = "sys_platform == 'darwin'", specifier = ">=2.5,<2.8" },
     { name = "tqdm", specifier = ">=4.67.0" },
@@ -2046,6 +2044,19 @@ dependencies = [
     { name = "torch", version = "2.8.0", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'darwin'" },
     { name = "tqdm" },
     { name = "umap-learn" },
+]
+
+[package.optional-dependencies]
+clustering = [
+    { name = "evoc" },
+    { name = "tbb" },
+]
+esm = [
+    { name = "fair-esm" },
+]
+interpret = [
+    { name = "captum" },
+    { name = "glass-box-umap" },
 ]
 
 [[package]]

@@ -19,7 +19,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from instanovo_fm.eval.cross_set_dataset import (
+from instanovo_fm.baselines.cross_set_dataset import (
     build_kostas_protocol_parquet,
     discover_paired_files,
     infer_project_id_from_path,

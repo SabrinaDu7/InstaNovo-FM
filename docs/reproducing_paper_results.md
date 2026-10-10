@@ -34,21 +34,16 @@ A bare `foundation_base` run does not reproduce the paper.
 
 ## Reproducing the probe results
 
-The linear-probe and retrieval numbers all come from one protocol. To compare against the published
-tables, match it:
+The linear-probe and retrieval numbers all come from one protocol: 200,000 spectra of the test split,
+batch 256, seed 42, mean pooling, 20,000 duplicate groups, probes without a project split and with
+5,000 solver iterations. It is `paper-probes-retrieval` in the evaluation suite (`instanovofm-evals`,
+`protocols.py`), so matching it is one command:
 
 ```bash
-instanovo-fm evaluate \
-    --checkpoint path/to/model_best.ckpt \
-    evaluation.max_samples=200000 \
-    evaluation.batch_size=256 \
-    evaluation.random_state=42 \
-    evaluation.embedding_pooling=[mean_pool] \
-    evaluation.tasks_to_run=[linearprobetask,duplicateretrievaltask] \
-    duplicateretrievaltask.max_samples=20000 \
-    linearprobetask.use_project_split=false \
-    linearprobetask.max_iter=5000
+instanovo-fm evaluate --checkpoint path/to/model_best.ckpt --dataset lcfm-test --protocol paper-probes-retrieval
 ```
+
+`scripts/reproduce/result*.py` run every row of `docs/references/results_paper_or_rerun.md` this way.
 
 Two of those settings change what the numbers mean, not just their precision:
 
@@ -75,14 +70,10 @@ without the trained model.
 
 ## Downstream retrieval, rescue and run classification
 
-The database-free identification and run-classification panels come from the evaluation tasks in
-`src/instanovo_fm/eval/embed_eval_tasks/`, driven the same way as any other task:
-
-```bash
-instanovo-fm evaluate \
-    --checkpoint path/to/model_best.ckpt \
-    evaluation.tasks_to_run=[crosssetannotationtransfertask]
-```
+The database-free identification and run-classification panels come from the cross-set annotation
+transfer and spectral rescue tasks, which live in the evaluation suite (`instanovofm_evals/tasks/`).
+The suite has no protocol for them yet: the embedded evaluator's configurations for these runs
+(`foundational_eval_*.yaml`) left this package with the evaluator, so they wait on a suite protocol.
 
 The datasets these tasks consume are not raw spectra — they carry anchor and query roles, so they
 are built first, by the `scripts/create_*_dataset.py` builders. `scripts/discover_spectral_rescue_pairs.py`
@@ -106,7 +97,7 @@ and kept separate.
 Evaluation writes one directory per task:
 
 ```
-<output>/instanovo_fm/eval/embed_eval_results/<task>/task_summary.json
+<results>/<dataset>/<name>/<protocol>/<task>.json
 ```
 
 `task_summary.json` holds the headline metrics; `task_results.json` holds per-class detail.

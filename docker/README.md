@@ -1,7 +1,7 @@
 # Baseline environments
 
 The external baselines cannot share InstaNovo-FM's environment, so each gets an
-image. The *adapter* code lives on `main` under `src/instanovo_fm/eval/` and is
+image. The *adapter* code lives on `main` under `src/instanovo_fm/baselines/` and is
 linted and type-checked with everything else; only the incompatible third-party
 dependencies are confined here.
 
@@ -10,7 +10,7 @@ dependencies are confined here.
 | `Dockerfile.casanovo` | Casanovo pins `numpy<2.0`; instanovo requires `numpy>=2.0.2`. Irreconcilable, so Casanovo gets its own interpreter. |
 | `Dockerfile.xuanjinovo` | Needs CUDA 12.1 + torch 2.1, `ctcdecode`, `imputer-pytorch` and `cupy`, and fetches the upstream model from `guomics-lab/MassNet-DDA` at a pinned commit. None of it is vendored here. |
 
-Both write embeddings in the HDF5 layout `instanovo_fm.eval.embedding_io` reads,
+Both write embeddings in the HDF5 layout `instanovofm_evals.embedding_io` reads,
 so the linear-probe, retrieval and UMAP tasks run on identical downstream code
 regardless of which encoder produced the embeddings.
 
@@ -19,7 +19,7 @@ regardless of which encoder produced the embeddings.
 Neither baseline is vendored here. Each image builds its dependency from
 upstream at a pinned version, so what follows is what those upstreams are
 licensed under, not a licence this repository grants. The adapters under
-`src/instanovo_fm/eval/` are ours and are Apache-2.0 like the rest of the
+`src/instanovo_fm/baselines/` are ours and are Apache-2.0 like the rest of the
 repository.
 
 | what the image pulls in | version pinned | licence |
@@ -51,7 +51,7 @@ The same applies to a default install of this project, and
 it matters most if you push either image to a registry, because then you are
 redistributing NVIDIA's binaries under NVIDIA's terms.
 
-Every third-party baseline import in `src/instanovo_fm/eval/` is inside a
+Every third-party baseline import in `src/instanovo_fm/baselines/` is inside a
 function, never at module scope. That is what lets the adapters sit on `main`:
-importing `instanovo_fm.eval` does not require Casanovo or the MassNet stack.
+importing `instanovo_fm.baselines` does not require Casanovo or the MassNet stack.
 There is a test for it, so it stays true.

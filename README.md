@@ -159,15 +159,21 @@ scaling baseline, and the three de novo sequencers — see
 
 ### Extract embeddings and run the evaluation tasks
 
+The evaluation suite is the [`instanovofm-evals`](https://github.com/SabrinaDu7/instanovofm-evals)
+package, a dependency of this one (`pyproject.toml`): it holds the tasks (linear probes, duplicate
+retrieval, clustering, attention and integrated-gradients attribution), the protocols that fix which
+spectra, caps, seed and tasks a number comes from, and the labels, and it runs any spectrum encoder
+through the same code. For a checkpoint of this model:
+
 ```bash
-uv run python -m instanovo_fm.eval.embed_evaluation \
-  --config-name foundational
+instanovo-fm evaluate --checkpoint path/to/model_best.ckpt --dataset lcfm-test --protocol paper-probes-retrieval
 ```
 
 The spectrum embedding is the mean of the final-layer hidden states over the non-padding
-peak tokens, excluding the latent token. Downstream tasks live in
-`src/instanovo_fm/eval/embed_eval_tasks/`: linear probes, duplicate retrieval, clustering,
-attention and integrated-gradients attribution. Each is runnable the same way.
+peak tokens, excluding the latent token. `paper-probes-retrieval`, `paper-peak-level` and
+`paper-geometry` on a corpus split are the paper's protocols; `probes`, `retrieval`, `geometry`,
+`peak_level` and `unlabelled` run on a dataset exported with `scripts/evals/prepare_dataset.py`.
+`scripts/reproduce/` reruns the paper's tables through the suite.
 
 ### Train
 
@@ -234,11 +240,11 @@ the paper:
 ```
 InstaNovo-FM/
 ├── src/instanovo_fm/
-│   ├── configs/          # Hydra configs (model, dataset, evaluation, accelerate)
+│   ├── configs/          # Hydra configs (model, dataset, accelerate)
 │   ├── data/             # data processing, masking, metadata and analysers
 │   ├── model/            # peak encoder, transformer encoder, prediction heads
 │   ├── trainer/          # training loop, losses, checkpointing
-│   ├── eval/             # evaluation harness and embed_eval_tasks/
+│   ├── baselines/        # de novo and embedding baselines (Casanovo, XuanjiNovo, InstaNovo); the evaluation suite is the instanovofm-evals package
 │   └── utils/
 ├── scripts/
 │   ├── preprocessing/    # raw-file conversion, modification labelling, parquet IO

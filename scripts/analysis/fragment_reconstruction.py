@@ -4,7 +4,7 @@ Question. The IG task reports the released 40M at 55.0 % fragment-group bin accu
 here at 49.2 % (1,224 masked groups of the first 408 qualifying spectra, `docs/references/results_paper_or_rerun.md`
 rows 11), while the trainer's validation finds the two equal on bin accuracy over every masked peak (27.4 % against
 27.2 %, `docs/references/rerun/{validate_released_40M,train_40M_mcfm_90k}/metrics.json`). The IG metric and the
-trainer's differ in four choices (`src/instanovo_fm/eval/embed_eval_tasks/ig_attribution_helper.py:527-670`,
+trainer's differ in four choices (the suite's `instanovofm_evals/tasks/ig_attribution_helper.py:527-670`, once `src/instanovo_fm/eval/embed_eval_tasks/` here,
 `src/instanovo_fm/trainer/train.py:550-767`): what is masked (a whole b/y fragment group against the span masking of
 training), how the bins are decoded (greedy argmax against the trainer's top-3 joint decoding, with the offset head
 teacher-forced on the true group in the trainer's bin accuracy), the Gaussian blur of a masked m/z (10 Da, a fresh draw
@@ -45,8 +45,8 @@ import pandas as pd
 import pyarrow.parquet as pq
 import torch
 
-ANNOTATION = dict(ppm_tol=10.0, ion_types=("b", "y"), add_losses=True, loss_types=("H2O", "NH3"), add_isotopes=True, max_isotope=3,
-                  isotope_intensity_threshold=0.02, add_precursor=True)  # the eval's theoretical-spectrum settings (embedding_io.py)
+ANNOTATION = {"ppm_tol": 10.0, "ion_types": ("b", "y"), "add_losses": True, "loss_types": ("H2O", "NH3"), "add_isotopes": True, "max_isotope": 3,
+              "isotope_intensity_threshold": 0.02, "add_precursor": True}  # the eval's theoretical-spectrum settings (embedding_io.py)
 DECODERS = ("greedy", "top3", "teacher")
 REGIMES = ("group", "base")
 
@@ -139,7 +139,7 @@ def batches(items: list, size: int) -> Iterator[list]:
 
 
 def evaluate_checkpoint(*, tag: str, path: str, rows: pd.DataFrame, seeds: int, batch_size: int, device: str) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
-    from instanovo_fm.eval.embed_eval_tasks.ig_attribution_helper import build_fragment_groups
+    from instanovofm_evals.tasks.ig_attribution_helper import build_fragment_groups  # the IG task's own grouping, from the suite
     from instanovo_fm.model.encoder import FoundationModel
 
     model, cfg = FoundationModel.load(path)
@@ -286,7 +286,10 @@ def summarize(out: Path) -> str:
               "|---|---|---|---|---|---|---|---|---|"]
     for m in models:
         sub = g[(g.model == m) & (g.regime == "group") & (g.decoder == "greedy")]
-        acc = lambda frame: f"{100 * frame.bin_correct.mean():.1f} % (n={len(frame[frame.seed == 0]):,})"
+
+        def acc(frame: pd.DataFrame) -> str:
+            return f"{100 * frame.bin_correct.mean():.1f} % (n={len(frame[frame.seed == 0]):,})"
+
         lines.append(f"| {m} | {acc(sub[sub.ion_type == 'b'])} | {acc(sub[sub.ion_type == 'y'])} | {acc(sub[sub.group_size == 1])} | {acc(sub[sub.group_size > 1])} | "
                      f"{100 * sub.group_correct.mean():.1f} % | {sub.error_ppm.median():.0f} | {sub[sub.bin_correct].error_ppm.median():.0f} | {sub[~sub.bin_correct].error_ppm.median():.0f} |")
     lines.append("")
