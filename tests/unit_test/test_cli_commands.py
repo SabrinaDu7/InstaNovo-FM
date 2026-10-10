@@ -27,13 +27,16 @@ runner = CliRunner()
 
 
 def test_evaluate_delegates_to_the_suite() -> None:
-    """`evaluate` is the suite's `run` with the InstaNovo-FM adapter: it must import the suite and fail on its
-    arguments, never on imports."""
+    """`evaluate` is the suite's `run` with the InstaNovo-FM adapter.
+
+    It must import the suite and fail on its arguments, never on imports.
+    """
     from instanovofm_evals import run
 
     assert callable(run)
 
-    args = ["evaluate", "--checkpoint", "does-not-exist.ckpt", "--dataset", "lcfm-test", "--protocol", "paper-geometry"]
+    args = ["evaluate", "--checkpoint", "does-not-exist.ckpt"]
+    args += ["--dataset", "lcfm-test", "--protocol", "paper-geometry"]
     result = runner.invoke(cli, args)
     assert not isinstance(result.exception, ImportError), result.output
 

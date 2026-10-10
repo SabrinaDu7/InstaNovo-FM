@@ -19,5 +19,5 @@ RUN pip install --no-cache-dir "casanovo==${CASANOVO_VERSION}" h5py polars pyarr
 RUN mkdir -p /checkpoints && curl -fsSL "$CASANOVO_CHECKPOINT_URL" -o /checkpoints/casanovo_v5_0_0.ckpt
 
 # Only the extractor is needed; it imports casanovo lazily and writes HDF5.
-COPY src/instanovo_fm/eval/extract_casanovo_embeddings.py /app/
+COPY src/instanovo_fm/baselines/extract_casanovo_embeddings.py /app/
 ENV PYTHONPATH=/app

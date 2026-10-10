@@ -29,5 +29,5 @@ RUN pip install --no-cache-dir cupy-cuda12x==13.6.0 awscli s3fs rich
 RUN pip install --no-cache-dir "instanovo==1.2.2"
 COPY src/instanovo_fm/__init__.py /xuanjinovo/instanovo_fm/
 COPY src/instanovo_fm/utils/__init__.py src/instanovo_fm/utils/checkpoints.py /xuanjinovo/instanovo_fm/utils/
-COPY src/instanovo_fm/eval/__init__.py src/instanovo_fm/eval/run_xuanjinovo.py /xuanjinovo/instanovo_fm/eval/
+COPY src/instanovo_fm/baselines/__init__.py src/instanovo_fm/baselines/run_xuanjinovo.py /xuanjinovo/instanovo_fm/eval/
 ENV PYTHONPATH=/xuanjinovo
