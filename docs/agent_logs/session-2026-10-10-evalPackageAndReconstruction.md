@@ -87,6 +87,19 @@ under the suite's retrieval config: `No spectra found in metadata for theoretica
 nibi run's 2.5 min of theoretical spectra had no consumer there (inferred from the task code; `compare_package.py` on the
 nibi runs is the check).
 
+**11/10 afternoon, what the full-size workstation check found** (suite `docs/regression.md`, section "at full size"):
+geometry identical at 20,000 spectra except the cosine-hyperscore task, which subsamples above 10,000 spectra from the
+unseeded global RNG (an inherited flaw, now documented in its header); peak-level at 10,000 spectra identical on IG
+attribution and, up to two of 504,262 annotated peaks whose ion label moves, on the other three tasks. Those two peaks
+are the original evaluator's own run-to-run variation: three processes of the embedded evaluator on the same 1,500
+spectra gave 76,822 / 76,822 / 76,821 annotated peaks, and the package's run equals the third in all 458 numbers of the
+confidence task; the matcher itself is deterministic across hash seeds (3,000 raw spectra), so the variation enters in
+the processed spectra (inferred, cause not located). The suite's A/B harness compared only `task_summary.json` until
+today; it now compares every number of both result files. The 1e-5 AUROC caveat in the handoff above is this effect.
+The suite commits with these changes (harness, task header, regression note) postdate the `rev` pinned in
+`pyproject.toml`; no package behaviour changed, so the pin and the nibi venv stand. Jobs: `pkg_result1_40M_probes_retrieval`
+started 14:08 on g24 (H100) after the resubmission; the rest queue in the 3-hour partition.
+
 **Open items for the review** (also in the removal row above): the cross-set and spectral-rescue runs have no suite
 protocol yet; the baselines' `run_baseline_eval.sh` chain is gone with the evaluator; `instanovo-fm evaluate` now takes
 `--dataset`/`--protocol`; historical logs and reference tables keep the old paths on purpose; the batch-2,048 peak-level
