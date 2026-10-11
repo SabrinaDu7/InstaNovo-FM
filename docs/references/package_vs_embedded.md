@@ -11,8 +11,8 @@ Identical: equal to 1e-9 relative. Within noise: equal to 0.0001 relative. Other
 | lcfm-test | 40M | paper-probes-retrieval | identical | 19 | 0 | 19 |
 | lcfm-test | 89M | paper-geometry | identical | 23 | 0 | 23 |
 | lcfm-test | 89M | paper-peak-level | differs | 37 | 0 | 40 |
-| lcfm-test | 89M | paper-probes-retrieval | not run | 0 | 0 | 0 |
-| lcfm-valid | 89M | paper-probes-retrieval | not run | 0 | 0 | 0 |
+| lcfm-test | 89M | paper-probes-retrieval | identical | 19 | 0 | 19 |
+| lcfm-valid | 89M | paper-probes-retrieval | identical | 19 | 0 | 19 |
 | mcfm-test | 40M | paper-probes-retrieval | not run | 0 | 0 | 0 |
 | mcfm-valid | 40M | paper-validation | not run | 0 | 0 | 0 |
 

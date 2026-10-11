@@ -3,7 +3,7 @@
   "num_embeddings": 200000,
   "num_duplicate_groups": 32282,
   "num_sampled_groups": 20000,
-  "execution_time": 2010.483439207077,
+  "execution_time": 2129.678785800934,
   "recall_metrics": {
     "recall@1": 0.397709872095118,
     "recall@5": 0.45317285173842553,
@@ -299,5 +299,5 @@
       }
     }
   },
-  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result4_89M_factorial_validation/eval_20260925_232400/duplicateretrievaltask"
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-valid/89M/paper-probes-retrieval/duplicateretrievaltask"
 }

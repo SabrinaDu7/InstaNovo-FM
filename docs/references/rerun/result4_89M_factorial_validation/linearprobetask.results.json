@@ -875,6 +875,6 @@
       "test": 10000
     }
   },
-  "execution_time": 2235.117044210434,
-  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result4_89M_factorial_validation/eval_20260925_232400/linearprobetask"
+  "execution_time": 2117.1054644584656,
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-valid/89M/paper-probes-retrieval/linearprobetask"
 }
