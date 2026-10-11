@@ -157,8 +157,6 @@ R1_40, R2_40, R3_40 = "result1_40M_probes_retrieval", "result2_40M_peak_level", 
 R1_89, R2_89, R4_89 = "result1_89M_probes_retrieval", "result2_89M_peak_level", "result4_89M_factorial_validation"
 R3_89 = "result3_89M_geometry"
 R5_40 = "result5_40M_mcfm_test"
-R6_40, R6_89 = "result6_40M_cosine_hyperscore", "result6_89M_cosine_hyperscore"
-R1_O, R2_O, R3_O, R5_O, R6_O = "result1_40Mours_probes_retrieval", "result2_40Mours_peak_level", "result3_40Mours_geometry", "result5_40Mours_mcfm_test", "result6_40Mours_cosine_hyperscore"
 
 ROWS: dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]] = {  # (section, No.) -> (script, file, getter)
     ("40M", 1): (R1_40, "linearprobetask.json", probe(R1_40, "frag_type/macro_f1")),
@@ -182,13 +180,13 @@ ROWS: dict[tuple[str, int], tuple[str, str, Callable[[], str | None]]] = {  # (s
     ("40M", 19): (R3_40, "evocclusteringtask.json", joined(("clusters", summary(R3_40, "evocclusteringtask", "n_clusters", lambda x: str(int(float(x))))), ("noise", summary(R3_40, "evocclusteringtask", "noise_fraction")), ("silhouette", summary(R3_40, "evocclusteringtask", "silhouette")), ("purity", summary(R3_40, "evocclusteringtask", "mean_purity_frag_type")))),
     ("40M", 20): (R3_40, "esm2crossmodalalignmenttask.json", joined(("RSA", summary(R3_40, "esm2crossmodalalignmenttask", "rsa_all_pairs_rho")), ("CKA", summary(R3_40, "esm2crossmodalalignmenttask", "cka_score")), ("shuffled RSA", summary(R3_40, "esm2crossmodalalignmenttask", "baseline_shuffled_rsa_diff")), ("metadata RSA", summary(R3_40, "esm2crossmodalalignmenttask", "baseline_metadata_rsa_diff")))),
     ("40M", 21): (R3_40, "glassboxattributiontask.json", joined(("features", summary(R3_40, "glassboxattributiontask", "n_features", lambda x: str(int(float(x))))), ("residual", summary(R3_40, "glassboxattributiontask", "reconstruction_residual")), ("top importance", summary(R3_40, "glassboxattributiontask", "top_feature_importance")))),
-    ("40M", 22): (R6_40, "cosinehyperscorecorrelationtask.results.json", joined(("Spearman", keyed(R6_40, "cosinehyperscorecorrelationtask.results.json", "spearman_correlation")), ("Pearson", keyed(R6_40, "cosinehyperscorecorrelationtask.results.json", "pearson_correlation")), ("pairs", keyed(R6_40, "cosinehyperscorecorrelationtask.results.json", "num_correlation_pairs", lambda x: str(int(x)))))),
+    ("40M", 22): (R3_40, "cosinehyperscorecorrelationtask.results.json", joined(("Spearman", keyed(R3_40, "cosinehyperscorecorrelationtask.results.json", "spearman_correlation")), ("Pearson", keyed(R3_40, "cosinehyperscorecorrelationtask.results.json", "pearson_correlation")), ("pairs", keyed(R3_40, "cosinehyperscorecorrelationtask.results.json", "num_correlation_pairs", lambda x: str(int(x)))))),
     ("89M", 41): (R3_89, "embeddingstatisticstask.json", joined(("anisotropy ratio", summary(R3_89, "embeddingstatisticstask", "anisotropy_ratio", lambda x: f"{float(x):.1f}")), ("effective rank", summary(R3_89, "embeddingstatisticstask", "effective_rank", lambda x: f"{float(x):.1f}")), ("top-component energy", summary(R3_89, "embeddingstatisticstask", "pca_energy_top1")), ("mean cosine", summary(R3_89, "embeddingstatisticstask", "mean_similarity")))),
     ("89M", 42): (R3_89, "umapvisualisationtask.json", joined(("", summary(R3_89, "umapvisualisationtask", "knn_preservation_k15")), ("HCD-Orbitrap", summary(R3_89, "umapvisualisationtask", "cond_hcd_orbitrap_knn_preservation_k15")), ("CID", summary(R3_89, "umapvisualisationtask", "cond_cid_knn_preservation_k15")))),
     ("89M", 43): (R3_89, "evocclusteringtask.json", joined(("clusters", summary(R3_89, "evocclusteringtask", "n_clusters", lambda x: str(int(float(x))))), ("noise", summary(R3_89, "evocclusteringtask", "noise_fraction")), ("silhouette", summary(R3_89, "evocclusteringtask", "silhouette")), ("purity", summary(R3_89, "evocclusteringtask", "mean_purity_frag_type")))),
     ("89M", 44): (R3_89, "esm2crossmodalalignmenttask.json", joined(("RSA", summary(R3_89, "esm2crossmodalalignmenttask", "rsa_all_pairs_rho")), ("CKA", summary(R3_89, "esm2crossmodalalignmenttask", "cka_score")), ("shuffled RSA", summary(R3_89, "esm2crossmodalalignmenttask", "baseline_shuffled_rsa_diff")), ("metadata RSA", summary(R3_89, "esm2crossmodalalignmenttask", "baseline_metadata_rsa_diff")))),
     ("89M", 45): (R3_89, "glassboxattributiontask.json", joined(("features", summary(R3_89, "glassboxattributiontask", "n_features", lambda x: str(int(float(x))))), ("residual", summary(R3_89, "glassboxattributiontask", "reconstruction_residual")), ("top importance", summary(R3_89, "glassboxattributiontask", "top_feature_importance")))),
-    ("89M", 46): (R6_89, "cosinehyperscorecorrelationtask.results.json", joined(("Spearman", keyed(R6_89, "cosinehyperscorecorrelationtask.results.json", "spearman_correlation")), ("Pearson", keyed(R6_89, "cosinehyperscorecorrelationtask.results.json", "pearson_correlation")), ("pairs", keyed(R6_89, "cosinehyperscorecorrelationtask.results.json", "num_correlation_pairs", lambda x: str(int(x)))))),
+    ("89M", 46): (R3_89, "cosinehyperscorecorrelationtask.results.json", joined(("Spearman", keyed(R3_89, "cosinehyperscorecorrelationtask.results.json", "spearman_correlation")), ("Pearson", keyed(R3_89, "cosinehyperscorecorrelationtask.results.json", "pearson_correlation")), ("pairs", keyed(R3_89, "cosinehyperscorecorrelationtask.results.json", "num_correlation_pairs", lambda x: str(int(x)))))),
     ("40M", 23): ("validate_released_40M", "metrics.json", joined(("median", keyed("validate_released_40M", "metrics.json", "eval/median_ae_ppm", lambda x: f"{float(x):.0f} ppm")), ("MAE", keyed("validate_released_40M", "metrics.json", "eval/mae_daltons", lambda x: f"{float(x):.2f} Da")), ("bin accuracy", keyed("validate_released_40M", "metrics.json", "eval/bin_accuracy", lambda x: f"{float(x):.1f} %")), ("within 20 ppm", keyed("validate_released_40M", "metrics.json", "eval/pct_within_20ppm", lambda x: f"{float(x):.1f} %")), ("intensity R²", keyed("validate_released_40M", "metrics.json", "eval/intensity_r2")))),
     ("89M", 1): (R1_89, "linearprobetask.json", probe(R1_89, "frag_type/macro_f1")),
     ("89M", 2): (R1_89, "linearprobetask.json", probe(R1_89, "search_instrument/macro_f1")),
@@ -239,8 +237,10 @@ def _retrain_rows(section: str, tag: str, validation: str) -> dict[tuple[str, in
             continue
         if script == "validate_released_40M":
             out[(section, n)] = (validation, name, _trainer_validation(validation))
-        elif script.startswith(("result1_40M_", "result2_40M_", "result3_40M_", "result5_40M_", "result6_40M_")):
+        elif script.startswith(("result1_40M_", "result2_40M_", "result3_40M_", "result5_40M_")):
             new = script.replace("_40M_", f"_{tag}_")
+            if name.startswith("cosinehyperscorecorrelationtask") and not (RERUN / new / name).exists():
+                new = f"result6_{tag}_cosine_hyperscore"  # the embedded evaluator ran the cosine task as a script of its own
             out[(section, n)] = (new, name, _rebind(getter, script, new))
     return out
 
@@ -270,8 +270,11 @@ ROWS.update(_retrain_rows("40M-b2048-90k", "40Mb2048s90k", "train_40M_mcfm_90k_b
 
 
 def source_cell(script: str, name: str) -> str:
+    """The file and the commit of this repository that produced it: `commit` as the embedded evaluator wrote it,
+    `instanovo_fm_commit` as the suite's adapter writes it (the suite's own `commit` is empty: it runs installed)."""
     run = load(script, "run.json") or {}
-    return f"`rerun/{script}/{name}`" + (f" @ {run['commit']}" if run.get("commit") else "")
+    commit = run.get("commit") or run.get("instanovo_fm_commit")
+    return f"`rerun/{script}/{name}`" + (f" @ {commit}" if commit else "")
 
 
 def fill(text: str) -> tuple[str, list[str]]:
