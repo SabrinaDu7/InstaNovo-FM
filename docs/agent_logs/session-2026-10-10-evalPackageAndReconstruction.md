@@ -72,6 +72,21 @@ macro-F1 (±0.005) and the confidence AUROCs within 1e-5. Anything else is a fin
 (`protocols.py::corpus_paths`, `runner.py::search_data_path`), not about the tasks. The package's runs also overwrite
 `docs/references/rerun/<script>/`; the embedded evaluator's originals stay under `docs/references/rerun_embedded/`.
 
+**11/10, while nibi queues: the paper protocols at full size on the workstation.** All 14 MCFM test shards are local, so
+the suite's `tests/ab_instanovo_fm.py --dataset mcfm-test --cap 0` (embedded evaluator from a worktree of
+`sdu/reproduce-results-40M`, then the package, each in its own process) runs the full `paper-probes-retrieval` (minus the
+probe: two of 29 train shards here), `paper-geometry` (minus EVoC, ESM2, Glass Box: extras absent) and `paper-peak-level`
+protocols on the RTX 4060, one protocol at a time in a memory-capped scope (`instanovofm-evals/throwaway/ab-corpus-full/`,
+`chain.sh`, `chain.log`). Retrieval was stopped after 2 h and moved to the end: the original task runs one FAISS search per
+query spectrum against the 200,000-vector flat index, twice (recall, then mAP), for every member of the 20,000 sampled
+groups and again for the two conditional subsets, about 430,000 single-vector searches; one such search takes 74 ms here
+(memory-bandwidth-bound, measured on a random 200,000 x 768 index) against about 6.6 ms on nibi (2,825 s for the task),
+so each side needs about 9 h on this machine. The package ports the loop as is. Seen in the embedded evaluator's output
+under the suite's retrieval config: `No spectra found in metadata for theoretical spectrum generation`
+(`embedding_io.py:219`); the retrieval protocol does not keep the peak arrays, which only the peak-level tasks use, so the
+nibi run's 2.5 min of theoretical spectra had no consumer there (inferred from the task code; `compare_package.py` on the
+nibi runs is the check).
+
 **Open items for the review** (also in the removal row above): the cross-set and spectral-rescue runs have no suite
 protocol yet; the baselines' `run_baseline_eval.sh` chain is gone with the evaluator; `instanovo-fm evaluate` now takes
 `--dataset`/`--protocol`; historical logs and reference tables keep the old paths on purpose; the batch-2,048 peak-level
