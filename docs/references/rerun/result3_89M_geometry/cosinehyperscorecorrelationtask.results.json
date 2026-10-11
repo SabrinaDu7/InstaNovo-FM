@@ -1,0 +1,40 @@
+{
+  "task_name": "Cosine vs. Hyperscore Correlation",
+  "num_embeddings": 20000,
+  "num_sampled": 10000,
+  "num_peptides": 8633,
+  "num_correlation_pairs": 2328,
+  "execution_time": 0.054419755935668945,
+  "correlation_results": {
+    "spearman_correlation": 0.16951817728470236,
+    "spearman_pvalue": 1.8044160938986282e-16,
+    "pearson_correlation": 0.14250167674852074,
+    "num_pairs": 2328,
+    "cosine_stats": {
+      "mean": 0.950942065451563,
+      "std": 0.028702362748474652,
+      "min": 0.7880555391311646,
+      "max": 0.9973747134208679
+    },
+    "score_stats": {
+      "mean": 27.65784454345703,
+      "std": 12.458781242370605,
+      "min": 6.7789998054504395,
+      "max": 109.88500213623047
+    },
+    "cosine_metric": "mean",
+    "max_peptide_spectra": 20
+  },
+  "config": {
+    "peptide_key": "peptides",
+    "score_key": "hyperscore",
+    "score_name": "hyperscore",
+    "max_samples": 10000,
+    "min_peptide_spectra": 2,
+    "use_log_expectation": false,
+    "random_state": 42,
+    "cosine_metric": "mean",
+    "max_peptide_spectra": 20
+  },
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-geometry/cosinehyperscorecorrelationtask"
+}

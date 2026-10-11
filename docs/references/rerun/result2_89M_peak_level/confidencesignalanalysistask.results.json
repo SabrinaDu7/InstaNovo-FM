@@ -772,6 +772,6 @@
   "n_peaks_total": 1169909,
   "n_theoretical_peaks": 367201,
   "fraction_theoretical": 0.3138714207686239,
-  "execution_time": 14.106511354446411,
-  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result2_89M_peak_level/eval_20260925_213852/confidencesignalanalysistask"
+  "execution_time": 49.899914026260376,
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/confidencesignalanalysistask"
 }

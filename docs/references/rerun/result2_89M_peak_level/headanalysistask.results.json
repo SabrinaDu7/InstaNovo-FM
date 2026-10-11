@@ -5,7 +5,7 @@
   "n_spectra_with_theory": 3998,
   "n_skipped_low_quality": 997,
   "n_heads": 12,
-  "execution_time": 202.85021924972534,
+  "execution_time": 219.15368938446045,
   "per_head_summary": {
     "0": {
       "series_adjacent_fraction": {
@@ -2559,5 +2559,5 @@
   "mean_ann_immonium_to_backbone": 0.007907470582313777,
   "mean_ann_backbone_to_immonium_enrichment": 1.8100276539721663,
   "max_ann_backbone_to_immonium_enrichment": 2.3134518143920944,
-  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result2_89M_peak_level/eval_20260925_213852/headanalysistask"
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/headanalysistask"
 }

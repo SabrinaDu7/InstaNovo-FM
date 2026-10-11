@@ -1,7 +1,7 @@
 {
   "task_name": "headanalysistask",
-  "timestamp": "2026-09-25T21:36:44.437946",
-  "execution_time": 195.74552631378174,
+  "timestamp": "2026-10-11T17:34:15.871193",
+  "execution_time": 193.39449286460876,
   "success": true,
   "mean_parent_child_enrichment": 3.194674032887853,
   "mean_isotope_spacing_enrichment": 3.1139231832639176,

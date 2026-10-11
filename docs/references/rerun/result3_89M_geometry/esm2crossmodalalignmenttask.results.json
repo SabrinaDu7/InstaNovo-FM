@@ -22,8 +22,8 @@
   "esm2_model": "esm2_t33_650M_UR50D",
   "esm2_embedding_dim": 1280,
   "spectrum_embedding_dim": 768,
-  "execution_time_seconds": 15.089049339294434,
-  "figure_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_89M_geometry/eval_20260925_215737/esm2crossmodalalignmenttask/esm2_cross_modal_alignment.png",
-  "execution_time": 15.100016117095947,
-  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_89M_geometry/eval_20260925_215737/esm2crossmodalalignmenttask"
+  "execution_time_seconds": 16.274221658706665,
+  "figure_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-geometry/esm2crossmodalalignmenttask/esm2_cross_modal_alignment.png",
+  "execution_time": 16.278749704360962,
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-geometry/esm2crossmodalalignmenttask"
 }

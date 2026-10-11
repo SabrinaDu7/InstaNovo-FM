@@ -228,7 +228,7 @@
     "n_hero_plots": 20,
     "n_ig_failures": 0
   },
-  "execution_time_s": 337.87439227104187,
-  "execution_time": 337.9012954235077,
-  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result2_89M_peak_level/eval_20260925_213852/igattributiontask"
+  "execution_time_s": 379.14249420166016,
+  "execution_time": 379.18513202667236,
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/igattributiontask"
 }

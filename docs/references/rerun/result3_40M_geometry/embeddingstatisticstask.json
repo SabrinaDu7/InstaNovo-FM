@@ -1,7 +1,7 @@
 {
   "task_name": "embeddingstatisticstask",
-  "timestamp": "2026-09-25T21:55:26.634564",
-  "execution_time": 4.0023744106292725,
+  "timestamp": "2026-10-11T17:24:27.238505",
+  "execution_time": 2.613417625427246,
   "success": true,
   "centroid_norm": 0.9005872011184692,
   "anisotropy_ratio": 24.95780462373503,

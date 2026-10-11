@@ -3,22 +3,22 @@
   "num_spectra": 10000,
   "num_peaks": 410897,
   "peak_embedding_dim": 768,
-  "execution_time": 252.6550235748291,
+  "execution_time": 466.4721884727478,
   "binary_classification": {
-    "accuracy": 0.784809188588366,
-    "macro_f1": 0.7488504015937572,
-    "weighted_f1": 0.7993133562781427,
+    "accuracy": 0.7838211683339509,
+    "macro_f1": 0.747960798701077,
+    "weighted_f1": 0.7984438205311812,
     "per_class_f1": [
-      0.8438821589850191,
-      0.6538186442024954
+      0.8430303465097926,
+      0.6528912508923613
     ],
     "per_class_precision": [
-      0.9489571788413098,
-      0.5249322060934758
+      0.9490197661975812,
+      0.5235838554753347
     ],
     "per_class_recall": [
-      0.7597567074843102,
-      0.8665929320061094
+      0.7583369633609215,
+      0.8670142729235792
     ],
     "per_class_support": [
       61983,
@@ -26,12 +26,12 @@
     ],
     "confusion_matrix": [
       [
-        47092,
-        14891
+        47004,
+        14979
       ],
       [
-        2533,
-        16454
+        2525,
+        16462
       ]
     ],
     "class_names": [
@@ -41,26 +41,26 @@
     "derived_from_multiclass": true
   },
   "multiclass_classification": {
-    "accuracy": 0.7767691737680622,
-    "macro_f1": 0.5643132784848349,
-    "weighted_f1": 0.8002225469164197,
+    "accuracy": 0.7757688032604668,
+    "macro_f1": 0.5625665694794404,
+    "weighted_f1": 0.7997899096122358,
     "per_class_precision": [
-      0.3783097876660181,
-      0.09528487229862476,
-      0.9489571788413098,
-      0.6368366880146387
+      0.3742685169704063,
+      0.09198672356567093,
+      0.9490197661975812,
+      0.6412780656303972
     ],
     "per_class_recall": [
-      0.8022963760315752,
+      0.8031933979189092,
       0.9847715736040609,
-      0.7597567074843102,
-      0.8426906779661016
+      0.7583369633609215,
+      0.84284200968523
     ],
     "per_class_f1": [
-      0.5141707387180224,
-      0.17375727720555306,
-      0.843882158985019,
-      0.7254429390307452
+      0.5106067518248175,
+      0.16825672159583693,
+      0.8430303465097927,
+      0.7283724579873144
     ],
     "per_class_support": [
       5574,
@@ -70,10 +70,10 @@
     ],
     "confusion_matrix": [
       [
-        4472,
+        4477,
         13,
-        905,
-        184
+        899,
+        185
       ],
       [
         1,
@@ -82,24 +82,24 @@
         1
       ],
       [
-        6940,
-        1785,
-        47092,
-        6166
+        7080,
+        1854,
+        47004,
+        6045
       ],
       [
-        408,
-        44,
-        1627,
-        11137
+        404,
+        48,
+        1625,
+        11139
       ]
     ],
     "confusion_matrix_normalized": [
       [
-        0.8022963760315752,
+        0.8031933979189092,
         0.0023322569070685323,
-        0.16236096160746322,
-        0.033010405453893076
+        0.16128453534266235,
+        0.033189809831359884
       ],
       [
         0.005076142131979695,
@@ -108,16 +108,16 @@
         0.005076142131979695
       ],
       [
-        0.11196618427633383,
-        0.028798218866463384,
-        0.7597567074843102,
-        0.09947888937289256
+        0.11422486810899762,
+        0.029911427326847685,
+        0.7583369633609215,
+        0.09752674120323314
       ],
       [
-        0.030871670702179176,
-        0.0033292978208232446,
-        0.12310835351089588,
-        0.8426906779661016
+        0.030569007263922518,
+        0.0036319612590799033,
+        0.12295702179176755,
+        0.84284200968523
       ]
     ],
     "class_names": [
@@ -145,7 +145,7 @@
         "n_spectra": null
       }
     },
-    "plot_path": null
+    "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/pairwise_similarity.png"
   },
   "structural_consistency": {
     "isotope_parent": {
@@ -183,7 +183,7 @@
       "top1": 0.42622715986502835,
       "top3": 0.6156013242503342
     },
-    "plot_path": null,
+    "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/pairwise_similarity.png",
     "same_ion_cross_spectrum": {
       "n_pairs": 2457,
       "low_sample_warning": false,
@@ -354,20 +354,20 @@
   },
   "pretransformer_probe": {
     "pretransformer_binary": {
-      "accuracy": 0.5884525132765221,
-      "macro_f1": 0.5697838096345722,
-      "weighted_f1": 0.6173725676703393,
+      "accuracy": 0.6099666543164135,
+      "macro_f1": 0.5861895190914321,
+      "weighted_f1": 0.6388620785294916,
       "per_class_f1": [
-        0.6594028843893416,
-        0.4801647348798029
+        0.6853824007013419,
+        0.48699663748152233
       ],
       "per_class_precision": [
-        0.8996764656663134,
-        0.34112066672577357
+        0.8959006146473592,
+        0.3520928266077888
       ],
       "per_class_recall": [
-        0.520416888501686,
-        0.8105545899826196
+        0.554974751141442,
+        0.7894875441091272
       ],
       "per_class_support": [
         61983,
@@ -375,12 +375,12 @@
       ],
       "confusion_matrix": [
         [
-          32257,
-          29726
+          34399,
+          27584
         ],
         [
-          3597,
-          15390
+          3997,
+          14990
         ]
       ],
       "class_names": [
@@ -390,26 +390,26 @@
       "derived_from_multiclass": true
     },
     "pretransformer_multiclass": {
-      "accuracy": 0.5019513400024701,
-      "macro_f1": 0.3135588321063646,
-      "weighted_f1": 0.5801357968311975,
+      "accuracy": 0.5187476843275287,
+      "macro_f1": 0.31497390974135425,
+      "weighted_f1": 0.5962875315340495,
       "per_class_precision": [
-        0.12339392503996684,
-        0.013397233416839124,
-        0.8996764656663134,
-        0.3244250761314712
+        0.12428057553956834,
+        0.014505494505494506,
+        0.8959006146473592,
+        0.32148386328450634
       ],
       "per_class_recall": [
-        0.37387872264083244,
-        0.6243654822335025,
-        0.520416888501686,
-        0.46753934624697335
+        0.37190527448869753,
+        0.6700507614213198,
+        0.554974751141442,
+        0.40851997578692495
       ],
       "per_class_f1": [
-        0.18554957040466544,
-        0.026231605886116442,
-        0.6594028843893415,
-        0.38305126774533504
+        0.18630358587220275,
+        0.02839625685705066,
+        0.6853824007013419,
+        0.3598133955348217
       ],
       "per_class_support": [
         5574,
@@ -419,54 +419,54 @@
       ],
       "confusion_matrix": [
         [
-          2084,
-          631,
-          1525,
-          1334
+          2073,
+          743,
+          1601,
+          1157
         ],
         [
-          24,
-          123,
-          12,
-          38
+          22,
+          132,
+          14,
+          29
         ],
         [
-          12318,
-          5913,
-          32257,
-          11495
+          12138,
+          5237,
+          34399,
+          10209
         ],
         [
-          2463,
-          2514,
-          2060,
-          6179
+          2447,
+          2988,
+          2382,
+          5399
         ]
       ],
       "confusion_matrix_normalized": [
         [
-          0.37387872264083244,
-          0.11320416218155722,
-          0.2735916756368855,
-          0.2393254395407248
+          0.37190527448869753,
+          0.13329745245783997,
+          0.28722640832436314,
+          0.20757086472909939
         ],
         [
-          0.1218274111675127,
-          0.6243654822335025,
-          0.06091370558375635,
-          0.19289340101522842
+          0.1116751269035533,
+          0.6700507614213198,
+          0.07106598984771574,
+          0.14720812182741116
         ],
         [
-          0.19873191036251875,
-          0.09539712501815013,
-          0.520416888501686,
-          0.18545407611764517
+          0.19582788829195102,
+          0.08449090879757352,
+          0.554974751141442,
+          0.16470645176903345
         ],
         [
-          0.18636501210653753,
-          0.19022397094430993,
-          0.15587167070217917,
-          0.46753934624697335
+          0.1851543583535109,
+          0.22608958837772397,
+          0.1802360774818402,
+          0.40851997578692495
         ]
       ],
       "class_names": [
@@ -482,12 +482,16 @@
     },
     "delta_binary": {},
     "delta_multiclass": {
-      "accuracy": 0.2748178337655921,
-      "macro_f1": 0.25075444637847033,
-      "weighted_f1": 0.22008675008522216
+      "accuracy": 0.2570211189329381,
+      "macro_f1": 0.24759265973808614,
+      "weighted_f1": 0.20350237807818639
     }
   },
-  "umap_diagnostics": {},
+  "umap_diagnostics": {
+    "umap_mz_rho_raw": 0.6112636386524268,
+    "pretransformer_r2": 0.38919705152511597,
+    "umap_mz_rho_residual": 0.6823512494351618
+  },
   "embedding_diagnostics": {
     "per_class_diagnostics": {
       "b-ion": {
@@ -550,7 +554,7 @@
       "unannotated",
       "y-ion"
     ],
-    "plot_path": null
+    "plot_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/embedding_diagnostics.png"
   },
   "config": {
     "max_samples": 3500,
@@ -586,7 +590,40 @@
     "cross_spectrum_mz_tolerance": 0.5,
     "enable_chemistry_probes": true
   },
-  "umap_paths": [],
+  "umap_paths": [
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap/peak_umap_binary.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap/peak_umap_ion_categories.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap/peak_umap_fragment_ladder.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap/peak_umap_mz_position.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap/peak_umap_intensity.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap/peak_umap_spectrum_identity.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap/peak_umap_frag_type.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap/peak_umap_instrument.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap/peak_umap_detector.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_residual/peak_umap_binary_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_residual/peak_umap_ion_categories_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_residual/peak_umap_fragment_ladder_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_residual/peak_umap_mz_position_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_residual/peak_umap_intensity_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_residual/peak_umap_spectrum_identity_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_residual/peak_umap_frag_type_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_residual/peak_umap_instrument_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_residual/peak_umap_detector_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments/peak_umap_ion_categories.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments/peak_umap_fragment_ladder.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments/peak_umap_mz_position.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments/peak_umap_intensity.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments/peak_umap_spectrum_identity.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments/peak_umap_frag_type.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments/peak_umap_instrument.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments_residual/peak_umap_ion_categories_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments_residual/peak_umap_fragment_ladder_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments_residual/peak_umap_mz_position_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments_residual/peak_umap_intensity_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments_residual/peak_umap_spectrum_identity_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments_residual/peak_umap_frag_type_residual.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask/peak_umap_fragments_residual/peak_umap_instrument_residual.png"
+  ],
   "success": true,
-  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result2_89M_peak_level/eval_20260925_213852/peaktypeclassificationtask"
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/89M/paper-peak-level/peaktypeclassificationtask"
 }

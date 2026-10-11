@@ -1,7 +1,7 @@
 {
   "task_name": "igattributiontask",
-  "timestamp": "2026-09-25T21:53:34.994663",
-  "execution_time": 337.9012954235077,
+  "timestamp": "2026-10-11T17:42:38.441578",
+  "execution_time": 379.18513202667236,
   "success": true,
   "topk_top1_ladder": 0.29411764705882354,
   "topk_top1_complementary_pair": 0.00980392156862745,

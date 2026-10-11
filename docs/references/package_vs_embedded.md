@@ -6,11 +6,11 @@ Identical: equal to 1e-9 relative. Within noise: equal to 0.0001 relative. Other
 
 | dataset | model | protocol | status | identical | within noise | metrics |
 |---|---|---|---|---:|---:|---:|
-| lcfm-test | 40M | paper-geometry | not run | 0 | 0 | 0 |
-| lcfm-test | 40M | paper-peak-level | not run | 0 | 0 | 0 |
+| lcfm-test | 40M | paper-geometry | identical | 23 | 0 | 23 |
+| lcfm-test | 40M | paper-peak-level | differs | 37 | 0 | 40 |
 | lcfm-test | 40M | paper-probes-retrieval | identical | 19 | 0 | 19 |
-| lcfm-test | 89M | paper-geometry | not run | 0 | 0 | 0 |
-| lcfm-test | 89M | paper-peak-level | not run | 0 | 0 | 0 |
+| lcfm-test | 89M | paper-geometry | identical | 23 | 0 | 23 |
+| lcfm-test | 89M | paper-peak-level | differs | 37 | 0 | 40 |
 | lcfm-test | 89M | paper-probes-retrieval | not run | 0 | 0 | 0 |
 | lcfm-valid | 89M | paper-probes-retrieval | not run | 0 | 0 | 0 |
 | mcfm-test | 40M | paper-probes-retrieval | not run | 0 | 0 | 0 |
@@ -20,4 +20,9 @@ Identical: equal to 1e-9 relative. Within noise: equal to 0.0001 relative. Other
 
 | dataset | model | protocol | task | metric | reference | package | |
 |---|---|---|---|---|---:|---:|---|
-| - | | | | | | | |
+| lcfm-test | 40M | paper-peak-level | peaktypeclassificationtask | multiclass_macro_f1 | 0.5191623501098681 | 0.522615450850513 | DIFFERS |
+| lcfm-test | 40M | paper-peak-level | peaktypeclassificationtask | pretransformer_r2 | None | 0.38925784826278687 | DIFFERS |
+| lcfm-test | 40M | paper-peak-level | peaktypeclassificationtask | umap_mz_rho_residual | None | 0.7841931834646401 | DIFFERS |
+| lcfm-test | 89M | paper-peak-level | peaktypeclassificationtask | multiclass_macro_f1 | 0.5643132784848349 | 0.5625665694794404 | DIFFERS |
+| lcfm-test | 89M | paper-peak-level | peaktypeclassificationtask | pretransformer_r2 | None | 0.38919705152511597 | DIFFERS |
+| lcfm-test | 89M | paper-peak-level | peaktypeclassificationtask | umap_mz_rho_residual | None | 0.6823512494351618 | DIFFERS |

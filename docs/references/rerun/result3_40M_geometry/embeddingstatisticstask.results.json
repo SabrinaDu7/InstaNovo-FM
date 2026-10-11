@@ -1080,7 +1080,7 @@
       "uniformity": 0.17753992974758148
     }
   },
-  "dashboard_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_40M_geometry/eval_20260925_215349/embeddingstatisticstask/embedding_stats_dashboard.png",
-  "execution_time": 4.0023744106292725,
-  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_40M_geometry/eval_20260925_215349/embeddingstatisticstask"
+  "dashboard_path": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/40M/paper-geometry/embeddingstatisticstask/embedding_stats_dashboard.png",
+  "execution_time": 2.613417625427246,
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/40M/paper-geometry/embeddingstatisticstask"
 }

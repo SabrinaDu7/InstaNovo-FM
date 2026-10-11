@@ -1982,14 +1982,14 @@
   ],
   "mean_purity_frag_type": 0.8105605733818352,
   "save_paths": [
-    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_40M_geometry/eval_20260925_215349/evocclusteringtask/evoc_figs/evoc_enrichment_heatmap.png",
-    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_40M_geometry/eval_20260925_215349/evocclusteringtask/evoc_figs/evoc_clusters_umap.png",
-    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_40M_geometry/eval_20260925_215349/evocclusteringtask/evoc_figs/evoc_layer_panel.png",
-    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_40M_geometry/eval_20260925_215349/evocclusteringtask/evoc_figs/evoc_zoom_cascade.png",
-    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_40M_geometry/eval_20260925_215349/evocclusteringtask/evoc_figs/evoc_cluster_zoom_recolor.png"
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/40M/paper-geometry/evocclusteringtask/evoc_figs/evoc_enrichment_heatmap.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/40M/paper-geometry/evocclusteringtask/evoc_figs/evoc_clusters_umap.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/40M/paper-geometry/evocclusteringtask/evoc_figs/evoc_layer_panel.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/40M/paper-geometry/evocclusteringtask/evoc_figs/evoc_zoom_cascade.png",
+    "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/40M/paper-geometry/evocclusteringtask/evoc_figs/evoc_cluster_zoom_recolor.png"
   ],
-  "save_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_40M_geometry/eval_20260925_215349/evocclusteringtask/evoc_figs",
-  "execution_time": 50.30992102622986,
+  "save_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/40M/paper-geometry/evocclusteringtask/evoc_figs",
+  "execution_time": 30.241708755493164,
   "evoc_params": {},
-  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result3_40M_geometry/eval_20260925_215349/evocclusteringtask"
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/package-workdir/lcfm-test/40M/paper-geometry/evocclusteringtask"
 }
