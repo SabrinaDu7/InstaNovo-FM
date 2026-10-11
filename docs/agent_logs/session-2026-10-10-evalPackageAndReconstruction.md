@@ -28,14 +28,46 @@ then removes the embedded evaluation code; the user reviews before anything is m
   diagnostic now does the same. The fallback is itself a flaw worth knowing: labelled peptides are annotated as if
   unlabelled, so their b/y masses are off by the label and they mostly count as unannotated.
 
-## Next steps
-- When nibi's GPUs return: the nine `pkg_*` jobs rerun the 40M and 89M rows of `results_paper_or_rerun.md` through the
-  suite; `python scripts/reproduce/compare_package.py` then writes `docs/references/package_vs_embedded.md`. The local
-  A/B (suite `docs/regression.md`) already shows the paper protocols identical on a corpus split at cap 1,500.
-- `fragrecon_lcfm` (queued): the diagnostic on LCFM test with the nine kept checkpoints of the batch-1,024 run, to see
-  whether fragment accuracy was still rising at step 90,000; append to `docs/analysis/fragment_reconstruction.md`.
-- The review: merge order is the suite branch `sdu/paper-protocols` first (the fork pins its commit), then
-  `sdu/switch-to-eval-package`; the two open items above (cross-set / spectral-rescue protocols, the baseline chain)
-  are the suite's to pick up.
-- Commit the batch-2,048 peak-level runs on nibi's main clone (`result2_40Mb2048*_peak_level/`, uncommitted) and fill
-  row 11 of their section: they are the evidence that more training closes the fragment gap.
+## Handoff for the next session (written 10/10 evening; nibi's GPU partition drained all day)
+
+**State of the branches.**
+- Fork `sdu/switch-to-eval-package` @ aefd0f3, pushed; the workstation clone and nibi's second clone
+  `~/experiments/InstaNovo-FM-evalpkg` (venv `~/scratch/venvs/instanovo-fm-evalpkg`, `.envrc` with `EXTERNAL`, `CORPUS`,
+  `EVAL_WORKDIR`, `FM_VENV`) are on it. It depends on the suite (`pyproject.toml` `[tool.uv.sources]`, ssh git source,
+  `rev = "d326878"`), runs the paper's protocols through it, and no longer contains `src/instanovo_fm/eval/`.
+- Suite `instanovofm-evals`, branch `sdu/paper-protocols` @ 3bae95d, pushed: corpus datasets, `paper-*` protocols
+  (d326878), the A/B harness for corpus splits and the regression note (two later commits; no package code change, so the
+  fork's pin can stay or move to the branch's merge commit, then `uv lock`).
+- Fork `sdu/reproduce-results-40M` untouched @ d56b9af. nibi's main clone `~/experiments/InstaNovo-FM` carries the
+  uncommitted batch-2,048 peak-level runs (`docs/references/rerun/result2_40Mb2048*_peak_level/`) and the old
+  `.gitignore` edit.
+- Merge order for the review: the suite branch first, then the fork branch (the fork pins the suite's commit).
+
+**Task 1, answered:** `docs/analysis/fragment_reconstruction.md` (the gap is in the model; the batch-2,048 retrain
+closes it). One addendum pending: job `fragrecon_lcfm` (23703865) runs the same diagnostic on LCFM test with the nine
+kept checkpoints of the batch-1,024 run; its `summary.md` lands in `$RESULTS/analysis/fragrecon-lcfmtest-n3000/` and
+belongs under `docs/analysis/fragment_reconstruction/lcfm-test-n3000/` with a paragraph on the trajectory.
+
+**Task 2, one confirmation pending.** Jobs 23703686-23703694 (`pkg_result1_40M_probes_retrieval`,
+`pkg_result1_89M_probes_retrieval`, `pkg_result2_{40M,89M}_peak_level`, `pkg_result3_{40M,89M}_geometry`,
+`pkg_result4_89M_factorial_validation`, `pkg_result5_40M_mcfm_test`, `pkg_validate_40M_mcfm_valid`) rerun every row of
+the 40M and 89M tables through the suite; submitted 11:3x from the evalpkg clone, pending all day
+(`ReqNodeNotAvail`; 30 of the GPU nodes drained). When they have run:
+
+```
+cd ~/experiments/InstaNovo-FM-evalpkg && source .envrc
+sacct -X -n -o JobName%40,State,Elapsed -S 2026-10-10T11:00 | grep -E "pkg_|fragrecon"
+$FM_VENV/bin/python scripts/reproduce/compare_package.py        # -> docs/references/package_vs_embedded.md
+$FM_VENV/bin/python scripts/reproduce/fill_results.py           # results_paper_or_rerun.md from the package runs
+git add docs/references && git commit && git push origin sdu/switch-to-eval-package   # from the login node
+```
+
+Expected from the local A/B (suite `docs/regression.md`): every metric identical to 1e-9 except the unseeded peak-type
+macro-F1 (±0.005) and the confidence AUROCs within 1e-5. Anything else is a finding about the corpus-split wiring
+(`protocols.py::corpus_paths`, `runner.py::search_data_path`), not about the tasks. The package's runs also overwrite
+`docs/references/rerun/<script>/`; the embedded evaluator's originals stay under `docs/references/rerun_embedded/`.
+
+**Open items for the review** (also in the removal row above): the cross-set and spectral-rescue runs have no suite
+protocol yet; the baselines' `run_baseline_eval.sh` chain is gone with the evaluator; `instanovo-fm evaluate` now takes
+`--dataset`/`--protocol`; historical logs and reference tables keep the old paths on purpose; the batch-2,048 peak-level
+rows (row 11 of their section) are not yet filled or committed.
