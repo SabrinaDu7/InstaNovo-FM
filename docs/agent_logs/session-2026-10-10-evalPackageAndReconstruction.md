@@ -52,7 +52,12 @@ belongs under `docs/analysis/fragment_reconstruction/lcfm-test-n3000/` with a pa
 `pkg_result1_89M_probes_retrieval`, `pkg_result2_{40M,89M}_peak_level`, `pkg_result3_{40M,89M}_geometry`,
 `pkg_result4_89M_factorial_validation`, `pkg_result5_40M_mcfm_test`, `pkg_validate_40M_mcfm_valid`) rerun every row of
 the 40M and 89M tables through the suite; submitted 11:3x from the evalpkg clone, pending all day
-(`ReqNodeNotAvail`; 30 of the GPU nodes drained). When they have run:
+(`ReqNodeNotAvail`; 30 of the GPU nodes drained). 11/10 11:45: cancelled and resubmitted as jobs 23765415-23765423 with
+`--time=02:59:00`, since every result script took under 1 h 50 min with the embedded evaluator (`rerun_embedded/*/run.json`);
+the shorter limit moves them from the 12-hour partition (679 pending, 241 ahead of ours) to the 3-hour one (320 pending, 75
+ahead) where they can backfill. The priority is fairshare-bound: `rrg-hsn_gpu` has used 6 times its share (`sshare -U`,
+effective usage 0.244 against a 0.042 share, fairshare factor 0.250); the job-size term is 0 for every job, so the request
+shape (one H100, 128 GB, 12 CPUs, the queue's modal request) is not what holds them. When they have run:
 
 ```
 cd ~/experiments/InstaNovo-FM-evalpkg && source .envrc
