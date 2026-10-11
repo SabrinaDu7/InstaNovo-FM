@@ -1,7 +1,7 @@
 {
   "task_name": "duplicateretrievaltask",
-  "timestamp": "2026-09-26T00:46:27.342906",
-  "execution_time": 2147.5807507038116,
+  "timestamp": "2026-10-11T15:37:10.535997",
+  "execution_time": 1950.0602378845215,
   "success": true,
   "recall@1": 0.30482157450286024,
   "prop_recall@1": 0.06769339059281233,

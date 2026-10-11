@@ -36,3 +36,4 @@ batch_error_log.txt
 
 # Figures rendered by scripts/evals/plot_results.py (regenerate locally; too heavy to commit)
 docs/results/*.png
+docs/references/rerun_embedded_as_package/   # symlink view built by scripts/reproduce/compare_package.py

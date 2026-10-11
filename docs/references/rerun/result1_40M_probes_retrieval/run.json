@@ -1,33 +1,368 @@
 {
- "script": "result1_40M_probes_retrieval",
+ "dataset": "lcfm-test",
+ "name": "40M",
  "model": "instanovo-fm-mcfm-90k-v0.1.0",
+ "protocol": "paper-probes-retrieval",
+ "adapter": "instanovo-fm",
  "checkpoint": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
- "tier": "lcfm",
- "split": "test",
- "overrides": [
-  "evaluation.enabled=True",
-  "evaluation.checkpoint_path=/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
-  "evaluation.split=test",
-  "evaluation.output_dir=/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result1_40M_probes_retrieval",
-  "dataset=lcfm",
-  "dataset.train_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/lcfm/lcfm-*train*.parquet",
-  "dataset.valid_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/lcfm/lcfm-*valid*.parquet",
-  "dataset.test_path=/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/lcfm/lcfm-*test*.parquet",
-  "num_workers=0",
-  "evaluation.max_samples=200000",
-  "evaluation.batch_size=256",
-  "evaluation.random_state=42",
-  "evaluation.embedding_pooling=[mean_pool]",
-  "evaluation.tasks_to_run=[linearprobetask,duplicateretrievaltask]",
-  "evaluation.task_configs.duplicateretrievaltask.max_samples=20000",
-  "evaluation.task_configs.linearprobetask.use_project_split=false",
-  "evaluation.task_configs.linearprobetask.max_iter=5000"
+ "search_data": "/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/external/search_data.xlsx",
+ "encoder": "instanovo-fm:/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
+ "capabilities": [
+  "model_internals",
+  "peak_tokens"
  ],
- "tasks_written": [
-  "duplicateretrievaltask",
-  "linearprobetask"
- ],
- "seconds": 5700,
- "commit": "90c274e",
- "host": "g22.nibi.sharcnet"
+ "tasks_dropped": {},
+ "evaluated_file": "test",
+ "rows_in_file": 56831096,
+ "max_samples": 200000,
+ "evaluation": {
+  "enabled": true,
+  "split": "test",
+  "random_state": 42,
+  "embedding_pooling": [
+   "mean_pool"
+  ],
+  "confidence_temperature": 1.0,
+  "batch_size": 256,
+  "device": "cuda",
+  "output_dir": "instanovo_fm/eval/embed_eval_results",
+  "max_samples": 200000,
+  "save_embeddings": false,
+  "force_regenerate_embeddings": false,
+  "compute_spectrum_confidence": true,
+  "theoretical_spectrum": {
+   "enabled": true,
+   "ppm_tol": 20.0,
+   "cid_da_tol": 0.2,
+   "ion_types": [
+    "a",
+    "b",
+    "y"
+   ],
+   "use_conditional_annotation": true,
+   "add_losses": true,
+   "loss_types": [
+    "H2O",
+    "NH3",
+    "SO3",
+    "H3PO4"
+   ],
+   "add_isotopes": true,
+   "isotope_intensity_threshold": 0.02,
+   "max_isotope": 4,
+   "add_precursor": true,
+   "add_custom_ions": true,
+   "custom_ions": null,
+   "min_backbone_coverage": 0.33,
+   "min_fragment_groups": 7,
+   "keep_modifications": true,
+   "max_mz": 2500.0,
+   "min_peaks_per_spectrum": 10
+  },
+  "checkpoint_path": null,
+  "checkpoint_paths": null,
+  "sequence_clustering": {
+   "enable": false,
+   "identity_threshold": 0.9,
+   "sequence_key": null
+  },
+  "tasks_to_run": [
+   "linearprobetask",
+   "duplicateretrievaltask"
+  ],
+  "task_configs": {
+   "embeddingstatisticstask": {
+    "n_components_pca": 512,
+    "compute_pca": true,
+    "compute_similarity_dist": true,
+    "num_pairs_similarity": 200000,
+    "uniformity_t": 2.0,
+    "seed": 42,
+    "create_dashboard": true,
+    "dashboard_figsize": [
+     16,
+     10
+    ],
+    "dashboard_dpi": 150
+   },
+   "duplicateretrievaltask": {
+    "k_values": [
+     1,
+     5,
+     10,
+     20
+    ],
+    "peptide_key": "peptides",
+    "max_samples": 20000,
+    "sample_seed": 42,
+    "enable_conditional_eval": true,
+    "conditional_min_samples": 200,
+    "conditional_subsets": [
+     {
+      "name": "hcd_orbitrap",
+      "frag_types": [
+       "HCD",
+       "HCID"
+      ],
+      "detectors": [
+       "Orbitrap"
+      ],
+      "instruments": null
+     },
+     {
+      "name": "cid",
+      "frag_types": [
+       "CID"
+      ],
+      "detectors": null,
+      "instruments": null
+     }
+    ]
+   },
+   "linearprobetask": {
+    "targets": [
+     "precursor_charge",
+     "precursor_mz",
+     "precursor_mass",
+     "hydrophobicity",
+     "ptm_present",
+     "modification_class",
+     "search_instrument",
+     "frag_type",
+     "collision_energy",
+     "spectrum_confidence"
+    ],
+    "use_project_split": false,
+    "project_key": "search_project",
+    "train_samples": 100000,
+    "val_samples": 10000,
+    "test_samples": 10000,
+    "max_per_project_frac": 0.15,
+    "min_project_samples": 5,
+    "enrich_targets": null,
+    "enrich_multiclass": null,
+    "enrich_pos_per_class": 5000,
+    "enrich_neg_per_split": 10000,
+    "paired_test_target": null,
+    "paired_backbones_cap": 2000,
+    "paired_per_state_cap": 10,
+    "paired_backbone_control": null,
+    "exclude_target_values": null,
+    "c_values": [
+     0.01,
+     0.1,
+     0.5,
+     1.0,
+     2.0,
+     5.0,
+     10.0
+    ],
+    "alpha_values": [
+     0.01,
+     0.1,
+     0.5,
+     1.0,
+     2.0,
+     5.0,
+     10.0
+    ],
+    "max_iter": 5000,
+    "solver": "lbfgs",
+    "class_weight": "balanced",
+    "random_state": 42,
+    "random_states": [
+     42
+    ],
+    "probe_type": "auto",
+    "max_classes_for_classification": 20,
+    "run_in_domain_baseline": false,
+    "max_samples": 10000,
+    "test_size": 0.2,
+    "use_grid_search": true
+   },
+   "cosinehyperscorecorrelationtask": {
+    "peptide_key": "peptide",
+    "hyperscore_key": "hyperscore",
+    "max_samples": 10000,
+    "min_peptide_spectra": 2,
+    "use_log_expectation": false
+   },
+   "umapvisualisationtask": {
+    "max_samples": 20000,
+    "random_state": 42,
+    "n_neighbors": 30,
+    "min_dist": 0.1,
+    "metric": "cosine",
+    "spread": 1.0,
+    "repulsion_strength": 1.0,
+    "create_multiple_plots": true,
+    "dpi": 300,
+    "plot_size": [
+     10,
+     8
+    ],
+    "alpha": 0.5,
+    "point_size": 5,
+    "max_categories": 15,
+    "collapse_rare_categories": true,
+    "compute_quality_metrics": true,
+    "create_summary_panel": true,
+    "enable_conditional_umaps": true,
+    "conditional_min_samples": 500,
+    "conditional_subsets": [
+     {
+      "name": "hcd_orbitrap",
+      "frag_types": [
+       "HCD",
+       "HCID"
+      ],
+      "detectors": [
+       "Orbitrap"
+      ],
+      "instruments": null
+     },
+     {
+      "name": "cid",
+      "frag_types": [
+       "CID"
+      ],
+      "detectors": null,
+      "instruments": null
+     }
+    ]
+   },
+   "confidencesignalanalysistask": {
+    "max_samples": 10000,
+    "create_plots": true,
+    "max_individual_plots": 20,
+    "min_backbone_coverage": 0.33,
+    "min_fragment_groups": 7
+   },
+   "headanalysistask": {
+    "sample_n": 5000,
+    "save_figures": true,
+    "min_backbone_coverage": 0.33,
+    "min_fragment_groups": 7,
+    "da_tol": 0.3,
+    "mz_local_window_da": 5.0,
+    "entropy_diffuse_threshold": 0.9,
+    "sparse_gini_threshold": 0.8,
+    "structural_enrichment_threshold": 2.0,
+    "min_annotated_peaks": 5,
+    "n_hero_spectra": 10,
+    "analyze_all_layers": false,
+    "dpi": 300
+   },
+   "peaktypeclassificationtask": {
+    "enable_classification": true,
+    "max_samples": 3500,
+    "create_plots": true,
+    "min_backbone_coverage": 0.33,
+    "min_fragment_groups": 7,
+    "enable_peak_umap": true,
+    "enable_fragment_umap": true,
+    "max_umap_samples": 30000,
+    "fragment_umap_frag_types": [
+     "HCD",
+     "HCID"
+    ],
+    "fragment_umap_detectors": [
+     "Orbitrap"
+    ],
+    "fragment_umap_instruments": [
+     "Q Exactive HF",
+     "Q Exactive",
+     "Q Exactive HFX",
+     "Orbitrap Q Exactive",
+     "Orbitrap Exploris 480",
+     "Orbitrap Fusion",
+     "Orbitrap Fusion Lumos",
+     "Orbitrap Eclipse"
+    ]
+   },
+   "esm2crossmodalalignmenttask": {
+    "max_samples": 10000,
+    "esm2_model": "esm2_t33_650M_UR50D",
+    "esm2_batch_size": 32,
+    "esm2_pooling": "mean",
+    "random_state": 42,
+    "min_sequence_length": 7,
+    "max_sequence_length": 50,
+    "max_pairs": 100000,
+    "create_plots": true,
+    "dpi": 300,
+    "device": null
+   },
+   "igattributiontask": {
+    "enable_prediction_attribution": true,
+    "enable_pa_dissection": true,
+    "min_backbone_coverage": 0.33,
+    "min_fragment_groups": 7,
+    "ig_n_steps": 50,
+    "max_spectra": 500,
+    "max_groups_per_spectrum": 3,
+    "max_hero_plots": 20,
+    "pa_dmz_min": -250.0,
+    "pa_dmz_max": 250.0,
+    "pa_resolution": 0.01,
+    "dpi": 300,
+    "enable_novel_chemistry": true,
+    "novel_chemistry_max_internal_length": 6,
+    "novel_chemistry_ppm_tol": 10.0,
+    "novel_chemistry_da_tol": 0.5
+   },
+   "evocclusteringtask": {
+    "max_samples": 20000,
+    "random_state": 42,
+    "normalize": true,
+    "evoc_params": {},
+    "enable_zoom_cascade": true,
+    "zoom_candidate_fields": [
+     "frag_type",
+     "search_detector",
+     "precursor_charge",
+     "search_instrument",
+     "search_organism",
+     "modification_types"
+    ],
+    "zoom_depth": 4,
+    "n_resolution_layers": 4,
+    "silhouette_max_samples": 5000,
+    "dpi": 200
+   },
+   "glassboxattributiontask": {
+    "max_samples": 20000,
+    "random_state": 42,
+    "normalize": true,
+    "create_metadata_views": true,
+    "glassbox_params": {
+     "n_neighbors": 30,
+     "min_dist": 0.1,
+     "n_components": 2,
+     "epochs": 200
+    },
+    "evoc_params": {},
+    "dpi": 200
+   }
+  }
+ },
+ "seconds": 5367,
+ "commit": "",
+ "uncommitted_changes": false,
+ "instanovo_fm_commit": "4214e41",
+ "versions": {
+  "numpy": "2.2.6",
+  "polars": "1.44.1",
+  "scikit-learn": "1.9.0",
+  "scipy": "1.16.3",
+  "umap-learn": "0.5.12",
+  "faiss-cpu": "1.15.0",
+  "torch": "2.8.0",
+  "pyopenms": "3.5.0",
+  "evoc": "0.3.1",
+  "glass-box-umap": "0.1.0",
+  "fair-esm": "2.0.0"
+ },
+ "host": "g24.nibi.sharcnet",
+ "script": "result1_40M_probes_retrieval"
 }
