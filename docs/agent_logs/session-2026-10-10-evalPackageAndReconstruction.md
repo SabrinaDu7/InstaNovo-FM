@@ -117,6 +117,19 @@ sections keep their `result6_<tag>` files; source cells take the fork commit fro
 suite's `commit` is empty. Still to run: `pkg_result1_89M`, `pkg_result4_89M` (running), `pkg_result5_40M_mcfm_test`,
 `pkg_validate_40M_mcfm_valid` (queued), `fragrecon_lcfm`.
 
+**12/10: eight of nine rows confirmed; the ninth exposed a stale trainer override.** `pkg_result5_40M_mcfm_test` (job
+23765422, 1 h 42 min): 19 of 19 identical, including the retrieval row the workstation could not finish (recall@1 0.629,
+mAP@20 0.329). `pkg_validate_40M_mcfm_valid` (23765423) failed at 1 min 46 s: Hydra refused
+`embedding_evaluation.tasks_to_run=[embeddingstatisticstask]` (`Key 'embedding_evaluation' is not in struct`, the
+trainer's `train.log` under `$EVAL_WORKDIR/mcfm-valid/40M/paper-validation/`). The suite's validation adapter still
+passed two overrides for keys this branch deleted with the in-loop evaluation (`embedding_evaluation.tasks_to_run`,
+`evaluation.output_dir`); the cap-1,500 A/B never exercised that adapter (it has no tasks), so nothing caught it before
+the job. Fixed in the suite (commit 1c6153b: both overrides dropped, the override list is a pure function, and a
+contract test composes it against the fork's `foundational` config whenever InstaNovo-FM is importable); the fork's pin
+moved to 1c6153b (`pyproject.toml`, `uv.lock`, commit 74b162c), the nibi venv updated with
+`UV_PROJECT_ENVIRONMENT=$FM_VENV uv sync --frozen --inexact --extra clustering --extra interpret --extra esm`, and the
+job resubmitted as 23840193 under the 3-hour limit.
+
 **Open items for the review** (also in the removal row above): the cross-set and spectral-rescue runs have no suite
 protocol yet; the baselines' `run_baseline_eval.sh` chain is gone with the evaluator; `instanovo-fm evaluate` now takes
 `--dataset`/`--protocol`; historical logs and reference tables keep the old paths on purpose; the batch-2,048 peak-level
