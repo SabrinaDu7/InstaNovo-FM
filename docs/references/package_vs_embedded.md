@@ -14,7 +14,7 @@ Identical: equal to 1e-9 relative. Within noise: equal to 0.0001 relative. Other
 | lcfm-test | 89M | paper-probes-retrieval | identical | 19 | 0 | 19 |
 | lcfm-valid | 89M | paper-probes-retrieval | identical | 19 | 0 | 19 |
 | mcfm-test | 40M | paper-probes-retrieval | identical | 19 | 0 | 19 |
-| mcfm-valid | 40M | paper-validation | not run | 0 | 0 | 0 |
+| mcfm-valid | 40M | paper-validation | differs | 24 | 0 | 25 |
 
 ## Values that are not identical
 
@@ -26,3 +26,4 @@ Identical: equal to 1e-9 relative. Within noise: equal to 0.0001 relative. Other
 | lcfm-test | 89M | paper-peak-level | peaktypeclassificationtask | multiclass_macro_f1 | 0.5643132784848349 | 0.5625665694794404 | DIFFERS |
 | lcfm-test | 89M | paper-peak-level | peaktypeclassificationtask | pretransformer_r2 | None | 0.38919705152511597 | DIFFERS |
 | lcfm-test | 89M | paper-peak-level | peaktypeclassificationtask | umap_mz_rho_residual | None | 0.6823512494351618 | DIFFERS |
+| mcfm-valid | 40M | paper-validation | metrics | eval/train_loss | 1.4512799978256226 | 1.4408732652664185 | DIFFERS |
