@@ -130,6 +130,12 @@ moved to 1c6153b (`pyproject.toml`, `uv.lock`, commit 74b162c), the nibi venv up
 `UV_PROJECT_ENVIRONMENT=$FM_VENV uv sync --frozen --inexact --extra clustering --extra interpret --extra esm`, and the
 job resubmitted as 23840193 under the 3-hour limit.
 
+**12/10, the LCFM-test diagnostic** (`fragrecon_lcfm`, job 23703865, 1 h 06 min on g10): `docs/analysis/
+fragment_reconstruction/lcfm-test-n3000/` and the "Trajectory" section of `docs/analysis/fragment_reconstruction.md`.
+The batch-1,024 run was still gaining fragment accuracy at step 90,000 but at 0.2 points per 10,000 steps (from 8.9 at
+the start); it ends 2.7 points under the released 40M on LCFM test (4.4 on MCFM test), with the same b-ion and
+single-peak-group shape. The per-prediction parquet files stay on nibi under `$RESULTS/analysis/fragrecon-lcfmtest-n3000/`.
+
 **Open items for the review** (also in the removal row above): the cross-set and spectral-rescue runs have no suite
 protocol yet; the baselines' `run_baseline_eval.sh` chain is gone with the evaluator; `instanovo-fm evaluate` now takes
 `--dataset`/`--protocol`; historical logs and reference tables keep the old paths on purpose; the batch-2,048 peak-level

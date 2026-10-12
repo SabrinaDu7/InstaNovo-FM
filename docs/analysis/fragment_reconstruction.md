@@ -46,7 +46,9 @@ groups by the IG task's own functions; **every** b/y group with a base peak is m
 group as the trainer's bin accuracy). The trainer's regime is run on the same spectra: the processor's span masking
 with isotope co-masking (seeded), every masked peak scored and split into annotated and unannotated. Differences are
 paired by spectrum with a cluster bootstrap. Checkpoints: the released 40M, the 40M trained here, the released 89M.
-Workstation RTX 4060, 1 h 50 min in all (`run.json`).
+Workstation RTX 4060, 1 h 50 min in all (`run.json`). A second run, `lcfm-test-n3000`, does the same on 3,000 identified
+spectra of the first LCFM test shard (34,658 groups in 2,721 spectra) and adds the nine checkpoints the batch-1,024
+training run kept, steps 10,001 to 90,001 (one H100, 1 h 02 min).
 
 ## Results (`fragment_reconstruction/mcfm-test-n3000/summary.md`)
 
@@ -113,8 +115,36 @@ fragment accuracy is reached with about twice the training signal our batch-1,02
 same architecture and hyperparameters; the single run at the paper's stated budget lands 4 to 6 points short on
 fragment reconstruction while matching on everything the mean-pooled embedding carries. Whether the released
 checkpoint saw more steps, a larger batch, or simply a luckier seed and data order, the paper does not say; the
-trajectory over the nine kept checkpoints of the batch-1,024 run (queued on nibi, `fragrecon_lcfm`) will show whether
-fragment accuracy was still rising at step 90,000.
+trajectory below says the single run was still gaining at step 90,000, but slowly.
+
+## Trajectory of the batch-1,024 run (`fragment_reconstruction/lcfm-test-n3000/summary.md`)
+
+Group regime, greedy decoding, LCFM test, 34,658 masked groups; the difference is against the released 40M, paired by
+spectrum with its 95 % interval:
+
+| checkpoint | bin accuracy | difference | gain over the previous 10,000 steps |
+|---|---|---|---|
+| step 10,001 | 10.0 % | −24.0 [−24.9, −23.1] | |
+| step 20,001 | 18.9 % | −15.3 [−16.0, −14.6] | +8.9 |
+| step 30,001 | 24.1 % | −10.2 [−10.7, −9.7] | +5.2 |
+| step 40,001 | 27.5 % | −6.7 [−7.2, −6.2] | +3.4 |
+| step 50,001 | 29.0 % | −5.5 [−5.9, −5.1] | +1.5 |
+| step 60,001 | 30.2 % | −4.3 [−4.7, −3.9] | +1.2 |
+| step 70,001 | 31.2 % | −3.4 [−3.8, −3.0] | +1.0 |
+| step 80,001 | 31.7 % | −2.8 [−3.2, −2.4] | +0.5 |
+| step 90,001 (the 40M trained here) | 31.9 % | −2.7 [−3.1, −2.4] | +0.2 |
+| released 40M | 34.7 % | | |
+| released 89M | 45.1 % | +10.5 [+10.0, +11.0] | |
+
+Fragment accuracy was still rising at step 90,000, but the gain per 10,000 steps had fallen from 8.9 to 0.2 points,
+so the run ended 2.7 points short with no sign of reaching the released checkpoint under its own schedule; whether the
+flattening is the learning-rate decay or the data order is not separated here (the batch-2,048 run, which does reach
+parity, changes both the signal per step and the schedule's position). The LCFM-test gap is smaller than the MCFM-test
+one (2.7 against 4.4 points) on spectra where every model scores lower (released 40M 34.7 % against 42.1 %), and it has
+the same shape: b ions 25.8 against 29.1 %, y ions 34.5 against 37.1 %, single-peak groups 23.0 against 26.3 %, and in
+the trainer's own regime 47.7 against 50.8 % on annotated peaks, 25.9 against 27.4 % on all masked peaks. The final
+checkpoint appears twice in that run (`40M-ours` and `ours-step90001`, the same file) and its rows agree to the last
+digit, a check that the pipeline is deterministic under the seeds it sets.
 
 ## Flaws found in passing
 

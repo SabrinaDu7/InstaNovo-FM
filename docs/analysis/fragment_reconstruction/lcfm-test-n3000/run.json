@@ -1,0 +1,113 @@
+{
+ "parquet": "/home/sabrina7/projects/rrg-hsn/proteomies/data/proteometoolsI/splits/lcfm/lcfm-*test*.parquet",
+ "n": 3000,
+ "seeds": 3,
+ "batch_size": 128,
+ "checkpoints": {
+  "40M": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-v0.1.0.ckpt",
+  "40M-ours": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-mcfm-90k-ours-2026-09-26.ckpt",
+  "89M": "/home/sabrina7/projects/rrg-hsn/proteomies/checkpoints/instanovofm/instanovo-fm-v0.1.0.ckpt",
+  "ours-step10001": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k/checkpoints/model_epoch_00_step_10001.ckpt",
+  "ours-step20001": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k/checkpoints/model_epoch_01_step_20001.ckpt",
+  "ours-step30001": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k/checkpoints/model_epoch_02_step_30001.ckpt",
+  "ours-step40001": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k/checkpoints/model_epoch_03_step_40001.ckpt",
+  "ours-step50001": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k/checkpoints/model_epoch_04_step_50001.ckpt",
+  "ours-step60001": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k/checkpoints/model_epoch_05_step_60001.ckpt",
+  "ours-step70001": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k/checkpoints/model_epoch_06_step_70001.ckpt",
+  "ours-step80001": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k/checkpoints/model_epoch_07_step_80001.ckpt",
+  "ours-step90001": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/train-40M-mcfm-90k/checkpoints/model_epoch_07_step_90001.ckpt"
+ },
+ "annotation": {
+  "ppm_tol": 10.0,
+  "ion_types": [
+   "b",
+   "y"
+  ],
+  "add_losses": true,
+  "loss_types": [
+   "H2O",
+   "NH3"
+  ],
+  "add_isotopes": true,
+  "max_isotope": 3,
+  "isotope_intensity_threshold": 0.02,
+  "add_precursor": true
+ },
+ "per_model": {
+  "40M": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 340
+  },
+  "40M-ours": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 291
+  },
+  "89M": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 481
+  },
+  "ours-step10001": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 290
+  },
+  "ours-step20001": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 290
+  },
+  "ours-step30001": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 291
+  },
+  "ours-step40001": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 290
+  },
+  "ours-step50001": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 291
+  },
+  "ours-step60001": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 290
+  },
+  "ours-step70001": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 291
+  },
+  "ours-step80001": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 291
+  },
+  "ours-step90001": {
+   "spectra": 3000,
+   "spectra_with_groups": 2721,
+   "groups": 34658,
+   "seconds": 290
+  }
+ },
+ "commit": "b653a8a",
+ "seconds": 3732,
+ "host": "g10.nibi.sharcnet"
+}
