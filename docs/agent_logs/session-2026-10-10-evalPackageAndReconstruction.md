@@ -48,7 +48,7 @@ closes it). One addendum pending: job `fragrecon_lcfm` (23703865) runs the same 
 kept checkpoints of the batch-1,024 run; its `summary.md` lands in `$RESULTS/analysis/fragrecon-lcfmtest-n3000/` and
 belongs under `docs/analysis/fragment_reconstruction/lcfm-test-n3000/` with a paragraph on the trajectory.
 
-**Task 2, one confirmation pending.** Jobs 23703686-23703694 (`pkg_result1_40M_probes_retrieval`,
+**Task 2, confirmed 12/10 evening (every row; the closing entry below).** Originally jobs 23703686-23703694 (`pkg_result1_40M_probes_retrieval`,
 `pkg_result1_89M_probes_retrieval`, `pkg_result2_{40M,89M}_peak_level`, `pkg_result3_{40M,89M}_geometry`,
 `pkg_result4_89M_factorial_validation`, `pkg_result5_40M_mcfm_test`, `pkg_validate_40M_mcfm_valid`) rerun every row of
 the 40M and 89M tables through the suite; submitted 11:3x from the evalpkg clone, pending all day
@@ -135,6 +135,24 @@ fragment_reconstruction/lcfm-test-n3000/` and the "Trajectory" section of `docs/
 The batch-1,024 run was still gaining fragment accuracy at step 90,000 but at 0.2 points per 10,000 steps (from 8.9 at
 the start); it ends 2.7 points under the released 40M on LCFM test (4.4 on MCFM test), with the same b-ion and
 single-peak-group shape. The per-prediction parquet files stay on nibi under `$RESULTS/analysis/fragrecon-lcfmtest-n3000/`.
+
+**12/10 evening, Task 2 closed: all nine scripts reproduce through the package.** `docs/references/package_vs_embedded.md`
+(regenerated from the committed runs by `scripts/reproduce/compare_package.py`; `fill_results.py` reports 0 missing rows):
+
+| script | job | identical | not identical, and why |
+|---|---|---|---|
+| result1_40M, result1_89M (LCFM test probes + retrieval) | 23765415, 23765416 | 19 / 19 each | |
+| result4_89M (LCFM validation probes + retrieval) | 23765421 | 19 / 19 | |
+| result5_40M (MCFM test probes + retrieval) | 23765422 | 19 / 19 | |
+| result3_40M, result3_89M (geometry) | 23765419, 23765420 | 23 / 23 each | |
+| result2_40M, result2_89M (peak-level) | 23765417, 23765418 | 37 / 40 each | peak-type macro-F1 (unseeded probe, within 0.004); `pretransformer_r2` and `umap_mz_rho_residual`, which the September runs never produced |
+| validate_released_40M (trainer validation, MCFM validation) | 23840193 | 24 / 25 | `eval/train_loss`: the loss of the one training step the run has to take, on whichever batch the streaming loader delivered first (`trainer/train.py:1277` logs the epoch average); every validation metric equal |
+
+220 of 227 compared metrics identical to 1e-9; the seven others are the two unseeded probes, four diagnostics absent from
+the reference, and the training-step loss. The results table (`results_paper_or_rerun.md`) is refilled from the package
+runs: no number changed except the peak-type probe rows and the cosine-hyperscore rows (unseeded subsample), and the
+source cells now point at the package runs. The fork's embedded evaluator is gone; the suite is pinned at 1c6153b.
+What the review decides: the open items below, and whether the branch merges to main.
 
 **Open items for the review** (also in the removal row above): the cross-set and spectral-rescue runs have no suite
 protocol yet; the baselines' `run_baseline_eval.sh` chain is gone with the evaluator; `instanovo-fm evaluate` now takes
