@@ -7,7 +7,7 @@
 # Resumable (curl -C -); one stream; log lines "done <path> <time>" or "FAILED <path> <time>", "ALL_DONE" at the end.
 #   setsid nohup bash scripts/reproduce/fetch_data.sh > "$DATA/fetch.log" 2>&1 &
 set -u
-DATA="${DATA:-$HOME/projects/rrg-hsn/proteomies/data/proteometoolsI}"
+DATA="${DATA:-$HOME/projects/rrg-hsn/proteomies/data/instanovofm}"
 CHECKPOINTS="${CHECKPOINTS:-$HOME/projects/rrg-hsn/proteomies/checkpoints/instanovofm}"
 HF="https://huggingface.co/datasets/InstaDeepAI/InstaNovo"
 mkdir -p "$DATA/splits/mcfm" "$DATA/splits/lcfm" "$DATA/manifests" "$CHECKPOINTS"

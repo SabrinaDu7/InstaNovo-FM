@@ -65,13 +65,19 @@ Then open a notebook and select the **InstaNovo-FM (figures)** kernel.
 
 ## Installation
 
-We support Python 3.10–3.13.
+From a clone, with [uv](https://docs.astral.sh/uv/) (Python 3.10 to 3.13):
 
 ```bash
-pip install instanovo-fm                # model, dataset pipeline and evaluation harness
-pip install "instanovo-fm[interpret]"   # adds UMAP visualization
-pip install "instanovo-fm[clustering]"  # adds the EvoC clustering eval task
+git clone git@github.com:SabrinaDu7/InstaNovo-FM.git && cd InstaNovo-FM
+uv sync                                                    # the model, the dataset pipeline and the evaluation suite
+uv sync --extra interpret --extra clustering --extra esm   # plus Glass Box and integrated-gradients attribution, EVoC clustering, ESM2 alignment
 ```
+
+The evaluation suite, [`instanovofm-evals`](https://github.com/SabrinaDu7/instanovofm-evals), is a
+dependency pinned to a commit under `[tool.uv.sources]` in `pyproject.toml`; `uv sync` fetches it from
+that repository over ssh, so the machine needs an ssh key registered with GitHub and read access to the
+repository. `pip` does not read `[tool.uv.sources]`: `pip install instanovo-fm` installs the upstream
+release from PyPI, without the suite and without this fork's changes.
 
 ## Quick start
 

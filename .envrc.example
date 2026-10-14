@@ -1,10 +1,10 @@
 # Copy to .envrc (git-ignored). direnv-style;
-export DATA="path/to/proteometoolsI"
+export DATA="path/to/data/instanovofm"   # the corpus as fetched from Hugging Face (scripts/reproduce/fetch_data.sh): splits/<tier>/, peptide_registry.parquet, manifests/
 export CHECKPOINTS="path/to/checkpoints/instanovofm"
 export RESULTS="path/to/results/instanovofm"
 export COMET_API="path/to/comet_api_key.txt"
 export RUNS="path/to/runs/instanovofm"
-export EXTERNAL="$DATA/external"     # our datasets exported in the corpus schema (scripts/evals/prepare_dataset.py)
+export EXTERNAL="path/to/data"           # our datasets in the corpus schema, one directory each (campi, ms2bac, proteometools, ups1; scripts/evals/prepare_dataset.py), and search_data.xlsx
 export CORPUS="$DATA/splits"               # the corpus tiers <tier>/<tier>-*{train,valid,test}*.parquet (the paper's protocols in the suite)
 export EVAL_WORKDIR="$RESULTS/package-workdir"   # the suite's scratch for full task outputs
 export FM_VENV="$HOME/scratch/venvs/instanovo-fm-evalpkg"   # the venv of this checkout (scripts/*/submit.sh); unset = the original one

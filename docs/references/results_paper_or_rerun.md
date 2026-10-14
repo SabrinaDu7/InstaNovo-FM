@@ -229,7 +229,7 @@ matching setting, so `result2_*_peak_level.py` keeps it.
 
 ## Data and checkpoints
 
-`$DATA` (`~/projects/rrg-hsn/proteomies/data/proteometoolsI`): `splits/mcfm/` (29 train, 1 validation, 14 test
+`$DATA` (`~/projects/rrg-hsn/proteomies/data/instanovofm`): `splits/mcfm/` (29 train, 1 validation, 14 test
 shards), `splits/lcfm/` (validation and test shards; the 305 GiB training split is not downloaded),
 `peptide_registry.parquet`, `manifests/`, and `hf_tree_*.json` (the Hugging Face listing with sizes and
 sha256 for a checksum pass). `$CHECKPOINTS` (`~/projects/rrg-hsn/proteomies/checkpoints/instanovofm`): the
