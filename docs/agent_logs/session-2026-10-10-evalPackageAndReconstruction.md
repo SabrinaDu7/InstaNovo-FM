@@ -169,9 +169,12 @@ clone are committed (5c022ef) and their table rows filled (c771201). Smoke test 
 smoke_after_move.py`, login node, CPU): every corpus split and exported dataset resolves and its footers read (LCFM test
 56,831,096 rows in 142 files, MCFM test 5,761,808 in 14, CAMPI 2,424,154, ProteomeTools 639,632, UPS1 115,758, MS2Bac
 42,410), the search table resolves to `data/search_data.xlsx`, and 16 spectra each of MCFM test and MS2Bac went through
-the fork's processor and the released 40M to 768-d embeddings. The trainer's own streaming loader is checked by job
-23991904 (`scripts/train/submit.sh smoke-after-move`, 30 steps, 3 validation batches); outcome below when it runs. The
-second nibi clone `~/experiments/InstaNovo-FM-evalpkg` and its venv are now redundant.
+the fork's processor and the released 40M to 768-d embeddings. The trainer's own streaming loader passed too: job
+23991904 (`scripts/train/submit.sh smoke-after-move`, 30 steps from random weights, 3 validation batches, 14 min 47 s on
+one H100, exit 0, no error in `$RUNS/smoke-after-move/train.log`) read the MCFM train glob (11,703,040 rows) and the
+validation shard (790,417) from the new `$DATA/splits/mcfm/`, validated 3,072 spectra and logged its `eval/*` metrics
+to MLflow; the numbers are those of an untrained model and mean nothing beyond "the pipeline ran". The second nibi
+clone `~/experiments/InstaNovo-FM-evalpkg` and its venv are now redundant.
 
 **Open items for the review** (also in the removal row above): the cross-set and spectral-rescue runs have no suite
 protocol yet; the baselines' `run_baseline_eval.sh` chain is gone with the evaluator; `instanovo-fm evaluate` now takes
