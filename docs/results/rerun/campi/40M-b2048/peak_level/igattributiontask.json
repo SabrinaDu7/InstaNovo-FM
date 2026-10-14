@@ -1,0 +1,16 @@
+{
+  "task_name": "igattributiontask",
+  "timestamp": "2026-10-04T20:34:32.454709",
+  "execution_time": 316.53839015960693,
+  "success": true,
+  "topk_top1_ladder": 0.22713864306784662,
+  "topk_top1_complementary_pair": 0.012536873156342183,
+  "topk_top1_charge_variant_leakage": 0.06415929203539823,
+  "topk_top1_internal_fragment": 0.04129793510324484,
+  "topk_top1_unannotated": 0.40412979351032446,
+  "topk_ladder_top5_hit_rate": 0.5029498525073747,
+  "novel_overall_hit_rate": 0.16016888742666008,
+  "novel_overall_hit_rate_deleakage": 0.16266636966085649,
+  "novel_scramble_enrichment": 1.4206507465590195,
+  "novel_conf_auroc": 0.4882282187130431
+}

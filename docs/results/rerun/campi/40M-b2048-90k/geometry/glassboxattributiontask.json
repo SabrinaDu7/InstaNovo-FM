@@ -1,0 +1,9 @@
+{
+  "task_name": "glassboxattributiontask",
+  "timestamp": "2026-10-04T21:05:22.267817",
+  "execution_time": 1242.9463896751404,
+  "success": true,
+  "n_features": 14.0,
+  "reconstruction_residual": 2.288818359375e-05,
+  "top_feature_importance": 9.0603666305542
+}

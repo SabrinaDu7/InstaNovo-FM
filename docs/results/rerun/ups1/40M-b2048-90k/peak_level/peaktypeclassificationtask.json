@@ -1,0 +1,10 @@
+{
+  "task_name": "peaktypeclassificationtask",
+  "timestamp": "2026-10-04T20:21:00.236180",
+  "execution_time": 375.15358328819275,
+  "success": true,
+  "multiclass_macro_f1": 0.5228832374474716,
+  "cross_spectrum_auroc": 0.949968155,
+  "isotope_parent_mean": 0.8674065470695496,
+  "parent_recovery_top1": 0.37446537922143536
+}

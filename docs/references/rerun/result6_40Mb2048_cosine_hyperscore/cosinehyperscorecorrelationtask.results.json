@@ -1,0 +1,40 @@
+{
+  "task_name": "Cosine vs. Hyperscore Correlation",
+  "num_embeddings": 20000,
+  "num_sampled": 10000,
+  "num_peptides": 8627,
+  "num_correlation_pairs": 2281,
+  "execution_time": 0.06252837181091309,
+  "correlation_results": {
+    "spearman_correlation": 0.10299067319773265,
+    "spearman_pvalue": 8.255362362723016e-07,
+    "pearson_correlation": 0.055569638080729095,
+    "num_pairs": 2281,
+    "cosine_stats": {
+      "mean": 0.8633123723784334,
+      "std": 0.07198858368545767,
+      "min": 0.5407372713088989,
+      "max": 0.9935598373413086
+    },
+    "score_stats": {
+      "mean": 28.12274169921875,
+      "std": 12.825627326965332,
+      "min": 5.420000076293945,
+      "max": 106.81999969482422
+    },
+    "cosine_metric": "mean",
+    "max_peptide_spectra": 20
+  },
+  "config": {
+    "peptide_key": "peptides",
+    "score_key": "hyperscore",
+    "score_name": "hyperscore",
+    "max_samples": 10000,
+    "min_peptide_spectra": 2,
+    "use_log_expectation": false,
+    "random_state": 42,
+    "cosine_metric": "mean",
+    "max_peptide_spectra": 20
+  },
+  "output_dir": "/home/sabrina7/projects/rrg-hsn/proteomies/results/instanovofm/result6_40Mb2048_cosine_hyperscore/eval_20261004_202521/cosinehyperscorecorrelationtask"
+}
