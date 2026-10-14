@@ -154,6 +154,25 @@ runs: no number changed except the peak-type probe rows and the cosine-hyperscor
 source cells now point at the package runs. The fork's embedded evaluator is gone; the suite is pinned at 1c6153b.
 What the review decides: the open items below, and whether the branch merges to main.
 
+**14/10: merged to main; nibi's data directory reorganised; data loading smoke-tested.** `sdu/switch-to-eval-package`
+fast-forwarded into `main` (15ef552) after the README's install section became `uv sync` from a clone (the suite is a git
+dependency under `[tool.uv.sources]`, which pip does not read, and it is not on PyPI; friends need read access to the suite
+repository and an ssh key on GitHub). On nibi, `~/projects/rrg-hsn/proteomies/data/` now holds `instanovofm/` (the corpus
+as fetched: `splits/<tier>/`, `peptide_registry.parquet`, `manifests/empty_runs.csv`, and `provenance/` with the Hugging
+Face tree listings and `verify.csv`, the sha256 check of every shard) beside `campi/`, `ms2bac/`, `proteometools/`, `ups1/`
+and `search_data.xlsx`; the old `proteometoolsI/` name and its `external/` level are gone, as are the download logs and the
+one-off fetch script. `$DATA` points at `instanovofm/`, `$EXTERNAL` at `data/`, `$CORPUS` at `instanovofm/splits/`
+(`.envrc.example` here and in the suite). The main clone on nibi is on `main` with its venv (`~/scratch/venvs/instanovo-fm`)
+re-synced, so the suite is installed and `instanovo_fm.eval` no longer imports (ignored `__pycache__` directories had kept
+the deleted package importable as an empty namespace until `git clean -X`); the batch-2,048 runs that lived only in that
+clone are committed (5c022ef) and their table rows filled (c771201). Smoke test of the new layout (`~/scratch/
+smoke_after_move.py`, login node, CPU): every corpus split and exported dataset resolves and its footers read (LCFM test
+56,831,096 rows in 142 files, MCFM test 5,761,808 in 14, CAMPI 2,424,154, ProteomeTools 639,632, UPS1 115,758, MS2Bac
+42,410), the search table resolves to `data/search_data.xlsx`, and 16 spectra each of MCFM test and MS2Bac went through
+the fork's processor and the released 40M to 768-d embeddings. The trainer's own streaming loader is checked by job
+23991904 (`scripts/train/submit.sh smoke-after-move`, 30 steps, 3 validation batches); outcome below when it runs. The
+second nibi clone `~/experiments/InstaNovo-FM-evalpkg` and its venv are now redundant.
+
 **Open items for the review** (also in the removal row above): the cross-set and spectral-rescue runs have no suite
 protocol yet; the baselines' `run_baseline_eval.sh` chain is gone with the evaluator; `instanovo-fm evaluate` now takes
 `--dataset`/`--protocol`; historical logs and reference tables keep the old paths on purpose; the batch-2,048 peak-level
