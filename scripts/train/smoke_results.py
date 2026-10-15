@@ -54,7 +54,8 @@ def main() -> None:
     run_rows = []
     for label, field in (
         ("job", "job"),
-        ("seconds per step (median of the log)", "seconds_per_step"),
+        ("seconds per optimizer step (elapsed clock over the steps)", "seconds_per_step"),
+        ("seconds per forward pass (the trainer's own s/step)", "seconds_per_forward_pass"),
         ("peak GPU memory (MiB)", "gpu_mem_peak_mib"),
         ("seed", "seed"),
         ("global batch", "global_batch"),

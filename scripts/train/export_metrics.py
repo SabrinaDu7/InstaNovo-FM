@@ -10,7 +10,9 @@ directory, MLflow run name and global batch; `--also-step N` adds an `eval_step_
 
 The trajectory holds the validation steps only (every `validation_interval` of the run's parameters, logged at
 step + 1), not the sanity-check batches the trainer logs at steps 0 to 15. `_run` also carries the median seconds per step over the run's `[Step N/M] [..., x s/step]` log lines (`train.log`) and the
-peak GPU memory of the 30-second sampler (`gpu.log`), when those files exist.
+peak GPU memory of the 30-second sampler (`gpu.log`), when those files exist; `seconds_per_step` is per optimizer step (the
+elapsed clock over the steps), `seconds_per_forward_pass` the trainer's own `s/step`, which with gradient accumulation is
+the smaller figure (and makes the trainer's ETA short by that factor).
 """
 
 from __future__ import annotations
@@ -32,15 +34,22 @@ TRAJECTORY = {  # series name in the export -> MLflow key under `eval/`
     "effective_rank": "embed/embeddingstatisticstask/effective_rank",
     "anisotropy_ratio": "embed/embeddingstatisticstask/anisotropy_ratio",
 }
-STEP_TIME = re.compile(r"\[Step (\d+)/\d+\] \[[^,]+, ([0-9.]+) s/step\]")
+STEP_LINE = re.compile(r"\[Step (\d+)/\d+\] \[(\d+):(\d+):(\d+)/[^,]+, ([0-9.]+) s/step\]")
 
 
-def step_time(log: Path) -> float | None:
-    """Median seconds per step over the trainer's progress lines; None without a log."""
+def step_times(log: Path) -> tuple[float | None, float | None]:
+    """(seconds per optimizer step, seconds per forward pass) from the trainer's progress lines: the first is the
+    elapsed clock of the last line divided by its step (validation passes included), the second the median of the
+    logged `s/step`, which the trainer measures per forward pass, so with gradient accumulation it is the smaller."""
     if not log.exists():
-        return None
-    times = sorted(float(m.group(2)) for m in STEP_TIME.finditer(log.read_text(errors="replace")))
-    return times[len(times) // 2] if times else None
+        return None, None
+    lines = STEP_LINE.findall(log.read_text(errors="replace"))
+    if not lines:
+        return None, None
+    step, h, m, sec, _ = lines[-1]
+    per_step = (int(h) * 3600 + int(m) * 60 + int(sec)) / int(step)
+    passes = sorted(float(x[-1]) for x in lines)
+    return round(per_step, 3), passes[len(passes) // 2]
 
 
 def gpu_peak(log: Path) -> int | None:
@@ -109,6 +118,7 @@ def main() -> None:
         )
         job = int(re.search(r"_(\d+)\.out$", logs[-1].name).group(1)) if logs else None
     accumulation = int(params.get("grad_accumulation", 1))
+    per_step, per_pass = step_times(run_dir / "train.log")
     out["_run"] = {
         "job": job,
         "run": str(run_dir),
@@ -116,7 +126,8 @@ def main() -> None:
         "global_batch": int(params.get("train_batch_size", 0)) * accumulation,
         "grad_accumulation": accumulation,
         "seed": params.get("seed"),
-        "seconds_per_step": step_time(run_dir / "train.log"),
+        "seconds_per_step": per_step,
+        "seconds_per_forward_pass": per_pass,
         "gpu_mem_peak_mib": gpu_peak(run_dir / "gpu.log"),
     }
     for step in args.also_step:
