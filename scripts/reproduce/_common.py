@@ -33,6 +33,21 @@ MODELS: dict[str, str] = {  # tag used in script names -> release checkpoint id
     "40M-ours": "instanovo-fm-mcfm-90k-ours-2026-09-26",  # trained here: job 22701776, model_best at step 90,000, copied into $CHECKPOINTS
     "40M-b2048": "instanovo-fm-mcfm-90k-b2048-step80k-2026-10-03",
     "40M-b2048-90k": "instanovo-fm-mcfm-90k-b2048-step90k-2026-10-03",
+    # The architecture study (docs/agent_logs/session-2026-10-15-exploringArch.md): the batch-2,048 configuration with one
+    # change each, step 90,001 of run `arch-<arm>`, copied into $CHECKPOINTS as the run ends.
+    **{
+        f"arch-{arm}": f"instanovo-fm-mcfm-90k-arch-{arm}-step90k"
+        for arm in (
+            "seed102",
+            "meta-precursor",
+            "pa-mask2mask",
+            "enc-fourier",
+            "ionladder",
+            "ffn3072",
+            "enc-dual",
+            "peaks300",
+        )
+    },
 }
 
 # The paper's protocols, by the names `instanovofm_evals.protocols.PROTOCOLS` gives them.
