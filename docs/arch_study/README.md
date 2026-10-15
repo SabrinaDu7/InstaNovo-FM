@@ -101,8 +101,16 @@ with the baseline's step 10,001. What they do not give: final results; the order
 | `pa-mask2mask` | 24048091 | 12-hour, 5 h; **cancelled at 1 h 19 min** (3.03 s per optimizer step: 10,000 steps would take 8.4 h; see the problems below) |
 | `ionladder` | 24048092 | 3-hour, 2 h 59 |
 
-Expected cost about 11 GPU-hours (2.4 h each at the baseline's 0.75 s per step plus 15 min of start-up; the PA arm
-slower by an unmeasured factor).
+Outcome (15/10, 14:00): `seed102`, `meta-precursor` and `ionladder` completed in 2 h 26 to 2 h 30 min each
+(0.74 to 0.76 s per optimizer step, peak GPU memory 34 to 42 GB; validation and checkpoint at step 10,001);
+`pa-mask2mask` cancelled (below). 8.7 GPU-hours of def-hsn_gpu in all. The numbers are in `smoke.md`; in one line:
+at step 10,001 no arm beats the baseline on the masked-m/z metrics, and the two arms sit inside or just beyond the
+gap between the two baseline seeds (bin accuracy: baseline 12.03, seed 102 11.77, meta-precursor 11.75, ionladder
+11.56; median ppm 6,342, 6,409, 6,448, 6,369). The embedding-statistics rows (anisotropy, effective rank) exist for
+the baseline only: the trainer computed them in validation before the evaluator moved into the suite, and the
+branch's trainer no longer does. The step-10,001 checkpoints of the three arms and of the baseline
+(`$RUNS/train-40M-mcfm-90k-b2048/checkpoints/model_epoch_01_step_10001.ckpt`) exist, so the suite's protocols can
+compare them at equal steps if wanted (about 30 min a checkpoint for probes and retrieval on MCFM test).
 
 ## Per-arm procedure when a full run ends
 
@@ -120,4 +128,5 @@ For a smoke run: step 2 with `smoke10k-<arm>`, then `python scripts/train/smoke_
 | 15/10/2026 | The full runs sit behind 60 to 150 higher-priority jobs on rrg-hsn_gpu (fairshare 0.25 against 0.34 on def-hsn_gpu; the priority is almost entirely fairshare) | Full runs kept queued; four smoke runs on def-hsn_gpu instead of moving the full runs, to spare the group's default allocation |
 | 15/10/2026 | The suite's retrieval task and linear probe cost 32 to 50 and 41 min per evaluation job | Both rewritten in the suite with identical numbers (`docs/agent_logs/notes-speed.md`, S1 and S4b); a probes-retrieval job now about 30 min |
 | 15/10/2026 | Four smoke runs staging MCFM to the same node at once took 429 s each, against 84 to 154 s for one job | Accepted (the 3-hour limits still hold: start-up 28 min, steps 2 h 5 min); noted in the speed notes |
+| 15/10/2026 | The smoke runs' validation blocks lack the embedding statistics the baseline's have (anisotropy, effective rank, uniformity): those were computed by the evaluator embedded in the trainer, which this branch replaced by the suite (run as separate jobs) | Accepted; the suite's `embeddingstatisticstask` runs in the geometry protocol on any checkpoint |
 | 15/10/2026 | **The pairwise-attention arm runs at 3.03 s per optimizer step** (smoke run 24048091, step 1,000 at 50 min 31 s of training, 1.52 s per forward pass, 59.7 GB of GPU memory, against 0.74 s and 30 to 33 GB for the other arms): 10,000 steps need 8.4 h, 90,000 need 76 h, so neither the 5-hour smoke limit nor the full run's 36-hour limit can hold. The PA path is memory-chunked and skips `torch.compile` (the authors' implementation). Its training loss at step 1,000 was 1.95 against 2.13 to 2.37 for the other arms, consistent with the easier task the caveat above describes. | Smoke run cancelled at 1 h 19 min to spare the default allocation. The full run 24017761 stays queued but **cannot finish under its limit**: it needs either the 7-day partition (about 76 GPU-hours) or a faster PA path first (profiling idea in the speed notes). Owner's call; no validation point for this arm from the smoke. |

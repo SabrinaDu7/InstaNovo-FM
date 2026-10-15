@@ -9,11 +9,11 @@ better masked-m/z number here is not by itself a better model. A "-" means the f
 
 | Metric | baseline (seed 101), step 10,001 | smoke `seed102` | smoke `meta-precursor` | smoke `pa-mask2mask` | smoke `ionladder` |
 | :---- | :---- | :---- | :---- | :---- | :---- |
-| `eval/bin_accuracy` | 12.03 | - | - | - | - |
-| `eval/bin_pm1_accuracy` | 14.37 | - | - | - | - |
-| `eval/conf_joint_mean` | 0.1189 | - | - | - | - |
-| `eval/ece_group` | 0.0102 | - | - | - | - |
-| `eval/ece_offset` | 0.007138 | - | - | - | - |
+| `eval/bin_accuracy` | 12.03 | 11.77 | 11.75 | - | 11.56 |
+| `eval/bin_pm1_accuracy` | 14.37 | 14.04 | 14.02 | - | 13.81 |
+| `eval/conf_joint_mean` | 0.1189 | 0.1178 | 0.12 | - | 0.1148 |
+| `eval/ece_group` | 0.0102 | 0.009594 | 0.01377 | - | 0.00838 |
+| `eval/ece_offset` | 0.007138 | 0.006781 | 0.009091 | - | 0.008068 |
 | `eval/embed/embeddingstatisticstask/anisotropy_ratio` | 21.5 | - | - | - | - |
 | `eval/embed/embeddingstatisticstask/centroid_norm` | 0.7759 | - | - | - | - |
 | `eval/embed/embeddingstatisticstask/effective_rank` | 50.97 | - | - | - | - |
@@ -23,33 +23,33 @@ better masked-m/z number here is not by itself a better model. A "-" means the f
 | `eval/embed/mean_norm` | 1 | - | - | - | - |
 | `eval/embed/num_embeddings` | 20,000 | - | - | - | - |
 | `eval/embed/std_norm` | 3.079e-08 | - | - | - | - |
-| `eval/entropy_total_mean` | 3.802 | - | - | - | - |
-| `eval/group_accuracy` | 54.17 | - | - | - | - |
-| `eval/group_top5_accuracy` | 99.37 | - | - | - | - |
-| `eval/intensity_mae` | 0.004885 | - | - | - | - |
-| `eval/intensity_r2` | 0.977 | - | - | - | - |
-| `eval/intensity_spearman_mean` | 0.9542 | - | - | - | - |
-| `eval/intensity_top10_recall_mean` | 0.9171 | - | - | - | - |
-| `eval/loss` | 1.902 | - | - | - | - |
-| `eval/mae_daltons` | 6.168 | - | - | - | - |
-| `eval/median_ae_ppm` | 6342 | - | - | - | - |
-| `eval/offset_accuracy` | 20.7 | - | - | - | - |
-| `eval/offset_pm1_accuracy` | 25.31 | - | - | - | - |
-| `eval/offset_top5_accuracy` | 56.92 | - | - | - | - |
-| `eval/pct_within_01da` | 12.34 | - | - | - | - |
-| `eval/pct_within_10ppm` | 0.7391 | - | - | - | - |
-| `eval/pct_within_1da` | 25.14 | - | - | - | - |
-| `eval/pct_within_20ppm` | 1.739 | - | - | - | - |
-| `eval/total_masked_tokens` | 9,706,311 | - | - | - | - |
-| `eval/total_spectra` | 256,000 | - | - | - | - |
+| `eval/entropy_total_mean` | 3.802 | 3.793 | 3.76 | - | 3.803 |
+| `eval/group_accuracy` | 54.17 | 54.04 | 53.93 | - | 54.13 |
+| `eval/group_top5_accuracy` | 99.37 | 99.37 | 99.36 | - | 99.38 |
+| `eval/intensity_mae` | 0.004885 | 0.004435 | 0.004853 | - | 0.005352 |
+| `eval/intensity_r2` | 0.977 | 0.9798 | 0.9747 | - | 0.9718 |
+| `eval/intensity_spearman_mean` | 0.9542 | 0.9528 | 0.9524 | - | 0.9441 |
+| `eval/intensity_top10_recall_mean` | 0.9171 | 0.9204 | 0.9131 | - | 0.9076 |
+| `eval/loss` | 1.902 | 1.907 | 1.912 | - | 1.91 |
+| `eval/mae_daltons` | 6.168 | 6.198 | 6.219 | - | 6.179 |
+| `eval/median_ae_ppm` | 6342 | 6409 | 6448 | - | 6369 |
+| `eval/offset_accuracy` | 20.7 | 20.45 | 20.45 | - | 20.16 |
+| `eval/offset_pm1_accuracy` | 25.31 | 24.96 | 24.98 | - | 24.62 |
+| `eval/offset_top5_accuracy` | 56.92 | 56.83 | 56.81 | - | 56.57 |
+| `eval/pct_within_01da` | 12.34 | 12.06 | 12.03 | - | 11.83 |
+| `eval/pct_within_10ppm` | 0.7391 | 0.7141 | 0.719 | - | 0.6983 |
+| `eval/pct_within_1da` | 25.14 | 24.76 | 24.72 | - | 24.54 |
+| `eval/pct_within_20ppm` | 1.739 | 1.706 | 1.692 | - | 1.655 |
+| `eval/total_masked_tokens` | 9,706,311 | 9,706,311 | 9,706,311 | - | 9,706,311 |
+| `eval/total_spectra` | 256,000 | 256,000 | 256,000 | - | 256,000 |
 
 ## Run
 
 | | baseline (seed 101), step 10,001 | smoke `seed102` | smoke `meta-precursor` | smoke `pa-mask2mask` | smoke `ionladder` |
 | :---- | :---- | :---- | :---- | :---- | :---- |
-| job | 23151784 | - | - | - | - |
-| seconds per optimizer step (elapsed clock over the steps) | 0.37 | - | - | - | - |
-| seconds per forward pass (the trainer's own s/step) | - | - | - | - | - |
-| peak GPU memory (MiB) | 45801 | - | - | - | - |
-| seed | 101 | - | - | - | - |
-| global batch | 2048 | - | - | - | - |
+| job | 23151784 | 24048089 | 24048090 | - | 24048092 |
+| seconds per optimizer step (elapsed clock over the steps) | 0.37 | 0.735 | 0.743 | - | 0.757 |
+| seconds per forward pass (the trainer's own s/step) | - | 0.37 | 0.37 | - | 0.38 |
+| peak GPU memory (MiB) | 45801 | 41571 | 36097 | - | 34069 |
+| seed | 101 | 102 | 101 | - | 101 |
+| global batch | 2048 | 2048 | 2048 | - | 2048 |
