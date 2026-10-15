@@ -166,6 +166,8 @@ select = ["E", "F", "W", "I", "UP", "B", "C4", "T20"]
 # trade worth making. New code under src/ and tests/ is held to the full set.
 [tool.ruff.lint.per-file-ignores]
 "scripts/**" = ["UP", "I001", "E501", "B904", "B905"]
+# scripts/analysis/ annotates array shapes with jaxtyping, whose shape strings ruff reads as F722 (see src/ below).
+"scripts/analysis/**" = ["F722"]
 # tests/scripts/ and tests/unit_test/foundational/ are the ported suites; same
 # reasoning as scripts/. E402: some tests keep skip guards before the imports
 # they protect, so those imports cannot sit at the top of the file.
