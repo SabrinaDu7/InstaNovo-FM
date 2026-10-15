@@ -267,7 +267,7 @@ post_training_evaluation.enabled=False` (the evaluation runs as separate jobs, a
 | 1 | `meta-precursor` | metadata tokens: precursor mass, charge bin, fragmentation type, collision energy; instrument left out so no search table is needed and the change is precursor information alone | `model.meta_token.enabled=true model.meta_token.include_instrument=false` | 40.03 M | B2; the charge and mass probes become trivial by construction and are not read for this arm |
 | 1 | `pa-mask2mask` | pairwise attention bias kept between masked tokens (the mode the released `*-pa` checkpoints never used) | `model.architecture.relative_bias.type=pa model.architecture.relative_bias.config.pa_mask_to_mask=true` | 39.90 M | C1; `torch.compile` is skipped on this path, so slower |
 | 1 | `ffn3072` | feed-forward 3,072, the 89M's ratio | `model.dim_feedforward=3072` | 68.20 M | C2; a width test, not parameter-matched |
-| 1 | `dropout0` | no dropout anywhere | `model.dropout=0.0` | 39.87 M | C2; regularisation rather than architecture, kept because it is free |
+| 1 | ~~`dropout0`~~ | dropped 15/10 on the owner's decision: dropout is a generalisation ingredient, not an architectural choice, and stays at 0.1 in every arm | | | |
 | 1 | `ionladder` | residue-mass soft matches to 40 neighbours each side added to every peak token through a zero-initialised gate; masked peaks are excluded from the windows, so the objective is untouched | `model.ion_ladder.enabled=true` | 39.92 M | a chemistry-aware input the authors built and never reported |
 | 1 | `peaks300` | 300 peaks kept instead of 200 | `model.n_peaks=300` | 39.87 M | B4; attention cost 2.25 times |
 | 2 | `prenorm-gelu` | pre-norm layers with GELU (torch's layer supports both; the factory passes neither) | code: `architecture.layer.{norm_first,activation}` keys through `UnifiedEncoderLayer` | same | C2 |
@@ -305,9 +305,8 @@ retrieval and fragment accuracy without losing a probe, with every number landin
 
 ## 5. Open points
 
-- Whether `dropout0` and `ffn3072` count as "architectural" for this study; both are kept because they are free.
-- Launch of Phase 0 and Phase 1 is a resource decision (about 210 GPU-hours on an account whose fairshare is
-  already low); it waits for the owner's go.
+- `ffn3072` is kept as a width test although it is not parameter-matched; `dropout0` was dropped (decision of 15/10).
+- Launched 15/10 evening (owner's go through the goal): see the log.
 
 ## Log
 
@@ -316,3 +315,4 @@ retrieval and fragment accuracy without losing a probe, with every number landin
 | 15/10/2026 | Branch `sdu/exploring-arch` created from `main` (5508e71) and pushed. Read the model, data, trainer and config code end to end, the preprint's architecture and ablation passages, and the earlier session logs. Wrote `scripts/analysis/masking_stats.py` and measured the deployed masking on 2,000 MCFM test spectra: 27.0 % masked, runs of mean length 5.2 with 59 % of masked peaks in runs longer than the configured 4, 0.8 % residual isotope leakage. Found that the intensity auxiliary loss never restricts itself to masked peaks (`mlm_mask` key never written) and so regresses a visible input channel. Sections 1 to 5 above are the state at the end of the day; no experiment started. |
 | 15/10/2026, later | Owner's decisions recorded (batch-2,048 baseline; objective unchanged, architecture only, with any objective dependency stated; 40M on MCFM). Sections 3 to 5 rewritten into the arm table above: eight configuration-only arms and three small-code arms, each one change on the baseline, objective untouched; the contrastive pooling idea excluded under decision 2; A-group items parked. Not launched. |
 | 15/10/2026, evening | Preflight without GPU time: all nine arms compose and build on the workstation (parameter counts in the table); `scripts/train/submit.sh` made checkout- and venv-relative; the nibi spare clone switched to this branch with its venv re-synced. Launch of Phase 0 and Phase 1 awaits the owner's go (about 210 GPU-hours). |
+| 15/10/2026, night | Owner's go for Phase 0 and Phase 1; `dropout0` dropped (dropout stays 0.1 everywhere). Eight jobs submitted from nibi's branch checkout (`~/experiments/InstaNovo-FM-evalpkg`, run directories `$RUNS/arch-<arm>`), each one H100 with MCFM staged to node disk, overrides of section 3.1 plus the arm's: `arch-seed102` 24017759, `arch-meta-precursor` 24017760, `arch-pa-mask2mask` 24017761 (36 h limit, no `torch.compile` on the PA path), `arch-enc-fourier` 24017762, `arch-ionladder` 24017763, `arch-ffn3072` 24017764, `arch-enc-dual` 24017765, `arch-peaks300` 24017766 (micro-batch 512 × 4 accumulation for memory, same global batch); 30 h limits, so the 3-day partition (`gpubase_bygpu_b4`, 524 pending at submission against 1,805 in the 24-hour one). Speed observations go to `notes-speed.md` from now on. |

@@ -1,0 +1,77 @@
+# Running notes: wall-clock speed of training, evaluation and data loading
+Started 15/10/2026 on branch `sdu/exploring-arch`. A running file: observations are added as they are measured,
+each with the run or log they come from; ideas are marked **measured** (a number from a run), **read** (a fact from
+the code) or **expected** (an estimate that a measurement would confirm). Nothing in here is implemented unless the
+log at the end says so. Earlier observations were scattered over the session logs named in each row; this file is
+now their one home for the speed question.
+
+## 1. Where the time goes today
+
+### Training (one H100, batch 1,024 per forward, MCFM staged to node disk)
+
+| Item | Measured | Source |
+| :---- | :---- | :---- |
+| Steady step, 40M, `torch.compile`, 8 loader workers | 0.34 to 0.38 s per step, about 2,700 to 3,000 spectra/s, GPU 98 to 100 % | `session-2026-09-25-train40M.md`, smoke job 22700918 and job 22701776 |
+| 90,000 steps at batch 1,024 | 9 h 33 min of steps; 9 h 54 min job | job 22701776 |
+| 90,000 steps at batch 2,048 (`grad_accumulation=2`) | 18 h 57 min job | job 23151784 (`sacct`) |
+| Before the first step | about 15 min: staging 53 GB to node disk 84 to 154 s, **validation split loaded into RAM about 12 min**, compile 25 s | `session-2026-09-25-train40M.md` |
+| First 50 steps while compiling | 1.59 s per step | smoke job 22700918 |
+| Validation pass (250 batches of 1,024) | about 80 s with 8 `file_system` workers; 16 min as a stand-alone job (its load included) | jobs 22700918, 22700328 |
+| GPU idle inside the run | 98 of 1,139 half-minute samples; half of them the nine validation passes, the rest one-minute dips at shard boundaries, 4 to 5 % of training time | `gpu.log` of job 22701776 |
+| Multi-GPU | not measured; `torch.compile` is skipped on more than one GPU (hangs documented in `trainer/train.py:250-255`), and one process loads all ranks' batches (`dispatch_batches=True`) | read |
+
+### Evaluation (the suite's paper protocols, one H100, 128 GB)
+
+| Item | Measured | Source |
+| :---- | :---- | :---- |
+| Embedding 200,000 spectra | about 30 min with `num_workers=0` (the GPU mostly idle; workers failed in the shared-memory handoff on compute nodes and were switched off) | `session-2026-09-25-reproduceResults1.md`, job 22691003 |
+| Linear probe (100,000 / 10,000 / 10,000, scikit-learn, CPU) | 34 to 43 min; 41 min in job 23765415 | same; `pkg_result1_40M_probes_retrieval` log |
+| Duplicate retrieval, 200,000-spectrum pool, 20,000 groups | 36 to 47 min on nibi (CPU FAISS without AVX2; about 430,000 single-vector searches); about 9 h a side on the workstation (74 ms per search) | same; `session-2026-10-10-evalPackageAndReconstruction.md` |
+| Peak-level protocol (10,000 spectra) | 16 to 22 min; per-peak embeddings for every evaluated spectrum are held in RAM (over 30 GB at 20,000 spectra) | jobs 22694950, 23765417-18 |
+| Geometry protocol (20,000 spectra) | 25 to 35 min, of which Glass Box 19 to 25 min; four UMAP fits | jobs 22696017-18, 23765419-20 |
+| Trainer validation as a protocol (250 batches) | 16 min, 12 of them loading the validation split | job 23840193 |
+| Post-training battery in one process | ran out of 128 GB (probe embeddings plus two per-peak tasks together) | job 22701776 |
+| External datasets, retrieval | ProteomeTools 6 to 10 h, CAMPI 23 to 28 h per pool: the per-query loop is quadratic in the pool | `session-2026-10-03-batch2048-evals.md` |
+
+### Data loading
+
+| Item | Status | Source |
+| :---- | :---- | :---- |
+| Validation split materialised in RAM (`to_dataset(in_memory=True)`) before any step, whatever `max_valid_steps` says | read; 12 min per job, 790,417 rows | `common/trainer.py:662` |
+| Masking runs in the collate on the CPU with per-spectrum Python loops (span trimming, isotope cap) | read; the reason loader workers matter | `data/masking.py:590-607, 637-649` |
+| `persistent_workers` in the config is never passed to the loader | read | `common/trainer.py:377-397` |
+| The training stream is shuffled at the shard level only (`use_shuffle_buffer: False`); shard boundaries show as GPU dips | read and measured | `configs/foundational.yaml:37`, `gpu.log` |
+| Validation loader rebuilt per pass? No: one loader, re-iterated; the pass itself is fast once the split is in RAM | read | `trainer/train.py:893` |
+
+## 2. Ideas, by expected gain per unit of work
+
+Ordered by my estimate of wall-clock saved for the runs this project actually does: a 40M training on MCFM
+(about 19 h at batch 2,048) and the nine evaluation jobs per checkpoint (about 4 h).
+
+| # | Idea | Where | Gain | Status |
+| :-- | :---- | :---- | :---- | :---- |
+| S1 | **Batched FAISS search for retrieval**: search all queries of a group set in one call (or the whole 200,000 × 200,000 as blocked matrix products on the GPU) instead of one vector per call, twice. | suite, `tasks/duplicate_retrieval.py` | 36 to 47 min to about a minute per pool; the external pools from hours to minutes | expected (74 ms per single search against 2.2 s per 50, measured on the workstation; a GPU `IndexFlatIP` or a blocked matmul is the standard path) |
+| S2 | **Loader workers in evaluation**: `torch.multiprocessing.set_sharing_strategy("file_system")`, as training already does, instead of `num_workers=0` | suite adapter / `scripts/reproduce/_common.py` | embedding 200,000 spectra from about 30 min to a few minutes (training reads 3,000 spectra/s with workers) | expected; the training-side fix is measured |
+| S3 | **Do not load the validation split into RAM when only 250 batches are used**: stream it, or load the first N rows | `common/trainer.py:662` | 12 min per training job and per validation protocol run, and 24 GB of RAM | expected |
+| S4 | **Evaluate on the GPU what runs on the CPU**: the probe (cuML, documented in `docs/gpu-probes.md` but not installable from the lock) and retrieval (S1) | suite | probe 40 min to a few minutes; comparability with the paper's cuML numbers as a side effect | expected; the cuML install path is documented and untested on nibi |
+| S5 | **Vectorise the masking's trimming and isotope cap** (per-spectrum Python loops) or run masking on the GPU after transfer | `data/masking.py` | removes the loader ceiling: fewer workers needed, no shard-boundary dips; also required before S2 helps the collate-bound protocols | expected; the loop cost per batch is unmeasured (profiler in `trainer/profiling.py` can time `data_loading`) |
+| S6 | **Annotate theoretical spectra once per dataset, not once per model and protocol** (cache keyed by peptide, charge, tolerance) | suite, `embedding_io.py` | 2.5 min per 200,000 spectra per run, more on the external datasets | expected (`session-2026-10-04-review.md` of the suite profiled 1.8 ms per spectrum) |
+| S7 | **Peak-level memory**: keep per-peak embeddings only for the spectra the probe uses (3,500) and stream the rest | suite, peak-level tasks | lets the peak-level and probe jobs share a node's RAM; removes the 128 GB OOM of the post-training battery | expected |
+| S8 | **bf16 instead of fp16** on H100: no loss scaling, no overflow steps | `common/trainer.py:319` | same speed, fewer silent skipped steps; a stability gain more than a speed gain | read |
+| S9 | **Gradient checkpointing off when memory allows**: the baseline uses 47 GB of 80 at batch 1,024 with checkpointing on; off, memory roughly doubles for the activations | `configs/model/foundation_base.yaml:191` | up to 30 % of step time if it fits (the config comment's own estimate) | expected; one smoke run measures it |
+| S10 | **Two GPUs per job**: would halve the wall clock if `torch.compile` and the single-process loader were not in the way | `trainer/train.py:244-255`, `common/trainer.py:321-328` | the 19 h job under the 12-hour partition's limit, which starts far sooner | blocked by the two documented caveats; a test with compile off on two GPUs measures the real factor |
+| S11 | **Geometry protocol**: one UMAP fit shared by UMAP, EVoC and Glass Box | suite | 25 to 35 min to about 10 | expected (`session-2026-10-04-review.md`: four UMAP fits, EVoC twice) |
+| S12 | **Shard-level staging already helps (84 to 154 s for 53 GB)**; for LCFM (468 GB) staging is impossible on node disk, so the 89M would read from the project filesystem: measure its throughput before any LCFM run | `scripts/train/submit.sh` | unknown | expected |
+
+## 3. What the arm runs will add
+
+The eight Phase 0 and Phase 1 jobs of `session-2026-10-15-exploringArch.md` (24017759 to 24017766) each log a step
+time and a `gpu.log`; their per-arm step times go here when they run, in particular the pairwise-bias arm (no
+`torch.compile`), the 300-peak arm (attention at 2.25 times the cost, micro-batch 512 × 4) and the feed-forward
+3,072 arm (parameters 68 M).
+
+## Log
+
+| Date | What happened |
+| :---- | :---- |
+| 15/10/2026 | File started; no dedicated speed notes existed before (the observations above were scattered across the session logs named in each row and the workstation's `instanovo-fm-runs/NOTES.md`). Nothing implemented. |
