@@ -1969,10 +1969,10 @@ requires-dist = [
     { name = "fastexcel", specifier = ">=0.12.0" },
     { name = "h5py", specifier = ">=3.12.0" },
     { name = "instanovo", specifier = "==1.2.2" },
-    { name = "instanovofm-evals", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=6ee1c29" },
-    { name = "instanovofm-evals", extras = ["clustering"], marker = "extra == 'clustering'", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=6ee1c29" },
-    { name = "instanovofm-evals", extras = ["esm"], marker = "extra == 'esm'", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=6ee1c29" },
-    { name = "instanovofm-evals", extras = ["interpret"], marker = "extra == 'interpret'", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=6ee1c29" },
+    { name = "instanovofm-evals", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=a4eff7c" },
+    { name = "instanovofm-evals", extras = ["clustering"], marker = "extra == 'clustering'", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=a4eff7c" },
+    { name = "instanovofm-evals", extras = ["esm"], marker = "extra == 'esm'", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=a4eff7c" },
+    { name = "instanovofm-evals", extras = ["interpret"], marker = "extra == 'interpret'", git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=a4eff7c" },
     { name = "lxml", specifier = ">=4.9.4" },
     { name = "mlflow", specifier = ">=2.17.0" },
     { name = "numba", specifier = ">=0.60.0" },
@@ -2022,7 +2022,7 @@ figures = [
 [[package]]
 name = "instanovofm-evals"
 version = "0.2.0"
-source = { git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=6ee1c29#6ee1c29550002fa639a17e79a71e885699561318" }
+source = { git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git?rev=a4eff7c#a4eff7c5a8f895ce92d240a3d93379ba8c9a289c" }
 dependencies = [
     { name = "faiss-cpu" },
     { name = "h5py" },
