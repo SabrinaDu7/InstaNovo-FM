@@ -1,8 +1,8 @@
-"""Render `docs/references/results_arch.md`: the architecture study's checkpoints side by side on the 40M rows of
+"""Render `docs/arch_study/results.md`: the architecture study's checkpoints side by side on the 40M rows of
 `results_paper_or_rerun.md`, from the files under `docs/references/rerun/`.
 
 Columns: the released 40M, the batch-2,048 baseline (seed 101, step 90,001), its second seed, then one column per arm
-of `docs/agent_logs/session-2026-10-15-exploringArch.md`. Rows: the 23 rows of the 40M table, read with the very
+of `docs/arch_study/README.md`. Rows: the 23 rows of the 40M table, read with the very
 getters `fill_results.py` uses for that table, re-pointed at each column's `result<N>_<tag>_*` directories; row 23
 from `train_<run>/metrics.json` (`scripts/train/export_metrics.py`). A cell is "-" until its files exist, so the
 document never shows a number without a JSON behind it. Re-run after every evaluation job.
@@ -21,8 +21,8 @@ REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import fill_results as fr  # noqa: E402  (the row getters are its; this module only re-points them)
 
-DOC = REPO / "docs" / "references" / "results_arch.md"
-NOTES = "docs/agent_logs/session-2026-10-15-exploringArch.md"
+DOC = REPO / "docs" / "arch_study" / "results.md"
+NOTES = "docs/arch_study/README.md"
 
 
 @dataclass(frozen=True)

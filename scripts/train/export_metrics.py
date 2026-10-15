@@ -6,7 +6,10 @@ step, `trajectory` the per-step series of the metrics `fill_results.py` and the 
 directory, MLflow run name and global batch; `--also-step N` adds an `eval_step_N` block. Row 23 of the results tables
 (`fill_results._trainer_validation`) reads the first `eval/*` keys of the file, so `final_eval_step_<N>` comes first.
 
-    source .envrc && python scripts/train/export_metrics.py arch-seed102 [--also-step 80001] [--job 24017759]
+    source .envrc && python scripts/train/export_metrics.py arch-seed102 [--also-step 80001] [--job 24017759] [--dest train_arch-seed102]
+
+`_run` also carries the median seconds per step over the run's `[Step N/M] [..., x s/step]` log lines (`train.log`) and the
+peak GPU memory of the 30-second sampler (`gpu.log`), when those files exist.
 """
 
 from __future__ import annotations
@@ -19,7 +22,32 @@ import sqlite3
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
-TRAJECTORY = ("median_ae_ppm", "bin_accuracy", "pct_within_20ppm", "intensity_r2", "loss")
+TRAJECTORY = (
+    "median_ae_ppm",
+    "bin_accuracy",
+    "pct_within_20ppm",
+    "intensity_r2",
+    "loss",
+    "effective_rank",
+    "anisotropy_ratio",
+)
+STEP_TIME = re.compile(r"\[Step (\d+)/\d+\] \[[^,]+, ([0-9.]+) s/step\]")
+
+
+def step_time(log: Path) -> float | None:
+    """Median seconds per step over the trainer's progress lines; None without a log."""
+    if not log.exists():
+        return None
+    times = sorted(float(m.group(2)) for m in STEP_TIME.finditer(log.read_text(errors="replace")))
+    return times[len(times) // 2] if times else None
+
+
+def gpu_peak(log: Path) -> int | None:
+    """Largest memory.used (MiB) sampled by the job's nvidia-smi loop; None without a log."""
+    if not log.exists():
+        return None
+    used = [int(m.group(1)) for m in re.finditer(r", (\d+) MiB", log.read_text(errors="replace"))]
+    return max(used) if used else None
 
 
 def main() -> None:
@@ -38,6 +66,11 @@ def main() -> None:
         type=int,
         default=None,
         help="SLURM job id; default: from the newest log named after the run in ~/scratch/instanovofm_runs",
+    )
+    ap.add_argument(
+        "--dest",
+        default=None,
+        help="directory name under docs/references/rerun; default train_<run>",
     )
     args = ap.parse_args()
     run_dir = Path(os.path.expandvars(os.path.expanduser(os.environ["RUNS"]))) / args.run
@@ -75,10 +108,14 @@ def main() -> None:
         "global_batch": int(params.get("train_batch_size", 0)) * accumulation,
         "grad_accumulation": accumulation,
         "seed": params.get("seed"),
+        "seconds_per_step": step_time(run_dir / "train.log"),
+        "gpu_mem_peak_mib": gpu_peak(run_dir / "gpu.log"),
     }
     if args.also_step is not None:
         out[f"eval_step_{args.also_step}"] = dict(sorted(by_step[args.also_step].items()))
-    dest = REPO / "docs" / "references" / "rerun" / f"train_{args.run}" / "metrics.json"
+    dest = (
+        REPO / "docs" / "references" / "rerun" / (args.dest or f"train_{args.run}") / "metrics.json"
+    )
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(out, indent=1))
     print(f"{dest.relative_to(REPO)}: steps {sorted(by_step)}, last {last}, job {job}")  # noqa: T201
