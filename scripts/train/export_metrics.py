@@ -23,15 +23,15 @@ import sqlite3
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
-TRAJECTORY = (
-    "median_ae_ppm",
-    "bin_accuracy",
-    "pct_within_20ppm",
-    "intensity_r2",
-    "loss",
-    "effective_rank",
-    "anisotropy_ratio",
-)
+TRAJECTORY = {  # series name in the export -> MLflow key under `eval/`
+    "median_ae_ppm": "median_ae_ppm",
+    "bin_accuracy": "bin_accuracy",
+    "pct_within_20ppm": "pct_within_20ppm",
+    "intensity_r2": "intensity_r2",
+    "loss": "loss",
+    "effective_rank": "embed/embeddingstatisticstask/effective_rank",
+    "anisotropy_ratio": "embed/embeddingstatisticstask/anisotropy_ratio",
+}
 STEP_TIME = re.compile(r"\[Step (\d+)/\d+\] \[[^,]+, ([0-9.]+) s/step\]")
 
 
@@ -96,8 +96,10 @@ def main() -> None:
     last = max(validation_steps)
     out: dict[str, object] = {f"final_eval_step_{last}": dict(sorted(by_step[last].items()))}
     out["trajectory"] = {
-        m: [[s, by_step[s][f"eval/{m}"]] for s in validation_steps if f"eval/{m}" in by_step[s]]
-        for m in TRAJECTORY
+        name: [
+            [s, by_step[s][f"eval/{key}"]] for s in validation_steps if f"eval/{key}" in by_step[s]
+        ]
+        for name, key in TRAJECTORY.items()
     }
     job = args.job
     if job is None:
