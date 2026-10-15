@@ -98,7 +98,7 @@ with the baseline's step 10,001. What they do not give: final results; the order
 | :---- | :---- | :---- |
 | `seed102` | 24048089 | 3-hour, 2 h 59 |
 | `meta-precursor` | 24048090 | 3-hour, 2 h 59 |
-| `pa-mask2mask` | 24048091 | 12-hour, 5 h |
+| `pa-mask2mask` | 24048091 | 12-hour, 5 h; **cancelled at 1 h 19 min** (3.03 s per optimizer step: 10,000 steps would take 8.4 h; see the problems below) |
 | `ionladder` | 24048092 | 3-hour, 2 h 59 |
 
 Expected cost about 11 GPU-hours (2.4 h each at the baseline's 0.75 s per step plus 15 min of start-up; the PA arm
@@ -119,3 +119,5 @@ For a smoke run: step 2 with `smoke10k-<arm>`, then `python scripts/train/smoke_
 | :---- | :---- | :---- |
 | 15/10/2026 | The full runs sit behind 60 to 150 higher-priority jobs on rrg-hsn_gpu (fairshare 0.25 against 0.34 on def-hsn_gpu; the priority is almost entirely fairshare) | Full runs kept queued; four smoke runs on def-hsn_gpu instead of moving the full runs, to spare the group's default allocation |
 | 15/10/2026 | The suite's retrieval task and linear probe cost 32 to 50 and 41 min per evaluation job | Both rewritten in the suite with identical numbers (`docs/agent_logs/notes-speed.md`, S1 and S4b); a probes-retrieval job now about 30 min |
+| 15/10/2026 | Four smoke runs staging MCFM to the same node at once took 429 s each, against 84 to 154 s for one job | Accepted (the 3-hour limits still hold: start-up 28 min, steps 2 h 5 min); noted in the speed notes |
+| 15/10/2026 | **The pairwise-attention arm runs at 3.03 s per optimizer step** (smoke run 24048091, step 1,000 at 50 min 31 s of training, 1.52 s per forward pass, 59.7 GB of GPU memory, against 0.74 s and 30 to 33 GB for the other arms): 10,000 steps need 8.4 h, 90,000 need 76 h, so neither the 5-hour smoke limit nor the full run's 36-hour limit can hold. The PA path is memory-chunked and skips `torch.compile` (the authors' implementation). Its training loss at step 1,000 was 1.95 against 2.13 to 2.37 for the other arms, consistent with the easier task the caveat above describes. | Smoke run cancelled at 1 h 19 min to spare the default allocation. The full run 24017761 stays queued but **cannot finish under its limit**: it needs either the 7-day partition (about 76 GPU-hours) or a faster PA path first (profiling idea in the speed notes). Owner's call; no validation point for this arm from the smoke. |
