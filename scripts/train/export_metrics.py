@@ -6,9 +6,10 @@ step, `trajectory` the per-step series of the metrics `fill_results.py` and the 
 directory, MLflow run name and global batch; `--also-step N` adds an `eval_step_N` block. Row 23 of the results tables
 (`fill_results._trainer_validation`) reads the first `eval/*` keys of the file, so `final_eval_step_<N>` comes first.
 
-    source .envrc && python scripts/train/export_metrics.py arch-seed102 [--also-step 80001] [--job 24017759] [--dest train_arch-seed102]
+    source .envrc && python scripts/train/export_metrics.py arch-seed102 [--also-step 80001 --also-step 10001] [--job 24017759] [--dest train_arch-seed102]
 
-`_run` also carries the median seconds per step over the run's `[Step N/M] [..., x s/step]` log lines (`train.log`) and the
+The trajectory holds the validation steps only (every `validation_interval` of the run's parameters, logged at
+step + 1), not the sanity-check batches the trainer logs at steps 0 to 15. `_run` also carries the median seconds per step over the run's `[Step N/M] [..., x s/step]` log lines (`train.log`) and the
 peak GPU memory of the 30-second sampler (`gpu.log`), when those files exist.
 """
 
@@ -58,8 +59,9 @@ def main() -> None:
     ap.add_argument(
         "--also-step",
         type=int,
-        default=None,
-        help="add an eval_step_<N> block for this validation step",
+        action="append",
+        default=[],
+        help="add an eval_step_<N> block for this validation step (repeatable)",
     )
     ap.add_argument(
         "--job",
@@ -87,10 +89,14 @@ def main() -> None:
     by_step: dict[int, dict[str, float]] = {}
     for key, step, value in rows:
         by_step.setdefault(step, {})[key] = value
-    last = max(by_step)
+    interval = int(params.get("validation_interval", 0))
+    validation_steps = sorted(
+        s for s in by_step if not interval or (s > 1 and (s - 1) % interval == 0)
+    )
+    last = max(validation_steps)
     out: dict[str, object] = {f"final_eval_step_{last}": dict(sorted(by_step[last].items()))}
     out["trajectory"] = {
-        m: [[s, by_step[s][f"eval/{m}"]] for s in sorted(by_step) if f"eval/{m}" in by_step[s]]
+        m: [[s, by_step[s][f"eval/{m}"]] for s in validation_steps if f"eval/{m}" in by_step[s]]
         for m in TRAJECTORY
     }
     job = args.job
@@ -111,14 +117,14 @@ def main() -> None:
         "seconds_per_step": step_time(run_dir / "train.log"),
         "gpu_mem_peak_mib": gpu_peak(run_dir / "gpu.log"),
     }
-    if args.also_step is not None:
-        out[f"eval_step_{args.also_step}"] = dict(sorted(by_step[args.also_step].items()))
+    for step in args.also_step:
+        out[f"eval_step_{step}"] = dict(sorted(by_step[step].items()))
     dest = (
         REPO / "docs" / "references" / "rerun" / (args.dest or f"train_{args.run}") / "metrics.json"
     )
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(out, indent=1))
-    print(f"{dest.relative_to(REPO)}: steps {sorted(by_step)}, last {last}, job {job}")  # noqa: T201
+    print(f"{dest.relative_to(REPO)}: validation steps {validation_steps}, last {last}, job {job}")  # noqa: T201
 
 
 if __name__ == "__main__":
