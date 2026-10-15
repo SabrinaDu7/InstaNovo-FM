@@ -1,0 +1,73 @@
+{
+ "final_eval_step_10001": {
+  "eval/bin_accuracy": 11.774833919910458,
+  "eval/bin_pm1_accuracy": 14.035528018832283,
+  "eval/conf_joint_mean": 0.11779417900473489,
+  "eval/ece_group": 0.009593929164111614,
+  "eval/ece_offset": 0.006781304255127907,
+  "eval/entropy_total_mean": 3.7930498742458902,
+  "eval/group_accuracy": 54.03653355018194,
+  "eval/group_top5_accuracy": 99.37245983566774,
+  "eval/intensity_mae": 0.0044348821975290775,
+  "eval/intensity_r2": 0.9798470440462728,
+  "eval/intensity_spearman_mean": 0.9528061338186264,
+  "eval/intensity_top10_recall_mean": 0.9204357164774472,
+  "eval/loss": 1.9072120380401612,
+  "eval/mae_daltons": 6.197567433510527,
+  "eval/median_ae_ppm": 6409.09619140625,
+  "eval/offset_accuracy": 20.451405276422733,
+  "eval/offset_pm1_accuracy": 24.961440036281548,
+  "eval/offset_top5_accuracy": 56.82943808414959,
+  "eval/pct_within_01da": 12.059092275118735,
+  "eval/pct_within_10ppm": 0.7140920994598257,
+  "eval/pct_within_1da": 24.755295807026993,
+  "eval/pct_within_20ppm": 1.7063022192468384,
+  "eval/total_masked_tokens": 9706311.0,
+  "eval/total_spectra": 256000.0
+ },
+ "trajectory": {
+  "median_ae_ppm": [
+   [
+    10001,
+    6409.09619140625
+   ]
+  ],
+  "bin_accuracy": [
+   [
+    10001,
+    11.774833919910458
+   ]
+  ],
+  "pct_within_20ppm": [
+   [
+    10001,
+    1.7063022192468384
+   ]
+  ],
+  "intensity_r2": [
+   [
+    10001,
+    0.9798470440462728
+   ]
+  ],
+  "loss": [
+   [
+    10001,
+    1.9072120380401612
+   ]
+  ],
+  "effective_rank": [],
+  "anisotropy_ratio": []
+ },
+ "_run": {
+  "job": 24048089,
+  "run": "/home/sabrina7/projects/rrg-hsn/proteomies/runs/instanovofm/smoke10k-seed102",
+  "mlflow_run": "instanovo_foundational_26_10_15_11_41",
+  "global_batch": 2048,
+  "grad_accumulation": 2,
+  "seed": "102",
+  "seconds_per_step": 0.735,
+  "seconds_per_forward_pass": 0.37,
+  "gpu_mem_peak_mib": 41571
+ }
+}
