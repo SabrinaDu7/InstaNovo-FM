@@ -309,7 +309,8 @@
   "global_batch": 2048,
   "grad_accumulation": 2,
   "seed": "101",
-  "seconds_per_step": 0.37,
+  "seconds_per_step": 0.745,
+  "seconds_per_forward_pass": 0.37,
   "gpu_mem_peak_mib": 45801
  },
  "eval_step_80001": {
