@@ -127,7 +127,7 @@ package = true
 
 [tool.uv.sources]
 # ssh: the repository is private. Move `rev` to take a newer suite.
-instanovofm-evals = { git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git", rev = "1c6153b" }
+instanovofm-evals = { git = "ssh://git@github.com/SabrinaDu7/instanovofm-evals.git", rev = "6ee1c29" }
 
 [build-system]
 requires = ["hatchling"]
