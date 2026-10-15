@@ -261,20 +261,22 @@ post_training_evaluation.enabled=False` (the evaluation runs as separate jobs, a
 
 | Phase | Arm | Change | How (Hydra override on the baseline, or code) | Parameters | Note |
 | :-- | :-- | :---- | :---- | :---- | :---- |
-| 0 | `seed102` | nothing | `seed=102` | 39.9 M | the spread every other arm is read against |
-| 1 | `enc-fourier` | peak encoder: DreaMS-style Fourier bank, periods 2.5 to 3,750 Da, trainable | `model.peak_encoder.type=fourier` | about the same | B1 |
-| 1 | `enc-dual` | peak encoder: multiscale plus 1,024 RBFs through a zero-initialised gate | `model.peak_encoder.type=dual` | +1.6 M | B1 |
-| 1 | `meta-precursor` | metadata tokens: precursor mass, charge bin, fragmentation type, collision energy; instrument left out so no search table is needed and the change is precursor information alone | `model.meta_token.enabled=true model.meta_token.include_instrument=false` | +0.3 M | B2; the charge and mass probes become trivial by construction and are not read for this arm |
-| 1 | `pa-mask2mask` | pairwise attention bias kept between masked tokens (the mode the released `*-pa` checkpoints never used) | `model.architecture.relative_bias.type=pa model.architecture.relative_bias.config.pa_mask_to_mask=true` | +0.1 M | C1; `torch.compile` is skipped on this path, so slower |
-| 1 | `ffn3072` | feed-forward 3,072, the 89M's ratio | `model.dim_feedforward=3072` | +28 M | C2; a width test, not parameter-matched |
-| 1 | `dropout0` | no dropout anywhere | `model.dropout=0.0` | same | C2; regularisation rather than architecture, kept because it is free |
-| 1 | `ionladder` | residue-mass soft matches to 40 neighbours each side added to every peak token through a zero-initialised gate; masked peaks are excluded from the windows, so the objective is untouched | `model.ion_ladder.enabled=true` | +0.1 M | a chemistry-aware input the authors built and never reported |
-| 1 | `peaks300` | 300 peaks kept instead of 200 | `model.n_peaks=300` | same | B4; attention cost 2.25 times |
+| 0 | `seed102` | nothing | `seed=102` | 39.87 M | the spread every other arm is read against |
+| 1 | `enc-fourier` | peak encoder: DreaMS-style Fourier bank, periods 2.5 to 3,750 Da, trainable | `model.peak_encoder.type=fourier` | 38.69 M | B1 |
+| 1 | `enc-dual` | peak encoder: multiscale plus 1,024 RBFs through a zero-initialised gate | `model.peak_encoder.type=dual` | 41.25 M | B1 |
+| 1 | `meta-precursor` | metadata tokens: precursor mass, charge bin, fragmentation type, collision energy; instrument left out so no search table is needed and the change is precursor information alone | `model.meta_token.enabled=true model.meta_token.include_instrument=false` | 40.03 M | B2; the charge and mass probes become trivial by construction and are not read for this arm |
+| 1 | `pa-mask2mask` | pairwise attention bias kept between masked tokens (the mode the released `*-pa` checkpoints never used) | `model.architecture.relative_bias.type=pa model.architecture.relative_bias.config.pa_mask_to_mask=true` | 39.90 M | C1; `torch.compile` is skipped on this path, so slower |
+| 1 | `ffn3072` | feed-forward 3,072, the 89M's ratio | `model.dim_feedforward=3072` | 68.20 M | C2; a width test, not parameter-matched |
+| 1 | `dropout0` | no dropout anywhere | `model.dropout=0.0` | 39.87 M | C2; regularisation rather than architecture, kept because it is free |
+| 1 | `ionladder` | residue-mass soft matches to 40 neighbours each side added to every peak token through a zero-initialised gate; masked peaks are excluded from the windows, so the objective is untouched | `model.ion_ladder.enabled=true` | 39.92 M | a chemistry-aware input the authors built and never reported |
+| 1 | `peaks300` | 300 peaks kept instead of 200 | `model.n_peaks=300` | 39.87 M | B4; attention cost 2.25 times |
 | 2 | `prenorm-gelu` | pre-norm layers with GELU (torch's layer supports both; the factory passes neither) | code: `architecture.layer.{norm_first,activation}` keys through `UnifiedEncoderLayer` | same | C2 |
 | 2 | `no-latent` | no latent token (nothing reads it; it still attends) | code: a flag that skips the prepend and the latent output | −768 | C3 |
 | 2 | `swiglu` | SwiGLU feed-forward at matched parameters | code: a feed-forward block | same | C2, second order |
 
-Every arm keeps the shipped objective. The one architectural idea that cannot (a pooled or CLS embedding trained
+Parameter counts are measured: every Phase 1 arm composes against `configs/foundational.yaml` with `dataset=mcfm`
+and builds on the workstation (15/10; the ion-ladder arm with the residue masses injected as `train.py::setup_model`
+does). Every arm keeps the shipped objective. The one architectural idea that cannot (a pooled or CLS embedding trained
 to be an embedding) is excluded by decision 2 and stays in section 2 as D1 for the record.
 
 ### 3.3 Cost and order
@@ -284,9 +286,10 @@ partition (the result scripts). Phase 0 and the eight Phase 1 arms: 9 runs, abou
 about 70. Order inside Phase 1 by expected information: `meta-precursor`, `pa-mask2mask`, `enc-fourier`, `ionladder`,
 then `ffn3072`, `prenorm-gelu` (Phase 2, cheap code), `dropout0`, `enc-dual`, `peaks300`, `no-latent`, `swiglu`.
 
-Before the first job: `scripts/train/submit.sh` hard-codes the main clone's path and venv; it needs the same
-`SLURM_SUBMIT_DIR` and `FM_VENV` treatment as the other wrappers so the arms run from a checkout of this branch on
-nibi without disturbing `main`'s clone. The tags of the arms go into `scripts/reproduce/_common.py::MODELS` and
+Ready for the first job: `scripts/train/submit.sh` now takes its checkout from `SLURM_SUBMIT_DIR` and its venv from
+`FM_VENV`, like the other wrappers; nibi's spare clone `~/experiments/InstaNovo-FM-evalpkg` (venv
+`~/scratch/venvs/instanovo-fm-evalpkg`, `FM_VENV` in its `.envrc`) is on this branch, so the arms run from there and
+`main`'s clone is untouched. The tags of the arms go into `scripts/reproduce/_common.py::MODELS` and
 `fill_results.py::_retrain_rows` as the retrains did, one section per arm in `results_paper_or_rerun.md`.
 
 ## 4. How a change will be judged
@@ -312,3 +315,4 @@ retrieval and fragment accuracy without losing a probe, with every number landin
 | :---- | :---- |
 | 15/10/2026 | Branch `sdu/exploring-arch` created from `main` (5508e71) and pushed. Read the model, data, trainer and config code end to end, the preprint's architecture and ablation passages, and the earlier session logs. Wrote `scripts/analysis/masking_stats.py` and measured the deployed masking on 2,000 MCFM test spectra: 27.0 % masked, runs of mean length 5.2 with 59 % of masked peaks in runs longer than the configured 4, 0.8 % residual isotope leakage. Found that the intensity auxiliary loss never restricts itself to masked peaks (`mlm_mask` key never written) and so regresses a visible input channel. Sections 1 to 5 above are the state at the end of the day; no experiment started. |
 | 15/10/2026, later | Owner's decisions recorded (batch-2,048 baseline; objective unchanged, architecture only, with any objective dependency stated; 40M on MCFM). Sections 3 to 5 rewritten into the arm table above: eight configuration-only arms and three small-code arms, each one change on the baseline, objective untouched; the contrastive pooling idea excluded under decision 2; A-group items parked. Not launched. |
+| 15/10/2026, evening | Preflight without GPU time: all nine arms compose and build on the workstation (parameter counts in the table); `scripts/train/submit.sh` made checkout- and venv-relative; the nibi spare clone switched to this branch with its venv re-synced. Launch of Phase 0 and Phase 1 awaits the owner's go (about 210 GPU-hours). |

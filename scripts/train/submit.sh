@@ -16,14 +16,14 @@
 # (no server); read it with `mlflow ui --backend-store-uri sqlite:///<run>/mlflow.db` on the login node behind an
 # SSH tunnel. STAGE=1 copies the MCFM shards to $SLURM_TMPDIR first and trains from node-local disk.
 set -euo pipefail
-cd "$HOME/experiments/InstaNovo-FM"
+cd "${SLURM_SUBMIT_DIR:-$HOME/experiments/InstaNovo-FM}"  # the checkout sbatch was run from (SLURM spools a copy of this script)
 source .envrc
 unset PYTHONPATH
 export TORCH_HOME="$HOME/scratch/torch-hub"
 export NUMBA_THREADING_LAYER=tbb
-export LD_LIBRARY_PATH="$HOME/scratch/venvs/instanovo-fm/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH="${FM_VENV:-$HOME/scratch/venvs/instanovo-fm}/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export INSTANOVO_FM_DATA_DIR="$PWD/data"
-PY="$HOME/scratch/venvs/instanovo-fm/bin/python"
+PY="${FM_VENV:-$HOME/scratch/venvs/instanovo-fm}/bin/python"
 REPO="$PWD"
 NAME="$1"; shift
 RUN="$RUNS/$NAME"
