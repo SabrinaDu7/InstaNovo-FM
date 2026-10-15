@@ -234,21 +234,60 @@ protocols on the checkpoint (about 4 GPU-hours, `scripts/reproduce/`).
   largest charge for the shift table, which is harmless, but any precursor-conditioned design (B2) must handle it.
   **Confirmed (measured).**
 
-## 3. A shortlist, ordered by information per GPU-hour
+## 3. Decisions (15/10) and the plan that follows from them
 
-Nothing below has been started. Baseline for everything: the batch-2,048 40M run (`40M-b2048`), which is the
-configuration that reproduces the released checkpoint; two seeds of it first (E3).
+The owner decided: (1) the batch-2,048 configuration is the baseline; (2) **the training objective is not changed**:
+masking, the hint, the heads, the losses and the selection criterion stay as shipped, and the work is about the
+architectural choices; an architectural change that cannot run without touching the objective is allowed only if
+that dependency is stated in so many words; (3) every result is at 40M on MCFM, because the 89M cannot be trained
+to completion now.
 
-1. **A3, selection criterion:** re-score the kept checkpoints of the two existing runs; no training.
-2. **A1, intensity auxiliary:** `lambda_intensity: 0`, then the masked-only variant with hidden intensity.
-3. **A2, run length:** fix the trimming so realised runs are 3 to 4 peaks.
-4. **D1, a spectrum-level term:** contrastive on the pooled vector.
-5. **C1, pairwise bias around masks:** `pa_mask_to_mask` under Thompson-span.
-6. **B1, peak encoder bank;** then **C2, layer modernisation;** then **B2, precursor meta token;** then **A5, σ;**
-   then **A4, ordinal offsets and adaptive bins.**
+Consequences for section 2: A1 to A6 and B3 are **parked** (they are objective changes); D1 is **excluded** in its
+contrastive form, because a pooled vector has no loss in the shipped objective and any pooling head would need a
+new term (stated here as decision 2 requires); A3 survives only as part of how runs are read (section 4), not as a
+change. C4, E2 and E4 are engineering and go in whenever a run touches that code.
 
-About 150 H100-hours for the whole list at one seed each, within what the account has spent on evaluations alone
-since September (`session-2026-10-10-evalPackageAndReconstruction.md`, queue analysis).
+### 3.1 Baseline
+
+`40M-b2048`: `configs/foundational.yaml` with `dataset=mcfm`, 1,024 spectra per forward pass and `grad_accumulation=2`,
+90,000 steps, one H100; the existing run took 18 h 57 min of training (job 23151784, `sacct`), about 10 GPU-hours
+less than two single-GPU passes because `torch.compile` stays on. Its checkpoints are `$CHECKPOINTS/
+instanovo-fm-mcfm-90k-b2048-step{80k,90k}-2026-10-03.ckpt`. A **second seed** of it is the first job of the plan:
+without the seed spread no one-run difference can be read. Overrides of every run, besides the arm's own:
+`training_steps=90000 grad_accumulation=2 num_workers=8 +mp_sharing_strategy=file_system keep_model_every_interval=True
+post_training_evaluation.enabled=False` (the evaluation runs as separate jobs, as for every checkpoint so far).
+
+### 3.2 Arms: one architectural change each on the baseline
+
+| Phase | Arm | Change | How (Hydra override on the baseline, or code) | Parameters | Note |
+| :-- | :-- | :---- | :---- | :---- | :---- |
+| 0 | `seed102` | nothing | `seed=102` | 39.9 M | the spread every other arm is read against |
+| 1 | `enc-fourier` | peak encoder: DreaMS-style Fourier bank, periods 2.5 to 3,750 Da, trainable | `model.peak_encoder.type=fourier` | about the same | B1 |
+| 1 | `enc-dual` | peak encoder: multiscale plus 1,024 RBFs through a zero-initialised gate | `model.peak_encoder.type=dual` | +1.6 M | B1 |
+| 1 | `meta-precursor` | metadata tokens: precursor mass, charge bin, fragmentation type, collision energy; instrument left out so no search table is needed and the change is precursor information alone | `model.meta_token.enabled=true model.meta_token.include_instrument=false` | +0.3 M | B2; the charge and mass probes become trivial by construction and are not read for this arm |
+| 1 | `pa-mask2mask` | pairwise attention bias kept between masked tokens (the mode the released `*-pa` checkpoints never used) | `model.architecture.relative_bias.type=pa model.architecture.relative_bias.config.pa_mask_to_mask=true` | +0.1 M | C1; `torch.compile` is skipped on this path, so slower |
+| 1 | `ffn3072` | feed-forward 3,072, the 89M's ratio | `model.dim_feedforward=3072` | +28 M | C2; a width test, not parameter-matched |
+| 1 | `dropout0` | no dropout anywhere | `model.dropout=0.0` | same | C2; regularisation rather than architecture, kept because it is free |
+| 1 | `ionladder` | residue-mass soft matches to 40 neighbours each side added to every peak token through a zero-initialised gate; masked peaks are excluded from the windows, so the objective is untouched | `model.ion_ladder.enabled=true` | +0.1 M | a chemistry-aware input the authors built and never reported |
+| 1 | `peaks300` | 300 peaks kept instead of 200 | `model.n_peaks=300` | same | B4; attention cost 2.25 times |
+| 2 | `prenorm-gelu` | pre-norm layers with GELU (torch's layer supports both; the factory passes neither) | code: `architecture.layer.{norm_first,activation}` keys through `UnifiedEncoderLayer` | same | C2 |
+| 2 | `no-latent` | no latent token (nothing reads it; it still attends) | code: a flag that skips the prepend and the latent output | −768 | C3 |
+| 2 | `swiglu` | SwiGLU feed-forward at matched parameters | code: a feed-forward block | same | C2, second order |
+
+Every arm keeps the shipped objective. The one architectural idea that cannot (a pooled or CLS embedding trained
+to be an embedding) is excluded by decision 2 and stays in section 2 as D1 for the record.
+
+### 3.3 Cost and order
+
+One arm is about 19 h of training on one H100 in the 24-hour partition plus about 4 h of evaluation in the 3-hour
+partition (the result scripts). Phase 0 and the eight Phase 1 arms: 9 runs, about 210 GPU-hours; Phase 2: 3 runs,
+about 70. Order inside Phase 1 by expected information: `meta-precursor`, `pa-mask2mask`, `enc-fourier`, `ionladder`,
+then `ffn3072`, `prenorm-gelu` (Phase 2, cheap code), `dropout0`, `enc-dual`, `peaks300`, `no-latent`, `swiglu`.
+
+Before the first job: `scripts/train/submit.sh` hard-codes the main clone's path and venv; it needs the same
+`SLURM_SUBMIT_DIR` and `FM_VENV` treatment as the other wrappers so the arms run from a checkout of this branch on
+nibi without disturbing `main`'s clone. The tags of the arms go into `scripts/reproduce/_common.py::MODELS` and
+`fill_results.py::_retrain_rows` as the retrains did, one section per arm in `results_paper_or_rerun.md`.
 
 ## 4. How a change will be judged
 
@@ -256,19 +295,20 @@ The suite's paper protocols on the corpus splits, run by `scripts/reproduce/` ex
 checkpoints (`paper-probes-retrieval`, `paper-peak-level`, `paper-geometry` on LCFM test and MCFM test, the trainer
 validation on MCFM validation), plus the IG fragment-group accuracy over the 42,441-group diagnostic
 (`scripts/analysis/fragment_reconstruction.py`) because the paper's 1,224-group number resolves ±1.9 points at best.
-A change counts when it clears the two-seed spread of the baseline on retrieval and fragment accuracy without losing
-a probe, with every number landing in `docs/references/results_paper_or_rerun.md` through `fill_results.py` under a
-new section per experiment.
+Each arm is read at step 90,001 and at its `model_best` (the shipped criterion), so the selection question (A3)
+is visible without changing anything. A change counts when it clears the two-seed spread of the baseline on
+retrieval and fragment accuracy without losing a probe, with every number landing in
+`docs/references/results_paper_or_rerun.md` through `fill_results.py` under a new section per arm.
 
-## 5. Questions for the owner before any run
+## 5. Open points
 
-- Is the batch-2,048 configuration accepted as the baseline, given it is the one that reproduces?
-- A1 changes the objective in a way that makes the released checkpoints not comparable on the intensity row; is
-  that acceptable (the row measures a copy anyway)?
-- Should the first runs be on MCFM at 40M (10 GPU-hours each) or does any result need the 89M on LCFM to count?
+- Whether `dropout0` and `ffn3072` count as "architectural" for this study; both are kept because they are free.
+- Launch of Phase 0 and Phase 1 is a resource decision (about 210 GPU-hours on an account whose fairshare is
+  already low); it waits for the owner's go.
 
 ## Log
 
 | Date | What happened |
 | :---- | :---- |
 | 15/10/2026 | Branch `sdu/exploring-arch` created from `main` (5508e71) and pushed. Read the model, data, trainer and config code end to end, the preprint's architecture and ablation passages, and the earlier session logs. Wrote `scripts/analysis/masking_stats.py` and measured the deployed masking on 2,000 MCFM test spectra: 27.0 % masked, runs of mean length 5.2 with 59 % of masked peaks in runs longer than the configured 4, 0.8 % residual isotope leakage. Found that the intensity auxiliary loss never restricts itself to masked peaks (`mlm_mask` key never written) and so regresses a visible input channel. Sections 1 to 5 above are the state at the end of the day; no experiment started. |
+| 15/10/2026, later | Owner's decisions recorded (batch-2,048 baseline; objective unchanged, architecture only, with any objective dependency stated; 40M on MCFM). Sections 3 to 5 rewritten into the arm table above: eight configuration-only arms and three small-code arms, each one change on the baseline, objective untouched; the contrastive pooling idea excluded under decision 2; A-group items parked. Not launched. |
