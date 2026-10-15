@@ -48,8 +48,8 @@ better masked-m/z number here is not by itself a better model. A "-" means the f
 | | baseline (seed 101), step 10,001 | smoke `seed102` | smoke `meta-precursor` | smoke `pa-mask2mask` | smoke `ionladder` |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | job | 23151784 | 24048089 | 24048090 | - | 24048092 |
-| seconds per optimizer step (elapsed clock over the steps) | 0.37 | 0.735 | 0.743 | - | 0.757 |
-| seconds per forward pass (the trainer's own s/step) | - | 0.37 | 0.37 | - | 0.38 |
+| seconds per optimizer step (elapsed clock over the steps) | 0.745 | 0.735 | 0.743 | - | 0.757 |
+| seconds per forward pass (the trainer's own s/step) | 0.37 | 0.37 | 0.37 | - | 0.38 |
 | peak GPU memory (MiB) | 45801 | 41571 | 36097 | - | 34069 |
 | seed | 101 | 102 | 101 | - | 101 |
 | global batch | 2048 | 2048 | 2048 | - | 2048 |
