@@ -9,13 +9,46 @@ better masked-m/z number here is not by itself a better model. A "-" means the f
 
 | Metric | baseline (seed 101), step 10,001 | smoke `seed102` | smoke `meta-precursor` | smoke `pa-mask2mask` | smoke `ionladder` |
 | :---- | :---- | :---- | :---- | :---- | :---- |
+| `eval/bin_accuracy` | 12.03 | - | - | - | - |
+| `eval/bin_pm1_accuracy` | 14.37 | - | - | - | - |
+| `eval/conf_joint_mean` | 0.1189 | - | - | - | - |
+| `eval/ece_group` | 0.0102 | - | - | - | - |
+| `eval/ece_offset` | 0.007138 | - | - | - | - |
+| `eval/embed/embeddingstatisticstask/anisotropy_ratio` | 21.5 | - | - | - | - |
+| `eval/embed/embeddingstatisticstask/centroid_norm` | 0.7759 | - | - | - | - |
+| `eval/embed/embeddingstatisticstask/effective_rank` | 50.97 | - | - | - | - |
+| `eval/embed/embeddingstatisticstask/mean_similarity` | 0.6019 | - | - | - | - |
+| `eval/embed/embeddingstatisticstask/pca_energy_top1` | 0.2043 | - | - | - | - |
+| `eval/embed/embeddingstatisticstask/uniformity` | -1.467 | - | - | - | - |
+| `eval/embed/mean_norm` | 1 | - | - | - | - |
+| `eval/embed/num_embeddings` | 20,000 | - | - | - | - |
+| `eval/embed/std_norm` | 3.079e-08 | - | - | - | - |
+| `eval/entropy_total_mean` | 3.802 | - | - | - | - |
+| `eval/group_accuracy` | 54.17 | - | - | - | - |
+| `eval/group_top5_accuracy` | 99.37 | - | - | - | - |
+| `eval/intensity_mae` | 0.004885 | - | - | - | - |
+| `eval/intensity_r2` | 0.977 | - | - | - | - |
+| `eval/intensity_spearman_mean` | 0.9542 | - | - | - | - |
+| `eval/intensity_top10_recall_mean` | 0.9171 | - | - | - | - |
+| `eval/loss` | 1.902 | - | - | - | - |
+| `eval/mae_daltons` | 6.168 | - | - | - | - |
+| `eval/median_ae_ppm` | 6342 | - | - | - | - |
+| `eval/offset_accuracy` | 20.7 | - | - | - | - |
+| `eval/offset_pm1_accuracy` | 25.31 | - | - | - | - |
+| `eval/offset_top5_accuracy` | 56.92 | - | - | - | - |
+| `eval/pct_within_01da` | 12.34 | - | - | - | - |
+| `eval/pct_within_10ppm` | 0.7391 | - | - | - | - |
+| `eval/pct_within_1da` | 25.14 | - | - | - | - |
+| `eval/pct_within_20ppm` | 1.739 | - | - | - | - |
+| `eval/total_masked_tokens` | 9,706,311 | - | - | - | - |
+| `eval/total_spectra` | 256,000 | - | - | - | - |
 
 ## Run
 
 | | baseline (seed 101), step 10,001 | smoke `seed102` | smoke `meta-precursor` | smoke `pa-mask2mask` | smoke `ionladder` |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | job | 23151784 | - | - | - | - |
-| seconds per step (median of the log) | - | - | - | - | - |
-| peak GPU memory (MiB) | - | - | - | - | - |
-| seed | - | - | - | - | - |
+| seconds per step (median of the log) | 0.37 | - | - | - | - |
+| peak GPU memory (MiB) | 45801 | - | - | - | - |
+| seed | 101 | - | - | - | - |
 | global batch | 2048 | - | - | - | - |
