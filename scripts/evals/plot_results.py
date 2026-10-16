@@ -14,6 +14,7 @@ bar and the paper's reported number as a diamond).
 from __future__ import annotations
 
 import re
+import textwrap
 from pathlib import Path
 
 import sys
@@ -76,6 +77,58 @@ PAPER = {
     "Confidence AUROC, per spectrum": [None, None, 0.658],
 }
 LOWER_IS_BETTER = ("error", "MAE", "noise", "Mean cosine", "Top-component", "Anisotropy", "residual")
+# Section titles as drawn (the pages' headings otherwise).
+SECTION_TITLES = {"Duplicate-spectrum retrieval": "Duplicate-spectrum retrieval (embeddings)"}
+# One sentence per panel, drawn under its title; every panel must have one (asserted), definitions from the suite's
+# docs/evals.md and the trainer's metrics.
+DESCRIPTIONS = {
+    "Fragment type (macro-F1)": "Linear classifier on the embedding predicting the fragmentation method (HCD, CID, ...); macro-F1 over the methods present.",
+    "Instrument (macro-F1)": "Linear classifier predicting the instrument from the embedding; n/a where a dataset has a single instrument.",
+    "PTM presence (balanced accuracy)": "Linear classifier: does the peptide carry any modification; balanced accuracy over the two classes.",
+    "Modification class (macro-F1)": "Linear classifier over seven classes (unmodified, the six most frequent modifications, other); macro-F1.",
+    "Hydrophobicity (R²)": "Ridge regression of the peptide's hydrophobicity from the embedding; R² on held-out spectra.",
+    "Precursor mass (R²)": "Ridge regression of the precursor mass, which is not a model input; R².",
+    "Precursor m/z (R²)": "Ridge regression of the precursor m/z, which is not a model input; R².",
+    "Charge (macro-F1)": "Linear classifier predicting the precursor charge state; macro-F1 over the charges present.",
+    "Collision energy (R²)": "Ridge regression of the recorded collision energy; negative on LCFM test because that column mixes units (NCE 20 to 41 with 70 and 143).",
+    "Spectrum confidence (R²)": "Ridge regression of the model's own per-spectrum reconstruction confidence; R², near-trivial by construction.",
+    "Recall@1": "Share of query spectra whose nearest neighbour by cosine is another spectrum of the same peptide string.",
+    "mAP@20": "Mean average precision of same-peptide spectra over each query's 20 nearest neighbours; rewards the whole ranking.",
+    "Proportional recall@1": "Same-peptide spectra found at rank 1 divided by the number of same-peptide spectra; bounded by 1 / (group size - 1).",
+    "Recall@1, HCD Orbitrap subset": "Recall@1 with the index and the queries restricted to HCD or HCID spectra on Orbitrap detectors.",
+    "Recall@1, CID subset": "Recall@1 with the index and the queries restricted to CID spectra.",
+    "Fragment-group bin accuracy (IG task)": "A whole fragment ion group is hidden and the model restores it; share of restored ions in the right 0.2 Da bin.",
+    "Bin accuracy, y ions": "The same restoration, y ions only; share in the right 0.2 Da bin.",
+    "Bin accuracy, b ions": "The same restoration, b ions only; share in the right 0.2 Da bin.",
+    "Median error, y ions (ppm)": "Median m/z error of the restored y ions, in ppm.",
+    "Median error, b ions (ppm)": "Median m/z error of the restored b ions, in ppm.",
+    "Peak-type accuracy": "A probe on per-peak token embeddings classifies each peak as b-series, y-series, precursor or unannotated; accuracy.",
+    "Peak-type macro-F1": "The same probe's macro-F1; it varies between identical runs because the probe is unseeded.",
+    "Cross-spectrum AUROC": "Are tokens of the same ion in different spectra of one peptide closer than tokens of unrelated peaks; AUROC.",
+    "Confidence AUROC, per spectrum": "Does the reconstruction head's confidence separate annotated fragment peaks from unannotated ones; AUROC averaged per spectrum.",
+    "Confidence AUROC, pooled": "The same separation with all peaks pooled; AUROC.",
+    "Structural attention heads": "Number of last-layer heads attending at least twice as much on chemically related peak pairs as on all pairs.",
+    "Isotope-spacing enrichment (mean)": "Mean attention enrichment on peak pairs 1.003 Da apart (isotopes) relative to all pairs.",
+    "Anisotropy ratio": "Norm of the mean embedding relative to its isotropic expectation; higher means the vectors point one way.",
+    "Effective rank": "Exponential of the entropy of the PCA spectrum: how many dimensions the embeddings effectively use.",
+    "Top-component energy": "Variance fraction of the first principal component.",
+    "Mean cosine": "Mean pairwise cosine over 200,000 random pairs; near 1 means a collapsed space.",
+    "UMAP kNN preservation (k=15)": "Share of each spectrum's 15 nearest neighbours kept in the 2-D UMAP; a property of the picture, not of the model.",
+    "EVoC clusters": "Number of clusters EVoC finds in the full embedding dimension.",
+    "EVoC noise fraction": "Share of spectra EVoC assigns to no cluster.",
+    "EVoC purity": "Agreement of the clusters with the fragmentation type; 1 by construction on a dataset with one type.",
+    "ESM2 alignment RSA": "Spearman correlation of pairwise similarities between the spectrum embeddings and ESM2 embeddings of their peptides.",
+    "ESM2 alignment CKA": "Kernel alignment between the spectrum embeddings and the ESM2 peptide embeddings.",
+    "ESM2 metadata-baseline RSA": "The same correlation from peptide length, charge and mass alone; a dataset property, identical for every model.",
+    "Glass Box residual": "Reconstruction residual of a parametric UMAP fitted on chemical descriptors, not on embeddings; a dataset property.",
+    "Glass Box top importance": "Importance of the top descriptor in that descriptor-only fit; a dataset property, identical for every model.",
+    "Cosine-hyperscore Spearman (pairs)": "Correlation between a spectrum's mean cosine to its peptide's other spectra and its search hyperscore; CAMPI only.",
+    "Median error over masked peaks": "Median m/z error of the hidden peaks the trainer's validation reconstructs, in ppm.",
+    "MAE": "Mean absolute m/z error of the reconstructed hidden peaks, in Da.",
+    "Bin accuracy (0.2 Da)": "Hidden peaks whose predicted 10 Da group and 0.2 Da offset are both right; the training objective's headline.",
+    "Within 20 ppm": "Share of hidden peaks reconstructed within 20 ppm of their true m/z.",
+    "Intensity R²": "R² of the auxiliary intensity head over every peak, visible ones included, so near-trivial by construction.",
+}
 
 
 def parse(cell: str) -> tuple[list[float | None], bool]:
@@ -186,17 +239,17 @@ def plot(panels, by: str, out: Path, corpus: bool = False, datasets: list[tuple[
     sections = list(dict.fromkeys(p[0] for p in panels))
     ncols = 5
     rows_per_section = [int(np.ceil(sum(p[0] == s for p in panels) / ncols)) for s in sections]
-    fig = plt.figure(figsize=(ncols * 3.3, sum(rows_per_section) * 2.55 + len(sections) * 0.45 + 1.2), facecolor="white")
+    fig = plt.figure(figsize=(ncols * 3.3, sum(rows_per_section) * 3.0 + len(sections) * 0.45 + 1.2), facecolor="white")
     grid = fig.add_gridspec(sum(rows_per_section) + len(sections), ncols,
                             height_ratios=[h for n in rows_per_section for h in [0.18] + [1] * n],
-                            hspace=0.75, wspace=0.32, top=0.95, bottom=0.02, left=0.04, right=0.99)
+                            hspace=1.05, wspace=0.32, top=0.955, bottom=0.02, left=0.04, right=0.99)
     x = np.arange(len(groups))
     width = 0.8 / len(series)
     row = 0
     for section, n_rows in zip(sections, rows_per_section):
         title_ax = fig.add_subplot(grid[row, :])
         title_ax.axis("off")
-        title_ax.text(0, 0, section, fontsize=13, fontweight="bold", color=INK, va="bottom")
+        title_ax.text(0, 0, SECTION_TITLES.get(section, section), fontsize=13, fontweight="bold", color=INK, va="bottom")
         row += 1
         for i, (_, name, values, substitute, reference, paper) in enumerate(p for p in panels if p[0] == section):
             paper = np.array(paper)
@@ -223,7 +276,9 @@ def plot(panels, by: str, out: Path, corpus: bool = False, datasets: list[tuple[
                 else:  # the reference is the released 40M's, so it spans that group only
                     ax.hlines(reference, x[0] - 0.45, x[0] + 0.45, color=MUTED, ls="--", lw=1.2, zorder=3)
             arrow = " \u2193" if any(k in name for k in LOWER_IS_BETTER) else ""
-            ax.set_title(name + arrow, fontsize=9, color=INK, loc="left")
+            ax.set_title(name + arrow, fontsize=9, color=INK, loc="left", pad=38)
+            ax.text(0, 1.03, textwrap.fill(DESCRIPTIONS[name], 56), transform=ax.transAxes, fontsize=6.4, color=MUTED,
+                    va="bottom", ha="left", linespacing=1.3)
             ax.set_xticks(x, groups, fontsize=7.5, color=MUTED)
             ax.tick_params(axis="y", labelsize=7.5, colors=MUTED, length=0)
             ax.tick_params(axis="x", length=0)
