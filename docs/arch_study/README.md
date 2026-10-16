@@ -160,10 +160,32 @@ of the PA overhead is the pairwise features (0.023 s), the projection (0.020 s),
 over flash) and their recomputation in the checkpointed backward, plus the lost `torch.compile`. The H100 ratio after
 the fix is measured by the local speed runs below rather than extrapolated.
 
-**Local speed runs (16/10, RTX 4060):** baseline and `pa-mask2mask` trained for 6,000 steps each at micro-batch 64 on
-the two local MCFM training shards (validation every 1,000 steps on the 40,000-row file), one after the other, by
-`~/Documents/experiments/Arc/instanovo-fm-runs/local-speed/run.sh`; the ratio of their step times is the projection
-for the H100 (3.03 s before the fix). Results below when done.
+**Local speed runs (16/10, RTX 4060, after the fix):** baseline and `pa-mask2mask` trained for 6,000 steps each on the
+two local MCFM training shards with the real training loop (loader workers, checkpointing, validation every 1,000
+steps on the 40,000-row file, `torch.compile` where the trainer allows it), one after the other, by
+`~/Documents/experiments/Arc/instanovo-fm-runs/local-speed/run.sh`; exports under
+`docs/references/rerun/train_local-speed-*/`. PA at micro-batch 64 does not fit the 8 GB card (out of memory at the
+first step), so the pair ran at micro-batch 32; the batch-64 baseline is kept as an extra point.
+
+| Run | Micro-batch | Seconds per optimizer step (elapsed clock over 6,000 steps) | Peak GPU memory | Validation at step 6,001: bin accuracy, median ppm, loss |
+| :---- | :---- | :---- | :---- | :---- |
+| baseline | 64 | 0.311 | 3.9 GB | 5.27 %, 8,240, 2.167 |
+| baseline | 32 | 0.164 | 2.7 GB | 5.09 %, 8,658, 2.192 |
+| pa-mask2mask | 32 | 0.337 | 4.9 GB | 46.98 %, 422, 0.834 |
+
+**PA costs 2.05 times the baseline per step in the training loop after the fix** (4.1 times before it on the H100).
+Projected for the H100 at the baseline's 0.745 s: about 1.53 s per step, 38 h for 90,000 steps plus start-up, which
+is still over the 36-hour limit of the queued job 24017761 by a few hours (inferred from the 4060 ratio; the H100's
+kernels may scale differently). Options for the owner: resubmit with a 48-hour limit (same 3-day partition), or drop
+the arm.
+
+**The PA arm's validation metrics are not comparable, measured.** At equal steps its masked-m/z reconstruction is in a
+different regime: bin accuracy 47 % against 5 %, median error 422 ppm against 8,658, loss 0.83 against 2.19. The
+group accuracy (10 Da) rose from 46 % to 91 %, which is what pooling the 10 Da hints through exact masked-to-masked
+differences predicts; the offset accuracy (0.2 Da within the group) rose from 12 % to 48 %, more than pooled 10 Da
+hints can give, so the exact pairwise differences carry more absolute position than the option's "safe, only Δm/z"
+note assumes (inferred; a dedicated leakage check would settle it). Whether the *embedding* gains anything is only
+answerable with the suite's protocols on a PA checkpoint; the two local step-6,001 checkpoints exist for that.
 
 ## Per-arm procedure when a full run ends
 
@@ -180,6 +202,7 @@ For a smoke run: step 2 with `smoke10k-<arm>`, then `python scripts/train/smoke_
 | :---- | :---- | :---- |
 | 15/10/2026 | The full runs sit behind 60 to 150 higher-priority jobs on rrg-hsn_gpu (fairshare 0.25 against 0.34 on def-hsn_gpu; the priority is almost entirely fairshare) | Full runs kept queued; four smoke runs on def-hsn_gpu instead of moving the full runs, to spare the group's default allocation |
 | 15/10/2026 | The suite's retrieval task and linear probe cost 32 to 50 and 41 min per evaluation job | Both rewritten in the suite with identical numbers (`docs/agent_logs/notes-speed.md`, S1 and S4b); a probes-retrieval job now about 30 min |
+| 16/10/2026 | The PA arm at micro-batch 64 does not fit the workstation's 8 GB (out of memory at the first step); the trainer's validation batch defaults to 1,024 and had to be set to the training batch locally | Local pair run at micro-batch 32 with `predict_batch_size=32` |
 | 15/10/2026 | Four smoke runs staging MCFM to the same node at once took 429 s each, against 84 to 154 s for one job | Accepted (the 3-hour limits still hold: start-up 28 min, steps 2 h 5 min); noted in the speed notes |
 | 15/10/2026 | The smoke runs' validation blocks lack the embedding statistics the baseline's have (anisotropy, effective rank, uniformity): those were computed by the evaluator embedded in the trainer, which this branch replaced by the suite (run as separate jobs) | Accepted; the suite's `embeddingstatisticstask` runs in the geometry protocol on any checkpoint |
 | 15/10/2026 | **The pairwise-attention arm runs at 3.03 s per optimizer step** (smoke run 24048091, step 1,000 at 50 min 31 s of training, 1.52 s per forward pass, 59.7 GB of GPU memory, against 0.74 s and 30 to 33 GB for the other arms): 10,000 steps need 8.4 h, 90,000 need 76 h, so neither the 5-hour smoke limit nor the full run's 36-hour limit can hold. The PA path is memory-chunked and skips `torch.compile` (the authors' implementation). Its training loss at step 1,000 was 1.95 against 2.13 to 2.37 for the other arms, consistent with the easier task the caveat above describes. | Smoke run cancelled at 1 h 19 min to spare the default allocation. The full run 24017761 stays queued but **cannot finish under its limit**: it needs either the 7-day partition (about 76 GPU-hours) or a faster PA path first. Owner's decision (15/10, evening): profile before optimising. Profiled 16/10 on the workstation (section above): the bias reached SDPA with a non-contiguous last dimension, every fused kernel refused it and attention ran the math path; fixed the same day with one `.contiguous()` (PA step 2.42 to 1.83 times the baseline at batch 32); the H100 step time after the fix is being projected from local runs. No validation point for this arm from the smoke. |
