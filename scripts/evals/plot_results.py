@@ -24,12 +24,16 @@ import numpy as np
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # render_results, for the corpus getters
 RESULTS = REPO / "docs" / "results"
-DATASETS = [("ms2bac", "MS2Bac"), ("ups1", "UPS1"), ("proteometools", "ProteomeTools"), ("campi", "CAMPI")]
+DATASETS = [("ms2bac", "MS2Bac\n(B. cereus, E. coli, S. aureus)"), ("ups1", "UPS1"), ("proteometools", "ProteomeTools"), ("campi", "CAMPI")]
+# eval_metrics2 orders the datasets by the share of their identified spectra whose peptide was a training target of
+# the corpus (each eval_<dataset>.md, "How much of it the model trained on"): ProteomeTools 83.5 %, MS2Bac 39.8 %,
+# UPS1 9.6 %, CAMPI 6.7 %.
+BY_TRAIN_OVERLAP = ["proteometools", "ms2bac", "ups1", "campi"]
 MODELS = ["released 40M", "40M trained here", "released 89M", "40M batch 2,048, step 80k", "40M batch 2,048, step 90k"]
 SHORT_MODELS = ["released\n40M", "40M trained\nhere", "released\n89M", "40M b2048\nstep 80k", "40M b2048\nstep 90k"]  # tick labels of eval_metrics2
 COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]  # categorical slots 1-5 of the dataviz reference palette, in slot order
 # (validated: an order with yellow beside orange fails the normal-vision floor, so the batch-2,048 checkpoints come last)
-DATASET_COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"]  # slots 1-4, for eval_metrics2 (bars per dataset)
+DATASET_COLORS = ["#d62728", "#7b3294", "#2a78d6", "#8fc1e3"]  # eval_metrics2, in BY_TRAIN_OVERLAP order: red, purple, blue, light blue
 CORPUS_COLOR = "#a3a29c"  # neutral grey: the corpus split is the reference, not another dataset
 INK, MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 NUMBER = re.compile(r"-?\d[\d,]*\.?\d*(?:e-?\d+)?")
@@ -127,23 +131,23 @@ def corpus_cells() -> dict[tuple[str, str], list[tuple[list[float | None], bool]
     return cells
 
 
-def collect(corpus: bool = False):
+def collect(corpus: bool = False, datasets: list[tuple[str, str]] = DATASETS):
     """[(section, metric, values[group][model], substitute[group][model], reference or None, paper[model])].
 
-    Groups are the datasets, plus the corpus split last when `corpus` is set.
+    Groups are `datasets` in that order, plus the corpus split last when `corpus` is set.
     """
-    docs = {key: read_tables(RESULTS / f"eval_{key}.md") for key, _ in DATASETS}
+    docs = {key: read_tables(RESULTS / f"eval_{key}.md") for key, _ in datasets}
     extra = corpus_cells() if corpus else {}
-    n_groups = len(DATASETS) + bool(corpus)
+    n_groups = len(datasets) + bool(corpus)
     panels = []
-    for section, rows in docs[DATASETS[0][0]].items():
+    for section, rows in docs[datasets[0][0]].items():
         for row in rows:
             names = SPLITS.get(row, [row])
             for part, name in enumerate(names):
                 values = np.full((n_groups, len(MODELS)), np.nan)
                 substitute = np.zeros_like(values, dtype=bool)
                 reference = None
-                for d, (key, _) in enumerate(DATASETS):
+                for d, (key, _) in enumerate(datasets):
                     cells = docs[key].get(section, {}).get(row, [])
                     for m, (nums, sub) in enumerate(cells[: len(MODELS)]):
                         v = nums[part] if part < len(nums) else None
@@ -164,14 +168,14 @@ def collect(corpus: bool = False):
     return panels
 
 
-def plot(panels, by: str, out: Path, corpus: bool = False) -> None:
+def plot(panels, by: str, out: Path, corpus: bool = False, datasets: list[tuple[str, str]] = DATASETS) -> None:
     """by="dataset": one group of bars per dataset, one bar per checkpoint; by="model": the transpose.
 
     With `corpus`, the panels carry the corpus split as a last dataset: its bars are our reruns, a black diamond marks
     the paper's number, and the dashed line (the released 40M's rerun of the same thing) is left out as redundant.
     """
-    datasets = [label for _, label in DATASETS] + ([CORPUS] if corpus else [])
-    groups, series = (datasets, MODELS) if by == "dataset" else (SHORT_MODELS, datasets)
+    names = [label for _, label in datasets] + ([CORPUS] if corpus else [])
+    groups, series = (names, MODELS) if by == "dataset" else (SHORT_MODELS, names)
     colors = COLORS if by == "dataset" else DATASET_COLORS + ([CORPUS_COLOR] if corpus else [])
     sections = list(dict.fromkeys(p[0] for p in panels))
     ncols = 5
@@ -240,12 +244,13 @@ def plot(panels, by: str, out: Path, corpus: bool = False) -> None:
              ha="center", va="top", fontsize=9, color=MUTED, linespacing=1.5)
     fig.savefig(out, dpi=150)
     plt.close(fig)
-    print(f"wrote {out} ({len(panels)} panels)")
+    print(f"wrote {out} ({len(panels)} panels)")  # noqa: T201
 
 
 def main() -> None:
     plot(collect(), "dataset", RESULTS / "eval_metrics.png")
-    plot(collect(corpus=True), "model", RESULTS / "eval_metrics2.png", corpus=True)
+    by_overlap = [next(d for d in DATASETS if d[0] == key) for key in BY_TRAIN_OVERLAP]
+    plot(collect(corpus=True, datasets=by_overlap), "model", RESULTS / "eval_metrics2.png", corpus=True, datasets=by_overlap)
 
 
 if __name__ == "__main__":
