@@ -1,12 +1,14 @@
-Running as unit: sdpa-reason2.scope; invocation ID: 95eea36450af461894d0d9dea93ed586
+Running as unit: sdpa-check-fixed3.scope; invocation ID: df3d3d2f955a464394532c00225bbabd
 /home/sabrina/Documents/experiments/Arc/InstaNovo-FM/.venv/lib/python3.13/site-packages/psims/mzmlb/writer.py:33: UserWarning: hdf5plugin is missing! Only the slower GZIP compression scheme will be available! Please install hdf5plugin to be able to use Blosc.
   warnings.warn(
-[10/16/26 09:46:43] INFO     Creating FixedDaBinning: bin_size=0.2 Da, range=[50.0, 2500.0] Da                                                                                 
+[10/16/26 10:39:58] INFO     Creating FixedDaBinning: bin_size=0.2 Da, range=[50.0, 2500.0] Da                                                                                 
                     INFO     Gaussian-blurred mask encoding: sigma=10.0 Da                                                                                                     
                     INFO     Visible intensity: masked peaks retain true intensity                                                                                             
                     INFO     FoundationModel initialized: dim_model=768, n_layers=9, mz_task=classification, attention_backend=flash                                           
-SDPA call: {'q': ((4, 12, 201, 64), 'torch.float16', (463104, 64, 2304, 1)), 'mask': ((4, 12, 201, 201), 'torch.float16', (484812, 1, 2412, 12), True, False), 'dropout_p': 0.1}
-SDPA call: {'q': ((4, 12, 201, 64), 'torch.float16', (463104, 64, 2304, 1)), 'mask': ((4, 12, 201, 201), 'torch.float16', (484812, 1, 2412, 12), True, False), 'dropout_p': 0.1}
+SDPA call: {'q': ((4, 12, 201, 64), 'torch.float16', (463104, 64, 2304, 1)), 'mask': ((4, 12, 201, 201), 'torch.float16', (484812, 40401, 201, 1), True, True), 'dropout_p': 0.1}
+SDPA call: {'q': ((4, 12, 201, 64), 'torch.float16', (463104, 64, 2304, 1)), 'mask': ((4, 12, 201, 201), 'torch.float16', (484812, 40401, 201, 1), True, True), 'dropout_p': 0.1}
+group logits, math against math2: max |diff| 0.000e+00, mean |diff| 0.000e+00, logits scale 1.552e-01
+group logits, math against efficient: max |diff| 7.324e-04, mean |diff| 8.343e-05, logits scale 1.552e-01
 FLASH_ATTENTION: refused: No available kernel. Aborting execution.
    warning: CuDNN attention has been runtime disabled. (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:592.)
    warning: CuDNN attention kernel not used because: (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:862.)
@@ -14,13 +16,7 @@ FLASH_ATTENTION: refused: No available kernel. Aborting execution.
    warning: Flash attention kernel not used because: (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:860.)
    warning: Memory Efficient attention has been runtime disabled. (Triggered internally at /pytorch/aten/src/ATen/native/transformers/sdp_utils_cpp.h:552.)
    warning: Memory efficient kernel not used because: (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:858.)
-EFFICIENT_ATTENTION: refused: No available kernel. Aborting execution.
-   warning: All fused kernels require the last dimension of the input to have stride 1. Got Query.stride(-1): 1, Key.stride(-1): 1, Value.stride(-1): 1, Attn_mask.stride(-1): 12 (GPU backends require attn_mask's 
-   warning: CuDNN attention has been runtime disabled. (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:592.)
-   warning: CuDNN attention kernel not used because: (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:862.)
-   warning: Flash attention has been runtime disabled. (Triggered internally at /pytorch/aten/src/ATen/native/transformers/sdp_utils_cpp.h:540.)
-   warning: Flash attention kernel not used because: (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:860.)
-   warning: Memory efficient kernel not used because: (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:858.)
+EFFICIENT_ATTENTION: ran
 CUDNN_ATTENTION: refused: No available kernel. Aborting execution.
    warning: CuDNN attention kernel not used because: (Triggered internally at /pytorch/aten/src/ATen/native/transformers/cuda/sdp_utils.cpp:862.)
    warning: Flash attention has been runtime disabled. (Triggered internally at /pytorch/aten/src/ATen/native/transformers/sdp_utils_cpp.h:540.)

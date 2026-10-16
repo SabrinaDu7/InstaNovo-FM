@@ -55,6 +55,39 @@ F.scaled_dot_product_attention = original
 for s in seen:
     print("SDPA call:", s)  # noqa: T201
 
+# The same forward under the math implementation and under the memory-efficient kernel, eval mode: the two must agree
+# to fp16 kernel precision, so a fix that changes which kernel runs changes no result beyond that.
+model.eval()
+with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
+    outs = {}
+    # the forward samples the 10 Da hint noise (and dropout in train mode) from torch's RNG: reseed before each
+    # forward so the kernels see the same inputs; "math2" is the control (same kernel, same seed: must be identical)
+    for name, backend in (
+        ("math", SDPBackend.MATH),
+        ("math2", SDPBackend.MATH),
+        ("efficient", SDPBackend.EFFICIENT_ATTENTION),
+    ):
+        try:
+            torch.manual_seed(0)
+            with sdpa_kernel([backend]):
+                preds, _ = model(
+                    spectra=batch["spectra"],
+                    spectra_mask=batch.get("spectra_mask"),
+                    mlm_mask=batch["peak_mask"],
+                    meta=batch.get("meta"),
+                )
+            outs[name] = preds[0].float()
+        except Exception as e:  # the kernel refused
+            print(f"{name}: refused: {str(e).splitlines()[0][:120]}")  # noqa: T201
+    if len(outs) == 3:
+        for other in ("math2", "efficient"):
+            d = (outs["math"] - outs[other]).abs()
+            print(  # noqa: T201
+                f"group logits, math against {other}: max |diff| {d.max().item():.3e}, mean |diff| {d.mean().item():.3e}, "
+                f"logits scale {outs['math'].abs().mean().item():.3e}"
+            )
+model.train()
+
 for backend in (
     SDPBackend.FLASH_ATTENTION,
     SDPBackend.EFFICIENT_ATTENTION,

@@ -237,7 +237,11 @@ class BatchedPairwiseProjection(nn.Module):
         all_biases = self.g_pw_batched(normed)  # (C, L, L, H*N)
         C, L1, L2, _ = all_biases.shape  # noqa: N806
         all_biases = all_biases.view(C, L1, L2, self.n_layers, self.n_heads)
-        all_biases = all_biases.permute(3, 0, 4, 1, 2)  # (N, C, H, L, L)
+        # (N, C, H, L, L), materialised: SDPA's fused kernels accept a bias only with a unit stride on its last
+        # dimension, and the permuted view has the heads innermost (stride 12 on L). Without this copy every kernel
+        # refuses the bias and attention silently runs the math implementation, fp32 scores for every layer, forward
+        # and in the checkpointed backward: 4.5 times the fused kernel's time (docs/arch_study/profile_pa.md, 16/10/2026).
+        all_biases = all_biases.permute(3, 0, 4, 1, 2).contiguous()
         return list(all_biases.unbind(0))
 
 
