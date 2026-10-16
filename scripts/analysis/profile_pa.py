@@ -1,9 +1,10 @@
 """Profile one training step of the 40M foundation model, baseline against the pairwise-attention (PA) path, on this
 machine's GPU: where the PA arm's time goes (smoke run of 15/10/2026: 3.03 s per optimizer step against 0.74, 59.7 GB
-against 30 GB on an H100 at batch 2,048), measured with `torch.profiler` ranges around the three PA stages
+against 30 GB on an H100 at batch 2,048), measured as wall-clock phases (forward to the loss, backward, optimizer step, between device synchronisations) and with `torch.profiler` ranges around the three PA stages
 (`PairwiseAttentionBias`: Fourier features and the f_pw MLP over every peak pair; `BatchedPairwiseProjection`: LayerNorm and
 the projection to one bias per head and layer; `FlashMHA`: attention, which runs SDPA's memory-efficient kernel when a
-bias is present and the flash kernel otherwise), the backward pass and the optimizer step.
+bias is present and the flash kernel otherwise). Under gradient checkpointing the stage ranges also count the recomputation
+autograd runs inside the backward; under `torch.compile` the ranges are ignored and read as missing.
 
 Analysis only: real batches from a corpus-schema parquet through the training processor and collate (masking
 included), the model built as `trainer/train.py::setup_model` builds it from `configs/foundational.yaml` with
@@ -23,6 +24,7 @@ import argparse
 import contextlib
 import statistics
 import time
+import traceback
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable
@@ -57,7 +59,12 @@ VARIANTS: dict[
     ),
     "pa-compiled": ("model.architecture.relative_bias.type=pa",),
 }
-STAGES = ("PairwiseAttentionBias", "BatchedPairwiseProjection", "FlashMHA", "backward", "optimizer")
+STAGES = (
+    "PairwiseAttentionBias",
+    "BatchedPairwiseProjection",
+    "FlashMHA",
+)  # profiler ranges; under checkpointing the recomputation in backward lands here too
+PHASES = ("forward", "backward", "optimizer")  # wall clock between device synchronisations
 
 
 @dataclass
@@ -69,6 +76,7 @@ class Measured:
         default_factory=dict
     )  # per step, from the profiler ranges
     top_ops: list[tuple[str, float]] = field(default_factory=list)  # (op, CUDA seconds per step)
+    phase_seconds: dict[str, list[float]] = field(default_factory=dict)  # per step, wall clock
     error: str | None = None
 
     @property
@@ -199,8 +207,10 @@ class Stepper:
         )
         self.conditioning = cfg.model.get("mz_head", {}).get("offset_conditioning", "none")
 
-    def __call__(self, batch: dict[str, Any]) -> float:
+    def __call__(self, batch: dict[str, Any]) -> dict[str, float]:
+        """One optimizer step; returns the wall-clock seconds of its forward (to the loss), backward and optimizer phases."""
         m = self.cfg.model
+        t0 = time.perf_counter()
         mlm_mask = batch["peak_mask"]
         autocast = (
             torch.autocast("cuda", dtype=torch.float16) if self.cuda else contextlib.nullcontext()
@@ -241,13 +251,21 @@ class Stepper:
             if aux_cfg.get("enabled", False):
                 *_, aux = compute_auxiliary_losses(aux_out, batch, aux_cfg, m)
                 total = compute_total_loss(total, aux)
-        with record_function("backward"):
-            self.scaler.scale(total).backward()
-        with record_function("optimizer"):
-            self.scaler.step(self.optimizer)
-            self.scaler.update()
-            self.optimizer.zero_grad(set_to_none=True)
-        return float(total.detach())
+        self.sync()
+        t1 = time.perf_counter()
+        self.scaler.scale(total).backward()
+        self.sync()
+        t2 = time.perf_counter()
+        self.scaler.step(self.optimizer)
+        self.scaler.update()
+        self.optimizer.zero_grad(set_to_none=True)
+        self.sync()
+        t3 = time.perf_counter()
+        return {"forward": t1 - t0, "backward": t2 - t1, "optimizer": t3 - t2}
+
+    def sync(self) -> None:
+        if self.cuda:
+            torch.cuda.synchronize(self.device)
 
 
 def measure(
@@ -277,9 +295,10 @@ def measure(
             for i in range(args.steps):
                 sync()
                 t0 = time.perf_counter()
-                stepper(batches[(args.warmup + i) % len(batches)])
-                sync()
+                phases = stepper(batches[(args.warmup + i) % len(batches)])
                 out.step_seconds.append(time.perf_counter() - t0)
+                for name, sec in phases.items():
+                    out.phase_seconds.setdefault(name, []).append(sec)
         if device.type == "cuda":
             out.peak_memory_gib = torch.cuda.max_memory_allocated(device) / 2**30
         key = "device_time_total" if device.type == "cuda" else "cpu_time_total"
@@ -296,6 +315,7 @@ def measure(
         Exception
     ) as e:  # a variant that cannot run on this GPU is a result too (the compiled PA path)
         out.error = f"{type(e).__name__}: {str(e).splitlines()[0][:200]}"
+        traceback.print_exc()
     finally:
         if device.type == "cuda":
             torch.cuda.empty_cache()
@@ -312,9 +332,11 @@ def render(results: list[Measured], args: argparse.Namespace, device: torch.devi
         + ". Times are this GPU's; the stage split and the ratios transfer, the absolute values do not (an H100 at batch 2,048: 0.74 s baseline, 3.03 s PA).",
         "",
         "| Variant | Median step (s) | Ratio to baseline | Peak memory (GiB) | "
-        + " | ".join(f"`{s}` (s per step) | " for s in STAGES).rstrip(" |")
+        + " | ".join(f"{p} (s, median)" for p in PHASES)
+        + " | "
+        + " | ".join(f"`{s}` range (s per step)" for s in STAGES)
         + " |",
-        "| :---- | :---- | :---- | :---- | " + " | ".join(":----" for _ in STAGES) + " |",
+        "| :---- | :---- | :---- | :---- | " + " | ".join(":----" for _ in PHASES + STAGES) + " |",
     ]
     base = next((r.median_step for r in results if r.variant == "baseline" and r.median_step), None)
     rows = []
@@ -322,7 +344,7 @@ def render(results: list[Measured], args: argparse.Namespace, device: torch.devi
         if r.error:
             rows.append(
                 f"| `{r.variant}` | failed: {r.error} | | | "
-                + " | ".join("" for _ in STAGES)
+                + " | ".join("" for _ in PHASES + STAGES)
                 + " |"
             )
             continue
@@ -332,7 +354,11 @@ def render(results: list[Measured], args: argparse.Namespace, device: torch.devi
         stages = " | ".join(
             f"{r.stage_cuda_seconds[s]:.3f}" if s in r.stage_cuda_seconds else "-" for s in STAGES
         )
-        rows.append(f"| `{r.variant}` | {med:.3f} | {ratio} | {mem} | {stages} |")
+        phases = " | ".join(
+            f"{statistics.median(r.phase_seconds[p]):.3f}" if p in r.phase_seconds else "-"
+            for p in PHASES
+        )
+        rows.append(f"| `{r.variant}` | {med:.3f} | {ratio} | {mem} | {phases} | {stages} |")
     tops = ["", "## Heaviest operations per variant (device time per step, seconds)", ""]
     for r in results:
         if r.error:
