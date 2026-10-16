@@ -29,10 +29,10 @@ DATASETS = [("ms2bac", "MS2Bac\n(B. cereus, E. coli, S. aureus)"), ("ups1", "UPS
 # the corpus (each eval_<dataset>.md, "How much of it the model trained on"): ProteomeTools 83.5 %, MS2Bac 39.8 %,
 # UPS1 9.6 %, CAMPI 6.7 %.
 BY_TRAIN_OVERLAP = ["proteometools", "ms2bac", "ups1", "campi"]
-MODELS = ["released 40M", "40M trained here", "released 89M", "40M batch 2,048, step 80k", "40M batch 2,048, step 90k"]
-SHORT_MODELS = ["released\n40M", "40M trained\nhere", "released\n89M", "40M b2048\nstep 80k", "40M b2048\nstep 90k"]  # tick labels of eval_metrics2
-COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]  # categorical slots 1-5 of the dataviz reference palette, in slot order
-# (validated: an order with yellow beside orange fails the normal-vision floor, so the batch-2,048 checkpoints come last)
+# The checkpoints shown: the column labels of the tables in docs/results/eval_<dataset>.md (read by name, never by position).
+MODELS = ["released 40M", "40M trained here", "released 89M"]
+SHORT_MODELS = ["released\n40M", "40M trained\nhere", "released\n89M"]  # tick labels of eval_metrics2
+COLORS = ["#2a78d6", "#eb6834", "#1baf7a"]  # categorical slots 1-3 of the dataviz reference palette
 DATASET_COLORS = ["#d62728", "#7b3294", "#2a78d6", "#8fc1e3"]  # eval_metrics2, in BY_TRAIN_OVERLAP order: red, purple, blue, light blue
 CORPUS_COLOR = "#a3a29c"  # neutral grey: the corpus split is the reference, not another dataset
 INK, MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
@@ -51,8 +51,8 @@ SPLITS = {
 # (`docs/references/results_paper_or_rerun.md`: Table S5 for the 40M; Tables S5, S10 and the main text for the 89M).
 CORPUS = "LCFM test"
 REFERENCE = REPO / "docs" / "references" / "rerun"
-MODEL_TAGS = ["40M", "40Mours", "89M", "40Mb2048", "40Mb2048s90k"]
-VALIDATION = {"40M": "validate_released_40M", "40Mours": "train_40M_mcfm_90k", "40Mb2048": "train_40M_mcfm_90k_b2048/step_80001", "40Mb2048s90k": "train_40M_mcfm_90k_b2048"}  # MCFM validation; none for the 89M
+MODEL_TAGS = ["40M", "40Mours", "89M"]  # rerun tags of MODELS, in order
+VALIDATION = {"40M": "validate_released_40M", "40Mours": "train_40M_mcfm_90k"}  # MCFM validation; none for the 89M
 PAPER = {
     "Fragment type (macro-F1)": [0.781, None, 0.855],
     "Instrument (macro-F1)": [0.697, None, 0.804],
@@ -92,10 +92,12 @@ def parse(cell: str) -> tuple[list[float | None], bool]:
     return values, substitute
 
 
-def read_tables(path: Path) -> dict[str, dict[str, list[tuple[list[float | None], bool]]]]:
-    """{section: {metric: [cell per column]}} for the tables under "## Results"."""
+def read_tables(path: Path) -> dict[str, dict[str, dict[str, tuple[list[float | None], bool]]]]:
+    """{section: {metric: {column: cell}}} for the tables under "## Results"; a column is the header label without
+    its sample count ("released 40M (all 44,873)" -> "released 40M"), the reproduction column is "reference"."""
     sections: dict[str, dict] = {}
     section = None
+    columns: list[str] = []
     in_results = False
     for line in path.read_text().splitlines():
         if line.startswith("## "):
@@ -103,9 +105,12 @@ def read_tables(path: Path) -> dict[str, dict[str, list[tuple[list[float | None]
         elif in_results and line.startswith("### "):
             section = line[4:].strip()
             sections[section] = {}
-        elif in_results and section and line.startswith("|") and not line.startswith(("| metric", "|---")):
+        elif in_results and section and line.startswith("| metric"):
+            labels = [c.strip() for c in line.strip().strip("|").split("|")][1:]
+            columns = ["reference" if "(reproduction)" in c else re.sub(r"\s*\([^)]*\)$", "", c) for c in labels]
+        elif in_results and section and line.startswith("|") and not line.startswith("|---"):
             cells = line.replace("|error|", "error").strip().strip("|").split("|")
-            sections[section][cells[0].strip()] = [parse(c) for c in cells[1:]]
+            sections[section][cells[0].strip()] = dict(zip(columns, (parse(c) for c in cells[1:])))
     return sections
 
 
@@ -148,13 +153,14 @@ def collect(corpus: bool = False, datasets: list[tuple[str, str]] = DATASETS):
                 substitute = np.zeros_like(values, dtype=bool)
                 reference = None
                 for d, (key, _) in enumerate(datasets):
-                    cells = docs[key].get(section, {}).get(row, [])
-                    for m, (nums, sub) in enumerate(cells[: len(MODELS)]):
+                    cells = docs[key].get(section, {}).get(row, {})
+                    for m, model in enumerate(MODELS):
+                        nums, sub = cells.get(model, ([None], False))
                         v = nums[part] if part < len(nums) else None
                         values[d, m] = np.nan if v is None else v
                         substitute[d, m] = sub
-                    if len(cells) > len(MODELS):
-                        nums = cells[len(MODELS)][0]
+                    if "reference" in cells:
+                        nums = cells["reference"][0]
                         reference = nums[part] if part < len(nums) else None
                 if corpus:
                     for m, (nums, sub) in enumerate(extra.get((section, row), [([None], False)] * len(MODELS))):
