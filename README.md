@@ -79,6 +79,16 @@ that repository over ssh, so the machine needs an ssh key registered with GitHub
 repository. `pip` does not read `[tool.uv.sources]`: `pip install instanovo-fm` installs the upstream
 release from PyPI, without the suite and without this fork's changes.
 
+## Where the data and checkpoints are
+
+Every script and SLURM wrapper reads its paths from `.envrc`, which is git-ignored: copy
+[`.envrc.example`](.envrc.example) and fill it in. It names the corpus and our exported datasets, the
+checkpoint directory, and one variable per checkpoint the scripts evaluate, `CKPT_<TAG>`, each with a
+comment saying which run produced it; the tags are the `--model` choices of `scripts/evals/run.py` and
+of the result scripts under `scripts/reproduce/`. `scripts/reproduce/fetch_data.sh` fills in the corpus
+and the release checkpoints. The values on nibi are tabulated in the
+[handoff](docs/agent_logs/session-2026-10-14-handoff-instanovofm.md).
+
 ## Quick start
 
 Everything is driven by module entry points and Hydra configs from

@@ -11,7 +11,8 @@ This module copies those files into `docs/references/rerun/<script>/`, so the nu
     sbatch --job-name=result1_40M scripts/reproduce/submit.sh scripts/reproduce/result1_40M_probes_retrieval.py
 
 The protocols (which spectra, caps, seed, batch size, tasks and their settings) are defined once, in the package's
-`protocols.py`; the names below are theirs. `$CORPUS`, `$EVAL_WORKDIR` and `$EXTERNAL` come from `.envrc`.
+`protocols.py`; the names below are theirs. `$CORPUS`, `$EVAL_WORKDIR`, `$EXTERNAL` and the `$CKPT_<TAG>` checkpoint paths
+come from `.envrc`.
 """
 
 from __future__ import annotations
@@ -24,16 +25,8 @@ from pathlib import Path
 from instanovofm_evals import run as suite_run
 
 REPO = Path(__file__).resolve().parents[2]
-MODELS: dict[str, str] = {  # tag used in script names -> release checkpoint id
-    "40M": "instanovo-fm-mcfm-90k-v0.1.0",
-    "89M": "instanovo-fm-v0.1.0",
-    "89M-ts-pa": "instanovo-fm-lcfm-ts-pa-v0.1.0",
-    "89M-sa-nopa": "instanovo-fm-lcfm-sa-nopa-v0.1.0",
-    "89M-sa-pa": "instanovo-fm-lcfm-sa-pa-v0.1.0",
-    "40M-ours": "instanovo-fm-mcfm-90k-ours-2026-09-26",  # trained here: job 22701776, model_best at step 90,000, copied into $CHECKPOINTS
-    "40M-b2048": "instanovo-fm-mcfm-90k-b2048-step80k-2026-10-03",
-    "40M-b2048-90k": "instanovo-fm-mcfm-90k-b2048-step90k-2026-10-03",
-}
+# `--model` tags. Tag T's checkpoint is `$CKPT_<T>` (T upper-cased, '-' as '_'); .envrc.example lists each with the run behind it.
+MODELS: tuple[str, ...] = ("40M", "89M", "89M-ts-pa", "89M-sa-nopa", "89M-sa-pa", "40M-ours", "40M-b2048", "40M-b2048-90k")
 
 # The paper's protocols, by the names `instanovofm_evals.protocols.PROTOCOLS` gives them.
 PROBES_RETRIEVAL = "paper-probes-retrieval"  # 200,000 spectra, 20,000 duplicate groups; probes on the tier's three splits
@@ -50,12 +43,17 @@ def env_path(name: str) -> Path:
     return Path(os.path.expandvars(os.path.expanduser(raw)))
 
 
+def checkpoint_path(model: str) -> Path:
+    """The checkpoint file of `model`, from the `.envrc` variable named after its tag."""
+    return env_path("CKPT_" + model.upper().replace("-", "_"))
+
+
 def run(*, script: str, model: str, tier: str, split: str, protocol: str) -> Path:
     """Evaluate `model` on the `split` of `tier` under `protocol`; returns the directory the summaries were copied to."""
     os.environ.setdefault("INSTANOVO_FM_DATA_DIR", str(REPO / "data"))
     out = suite_run(
         "instanovo-fm",
-        checkpoint=env_path("CHECKPOINTS") / f"{MODELS[model]}.ckpt",
+        checkpoint=checkpoint_path(model),
         name=model,
         dataset=f"{tier}-{split}",
         protocol=protocol,

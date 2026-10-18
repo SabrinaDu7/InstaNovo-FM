@@ -56,7 +56,8 @@ Copied from `.envrc.example`, git-ignored, sourced by every script and SLURM wra
 | `DATA` | `~/projects/rrg-hsn/proteomies/data/instanovofm` | the corpus (`splits/<tier>/`, `peptide_registry.parquet`) |
 | `CORPUS` | `$DATA/splits` | the `paper-*` protocols |
 | `EXTERNAL` | `~/projects/rrg-hsn/proteomies/data` | our exported datasets (`<dataset>/`) and `search_data.xlsx` |
-| `CHECKPOINTS` | `~/projects/rrg-hsn/proteomies/checkpoints/instanovofm` | `<tag>.ckpt`; the tags are `scripts/reproduce/_common.py::MODELS` |
+| `CHECKPOINTS` | `~/projects/rrg-hsn/proteomies/checkpoints/instanovofm` | the checkpoint directory |
+| `CKPT_<TAG>` | `$CHECKPOINTS/<file>`, the lines of `.envrc.example` | the checkpoint of `--model <tag>`; the example names the run behind each file |
 | `RESULTS` | `~/projects/rrg-hsn/proteomies/results/instanovofm` | full task outputs of the suite (large) |
 | `EVAL_WORKDIR` | `$RESULTS/package-workdir` | the suite's scratch |
 | `RUNS` | `~/projects/rrg-hsn/proteomies/runs/instanovofm` | training runs |
@@ -71,7 +72,7 @@ README lists the tasks and protocols; `src/instanovofm_evals/protocols.py` is th
 
 ```bash
 # the paper's protocols, on a corpus split
-instanovo-fm evaluate --checkpoint $CHECKPOINTS/instanovo-fm-mcfm-90k-v0.1.0.ckpt --dataset lcfm-test --protocol paper-probes-retrieval --name 40M
+instanovo-fm evaluate --checkpoint $CKPT_40M --dataset lcfm-test --protocol paper-probes-retrieval --name 40M
 # our datasets (protocols: probes, retrieval, geometry, peak_level, unlabelled, validation)
 instanovo-fm evaluate --checkpoint <ckpt> --dataset ms2bac --protocol retrieval --name my-model
 # the same through the fork's scripts, results committed under docs/results/rerun/<dataset>/<model>/<protocol>/
