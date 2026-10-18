@@ -42,10 +42,9 @@ cp .envrc.example .envrc   # then edit the paths; see below
 `uv sync` fetches `instanovofm-evals` from `ssh://git@github.com/SabrinaDu7/instanovofm-evals.git` at the pinned
 commit, so the machine needs an ssh key registered with GitHub and read access to that repository (it is private).
 
-On nibi the clone is `~/experiments/InstaNovo-FM` (on `main`) with its environment at `~/scratch/venvs/instanovo-fm`,
+On nibi the clone is `~/experiments/InstaNovo-FM` with its environment at `~/scratch/venvs/instanovo-fm`,
 built with `UV_PROJECT_ENVIRONMENT=$HOME/scratch/venvs/instanovo-fm uv sync --frozen --inexact --extra clustering
---extra interpret --extra esm`. Every `scripts/*/submit.sh` uses that environment unless `FM_VENV` in `.envrc` names
-another.
+--extra interpret --extra esm`. Every `scripts/*/submit.sh` runs in that environment.
 
 ## `.envrc`
 
@@ -145,6 +144,4 @@ and run `scripts/reproduce/` afterwards instead. And `compile_model` (default Tr
 ## Next steps
 
 - Decide whether the cross-set and spectral-rescue evaluations are wanted as suite protocols.
-- Remove the redundant second clone on nibi (`~/experiments/InstaNovo-FM-evalpkg`, venv
-  `~/scratch/venvs/instanovo-fm-evalpkg`), kept from the branch's confirmation runs.
 - Make the suite repository public if friends outside the GitHub organisation need `uv sync` to work.

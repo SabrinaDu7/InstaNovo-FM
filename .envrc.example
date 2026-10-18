@@ -11,9 +11,7 @@ export CKPT_40M_OURS="$CHECKPOINTS/instanovo-fm-mcfm-90k-ours-2026-09-26.ckpt"  
 export CKPT_40M_B2048="$CHECKPOINTS/instanovo-fm-mcfm-90k-b2048-step80k-2026-10-03.ckpt"     # trained here at a global batch of 2,048: step 80,001 of run train-40M-mcfm-90k-b2048, nibi job 23151784 (docs/agent_logs/session-2026-10-03-batch2048-evals.md)
 export CKPT_40M_B2048_90K="$CHECKPOINTS/instanovo-fm-mcfm-90k-b2048-step90k-2026-10-03.ckpt" # the same run at step 90,001, its model_best
 export RESULTS="path/to/results/instanovofm"
-export COMET_API="path/to/comet_api_key.txt"
 export RUNS="path/to/runs/instanovofm"
 export EXTERNAL="path/to/data"           # our datasets in the corpus schema, one directory each (campi, ms2bac, proteometools, ups1; scripts/evals/prepare_dataset.py), and search_data.xlsx
 export CORPUS="$DATA/splits"               # the corpus tiers <tier>/<tier>-*{train,valid,test}*.parquet (the paper's protocols in the suite)
 export EVAL_WORKDIR="$RESULTS/package-workdir"   # the suite's scratch for full task outputs
-export FM_VENV="$HOME/scratch/venvs/instanovo-fm-evalpkg"   # the venv of this checkout (scripts/*/submit.sh); unset = the original one
