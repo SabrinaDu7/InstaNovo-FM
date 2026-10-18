@@ -8,7 +8,7 @@ The suite is `instanovofm_evals` (a dependency of this package, see `pyproject.t
 into this repository, `docs/results/rerun/<dataset>/<model>/<protocol>/`, where `render_results.py` reads them. The
 datasets are the exports of `prepare_dataset.py` under `$EXTERNAL/<dataset>/`; the protocols (probes, retrieval,
 geometry, peak_level, unlabelled, validation) and what each evaluates are defined in the package's `protocols.py` and
-described in its README. `$EXTERNAL`, `$EVAL_WORKDIR` and `$CHECKPOINTS` come from `.envrc`.
+described in its README. `$EXTERNAL`, `$EVAL_WORKDIR` and the `$CKPT_<TAG>` checkpoint paths come from `.envrc`.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ from instanovofm_evals import run as suite_run
 from instanovofm_evals.protocols import DATASETS, PROTOCOLS as SUITE_PROTOCOLS, is_paper
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "reproduce"))
-from _common import MODELS, REPO, env_path  # noqa: E402
+from _common import MODELS, REPO, checkpoint_path  # noqa: E402
 
 PROTOCOLS = tuple(p for p in SUITE_PROTOCOLS if not is_paper(p)) + ("validation",)
 
@@ -36,7 +36,7 @@ def main() -> None:
     os.environ.setdefault("INSTANOVO_FM_DATA_DIR", str(REPO / "data"))
     suite_run(
         "instanovo-fm",
-        checkpoint=env_path("CHECKPOINTS") / f"{MODELS[args.model]}.ckpt",
+        checkpoint=checkpoint_path(args.model),
         name=args.model,
         dataset=args.dataset,
         protocol=args.protocol,

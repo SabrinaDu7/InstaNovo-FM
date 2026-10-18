@@ -21,9 +21,10 @@ source .envrc
 unset PYTHONPATH
 export TORCH_HOME="$HOME/scratch/torch-hub"
 export NUMBA_THREADING_LAYER=tbb
-export LD_LIBRARY_PATH="${FM_VENV:-$HOME/scratch/venvs/instanovo-fm}/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+VENV="$HOME/scratch/venvs/instanovo-fm"
+export LD_LIBRARY_PATH="$VENV/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export INSTANOVO_FM_DATA_DIR="$PWD/data"
-PY="${FM_VENV:-$HOME/scratch/venvs/instanovo-fm}/bin/python"
+PY="$VENV/bin/python"
 REPO="$PWD"
 NAME="$1"; shift
 RUN="$RUNS/$NAME"

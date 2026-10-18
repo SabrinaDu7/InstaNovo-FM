@@ -18,7 +18,8 @@ source .envrc
 unset PYTHONPATH
 export TORCH_HOME="$HOME/scratch/torch-hub"
 export NUMBA_THREADING_LAYER=tbb
-export LD_LIBRARY_PATH="${FM_VENV:-$HOME/scratch/venvs/instanovo-fm}/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+VENV="$HOME/scratch/venvs/instanovo-fm"
+export LD_LIBRARY_PATH="$VENV/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export INSTANOVO_FM_DATA_DIR="$PWD/data"
 echo "host $(hostname)  gpu $(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)  commit $(git rev-parse --short HEAD)  args $*"
-exec "${FM_VENV:-$HOME/scratch/venvs/instanovo-fm}/bin/python" scripts/evals/run.py "$@"
+exec "$VENV/bin/python" scripts/evals/run.py "$@"

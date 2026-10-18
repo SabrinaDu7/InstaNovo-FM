@@ -1,10 +1,26 @@
 # Copy to .envrc (git-ignored). direnv-style;
 export DATA="path/to/data/instanovofm"   # the corpus as fetched from Hugging Face (scripts/reproduce/fetch_data.sh): splits/<tier>/, peptide_registry.parquet, manifests/
-export CHECKPOINTS="path/to/checkpoints/instanovofm"
+export CHECKPOINTS="path/to/checkpoints/instanovofm"   # the directory; scripts/reproduce/fetch_data.sh downloads the v0.1.0 release checkpoints into it by id
+# One variable per checkpoint the scripts evaluate: `--model <tag>` (scripts/evals/run.py, scripts/reproduce/) reads CKPT_<TAG>, the tag upper-cased with '-' as '_'.
+export CKPT_40M="$CHECKPOINTS/instanovo-fm-mcfm-90k-v0.1.0.ckpt"                             # released 40M (MCFM, 9 layers)
+export CKPT_89M="$CHECKPOINTS/instanovo-fm-v0.1.0.ckpt"                                      # released 89M (LCFM), the published model
+export CKPT_89M_TS_PA="$CHECKPOINTS/instanovo-fm-lcfm-ts-pa-v0.1.0.ckpt"                     # released 89M, Thompson-span masking with the pairwise attention bias
+export CKPT_89M_SA_NOPA="$CHECKPOINTS/instanovo-fm-lcfm-sa-nopa-v0.1.0.ckpt"                 # released 89M, signal-aware masking, no pairwise bias
+export CKPT_89M_SA_PA="$CHECKPOINTS/instanovo-fm-lcfm-sa-pa-v0.1.0.ckpt"                     # released 89M, signal-aware masking with the pairwise bias
+export CKPT_40M_OURS="$CHECKPOINTS/instanovo-fm-mcfm-90k-ours-2026-09-26.ckpt"               # trained here at the paper's recipe: model_best (step 90,000) of run train-40M-mcfm-90k, nibi job 22701776 (docs/agent_logs/session-2026-09-25-train40M.md)
+export CKPT_40M_B2048="$CHECKPOINTS/instanovo-fm-mcfm-90k-b2048-step80k-2026-10-03.ckpt"     # trained here at a global batch of 2,048: step 80,001 of run train-40M-mcfm-90k-b2048, nibi job 23151784 (docs/agent_logs/session-2026-10-03-batch2048-evals.md)
+export CKPT_40M_B2048_90K="$CHECKPOINTS/instanovo-fm-mcfm-90k-b2048-step90k-2026-10-03.ckpt" # the same run at step 90,001, its model_best
+# The architecture study (docs/arch_study/README.md): step 90,001 of run arch-<arm>, copied into $CHECKPOINTS under this name when the run ends.
+export CKPT_ARCH_SEED102="$CHECKPOINTS/instanovo-fm-mcfm-90k-arch-seed102-step90k.ckpt"
+export CKPT_ARCH_META_PRECURSOR="$CHECKPOINTS/instanovo-fm-mcfm-90k-arch-meta-precursor-step90k.ckpt"
+export CKPT_ARCH_PA_MASK2MASK="$CHECKPOINTS/instanovo-fm-mcfm-90k-arch-pa-mask2mask-step90k.ckpt"
+export CKPT_ARCH_ENC_FOURIER="$CHECKPOINTS/instanovo-fm-mcfm-90k-arch-enc-fourier-step90k.ckpt"
+export CKPT_ARCH_IONLADDER="$CHECKPOINTS/instanovo-fm-mcfm-90k-arch-ionladder-step90k.ckpt"
+export CKPT_ARCH_FFN3072="$CHECKPOINTS/instanovo-fm-mcfm-90k-arch-ffn3072-step90k.ckpt"
+export CKPT_ARCH_ENC_DUAL="$CHECKPOINTS/instanovo-fm-mcfm-90k-arch-enc-dual-step90k.ckpt"
+export CKPT_ARCH_PEAKS300="$CHECKPOINTS/instanovo-fm-mcfm-90k-arch-peaks300-step90k.ckpt"
 export RESULTS="path/to/results/instanovofm"
-export COMET_API="path/to/comet_api_key.txt"
 export RUNS="path/to/runs/instanovofm"
 export EXTERNAL="path/to/data"           # our datasets in the corpus schema, one directory each (campi, ms2bac, proteometools, ups1; scripts/evals/prepare_dataset.py), and search_data.xlsx
 export CORPUS="$DATA/splits"               # the corpus tiers <tier>/<tier>-*{train,valid,test}*.parquet (the paper's protocols in the suite)
 export EVAL_WORKDIR="$RESULTS/package-workdir"   # the suite's scratch for full task outputs
-export FM_VENV="$HOME/scratch/venvs/instanovo-fm-evalpkg"   # the venv of this checkout (scripts/*/submit.sh); unset = the original one

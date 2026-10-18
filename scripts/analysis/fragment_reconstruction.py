@@ -26,7 +26,7 @@ cluster-bootstrap confidence intervals of each model against the first, by ion t
 unannotated), each naming the checkpoints, the parquet, the draw and the commit.
 
     python scripts/analysis/fragment_reconstruction.py --parquet "$DATA/splits/mcfm/mcfm-test-00000-of-00014.parquet" \\
-        --checkpoint 40M=$CHECKPOINTS/instanovo-fm-mcfm-90k-v0.1.0.ckpt --checkpoint 40M-ours=... --n 2000 --seeds 3 --out <dir>
+        --checkpoint 40M=$CKPT_40M --checkpoint 40M-ours=$CKPT_40M_OURS --n 2000 --seeds 3 --out <dir>
     python scripts/analysis/fragment_reconstruction.py --summarize <dir>      # tables only, from the parquet files
 """
 
