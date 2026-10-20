@@ -75,19 +75,27 @@ accuracy without losing a probe. The table is `results.md`.
 
 ## Runs
 
-**Full runs, rrg-hsn_gpu, 3-day partition, submitted 15/10/2026 from nibi's `~/experiments/InstaNovo-FM-evalpkg`
-(this branch), run directories `$RUNS/arch-<arm>`, MCFM staged to node disk:**
+**Full runs, 3-day partition, run directories `$RUNS/arch-<arm>`, MCFM staged to node disk.** First submitted
+15/10/2026 on rrg-hsn_gpu (jobs 24017759 to 24017766); they never started in five days (the account's fairshare sits
+below every default account's), and were cancelled on 20/10/2026 and resubmitted from nibi's single clone
+`~/experiments/InstaNovo-FM` (this branch, commit e3002eb). Owner's decision of 20/10: the seed control and the
+three arms whose trainer metrics can be read against it go to def-hsn_gpu, where they start at once; the rest stay on
+rrg-hsn_gpu. Early stopping, if any, is for clear losers only: at steps 30,000 and 50,000 an arm worse than the
+baseline by more than twice the seed-102 gap on both median ppm and bin accuracy may be cancelled; an arm at or ahead
+of the baseline runs to 90,000, and may be compared with the baseline's checkpoint of the same step through the
+suite's protocols while it runs.
 
-| Arm | Job | Limit |
-| :---- | :---- | :---- |
-| `seed102` | 24017759 | 30 h |
-| `meta-precursor` | 24017760 | 30 h |
-| `pa-mask2mask` | 24017761 | 36 h (no `torch.compile` on the PA path) |
-| `enc-fourier` | 24017762 | 30 h |
-| `ionladder` | 24017763 | 30 h |
-| `ffn3072` | 24017764 | 30 h |
-| `enc-dual` | 24017765 | 30 h |
-| `peaks300` | 24017766 | 30 h |
+
+| Arm | Account | Job (20/10) | Limit |
+| :---- | :---- | :---- | :---- |
+| `seed102` | def-hsn_gpu | 24679078 | 30 h |
+| `meta-precursor` | def-hsn_gpu | 24679079 | 30 h |
+| `ionladder` | def-hsn_gpu | 24679080 | 30 h |
+| `enc-fourier` | def-hsn_gpu | 24679081 | 30 h |
+| `pa-mask2mask` | rrg-hsn_gpu | 24679082 | 48 h (no `torch.compile` on the PA path; 38 h projected after the contiguous-bias fix) |
+| `ffn3072` | rrg-hsn_gpu | 24679083 | 30 h |
+| `enc-dual` | rrg-hsn_gpu | 24679084 | 30 h |
+| `peaks300` | rrg-hsn_gpu | 24679085 | 30 h |
 
 **Smoke runs, def-hsn_gpu, submitted 15/10/2026 (owner's decision: the four arms of highest expected information,
 short, so the default allocation is barely touched), run directories `$RUNS/smoke10k-<arm>`:** 10,000 steps with the
