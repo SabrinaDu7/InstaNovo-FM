@@ -61,7 +61,12 @@ def table(step: int, folders: list[Path]) -> str:
     protocol = {r.get("protocol") for r in runs} - {None}
     dataset = {r.get("dataset") for r in runs} - {None}
     head = f"## Step {step:,}\n\nProtocol {', '.join(sorted(protocol)) or '-'} on {', '.join(sorted(dataset)) or '-'}; sides: " + ", ".join(
-        f"`{f.relative_to(REPO)}`" for f in folders
+        f"`{f.relative_to(REPO)}` ({r.get('host', '?')})" for f, r in zip(folders, runs, strict=True)
+    ) + (
+        ". Sides computed on different machines compare within the suite's cross-GPU check (its `docs/regression.md`: retrieval and the"
+        " regression probes within 1e-4, classification probes within about 0.013)."
+        if len({r.get("host") for r in runs}) > 1
+        else ""
     )
     rows = ["| Metric | " + " | ".join(names) + " |", "| :---- |" + " ---: |" * len(names)]
     rows += [f"| {label} | " + " | ".join(value(f, stem, key) for f in folders) + " |" for stem, key, label in METRICS]
