@@ -257,21 +257,22 @@ class FoundationalTrainer(AccelerateDeNovoTrainer):
         return model
 
     def setup_optimizer(self) -> torch.optim.Optimizer:
-        """Setup the optimizer.
-
-        Uses Adam with configurable learning rate and weight decay.
-
-        Returns:
-            Adam optimizer.
-        """
+        """The optimizer `config.optimizer` names: AdamW over every parameter, or Muon on the encoder's matrices with
+        AdamW on the rest (`common/muon.py`); both read `learning_rate` and `weight_decay`."""
         from torch.optim.adamw import AdamW
 
-        return AdamW(
-            self.model.parameters(),
-            lr=float(self.config.get("learning_rate", 5e-4)),
-            weight_decay=float(self.config.get("weight_decay", 1e-5)),
-            fused=True,
-        )
+        from instanovo_fm.common.muon import MuonAdamW, muon_param_groups
+
+        lr = float(self.config.get("learning_rate", 5e-4))
+        weight_decay = float(self.config.get("weight_decay", 1e-5))
+        match self.config.get("optimizer", "adamw"):
+            case "adamw":
+                return AdamW(self.model.parameters(), lr=lr, weight_decay=weight_decay, fused=True)
+            case "muon":
+                momentum = float(self.config.get("muon_momentum", 0.95))
+                return MuonAdamW(muon_param_groups(self.model, lr=lr, weight_decay=weight_decay, momentum=momentum))
+            case other:
+                raise ValueError(f"optimizer must be 'adamw' or 'muon', got {other!r}")
 
     def setup_decoder(self) -> Decoder:
         """Setup the decoder.

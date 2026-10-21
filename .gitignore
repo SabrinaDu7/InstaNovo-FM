@@ -39,3 +39,4 @@ docs/results/*.png
 # symlink views built by scripts/reproduce/compare_package.py
 docs/references/rerun_embedded_as_package/
 docs/references/rerun_as_package/
+.mypy_cache/
