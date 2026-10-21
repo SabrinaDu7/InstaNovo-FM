@@ -198,7 +198,7 @@ answerable with the suite's protocols on a PA checkpoint; the two local step-6,0
 ## Per-arm procedure when a full run ends
 
 1. `cp $RUNS/arch-<arm>/checkpoints/model_epoch_*_step_90001.ckpt $CHECKPOINTS/instanovo-fm-mcfm-90k-arch-<arm>-step90k.ckpt`
-2. `source .envrc && $FM_VENV/bin/python scripts/train/export_metrics.py arch-<arm>`
+2. `source .envrc && ~/scratch/venvs/instanovo-fm/bin/python scripts/train/export_metrics.py arch-<arm> --job <job id>`
 3. `sbatch --time=02:59:00 --job-name=r<N>_arch-<arm> scripts/reproduce/submit.sh scripts/reproduce/result_arm.py --model arch-<arm> --result <N>` for N in 1, 2, 3, 5
 4. `python scripts/reproduce/arch_results.py`; commit the new files under `docs/references/rerun/` and `results.md`.
 
