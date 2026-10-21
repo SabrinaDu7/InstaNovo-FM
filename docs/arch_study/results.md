@@ -30,7 +30,7 @@ The probe rows 5 to 7 (mass, m/z, charge) are trivial by construction for `meta-
 | 20 | ESM2 cross-modal alignment: RSA rho (all pairs), CKA; shuffled / metadata RSA baselines | RSA 0.048; CKA 0.060; shuffled RSA 0.005; metadata RSA 0.198 | RSA 0.049; CKA 0.056; shuffled RSA 0.003; metadata RSA 0.198 | - | - | - | - | - | - | - | - |
 | 21 | Glass Box attribution: features, reconstruction residual, top feature importance | features 14; residual 0.000; top importance 3.704 | features 14; residual 0.000; top importance 3.704 | - | - | - | - | - | - | - | - |
 | 22 | Cosine vs hyperscore: Spearman / Pearson | Spearman 0.109; Pearson 0.063; pairs 2328 | Spearman 0.125; Pearson 0.096; pairs 2334 | - | - | - | - | - | - | - | - |
-| 23 | Trainer validation metrics: median ppm error, MAE (Da), bin accuracy, within 20 ppm, intensity R² | median 4493 ppm; MAE 5.99 Da; bin accuracy 27.4 %; within 20 ppm 4.1 %; intensity R² 0.980 | median 3215 ppm; MAE 5.05 Da; bin accuracy 29.6 %; within 20 ppm 4.6 %; intensity R² 0.990 | - | - | - | - | - | - | - | - |
+| 23 | Trainer validation metrics: median ppm error, MAE (Da), bin accuracy, within 20 ppm, intensity R² | median 4493 ppm; MAE 5.99 Da; bin accuracy 27.4 %; within 20 ppm 4.1 %; intensity R² 0.980 | median 3215 ppm; MAE 5.05 Da; bin accuracy 29.6 %; within 20 ppm 4.6 %; intensity R² 0.990 | median 3455 ppm; MAE 5.11 Da; bin accuracy 29.1 %; within 20 ppm 4.5 %; intensity R² 0.990 | - | - | - | median 3041 ppm; MAE 5.04 Da; bin accuracy 29.8 %; within 20 ppm 4.6 %; intensity R² 0.989 | - | - | - |
 
 ## Sources
 
@@ -38,11 +38,11 @@ The probe rows 5 to 7 (mass, m/z, charge) are trivial by construction for `meta-
 | :---- | :---- | :---- |
 | released 40M | `instanovo-fm-mcfm-90k-v0.1.0`, the reference | `result1_40M_probes_retrieval`, `result2_40M_peak_level`, `result3_40M_geometry`, `result5_40M_mcfm_test`, `result6_40M_cosine_hyperscore`, `validate_released_40M` |
 | baseline b2048 (seed 101) | run `train-40M-mcfm-90k-b2048`, step 90,001 | `result1_40Mb2048s90k_probes_retrieval`, `result2_40Mb2048s90k_peak_level`, `result3_40Mb2048s90k_geometry`, `result5_40Mb2048s90k_mcfm_test`, `result6_40Mb2048s90k_cosine_hyperscore`, `train_40M_mcfm_90k_b2048` |
-| seed 102 | the baseline again with `seed=102` | not yet run |
+| seed 102 | the baseline again with `seed=102` | `train_arch-seed102` |
 | meta-precursor | metadata tokens: precursor mass, charge bin, fragmentation, collision energy | not yet run |
 | pa-mask2mask | pairwise attention bias kept between masked tokens | not yet run |
 | enc-fourier | Fourier peak encoder, periods 2.5 to 3,750 Da | not yet run |
-| ionladder | ion-ladder residue-mass features on each peak token | not yet run |
+| ionladder | ion-ladder residue-mass features on each peak token | `train_arch-ionladder` |
 | ffn3072 | feed-forward 3,072 | not yet run |
 | enc-dual | multiscale plus RBF peak encoder | not yet run |
 | peaks300 | 300 peaks kept | not yet run |
