@@ -8,8 +8,8 @@ retrieval and the probes before it finishes, against the baseline's checkpoint o
     sbatch --time=02:59:00 scripts/reproduce/submit.sh scripts/reproduce/equal_step.py --arm ionladder --step 50001 --side baseline
 
 The checkpoints are `$RUNS/arch-<arm>/checkpoints/*_step_<step>.ckpt` and `$RUNS/train-40M-mcfm-90k-b2048/checkpoints/*_step_<step>.ckpt`;
-the summaries land in `docs/arch_study/equal_step/<arm>_step<step>/<side>/`. `--side` runs one side (one SLURM job each);
-without it both sides run in sequence.
+the summaries land in `docs/arch_study/equal_step/<arm>_step<step>/` and `docs/arch_study/equal_step/baseline_step<step>/` (the
+baseline side is shared by every arm compared at that step). `--side` runs one side (one SLURM job each); without it both run in sequence.
 """
 
 from __future__ import annotations
@@ -43,8 +43,9 @@ def main() -> None:
     for side in ([args.side] if args.side else ["arm", "baseline"]):
         run, name = sides[side]
         script = f"equal_step_{args.arm}_{args.step}_{side}"
+        folder = f"{args.arm}_step{args.step}" if side == "arm" else f"baseline_step{args.step}"
         run_checkpoint(checkpoint=checkpoint_at(run, args.step), name=name, tier=args.tier, split=args.split, protocol=args.protocol,
-                       dest=REPO / "docs" / "arch_study" / "equal_step" / f"{args.arm}_step{args.step}" / side, script=script)
+                       dest=REPO / "docs" / "arch_study" / "equal_step" / folder, script=script)
 
 
 if __name__ == "__main__":
