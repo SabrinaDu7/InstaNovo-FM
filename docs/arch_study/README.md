@@ -195,6 +195,24 @@ hints can give, so the exact pairwise differences carry more absolute position t
 note assumes (inferred; a dedicated leakage check would settle it). Whether the *embedding* gains anything is only
 answerable with the suite's protocols on a PA checkpoint; the two local step-6,001 checkpoints exist for that.
 
+## Equal-step reading at step 50,001 (21/10/2026)
+
+`ionladder`, the baseline and `seed102` at the same step through `paper-probes-retrieval` on MCFM test (table and
+provenance: `equal_step/README.md`; the baseline and seed102 sides on the workstation, ionladder's on nibi, comparable
+within the suite's cross-GPU check). The two-seed band per metric is the spread between the baseline seeds; "clears" means
+beyond that band on the far side of both seeds.
+
+- Retrieval: unchanged. recall@1 0.645 against 0.646 and 0.656 (band 0.010), mAP@20 between the seeds, CID recall below
+  both seeds by 0.011 to 0.027 with a band of 0.016. Nothing clears the band in either direction.
+- Probes: better on the properties of the peptide. Clears the band above on modification class (0.560 against 0.477 and
+  0.489), PTM present (0.804 against 0.771 and 0.760), hydrophobicity R² (0.646 against 0.594 and 0.589), fragmentation
+  type, precursor charge, precursor m/z and collision energy; above both seeds on precursor mass and instrument; clears
+  below on spectrum confidence by 0.004 (the two seeds tie there, so that band is zero and the call is weak).
+
+Reading, interim: the ion-ladder input does not change what the embedding retrieves, and makes what a linear probe can
+read from it richer, on exactly the chemistry the feature encodes (residue-mass neighbours). The rule's other half,
+fragment accuracy at step 90,001 and the retrieval row at 90,001, comes with results 2 and 5.
+
 ## Per-arm procedure when a full run ends
 
 1. `cp $RUNS/arch-<arm>/checkpoints/model_epoch_*_step_90001.ckpt $CHECKPOINTS/instanovo-fm-mcfm-90k-arch-<arm>-step90k.ckpt`
