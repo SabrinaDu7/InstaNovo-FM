@@ -88,9 +88,9 @@ suite's protocols while it runs.
 
 | Arm | Account | Job (20/10) | Limit |
 | :---- | :---- | :---- | :---- |
-| `seed102` | def-hsn_gpu | 24679078 | 30 h; **completed 21/10 08:35** (19 h 39 min); results jobs 24748530 to 24748533 |
+| `seed102` | def-hsn_gpu | 24679078 | 30 h; **completed 21/10 08:35** (19 h 39 min); result jobs 24749874 to 24749877 (a first set, 24748530 to 24748533, failed at start: the wrapper dropped the script's options; fixed in 1165d13) |
 | `meta-precursor` | def-hsn_gpu | 24679079 | 30 h; **stopped at step 60,001 on 21/10 02:04** (owner's decision, def usage; checkpoint and accelerator state at 60,001 kept) |
-| `ionladder` | def-hsn_gpu | 24679080 | 30 h; **completed 21/10 08:45** (19 h 44 min); results jobs 24748628, 24748629, 24748630, 24748652 |
+| `ionladder` | def-hsn_gpu | 24679080 | 30 h; **completed 21/10 08:45** (19 h 44 min); result jobs 24749878, 24749891, 24749892, 24749893 (first set 24748628 to 24748652 failed the same way) |
 | `enc-fourier` | def-hsn_gpu | 24679081 | 30 h; **stopped at step 60,001 on 21/10 02:06** (same) |
 | `pa-mask2mask` | rrg-hsn_gpu | 24679082, **cancelled 20/10 14:35** | was 48 h (no `torch.compile` on the PA path; 38 h projected after the contiguous-bias fix) |
 | `ffn3072` | rrg-hsn_gpu | 24679083, **cancelled 20/10 14:35** | was 30 h |
