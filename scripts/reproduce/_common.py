@@ -55,16 +55,21 @@ def checkpoint_path(model: str) -> Path:
 
 def run(*, script: str, model: str, tier: str, split: str, protocol: str) -> Path:
     """Evaluate `model` on the `split` of `tier` under `protocol`; returns the directory the summaries were copied to."""
+    return run_checkpoint(checkpoint=checkpoint_path(model), name=model, tier=tier, split=split, protocol=protocol,
+                          dest=REPO / "docs" / "references" / "rerun" / script, script=script)
+
+
+def run_checkpoint(*, checkpoint: Path, name: str, tier: str, split: str, protocol: str, dest: Path, script: str) -> Path:
+    """Evaluate one checkpoint file under `protocol` and copy the suite's summaries to `dest` (stamped with `script`)."""
     os.environ.setdefault("INSTANOVO_FM_DATA_DIR", str(REPO / "data"))
     out = suite_run(
         "instanovo-fm",
-        checkpoint=checkpoint_path(model),
-        name=model,
+        checkpoint=checkpoint,
+        name=name,
         dataset=f"{tier}-{split}",
         protocol=protocol,
         results=env_path("RESULTS") / "package",
     )
-    dest = REPO / "docs" / "references" / "rerun" / script
     dest.mkdir(parents=True, exist_ok=True)
     files = sorted(out.glob("*.json"))
     for path in files:
