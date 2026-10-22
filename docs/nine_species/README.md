@@ -67,8 +67,11 @@ configs read the train shards only. So:
   copied into `scripts/analysis/nine_species_score.py` with only docstrings and type annotations removed (0.5 Da
   cumulative, 0.1 Da per residue, prefix then suffix), with Casanovo v5's residue masses. Both sequencers' outputs and the labels are mapped to one token set by one
   tokeniser (the fork's ProForma, Casanovo's named ProForma and the benchmark's DeepNovo spellings, numeric deltas with any
-  number of decimals). Cross-check: the fork's own peptide precision on 200 mouse spectra equals the scorer's to three
-  decimals (0.585). The same cross-check against Casanovo's own evaluate mode failed (U4).
+  number of decimals). Cross-check at full scale: the fork's own `pep_recall` printed in each run log ("Performance" block) equals the
+  scorer's per-species peptide recall to five decimals in all 27 species-runs of the three fork sequencers (log 06:50).
+  The same cross-check against Casanovo's own evaluate mode failed (U4). The amino-acid level is not shared: the fork's
+  own `aa_prec` (0.679 on Apis greedy) is InstaNovo's prefix-only cumulative-mass match, the scorer's (0.782) is
+  Casanovo's prefix-then-suffix match (U6).
 - **A3. Every sampled spectrum counts.** A spectrum without a prediction (Casanovo skips spectra with fewer than 20 peaks;
   the fork drops nothing in this mode) is a miss for peptide recall, and coverage is reported beside precision.
 - **A4. Decoding.** Both sequencers run greedy and with 5 beams (the fork's own baseline README runs Casanovo with 5
@@ -98,6 +101,10 @@ configs read the train shards only. So:
   debugged; no number from that mode is used, so Casanovo's side of the comparison rests on the shared scorer alone.
 - **U5.** Whether Casanovo's training set contains spectra or peptides of the benchmark's human project (PXD004424) is
   not addressed in the paper's text fetched 22/10 (see the overlap section).
+- **U6.** Amino-acid precision and recall are Casanovo's definition (prefix then suffix pass, both sequencers scored
+  alike); InstaNovo's own `_novor_match` (`instanovo/utils/metrics.py`) is prefix-only, so the fork's logged amino-acid
+  figures are lower than the scorer's for the same predictions and are not quoted. Peptide-level figures are identical
+  under both definitions (a peptide matches when every residue does).
 
 ## Flaws found on the way (named, not accommodated)
 
