@@ -77,9 +77,13 @@ configs read the train shards only. So:
 - **A4. Decoding.** Both sequencers run greedy and with 5 beams (the fork's own baseline README runs Casanovo with 5
   beams; Casanovo's paper used beam search for its benchmark figure). On this GPU the fork's beam search runs at 15 s per
   128 spectra, forty minutes per species, so its 5-beam run is made on the first 5,000 sampled spectra of each species
-  (`samples-5k`, a prefix of the uniform sample and so itself one) and compared with Casanovo's 5-beam output on those
-  same 45,000 spectra (`--first-per-species 5000` in the scorer); the full-sample 5-beam run is queued last and added
-  if it completes. The full-sample comparison is the fork's greedy run against Casanovo's 5 beams, stated as such.
+  (`samples-5k`) and compared with Casanovo's 5-beam output on those same 45,000 spectra (`--first-per-species 5000`
+  in the scorer). **That prefix is not a uniform subsample**: the sample is written in file order, so the prefix holds
+  the sampled spectra of each species' first 3 to 20 files (of 11 to 93), and its levels differ from the full sample's
+  (H. sapiens: mean 99 peaks against 168, greedy recall 0.596 against 0.652). Every comparison on it is paired on
+  identical spectra and valid as such; no prefix figure is read as a benchmark level. The full-sample 5-beam run is
+  queued last and added if it completes. The full-sample comparison is the fork's greedy run against Casanovo's 5 beams,
+  stated as such.
 - **A5. Casanovo's numbers.** The primary comparison is Casanovo v5.1.2 with the v5.0.0 checkpoint run here on the same
   spectra. Published per-species numbers (Yilmaz et al. 2024, Supplementary Figure S1) are in a figure, not a table, and
   are reported as read from the paper's text only where the text states them.
@@ -139,8 +143,8 @@ configs read the train shards only. So:
 Every number here is read from files under `docs/nine_species/results/`: `results.md` (rendered by
 `scripts/analysis/nine_species_table.py` from `results/scores/*.json`, one file per run, per species with bootstrap
 intervals and strata), `standardised.md`, `pairwise-*.md`, and the session log for the run times. Runs scored so far,
-each on all 180,000 sampled spectra: the fork greedy, Casanovo greedy, Casanovo with 5 beams; the frozen and scratch
-controls on the 45,000-spectrum prefix. Pending: the fork with 5 beams on that prefix (A4).
+each on all 180,000 sampled spectra: the fork greedy, Casanovo greedy, Casanovo with 5 beams; and on the 45,000-spectrum
+prefix (A4): the fork with 5 beams, the frozen and scratch controls, with the full-sample runs re-scored on those spectra.
 
 Pooled over the nine species (`results.md`):
 
@@ -151,8 +155,30 @@ Pooled over the nine species (`results.md`):
 | Casanovo v5.0.0, 5 beams | 0.994 | 0.649 | 0.835 | 0.898 | 7.7 % |
 
 Under matched greedy decoding the fork leads Casanovo by 2.3 points of peptide recall pooled and by 1.3 to 5.2 points in
-every species but tomato (where Casanovo is ahead by 0.8), with fewer off-mass predictions; Casanovo's 5 beams add 3 points of recall and halve its
-off-mass share, which is what the fork's pending 5-beam run is for.
+every species but tomato (where Casanovo is ahead by 0.8), with fewer off-mass predictions; Casanovo's 5 beams add 3 points of recall and halve its off-mass share.
+
+Like for like with 5 beams, on the 45,000-spectrum prefix (`results-prefix5k.md`, `results/scores-prefix5k/`; the
+prefix is the sampled spectra of each species' first files, see A4, so its levels differ from the full sample's and
+only paired comparisons within it are read):
+
+| run, same 45,000 spectra | coverage | peptide recall | amino-acid precision | precision-coverage area | off-mass | precision at 25 % / 50 % / 75 % coverage |
+| :---- | ---: | ---: | ---: | ---: | ---: | :---- |
+| fork, 5 beams | 1.000 | 0.683 | 0.857 | 0.887 | 5.9 % | 0.953 / 0.911 / 0.842 |
+| Casanovo v5.0.0, 5 beams | 0.995 | 0.655 | 0.839 | 0.901 | 7.5 % | 0.981 / 0.961 / 0.838 |
+| fork, greedy | 1.000 | 0.650 | 0.825 | 0.887 | 13.0 % | 0.959 / 0.920 / 0.841 |
+| Casanovo v5.0.0, greedy | 0.995 | 0.626 | 0.814 | 0.894 | 15.6 % | - |
+
+- With 5 beams each, the fork leads by 2.8 points of peptide recall pooled, outside the bootstrap intervals in Apis
+  (+6.6), rice bean (+6.4), M. mazei (+3.5), C. endoloripes (+3.4) and B. subtilis (+3.0), within them in H. sapiens,
+  mouse and yeast, and behind in tomato (-1.5). Paired, the fork alone is right on 4,172 spectra and Casanovo alone on
+  2,936 (`results/pairwise-prefix5k-fork-beam5-vs-casanovo-beam5.md`).
+- Beam search gives the fork 3.3 points (1,742 spectra gained, 297 lost against its own greedy decoding) and cuts its
+  dead ends from 13.0 % to 5.9 %, below Casanovo's 7.5 %.
+- **Casanovo's confidence ranks its predictions better than the fork's ranks its own.** Although the fork recalls more
+  peptides, its precision-coverage area is lower (0.887 against 0.901): at 25 % and 50 % coverage Casanovo's precision
+  is 0.981 and 0.961 against the fork's 0.953 and 0.911, and the curves cross near 75 % coverage. The fork's
+  log-probability is the better score for taking everything; Casanovo's is the better score for a high-precision
+  subset. Beam search does not sharpen the fork's ranking (its area is 0.887 greedy and with beams).
 
 Per species every run agrees on the three hardest species, in the same order (C. endoloripes near 0.51, the SILAC mouse
 set near 0.55, Apis near 0.59), and on the set of the three easiest (rice bean, yeast, tomato, 0.70 to 0.73), whose
@@ -221,7 +247,8 @@ exactly (one project per species), so none is run here.
 ### Stratified results: what is in the data and what is in the model
 
 Read from the `by` tables of `results/scores/*.json` (pooled in `results.md`), `results/standardised.md` and
-`results/pairwise-fork-greedy-vs-casanovo-beam5.md`; the fork is its greedy run until the 5-beam run is added.
+`results/pairwise-fork-greedy-vs-casanovo-beam5.md` for the full sample (the fork greedy against Casanovo's 5 beams), and
+from `results-prefix5k.md` and `results/pairwise-prefix5k-*.md` for the 5-beam like-for-like on the prefix.
 
 **Shared by both sequencers and by every species (a property of the spectra, not of InstaNovo-FM):**
 
@@ -255,15 +282,20 @@ Read from the `by` tables of `results/scores/*.json` (pooled in `results.md`), `
 - The combined carbamyl plus ammonia loss is never recovered by either (0 of 275; the fork cannot say it, Casanovo has
   the token and still misses).
 - The fork's greedy search dead-ends on 13.7 % of spectra against Casanovo's 7.7 % off-mass predictions (16.2 % greedy),
-  and in no run is a single off-mass prediction a correct peptide. How much of that is greedy decoding rather than the model is answered by the
-  fork's 5-beam run.
+  and in no run is a single off-mass prediction a correct peptide. Most of that is the decoding: with 5 beams the fork's
+  dead ends fall to 5.9 % on the prefix (13.0 % greedy on the same spectra), below Casanovo's 7.5 %.
+- With 5 beams on the prefix the fork's advantages widen (unmodified labels 78.7 % against Casanovo's 72.2 %; charge 3,
+  59.7 against 52.3; charge 4 and above, 35.6 against 24.9; length 20 to 29, 44.3 against 35.9; spectra with more than
+  200 peaks, 72.7 against 67.7) and its N-terminal weaknesses deepen: carbamyl 0.2 % (1.0 % greedy) against 57.2 %, pyro-glu
+  28.7 % (38.1 % greedy) against 47.1 %, deamidation 19.6 % against 36.8 %. Beam search finds higher-probability
+  alternatives to the N-terminal modification more often than it finds the modification.
 
 ### Controls: what the pretrained encoder contributes
 
 The fork releases three sequencers trained with the same budget (2.5M steps at batch 128, its README): the published one
 (encoder fine-tuned from step 100K), one with the encoder frozen, and one trained from scratch with no pretraining. All
-three were run greedy on the first 5,000 sampled spectra of each species (45,000 in all, `samples-5k/`), and the
-full-sample runs were re-scored on those same spectra (`results-prefix5k.md`, `results/scores-prefix5k/`,
+three were run greedy on the first 5,000 sampled spectra of each species (45,000 in all, `samples-5k/`, file-ordered,
+see A4), and the full-sample runs were re-scored on those same spectra (`results-prefix5k.md`, `results/scores-prefix5k/`,
 `results/pairwise-prefix5k-*.md`, `results/standardised-prefix5k.md`):
 
 | sequencer, greedy, 45,000 spectra | peptide recall | amino-acid precision | precision-coverage area | off-mass |

@@ -2,7 +2,8 @@
 
 Input: the benchmark root (one folder per species holding the revised benchmark's MGFs, Yilmaz et al. 2024,
 MassIVE MSV000090982, with `SEQ=` on every spectrum). Output, under `--out`: `<species>.mgf` with the sampled
-spectra copied verbatim (so both sequencers read exactly the same peaks and the same labels), `manifest.parquet`
+spectra copied verbatim (so both sequencers read exactly the same peaks and the same labels) in file order, so a
+prefix of a species' sample is its share of that species' first files, not a uniform subsample; `manifest.parquet`
 with one row per sampled spectrum (species, source file, 0-based index in that file, scan, charge, precursor m/z,
 label, peak count, m/z range, whether the label carries a modification the fork's sequencer cannot emit) and
 `summary.json` (totals, the draw, the seed). The draw is `numpy.random.default_rng(seed + species rank)` over the
