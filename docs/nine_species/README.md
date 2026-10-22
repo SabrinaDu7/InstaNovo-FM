@@ -124,8 +124,26 @@ configs read the train shards only. So:
 
 ## Results
 
-To be filled from the run directory `~/Documents/experiments/Arc/instanovo-fm-runs/nine-species/` (this section states
-only numbers that the scripts above reproduce from committed outputs under `docs/nine_species/results/`).
+Every number here is read from files under `docs/nine_species/results/`: `results.md` (rendered by
+`scripts/analysis/nine_species_table.py` from `results/scores/*.json`, one file per run, per species with bootstrap
+intervals and strata), `standardised.md`, `pairwise-*.md`, and the session log for the run times. Runs scored so far:
+the fork greedy and Casanovo with 5 beams, each on all 180,000 sampled spectra. Pending: the fork with 5 beams (the
+like-for-like comparison of A4), Casanovo greedy, and the frozen and scratch controls.
+
+Pooled over the nine species (`results.md`):
+
+| run | coverage | peptide recall | amino-acid precision | precision-coverage area | predictions off the precursor mass |
+| :---- | ---: | ---: | ---: | ---: | ---: |
+| fork, greedy | 1.000 | 0.642 | 0.820 | 0.883 | 13.7 % |
+| Casanovo v5.0.0, 5 beams | 0.994 | 0.649 | 0.835 | 0.898 | 7.7 % |
+
+Per species the two sequencers rank the species identically (rice bean, yeast and tomato at the top near 0.70 to 0.73,
+C. endoloripes at the bottom near 0.51, the SILAC mouse set next at 0.55), and their peptide recalls lie within each
+other's bootstrap interval except B. subtilis and yeast (Casanovo ahead by about two points) and rice bean (the fork
+ahead by about 1.6). Casanovo's published figure for this benchmark, "the average precision of Casanovo increases from
+0.83 to 0.95" when trained on MassIVE-KB (Yilmaz et al. 2024, Figure 2B, beam search, every spectrum, their model
+version and integration routine), is context only: the measured area here is 0.898 for the v5.0.0 checkpoint on the
+sample, under the area definition of U3, and the two are not compared numerically (A5, U3).
 
 ## What breaks the model, and whether it is the data
 
@@ -182,10 +200,50 @@ training and test splits, but falls to 0.110 when projects are held disjoint", w
 acquisition context rather than instrument physics". A species probe on this benchmark would inherit that confound
 exactly (one project per species), so none is run here.
 
-### Stratified results and controls
+### Stratified results: what is in the data and what is in the model
 
-To be filled from the runs: peptide recall by charge, length, modification presence, precursor m/z and peak count,
-and the frozen-encoder and from-scratch sequencers on the same spectra.
+Read from the `by` tables of `results/scores/*.json` (pooled in `results.md`), `results/standardised.md` and
+`results/pairwise-fork-greedy-vs-casanovo-beam5.md`; the fork is its greedy run until the 5-beam run is added.
+
+**Shared by both sequencers and by every species (a property of the spectra, not of InstaNovo-FM):**
+
+- Peptide recall falls monotonically with peptide length (pooled, fork: 86 % at 9 residues and under to 12 % at 30 and
+  over; Casanovo 92 % to 8 %), with precursor charge (2 then 3 then 4 and above) and with precursor m/z, in every one of
+  the nine species.
+- Spectra with fewer than 50 peaks are the hardest group everywhere: 29.3 % pooled for both sequencers, against 62 to
+  75 % for richer spectra. Above that, peak count does not matter: spectra with more than 200 peaks, where the fork sees
+  only the 200 most intense and Casanovo the 150 most intense, score 68.7 % and 68.4 %. The peak cap of the contract
+  table costs nothing visible.
+- Labels with a modification are harder for both (fork 40.5 % against 75.0 % unmodified; Casanovo 48.7 % against 72.2 %).
+- The species ordering is the same for both, and standardising each species to the pooled peptide composition (length,
+  charge, modification) widens rather than closes the spread for both (`standardised.md`: fork 0.204 crude to 0.237
+  standardised; Casanovo 0.221 to 0.270). The species differences are therefore in what each project's spectra look like
+  (instrument settings, fragmentation quality, sample preparation), not in which peptides it contains, and they hit both
+  sequencers alike.
+- Paired spectrum by spectrum, 87 % of what either sequencer gets right the other gets right too (`pairwise-*.md`, 0.85 to
+  0.92 in every species); 27.2 % of spectra defeat both.
+
+**Where the fork and Casanovo differ on the same spectra (a property of the model):**
+
+- The fork is better on unmodified labels (75.0 % against 72.2 %; it alone gets 10,679 of them, Casanovo alone 7,237), on
+  oxidised methionine (62.4 % against 57.8 %), at charge 3 and above and at length 20 and above.
+- The fork fails N-terminal carbamylation: 1.3 % against Casanovo's 56.9 % on 3,500 spectra. Its vocabulary has the
+  token; on these spectra it emits acetyl (one isotope away in mass) in 89 % of its residue-correct predictions and
+  dead-ends in 32 %. Casanovo resolves the same spectra, so this is not the benchmark's ambiguity (F3) at work but the
+  fork's decoder or its training distribution: carbamylation is a sample-preparation artefact concentrated in particular
+  projects, so the weakness is data dependent in the training sense and will reappear on any urea-treated sample.
+- Deamidation defeats both (fork 14.2 %, Casanovo 34.0 % on 14,855 spectra), the fork more: it emits the plain peptide one
+  isotope below the precursor in a third of cases and dead-ends in 43 %. F3 bounds how much of this is the benchmark.
+- The combined carbamyl plus ammonia loss is never recovered by either (0 of 275; the fork cannot say it, Casanovo has
+  the token and still misses).
+- The fork's greedy search dead-ends on 13.7 % of spectra against Casanovo's 7.7 % off-mass predictions, and none of the
+  fork's dead ends is a correct peptide. How much of that is greedy decoding rather than the model is answered by the
+  fork's 5-beam run.
+
+### Controls
+
+Pending: the frozen-encoder and from-scratch sequencers, greedy, on the first 5,000 sampled spectra of each species
+(`samples-5k/`), against the released sequencer on the same spectra.
 
 ## Review passes
 
