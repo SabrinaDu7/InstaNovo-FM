@@ -19,8 +19,9 @@ spectra and peptide recall over all spectra (Casanovo's "precision at full cover
 under the precision-coverage curve obtained by sorting spectra by `score`, coverage counted over all spectra and the curve
 ending at the achieved coverage (Casanovo's "average precision"; a sequencer that skips spectra loses that area),
 peptide-clustered bootstrap 95 % intervals (resampling peptides, `--bootstrap` draws, seed 0) for peptide recall and
-amino-acid precision, and the same peptide recall by charge, length, modification presence, precursor m/z and peak
-count. Written as `<out>.json` and `<out>.md`.
+amino-acid precision, the share of predictions whose mass is more than 50 ppm from the precursor (isotope errors 0 and 1
+allowed; computed from the shared mass table for both sequencers) with the peptide precision among them, and the same
+peptide recall by charge, length, modification presence, precursor m/z and peak count. Written as `<out>.json` and `<out>.md`.
 
     python scripts/analysis/nine_species_score.py --predictions <table> --out <path-without-extension> [--bootstrap 300]
 """
@@ -63,6 +64,8 @@ NTERM = re.compile(r"\[([^\]]+)\]-?|([+-][0-9.]+)")  # before the first residue 
 RESIDUE = re.compile(r"([A-Z])(\[[^\]]+\]|\([^)]+\)|[+-][0-9.]+)?")
 LEGACY = {"ox": "+15.995", "p": "+79.966"}  # the fork's legacy spellings M(ox), S(p)
 BY_ROUNDED_DELTA: dict[float, str] = {round(float(v), 2): v for v in set(DELTA.values())}  # any numeric spelling -> canonical
+PROTON, WATER, NEUTRON = 1.007276, 18.010565, 1.003355  # monoisotopic; NEUTRON is the 13C-12C difference used for isotope errors
+OFF_MASS_PPM = 50.0  # Casanovo's precursor_mass_tol; the share of predictions beyond it is reported for both sequencers
 
 
 def canonical_delta(spelling: str) -> str:
@@ -103,6 +106,16 @@ def tokenize(peptide: str) -> list[str]:
             key = mod.strip("[]()")
             tokens.append(f"{aa}[{canonical_delta(LEGACY.get(key, key))}]")
     return tokens
+
+
+def precursor_ppm(tokens: list[str], precursor_mz: float, charge: int) -> float:
+    """Smallest |ppm| between the predicted peptide's mass and the observed precursor mass over isotope errors 0 and 1
+    (Casanovo's isotope_error_range), from the shared mass table; nan when the charge is unknown."""
+    if charge < 1:
+        return float("nan")
+    observed = (precursor_mz - PROTON) * charge
+    predicted = sum(MASS[t] for t in tokens) + WATER
+    return min(abs(predicted + k * NEUTRON - observed) for k in (0, 1)) / observed * 1e6
 
 
 def mass_diff(mz1: float, mz2: float, mode_is_da: bool) -> float:
@@ -161,6 +174,7 @@ class Scored:
     n_match: int
     pep_match: bool
     score: float
+    ppm: float  # predicted-to-observed precursor mass deviation, nan without a prediction
     strata: dict[str, str] = field(default_factory=dict)
 
 
@@ -173,10 +187,11 @@ def score_row(r: pd.Series) -> Scored:
               "precursor_mz": ("<500" if r["precursor_mz"] < 500 else "500-700" if r["precursor_mz"] < 700 else "700-900" if r["precursor_mz"] < 900 else "900+"),
               "n_peaks": ("<50" if r["n_peaks"] < 50 else "50-99" if r["n_peaks"] < 100 else "100-199" if r["n_peaks"] < 200 else "200+")}
     if not pred_s:
-        return Scored(r["species"], r["peptide_id"], False, len(target), 0, 0, False, float("-inf"), strata)
+        return Scored(r["species"], r["peptide_id"], False, len(target), 0, 0, False, float("-inf"), float("nan"), strata)
     pred = tokenize(pred_s)
     matches, pep = aa_match_prefix_suffix(pred, target, MASS)
-    return Scored(r["species"], r["peptide_id"], True, len(target), len(pred), int(matches.sum()), bool(pep), float(r["score"]), strata)
+    return Scored(r["species"], r["peptide_id"], True, len(target), len(pred), int(matches.sum()), bool(pep), float(r["score"]),
+                  precursor_ppm(pred, float(r["precursor_mz"]), int(r["charge"])), strata)
 
 
 def summarise(rows: list[Scored]) -> dict[str, Any]:
@@ -186,7 +201,10 @@ def summarise(rows: list[Scored]) -> dict[str, Any]:
     n_tgt_aa = sum(r.n_target for r in rows)
     n_match = sum(r.n_match for r in predicted)
     correct = sum(r.pep_match for r in predicted)
+    off = [r for r in predicted if r.ppm > OFF_MASS_PPM]
     out: dict[str, Any] = {"spectra": n, "coverage": len(predicted) / n if n else float("nan"),
+           "off_mass_share": len(off) / len(predicted) if predicted else float("nan"),  # of predictions, beyond OFF_MASS_PPM
+           "peptide_precision_off_mass": sum(r.pep_match for r in off) / len(off) if off else float("nan"),
            "aa_precision": n_match / n_pred_aa if n_pred_aa else float("nan"), "aa_recall": n_match / n_tgt_aa if n_tgt_aa else float("nan"),
            "peptide_precision_predicted": correct / len(predicted) if predicted else float("nan"), "peptide_recall": correct / n if n else float("nan")}
     if predicted:  # precision-coverage curve: spectra sorted by score, coverage = share of all spectra, area = Casanovo's "average precision"
@@ -222,16 +240,14 @@ def main() -> None:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--bootstrap", type=int, default=300)
     ap.add_argument("--demote-ppm", type=float, default=None,
-                    help="rank predictions whose |delta_mass_ppm| exceeds this last (Casanovo negates the score of a precursor mismatch at 50 ppm; "
-                         "the fork's evaluation output keeps them ranked by log-probability); needs a delta_mass_ppm column")
+                    help="sensitivity check: rank predictions whose precursor deviation (computed here) exceeds this last, as Casanovo's score sign does")
     args = ap.parse_args()
     df = pd.read_parquet(args.predictions) if args.predictions.suffix == ".parquet" else pd.read_csv(args.predictions)
-    if args.demote_ppm is not None:
-        if "delta_mass_ppm" not in df:
-            raise SystemExit("--demote-ppm needs a delta_mass_ppm column")
-        off = df["delta_mass_ppm"].abs() > args.demote_ppm
-        df.loc[off, "score"] = df.loc[off, "score"] - 1e6  # below every in-tolerance prediction, order among themselves kept
     rows = [score_row(r) for _, r in df.iterrows()]
+    if args.demote_ppm is not None:
+        for r in rows:
+            if r.ppm > args.demote_ppm:
+                r.score -= 1e6  # below every in-tolerance prediction, order among themselves kept
     rng = np.random.default_rng(0)
     result: dict = {"predictions": str(args.predictions), "spectra": len(rows), "rule": "Casanovo v5.0.0 aa_match_prefix_suffix, 0.5 Da cumulative, 0.1 Da per residue",
                     "demote_ppm": args.demote_ppm, "species": {}}
@@ -248,11 +264,12 @@ def main() -> None:
         result["species"][sp] = entry
     result["all"] = summarise(rows)
     args.out.with_suffix(".json").write_text(json.dumps(result, indent=1))
-    lines = ["| species | spectra | coverage | AA precision | AA recall | peptide precision (predicted) | peptide recall (all) | AP | 95 % CI peptide recall |", "| :---- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---- |"]
+    lines = ["| species | spectra | coverage | AA precision | AA recall | peptide precision (predicted) | peptide recall (all) | AP | off-mass share | 95 % CI peptide recall |",
+             "| :---- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---- |"]
     for sp, e in list(result["species"].items()) + [("all", result["all"])]:
         ci = e.get("ci95", {}).get("peptide_recall")
         ci_s = f"{ci[0]:.3f} to {ci[1]:.3f}" if ci else "-"
-        lines.append(f"| {sp} | {e['spectra']:,} | {e['coverage']:.3f} | {e['aa_precision']:.3f} | {e['aa_recall']:.3f} | {e['peptide_precision_predicted']:.3f} | {e['peptide_recall']:.3f} | {e.get('average_precision', float('nan')):.3f} | {ci_s} |")
+        lines.append(f"| {sp} | {e['spectra']:,} | {e['coverage']:.3f} | {e['aa_precision']:.3f} | {e['aa_recall']:.3f} | {e['peptide_precision_predicted']:.3f} | {e['peptide_recall']:.3f} | {e.get('average_precision', float('nan')):.3f} | {e['off_mass_share']:.3f} | {ci_s} |")
     args.out.with_suffix(".md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
 

@@ -165,6 +165,15 @@ results is the measured share. The one constraint that bites is the peak cap: th
 rice bean, B. subtilis and M. mazei the sequencer sees the 200 most intense of 300 to 520 peaks. Whether that costs
 accuracy is a data-dependent question the stratified results below answer (recall by peak count).
 
+### What the authors claim, and do not (preprint v2, fetched 22/10)
+
+The preprint claims no organism, species or tissue signal in the embeddings. What it does claim about acquisition
+context: "Embeddings separate by fragmentation type into three well-defined lobes corresponding to HCD/HCID, CID, and
+ETD", and "Instrument identity is linearly decodable at macro-F1 0.804 when projects are shared between the probe's
+training and test splits, but falls to 0.110 when projects are held disjoint", which it reads as "project-level
+acquisition context rather than instrument physics". A species probe on this benchmark would inherit that confound
+exactly (one project per species), so none is run here.
+
 ### Stratified results and controls
 
 To be filled from the runs: peptide recall by charge, length, modification presence, precursor m/z and peak count,
