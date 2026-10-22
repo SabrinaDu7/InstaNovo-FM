@@ -1,0 +1,52 @@
+{
+ "seed": 20261022,
+ "n": 20000,
+ "root": "/home/sabrina/Documents/experiments/datasets/nine_species",
+ "species": {
+  "Apis-mellifera": {
+   "files": 17,
+   "spectra_total": 194281,
+   "sampled": 20000
+  },
+  "Bacillus-subtilis": {
+   "files": 93,
+   "spectra_total": 1358337,
+   "sampled": 20000
+  },
+  "Candidatus-endoloripes": {
+   "files": 11,
+   "spectra_total": 82290,
+   "sampled": 20000
+  },
+  "H.-sapiens": {
+   "files": 26,
+   "spectra_total": 44604,
+   "sampled": 20000
+  },
+  "Methanosarcina-mazei": {
+   "files": 72,
+   "spectra_total": 267332,
+   "sampled": 20000
+  },
+  "Mus-musculus": {
+   "files": 13,
+   "spectra_total": 25541,
+   "sampled": 20000
+  },
+  "Saccharomyces-cerevisiae": {
+   "files": 27,
+   "spectra_total": 585593,
+   "sampled": 20000
+  },
+  "Solanum-lycopersicum": {
+   "files": 60,
+   "spectra_total": 178413,
+   "sampled": 20000
+  },
+  "Vigna-mungo": {
+   "files": 24,
+   "spectra_total": 108514,
+   "sampled": 20000
+  }
+ }
+}

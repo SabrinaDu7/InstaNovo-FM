@@ -1,0 +1,212 @@
+{
+ "Apis-mellifera": {
+  "peaks_over_200": 0.5974,
+  "peaks_over_150": 0.7195,
+  "peaks_under_20": 0.0,
+  "mz_over_2500": 0.0145,
+  "charge_over_4": 0.0022,
+  "charge_over_10": 0.0,
+  "length_over_40": 0.0022,
+  "length_under_6": 0.0,
+  "label_unsupported_fork": 0.0,
+  "label_modified": 0.3065,
+  "spectra": 20000,
+  "charge": {
+   "2": 15841,
+   "3": 3624,
+   "4": 491,
+   "5": 44
+  },
+  "length_median": 15.0,
+  "n_peaks_median": 244.0
+ },
+ "Bacillus-subtilis": {
+  "peaks_over_200": 0.7853,
+  "peaks_over_150": 0.87705,
+  "peaks_under_20": 0.0,
+  "mz_over_2500": 0.0183,
+  "charge_over_4": 0.0022,
+  "charge_over_10": 0.0,
+  "length_over_40": 0.0038,
+  "length_under_6": 0.0,
+  "label_unsupported_fork": 0.0,
+  "label_modified": 0.2845,
+  "spectra": 20000,
+  "charge": {
+   "2": 11387,
+   "3": 7706,
+   "4": 863,
+   "5": 44
+  },
+  "length_median": 15.0,
+  "n_peaks_median": 334.0
+ },
+ "Candidatus-endoloripes": {
+  "peaks_over_200": 0.092,
+  "peaks_over_150": 0.1752,
+  "peaks_under_20": 0.0,
+  "mz_over_2500": 0.0533,
+  "charge_over_4": 0.0056,
+  "charge_over_10": 0.0,
+  "length_over_40": 0.004,
+  "length_under_6": 0.0,
+  "label_unsupported_fork": 0.0,
+  "label_modified": 0.36155,
+  "spectra": 20000,
+  "charge": {
+   "2": 8951,
+   "3": 9474,
+   "4": 1463,
+   "5": 112
+  },
+  "length_median": 17.0,
+  "n_peaks_median": 79.0
+ },
+ "H.-sapiens": {
+  "peaks_over_200": 0.3243,
+  "peaks_over_150": 0.45735,
+  "peaks_under_20": 0.0,
+  "mz_over_2500": 0.03085,
+  "charge_over_4": 0.00555,
+  "charge_over_10": 0.0,
+  "length_over_40": 0.00245,
+  "length_under_6": 0.0,
+  "label_unsupported_fork": 0.0,
+  "label_modified": 0.3658,
+  "spectra": 20000,
+  "charge": {
+   "2": 11345,
+   "3": 7457,
+   "4": 1087,
+   "5": 111
+  },
+  "length_median": 15.0,
+  "n_peaks_median": 137.0
+ },
+ "Methanosarcina-mazei": {
+  "peaks_over_200": 0.70455,
+  "peaks_over_150": 0.82055,
+  "peaks_under_20": 0.0,
+  "mz_over_2500": 0.00475,
+  "charge_over_4": 0.0012,
+  "charge_over_10": 0.0,
+  "length_over_40": 0.0004,
+  "length_under_6": 0.0,
+  "label_unsupported_fork": 0.0,
+  "label_modified": 0.26825,
+  "spectra": 20000,
+  "charge": {
+   "2": 14184,
+   "3": 5389,
+   "4": 403,
+   "5": 24
+  },
+  "length_median": 13.0,
+  "n_peaks_median": 293.0
+ },
+ "Mus-musculus": {
+  "peaks_over_200": 0.0148,
+  "peaks_over_150": 0.06,
+  "peaks_under_20": 0.0,
+  "mz_over_2500": 0.00555,
+  "charge_over_4": 0.0001,
+  "charge_over_10": 0.0,
+  "length_over_40": 0.00025,
+  "length_under_6": 0.0,
+  "label_unsupported_fork": 0.0,
+  "label_modified": 0.36715,
+  "spectra": 20000,
+  "charge": {
+   "2": 18083,
+   "3": 1861,
+   "4": 54,
+   "5": 2
+  },
+  "length_median": 13.0,
+  "n_peaks_median": 64.0
+ },
+ "Saccharomyces-cerevisiae": {
+  "peaks_over_200": 0.96305,
+  "peaks_over_150": 0.98265,
+  "peaks_under_20": 0.0,
+  "mz_over_2500": 0.0488,
+  "charge_over_4": 0.00285,
+  "charge_over_10": 0.0,
+  "length_over_40": 0.00375,
+  "length_under_6": 0.0,
+  "label_unsupported_fork": 0.0,
+  "label_modified": 0.29565,
+  "spectra": 20000,
+  "charge": {
+   "2": 12960,
+   "3": 6358,
+   "4": 625,
+   "5": 57
+  },
+  "length_median": 15.0,
+  "n_peaks_median": 520.0
+ },
+ "Solanum-lycopersicum": {
+  "peaks_over_200": 0.21915,
+  "peaks_over_150": 0.36175,
+  "peaks_under_20": 0.0,
+  "mz_over_2500": 0.0299,
+  "charge_over_4": 0.0074,
+  "charge_over_10": 0.0,
+  "length_over_40": 0.0016,
+  "length_under_6": 0.0,
+  "label_unsupported_fork": 0.0,
+  "label_modified": 0.322,
+  "spectra": 20000,
+  "charge": {
+   "2": 12234,
+   "3": 6509,
+   "4": 1109,
+   "5": 148
+  },
+  "length_median": 13.0,
+  "n_peaks_median": 117.0
+ },
+ "Vigna-mungo": {
+  "peaks_over_200": 0.7983,
+  "peaks_over_150": 0.9024,
+  "peaks_under_20": 0.0,
+  "mz_over_2500": 0.01135,
+  "charge_over_4": 0.0021,
+  "charge_over_10": 0.0,
+  "length_over_40": 0.0039,
+  "length_under_6": 0.0,
+  "label_unsupported_fork": 0.0,
+  "label_modified": 0.23235,
+  "spectra": 20000,
+  "charge": {
+   "2": 13983,
+   "3": 5381,
+   "4": 594,
+   "5": 42
+  },
+  "length_median": 14.0,
+  "n_peaks_median": 348.0
+ },
+ "all": {
+  "peaks_over_200": 0.4998722222222222,
+  "peaks_over_150": 0.5951611111111111,
+  "peaks_under_20": 0.0,
+  "mz_over_2500": 0.024144444444444444,
+  "charge_over_4": 0.0032444444444444443,
+  "charge_over_10": 0.0,
+  "length_over_40": 0.0024833333333333335,
+  "length_under_6": 0.0,
+  "label_unsupported_fork": 0.0,
+  "label_modified": 0.3115277777777778,
+  "spectra": 180000,
+  "charge": {
+   "2": 118968,
+   "3": 53759,
+   "4": 6689,
+   "5": 584
+  },
+  "length_median": 14.0,
+  "n_peaks_median": 200.0
+ }
+}
