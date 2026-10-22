@@ -9,7 +9,7 @@ CASA=/home/sabrina/Documents/experiments/Arc/envs/casanovo/bin/casanovo
 mkdir -p "$OUT"
 for mgf in "$SAMPLES"/*.mgf; do
   sp=$(basename "$mgf" .mgf)
-  [ -s "$OUT/$sp.mztab" ] && { echo "$(date '+%F %T') $sp exists, skipped" | tee -a "$OUT/chain.log"; continue; }
+  grep -q '^PSM' "$OUT/$sp.mztab" 2>/dev/null && { echo "$(date '+%F %T') $sp exists, skipped" | tee -a "$OUT/chain.log"; continue; }  # a failed run leaves a header-only mzTab
   t0=$(date +%s)
   echo "$(date '+%F %T') $sp start" | tee -a "$OUT/chain.log"
   "$CASA" sequence -m "$CKPT" -c "$CFG" -d "$OUT" -o "$sp" -f "$mgf" > "$OUT/$sp.run.log" 2>&1

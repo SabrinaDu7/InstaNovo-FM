@@ -14,7 +14,7 @@ run() {  # mode, beams
   mkdir -p "$OUT/$mode"
   for mgf in "$SAMPLES"/*.mgf; do
     sp=$(basename "$mgf" .mgf)
-    [ -s "$OUT/$mode/$sp.csv" ] && { echo "$(date '+%F %T') $mode $sp exists, skipped" | tee -a "$OUT/chain.log"; continue; }
+    [ "$(wc -l < "$OUT/$mode/$sp.csv" 2>/dev/null || echo 0)" -gt 1 ] && { echo "$(date '+%F %T') $mode $sp exists, skipped" | tee -a "$OUT/chain.log"; continue; }  # header-only means a failed run
     t0=$(date +%s)
     echo "$(date '+%F %T') $mode $sp start" | tee -a "$OUT/chain.log"
     "$FM/.venv/bin/instanovo-fm" denovo predict --data-path "$mgf" --output-path "$OUT/$mode/$sp.csv" --denovo-model "$CKPT" --evaluation \
