@@ -7,7 +7,7 @@ amino-acid precision, coverage, precision-coverage area), species as rows, runs 
 (peptide recall by charge, length, modification presence, precursor m/z, peak count, pooled over species). Every number
 is read from the JSON files; the page names them.
 
-    python scripts/analysis/nine_species_table.py --scores <dir with *.json> --out docs/nine_species/results.md
+    python scripts/analysis/nine_species_table.py --scores docs/nine_species/results/scores --out docs/nine_species/results.md
 """
 # ruff: noqa: T201  (command-line script: the result is printed)
 
