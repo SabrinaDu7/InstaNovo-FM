@@ -93,7 +93,8 @@ configs read the train shards only. So:
   published AP values are context, not a numerical comparison.
 - **U4.** Casanovo v5.1.2's own evaluate mode, run on the 200 mouse spectra relabelled into its named alphabet, reported
   amino-acid precision 80 %, amino-acid recall 28 % and peptide precision 0 %, which its own predictions do not support
-  (scored with the shared rule they reach peptide recall 0.40). Its target side seems to be tokenised per character. Not
+  (the same checkpoint's predictions on the full sample reach peptide recall 0.619 greedy by the shared rule). Its target
+  side seems to be tokenised per character. Not
   debugged; no number from that mode is used, so Casanovo's side of the comparison rests on the shared scorer alone.
 - **U5.** Whether Casanovo's training set contains spectra or peptides of the benchmark's human project (PXD004424) is
   not addressed in the paper's text fetched 22/10 (see the overlap section).
@@ -142,16 +143,17 @@ Pooled over the nine species (`results.md`):
 | Casanovo v5.0.0, greedy | 0.994 | 0.619 | 0.811 | 0.891 | 16.2 % |
 | Casanovo v5.0.0, 5 beams | 0.994 | 0.649 | 0.835 | 0.898 | 7.7 % |
 
-Under matched greedy decoding the fork leads Casanovo by 2.3 points of peptide recall pooled and in every species but
-tomato (where they tie), with fewer off-mass predictions; Casanovo's 5 beams add 3 points of recall and halve its
+Under matched greedy decoding the fork leads Casanovo by 2.3 points of peptide recall pooled and by 1.3 to 5.2 points in
+every species but tomato (where Casanovo is ahead by 0.8), with fewer off-mass predictions; Casanovo's 5 beams add 3 points of recall and halve its
 off-mass share, which is what the fork's pending 5-beam run is for.
 
-Per species the sequencers rank the species identically (rice bean, yeast and tomato at the top near 0.70 to 0.73,
-C. endoloripes at the bottom near 0.51, the SILAC mouse set next at 0.55), and their peptide recalls lie within each
-other's bootstrap interval except B. subtilis and yeast (Casanovo ahead by about two points) and rice bean (the fork
-ahead by about 1.6). Casanovo's published figure for this benchmark, "the average precision of Casanovo increases from
-0.83 to 0.95" when trained on MassIVE-KB (Yilmaz et al. 2024, Figure 2B, beam search, every spectrum, their model
-version and integration routine), is context only: the measured area here is 0.898 for the v5.0.0 checkpoint on the
+Per species every run agrees on the three hardest species, in the same order (C. endoloripes near 0.51, the SILAC mouse
+set near 0.55, Apis near 0.59), and on the set of the three easiest (rice bean, yeast, tomato, 0.70 to 0.73), whose
+order differs by sequencer. Against Casanovo's 5 beams the fork's greedy recall lies within the other's bootstrap
+interval in Apis, C. endoloripes, M. mazei and mouse; Casanovo is ahead by 1.4 to 2.9 points in B. subtilis, H. sapiens,
+yeast and tomato, the fork by 1.6 in rice bean. Casanovo's published figure for this benchmark, "the average precision of Casanovo increases from
+0.83 to 0.95" when trained on MassIVE-KB (Yilmaz et al. 2024, Figure 2B; the paper's text says that version decodes
+with beam search; every spectrum, their model version and integration routine), is context only: the measured area here is 0.898 for the v5.0.0 checkpoint on the
 sample, under the area definition of U3, and the two are not compared numerically (A5, U3).
 
 ## What breaks the model, and whether it is the data
@@ -197,7 +199,7 @@ carbamylation-with-ammonia-loss state the fork cannot emit.
 Casanovo's 20-peak floor applies after its own filtering (intensity under 1 % of the base peak, m/z outside 50 to 2,500
 and peaks within 2 Da of the precursor removed), which is why it skipped 4 of the 200 smoke spectra; its coverage in the
 results is the measured share. The one constraint that bites is the peak cap: the benchmark's MGFs are raw peak lists, and for yeast,
-rice bean, B. subtilis and M. mazei the sequencer sees the 200 most intense of 300 to 520 peaks. Whether that costs
+rice bean, B. subtilis and M. mazei the sequencer sees the 200 most intense of 290 to 520 peaks (medians). Whether that costs
 accuracy is a data-dependent question the stratified results below answer (recall by peak count).
 
 ### What the authors claim, and do not (preprint v2, fetched 22/10)
@@ -245,8 +247,8 @@ Read from the `by` tables of `results/scores/*.json` (pooled in `results.md`), `
   isotope below the precursor in a third of cases and dead-ends in 43 %. F3 bounds how much of this is the benchmark.
 - The combined carbamyl plus ammonia loss is never recovered by either (0 of 275; the fork cannot say it, Casanovo has
   the token and still misses).
-- The fork's greedy search dead-ends on 13.7 % of spectra against Casanovo's 7.7 % off-mass predictions, and none of the
-  fork's dead ends is a correct peptide. How much of that is greedy decoding rather than the model is answered by the
+- The fork's greedy search dead-ends on 13.7 % of spectra against Casanovo's 7.7 % off-mass predictions (16.2 % greedy),
+  and in no run is a single off-mass prediction a correct peptide. How much of that is greedy decoding rather than the model is answered by the
   fork's 5-beam run.
 
 ### Controls: what the pretrained encoder contributes
@@ -268,12 +270,13 @@ full-sample runs were re-scored on those same spectra (`results-prefix5k.md`, `r
 - **Pretraining adds nothing measurable to de novo sequencing on this benchmark once the encoder is fine-tuned.** The
   from-scratch sequencer matches the published one pooled and in every species within the bootstrap intervals, and the
   two differ spectrum by spectrum only symmetrically (the published one alone right on 2,172 spectra, the scratch one
-  alone on 2,081, of 45,000). The ranking of species, the strata gradients and the modification failures (carbamyl 1.0 %
+  alone on 2,081, of 45,000). The order of the species, the strata gradients and the modification failures (carbamyl 1.0 %
   against 1.1 %, deamidation 16.1 % against 16.8 %) are the same for both, so those weaknesses belong to the InstaNovo
   decoder and the de novo training data, not to the foundation encoder.
 - **The frozen encoder is a worse sequencer than no pretraining at all**: 7.7 points of peptide recall below the
   published one (88 % of it, consistent with the fork README's "~85 %") and 7.5 below scratch, with the largest losses on
-  modified labels (pyro-glu 22.5 % against 38.1 %) and peak-poor spectra. A representation learned by masked-peak
+  modified labels (pyro-glu 22.5 % against 38.1 %) and on peak-rich spectra (9.6 points on spectra with more than 200
+  peaks against 5.6 on those with fewer than 50). A representation learned by masked-peak
   prediction is not, by itself, the representation a sequencer wants.
 - The preprint (v2, fetched 22/10) reports the frozen figure ("with the encoder held frozen it retains on average 85% of
   the fine-tuned peptide recall") and no number for the from-scratch sequencer it released; its de novo comparison with
