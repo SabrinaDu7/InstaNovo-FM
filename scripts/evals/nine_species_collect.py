@@ -5,8 +5,9 @@ spectra were written to `<species>.mgf`), and one output file per species from o
   --fork      the fork's `instanovo-fm denovo predict --evaluation` CSV: `scan_number` is the 0-based position of the
               spectrum in the MGF it read (the fork's reader numbers spectra from 0, it does not read `SCANS=`), `predictions` ProForma,
               `log_probs` the sequence log-probability, `targets` the label as the fork parsed it.
-  --casanovo  Casanovo's mzTab: PSM rows keyed by `spectra_ref` (`ms_run[1]:index=<0-based position>`), `sequence`
-              in Casanovo's notation, `search_engine_score[1]` the peptide score.
+  --casanovo  Casanovo's mzTab: PSM rows keyed by `spectra_ref` (`ms_run[1]:index=<0-based position>`), the peptide
+              from `opt_ms_run[1]_proforma` (Casanovo 5's full ProForma string; its `sequence` column is the bare
+              peptide with the modifications moved to `modifications`, mzTab style), `search_engine_score[1]` the score.
 Output: `<out>.parquet` with `species`, `peptide_id` (label without modifications, I as L), `target` (the manifest's
 label), `prediction`, `score`, `charge`, `length`, `n_peaks`, `precursor_mz`, `source_file`, `scan`; every sampled
 spectrum appears once, with an empty `prediction` when the sequencer gave none. The join is positional (position in
@@ -28,6 +29,7 @@ from pathlib import Path
 import pandas as pd
 
 MOD = re.compile(r"\[[^\]]*\]-?|\([^)]*\)|[+-]\d+(\.\d+)?")
+PROFORMA = "opt_ms_run[1]_proforma"  # Casanovo 5's modified-sequence column
 
 
 def peptide_id(label: str) -> str:
@@ -80,13 +82,15 @@ def casanovo_table(path: Path, manifest: pd.DataFrame) -> pd.DataFrame:
             elif line.startswith("PSM") and header:
                 rows.append(dict(zip(header, line.rstrip("\n").split("\t"), strict=False)))
     d = pd.DataFrame(rows)
+    if PROFORMA not in d:
+        raise SystemExit(f"{path}: no {PROFORMA} column; the `sequence` column is bare and must not be scored")
     pos = d["spectra_ref"].str.extract(r"index=(\d+)")[0].astype(int)
     d = d.assign(pos=pos, **{"search_engine_score[1]": d["search_engine_score[1]"].astype(float)})
     d = d.sort_values("search_engine_score[1]", ascending=False).drop_duplicates("pos").set_index("pos").sort_index()
     out = sub.copy()
     out["prediction"] = ""
     out["score"] = float("-inf")
-    out.loc[d.index, "prediction"] = d["sequence"].fillna("").astype(str).values
+    out.loc[d.index, "prediction"] = d[PROFORMA].fillna("").astype(str).values
     out.loc[d.index, "score"] = d["search_engine_score[1]"].astype(float).values
     out["delta_mass_ppm"] = float("nan")  # Casanovo folds the precursor check into the score's sign
     return out

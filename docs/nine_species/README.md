@@ -116,7 +116,9 @@ configs read the train shards only. So:
 2. Fork: `scripts/evals/nine_species_run_fork.sh` (greedy, then 5 beams) with `configs/inference/denovo_ninespecies.yaml`.
 3. Casanovo: `scripts/evals/nine_species_run_casanovo.sh` (5 beams, and greedy), environment `envs/casanovo`.
 4. Collect: `scripts/evals/nine_species_collect.py` joins each output to the manifest by position in the sample file and
-   checks the fork's parsed target against the manifest label.
+   checks the fork's parsed target against the manifest label. Casanovo's peptide is read from its mzTab's
+   `opt_ms_run[1]_proforma` column: the `sequence` column is the bare peptide (mzTab moves modifications to their own
+   column), and scoring it would strip carbamidomethyl from every cysteine (the mistake behind the smoke figures, log 03:30).
 5. Score: `scripts/analysis/nine_species_score.py` (per species, strata, bootstrap).
 6. Overlap: `scripts/analysis/nine_species_overlap.py`.
 
