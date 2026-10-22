@@ -71,8 +71,12 @@ configs read the train shards only. So:
   decimals (0.585). The same cross-check against Casanovo's own evaluate mode failed (U4).
 - **A3. Every sampled spectrum counts.** A spectrum without a prediction (Casanovo skips spectra with fewer than 20 peaks;
   the fork drops nothing in this mode) is a miss for peptide recall, and coverage is reported beside precision.
-- **A4. Decoding.** Both sequencers run greedy and with 5 beams; the 5-beam figures are the comparison (the fork's own
-  baseline README runs Casanovo with 5 beams; Casanovo's paper used beam search for its benchmark figure).
+- **A4. Decoding.** Both sequencers run greedy and with 5 beams (the fork's own baseline README runs Casanovo with 5
+  beams; Casanovo's paper used beam search for its benchmark figure). On this GPU the fork's beam search runs at 15 s per
+  128 spectra, forty minutes per species, so its 5-beam run is made on the first 5,000 sampled spectra of each species
+  (`samples-5k`, a prefix of the uniform sample and so itself one) and compared with Casanovo's 5-beam output on those
+  same 45,000 spectra (`--first-per-species 5000` in the scorer); the full-sample 5-beam run is queued last and added
+  if it completes. The full-sample comparison is the fork's greedy run against Casanovo's 5 beams, stated as such.
 - **A5. Casanovo's numbers.** The primary comparison is Casanovo v5.1.2 with the v5.0.0 checkpoint run here on the same
   spectra. Published per-species numbers (Yilmaz et al. 2024, Supplementary Figure S1) are in a figure, not a table, and
   are reported as read from the paper's text only where the text states them.

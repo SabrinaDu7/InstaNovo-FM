@@ -254,10 +254,15 @@ def main() -> None:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--bootstrap", type=int, default=300)
     ap.add_argument("--rows", action="store_true", help="also write every spectrum's outcome to <out>.rows.parquet (one row per input row, same order)")
+    ap.add_argument("--first-per-species", type=int, default=None,
+                    help="score only each species' first N rows of the table (the sample is a uniform draw in file order, so its prefix is one too; "
+                         "used to compare a run on the full sample with a run on the 5,000-spectrum prefix, `samples-5k`)")
     ap.add_argument("--demote-ppm", type=float, default=None,
                     help="sensitivity check: rank predictions whose precursor deviation (computed here) exceeds this last, as Casanovo's score sign does")
     args = ap.parse_args()
     df = pd.read_parquet(args.predictions) if args.predictions.suffix == ".parquet" else pd.read_csv(args.predictions)
+    if args.first_per_species is not None:
+        df = df[df.groupby("species").cumcount() < args.first_per_species].reset_index(drop=True)
     rows = [score_row(r) for _, r in df.iterrows()]
     if args.rows:
         pd.DataFrame([{**{k: v for k, v in vars(r).items() if k != "strata"}, **r.strata} for r in rows]).to_parquet(f"{args.out}.rows.parquet")
@@ -266,7 +271,7 @@ def main() -> None:
             if r.ppm > args.demote_ppm:
                 r.score -= 1e6  # below every in-tolerance prediction, order among themselves kept
     rng = np.random.default_rng(0)
-    result: dict = {"predictions": str(args.predictions), "spectra": len(rows), "rule": "Casanovo v5.0.0 aa_match_prefix_suffix, 0.5 Da cumulative, 0.1 Da per residue",
+    result: dict = {"predictions": str(args.predictions), "spectra": len(rows), "first_per_species": args.first_per_species, "rule": "Casanovo v5.0.0 aa_match_prefix_suffix, 0.5 Da cumulative, 0.1 Da per residue",
                     "demote_ppm": args.demote_ppm, "species": {}}
     for sp in sorted({r.species for r in rows}):
         sub = [r for r in rows if r.species == sp]
