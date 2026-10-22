@@ -9,7 +9,8 @@ one token per residue plus one for the N-terminal modification (stacked N-termin
 `config.yaml`, with bare cysteine and the phosphorylations the fork's sequencer can emit added).
 
 The match is `aa_match_prefix_suffix` of Casanovo v5.0.0 `casanovo/denovo/evaluate.py` (sha256 f2b477db1b5a of the
-file fetched 22/10/2026), copied verbatim below under its Apache-2.0 licence: an amino acid matches when its mass is
+file fetched 22/10/2026), copied below under its Apache-2.0 licence with only the docstrings and type annotations removed
+(checked by AST comparison, session log 03:35): an amino acid matches when its mass is
 within 0.1 Da of the aligned one and the cumulative mass up to it, from the N- or the C-terminus, is within 0.5 Da;
 a peptide matches when every amino acid matches.
 
@@ -126,7 +127,7 @@ def mass_diff(mz1: float, mz2: float, mode_is_da: bool) -> float:
     return mz1 - mz2
 
 
-# ---- verbatim from Casanovo v5.0.0, casanovo/denovo/evaluate.py (Apache-2.0), tokens as strings ----
+# ---- from Casanovo v5.0.0, casanovo/denovo/evaluate.py (Apache-2.0): bodies unchanged, docstrings and annotations removed ----
 def aa_match_prefix(peptide1, peptide2, aa_dict, cum_mass_threshold: float = 0.5, ind_mass_threshold: float = 0.1):
     aa_matches = np.zeros(max(len(peptide1), len(peptide2)), np.bool_)
     i1, i2, cum_mass1, cum_mass2 = 0, 0, 0.0, 0.0
@@ -163,7 +164,7 @@ def aa_match_prefix_suffix(peptide1, peptide2, aa_dict, cum_mass_threshold: floa
         else:
             i2, cum_mass2 = i2 - 1, cum_mass2 + aa_mass2
     return aa_matches, aa_matches.all()
-# ---- end of the verbatim block ----
+# ---- end of the copied block ----
 
 
 @dataclass

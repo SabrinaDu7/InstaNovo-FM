@@ -64,8 +64,8 @@ configs read the train shards only. So:
   under the run directory). Published numbers are on every spectrum. Confidence intervals come from a bootstrap that
   resamples peptides, because spectra of one peptide are not independent.
 - **A2. The metric is Casanovo's.** Amino-acid and peptide matches follow `aa_match_prefix_suffix` of Casanovo v5.0.0,
-  copied verbatim into `scripts/analysis/nine_species_score.py` (0.5 Da cumulative, 0.1 Da per residue, prefix then
-  suffix), with Casanovo v5's residue masses. Both sequencers' outputs and the labels are mapped to one token set by one
+  copied into `scripts/analysis/nine_species_score.py` with only docstrings and type annotations removed (0.5 Da
+  cumulative, 0.1 Da per residue, prefix then suffix), with Casanovo v5's residue masses. Both sequencers' outputs and the labels are mapped to one token set by one
   tokeniser (the fork's ProForma, Casanovo's named ProForma and the benchmark's DeepNovo spellings, numeric deltas with any
   number of decimals). Cross-check: the fork's own peptide precision on 200 mouse spectra equals the scorer's to three
   decimals (0.585). The same cross-check against Casanovo's own evaluate mode failed (U4).
