@@ -103,6 +103,12 @@ configs read the train shards only. So:
 - **F2. The sequencer drops labelled spectra silently in evaluation mode.** Labels in a spelling outside its remapping
   table are "unsupported residues" and the rows are dropped from its metrics (57 of 200 mouse spectra, 28 %), with a
   warning only. Its built-in precision on such a file is a number on a biased subset.
+- **F3. Two label classes are one isotope away from an unmodified reading.** Deamidation (+0.984 Da) and a one-isotope
+  precursor error (+1.003 Da) differ by 19 mDa; N-terminal carbamyl (+43.006) and acetyl plus one isotope (+43.014) by
+  8 mDa. The benchmark's search allowed one isotope error and chose the modified form; a mass-constrained decoder that
+  also allows one isotope error may legitimately choose the plain or acetylated one, and the match rule then counts it
+  wrong. Deamidation-only labels are 8.3 % of the sample and carbamyl-only 1.9 %, so this bounds how much of the
+  "modified" penalty is the model's (session log 03:20 for what the fork predicts on them). Both sequencers face it.
 
 ## Method
 
