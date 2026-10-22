@@ -168,11 +168,11 @@ only paired comparisons within it are read):
 | fork, greedy | 1.000 | 0.650 | 0.825 | 0.887 | 13.0 % | 0.959 / 0.920 / 0.841 |
 | Casanovo v5.0.0, greedy | 0.995 | 0.626 | 0.814 | 0.894 | 15.6 % | - |
 
-- With 5 beams each, the fork leads by 2.8 points of peptide recall pooled, outside the bootstrap intervals in Apis
+- With 5 beams each, the fork leads by 2.7 points of peptide recall pooled, outside the bootstrap intervals in Apis
   (+6.6), rice bean (+6.4), M. mazei (+3.5), C. endoloripes (+3.4) and B. subtilis (+3.0), within them in H. sapiens,
   mouse and yeast, and behind in tomato (-1.5). Paired, the fork alone is right on 4,172 spectra and Casanovo alone on
   2,936 (`results/pairwise-prefix5k-fork-beam5-vs-casanovo-beam5.md`).
-- Beam search gives the fork 3.3 points (1,742 spectra gained, 297 lost against its own greedy decoding) and cuts its
+- Beam search gives the fork 3.2 points (1,742 spectra gained, 297 lost against its own greedy decoding) and cuts its
   dead ends from 13.0 % to 5.9 %, below Casanovo's 7.5 %.
 - **Casanovo's confidence ranks its predictions better than the fork's ranks its own.** Although the fork recalls more
   peptides, its precision-coverage area is lower (0.887 against 0.901): at 25 % and 50 % coverage Casanovo's precision
@@ -327,5 +327,13 @@ see A4), and the full-sample runs were re-scored on those same spectra (`results
 
 ## Review passes
 
-Two passes after the runs, recorded in the session log: each statement above re-read against its source, each number
-re-derived from the committed outputs.
+Two passes after the runs, recorded in the session log (`docs/agent_logs/session-2026-10-22-nineSpecies.md`, rows
+06:50, 08:25 and 08:30), each re-reading every statement above against its source and re-deriving every quoted number
+from the committed files by script. What they changed: the claim that the runs rank the species identically (they agree
+on the three hardest, in order, and on the set of the three easiest); the list of species where the two sequencers'
+intervals separate; the direction of the frozen encoder's largest loss (peak-rich, not peak-poor spectra); a void smoke
+figure quoted in U4; the description of the 5,000-spectrum prefix (file-ordered, not a uniform subsample, A4); two
+differences rounded from rounded values (2.7 and 3.2 points). What they confirmed: every gradient and ordering claim in
+the stratified section, in every species and run; the scorer against the fork's own logged peptide recall in all 27
+species-runs; every path and file named above exists. Mistakes made and repaired during the work are in the log at
+02:25, 02:50, 02:58, 03:22, 03:30 and 08:25; none of them survives in a reported number.
