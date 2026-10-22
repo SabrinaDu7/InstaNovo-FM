@@ -275,6 +275,10 @@ full-sample runs were re-scored on those same spectra (`results-prefix5k.md`, `r
   published one (88 % of it, consistent with the fork README's "~85 %") and 7.5 below scratch, with the largest losses on
   modified labels (pyro-glu 22.5 % against 38.1 %) and peak-poor spectra. A representation learned by masked-peak
   prediction is not, by itself, the representation a sequencer wants.
+- The preprint (v2, fetched 22/10) reports the frozen figure ("with the encoder held frozen it retains on average 85% of
+  the fine-tuned peptide recall") and no number for the from-scratch sequencer it released; its de novo comparison with
+  Casanovo and InstaNovo v1.2 is on six other held-out datasets (GluC, snake venoms, TPL antibodies, HeLa QC, S. brodae,
+  wound fluids), not on this benchmark.
 - For the user's purpose (building on InstaNovo-FM): on de novo sequencing of these nine projects the encoder is a
   starting point no better than random initialisation. Whether it helps on smaller fine-tuning sets, or on the probing
   and retrieval tasks the paper is about, is not tested here.
