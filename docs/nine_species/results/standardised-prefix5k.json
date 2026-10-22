@@ -1,0 +1,478 @@
+{
+ "fork-greedy": {
+  "peptide": {
+   "Apis-mellifera": {
+    "spectra": 5000,
+    "crude": 0.6204,
+    "standardised": 0.6236458293081667,
+    "missing_share": 4.4444444444513564e-05
+   },
+   "Bacillus-subtilis": {
+    "spectra": 5000,
+    "crude": 0.6872,
+    "standardised": 0.648471922168374,
+    "missing_share": 8.888888888880508e-05
+   },
+   "Candidatus-endoloripes": {
+    "spectra": 5000,
+    "crude": 0.5406,
+    "standardised": 0.62971440178386,
+    "missing_share": 0.0008666666666667933
+   },
+   "H.-sapiens": {
+    "spectra": 5000,
+    "crude": 0.5964,
+    "standardised": 0.6056349644081321,
+    "missing_share": 0.0007333333333332526
+   },
+   "Methanosarcina-mazei": {
+    "spectra": 5000,
+    "crude": 0.7062,
+    "standardised": 0.6750499254863433,
+    "missing_share": 8.888888888880508e-05
+   },
+   "Mus-musculus": {
+    "spectra": 5000,
+    "crude": 0.5142,
+    "standardised": 0.4598044917337589,
+    "missing_share": 0.03535555555555547
+   },
+   "Saccharomyces-cerevisiae": {
+    "spectra": 5000,
+    "crude": 0.7258,
+    "standardised": 0.7387791732763921,
+    "missing_share": 0.0005111111111111288
+   },
+   "Solanum-lycopersicum": {
+    "spectra": 5000,
+    "crude": 0.749,
+    "standardised": 0.7112107191912379,
+    "missing_share": 0.00044444444444458053
+   },
+   "Vigna-mungo": {
+    "spectra": 5000,
+    "crude": 0.7146,
+    "standardised": 0.6919554452417196,
+    "missing_share": 4.444444444440254e-05
+   }
+  },
+  "peptide+spectrum": {
+   "Apis-mellifera": {
+    "spectra": 5000,
+    "crude": 0.6204,
+    "standardised": 0.6201113886782984,
+    "missing_share": 0.09457777777777765
+   },
+   "Bacillus-subtilis": {
+    "spectra": 5000,
+    "crude": 0.6872,
+    "standardised": 0.6414548678758211,
+    "missing_share": 0.043066666666666586
+   },
+   "Candidatus-endoloripes": {
+    "spectra": 5000,
+    "crude": 0.5406,
+    "standardised": 0.743141491626636,
+    "missing_share": 0.01044444444444459
+   },
+   "H.-sapiens": {
+    "spectra": 5000,
+    "crude": 0.5964,
+    "standardised": 0.7168358089550153,
+    "missing_share": 0.004288888888888898
+   },
+   "Methanosarcina-mazei": {
+    "spectra": 5000,
+    "crude": 0.7062,
+    "standardised": 0.642028400562477,
+    "missing_share": 0.017977777777777648
+   },
+   "Mus-musculus": {
+    "spectra": 5000,
+    "crude": 0.5142,
+    "standardised": 0.6833906939814466,
+    "missing_share": 0.17733333333333345
+   },
+   "Saccharomyces-cerevisiae": {
+    "spectra": 5000,
+    "crude": 0.7258,
+    "standardised": 0.7054127100219407,
+    "missing_share": 0.1322888888888889
+   },
+   "Solanum-lycopersicum": {
+    "spectra": 5000,
+    "crude": 0.749,
+    "standardised": 0.6971018519312739,
+    "missing_share": 0.004533333333333389
+   },
+   "Vigna-mungo": {
+    "spectra": 5000,
+    "crude": 0.7146,
+    "standardised": 0.6461174872905069,
+    "missing_share": 0.10759999999999992
+   }
+  },
+  "spread": {
+   "crude": 0.2348,
+   "peptide": 0.27897468154263316,
+   "peptide+spectrum": 0.1230301029483376
+  }
+ },
+ "fork-frozen-greedy": {
+  "peptide": {
+   "Apis-mellifera": {
+    "spectra": 5000,
+    "crude": 0.5452,
+    "standardised": 0.5423241406801258,
+    "missing_share": 4.4444444444513564e-05
+   },
+   "Bacillus-subtilis": {
+    "spectra": 5000,
+    "crude": 0.607,
+    "standardised": 0.5982030710229621,
+    "missing_share": 8.888888888880508e-05
+   },
+   "Candidatus-endoloripes": {
+    "spectra": 5000,
+    "crude": 0.4414,
+    "standardised": 0.5528637269282285,
+    "missing_share": 0.0008666666666667933
+   },
+   "H.-sapiens": {
+    "spectra": 5000,
+    "crude": 0.5354,
+    "standardised": 0.5454463201568694,
+    "missing_share": 0.0007333333333332526
+   },
+   "Methanosarcina-mazei": {
+    "spectra": 5000,
+    "crude": 0.6302,
+    "standardised": 0.5929338581711565,
+    "missing_share": 8.888888888880508e-05
+   },
+   "Mus-musculus": {
+    "spectra": 5000,
+    "crude": 0.4376,
+    "standardised": 0.39493311238588213,
+    "missing_share": 0.03535555555555547
+   },
+   "Saccharomyces-cerevisiae": {
+    "spectra": 5000,
+    "crude": 0.6574,
+    "standardised": 0.6760102300850666,
+    "missing_share": 0.0005111111111111288
+   },
+   "Solanum-lycopersicum": {
+    "spectra": 5000,
+    "crude": 0.7292,
+    "standardised": 0.679926242554723,
+    "missing_share": 0.00044444444444458053
+   },
+   "Vigna-mungo": {
+    "spectra": 5000,
+    "crude": 0.5756,
+    "standardised": 0.5554179395893655,
+    "missing_share": 4.444444444440254e-05
+   }
+  },
+  "peptide+spectrum": {
+   "Apis-mellifera": {
+    "spectra": 5000,
+    "crude": 0.5452,
+    "standardised": 0.5414434054662633,
+    "missing_share": 0.09457777777777765
+   },
+   "Bacillus-subtilis": {
+    "spectra": 5000,
+    "crude": 0.607,
+    "standardised": 0.5896730896562989,
+    "missing_share": 0.043066666666666586
+   },
+   "Candidatus-endoloripes": {
+    "spectra": 5000,
+    "crude": 0.4414,
+    "standardised": 0.6576333108189657,
+    "missing_share": 0.01044444444444459
+   },
+   "H.-sapiens": {
+    "spectra": 5000,
+    "crude": 0.5354,
+    "standardised": 0.6451191955754351,
+    "missing_share": 0.004288888888888898
+   },
+   "Methanosarcina-mazei": {
+    "spectra": 5000,
+    "crude": 0.6302,
+    "standardised": 0.5627849377238309,
+    "missing_share": 0.017977777777777648
+   },
+   "Mus-musculus": {
+    "spectra": 5000,
+    "crude": 0.4376,
+    "standardised": 0.6225242378867816,
+    "missing_share": 0.17733333333333345
+   },
+   "Saccharomyces-cerevisiae": {
+    "spectra": 5000,
+    "crude": 0.6574,
+    "standardised": 0.6605825890063248,
+    "missing_share": 0.1322888888888889
+   },
+   "Solanum-lycopersicum": {
+    "spectra": 5000,
+    "crude": 0.7292,
+    "standardised": 0.6725649425564985,
+    "missing_share": 0.004533333333333389
+   },
+   "Vigna-mungo": {
+    "spectra": 5000,
+    "crude": 0.5756,
+    "standardised": 0.5485710009265962,
+    "missing_share": 0.10759999999999992
+   }
+  },
+  "spread": {
+   "crude": 0.29159999999999997,
+   "peptide": 0.28499313016884087,
+   "peptide+spectrum": 0.1311215370902351
+  }
+ },
+ "fork-scratch-greedy": {
+  "peptide": {
+   "Apis-mellifera": {
+    "spectra": 5000,
+    "crude": 0.6396,
+    "standardised": 0.6399363246281562,
+    "missing_share": 4.4444444444513564e-05
+   },
+   "Bacillus-subtilis": {
+    "spectra": 5000,
+    "crude": 0.6834,
+    "standardised": 0.6462475419218624,
+    "missing_share": 8.888888888880508e-05
+   },
+   "Candidatus-endoloripes": {
+    "spectra": 5000,
+    "crude": 0.5214,
+    "standardised": 0.6137428576305198,
+    "missing_share": 0.0008666666666667933
+   },
+   "H.-sapiens": {
+    "spectra": 5000,
+    "crude": 0.592,
+    "standardised": 0.600542471056166,
+    "missing_share": 0.0007333333333332526
+   },
+   "Methanosarcina-mazei": {
+    "spectra": 5000,
+    "crude": 0.7028,
+    "standardised": 0.670178370751589,
+    "missing_share": 8.888888888880508e-05
+   },
+   "Mus-musculus": {
+    "spectra": 5000,
+    "crude": 0.5054,
+    "standardised": 0.4479302934878246,
+    "missing_share": 0.03535555555555547
+   },
+   "Saccharomyces-cerevisiae": {
+    "spectra": 5000,
+    "crude": 0.7334,
+    "standardised": 0.7457182284456101,
+    "missing_share": 0.0005111111111111288
+   },
+   "Solanum-lycopersicum": {
+    "spectra": 5000,
+    "crude": 0.7466,
+    "standardised": 0.705771933428033,
+    "missing_share": 0.00044444444444458053
+   },
+   "Vigna-mungo": {
+    "spectra": 5000,
+    "crude": 0.7116,
+    "standardised": 0.6900580215859059,
+    "missing_share": 4.444444444440254e-05
+   }
+  },
+  "peptide+spectrum": {
+   "Apis-mellifera": {
+    "spectra": 5000,
+    "crude": 0.6396,
+    "standardised": 0.6256196003048508,
+    "missing_share": 0.09457777777777765
+   },
+   "Bacillus-subtilis": {
+    "spectra": 5000,
+    "crude": 0.6834,
+    "standardised": 0.6307671133627976,
+    "missing_share": 0.043066666666666586
+   },
+   "Candidatus-endoloripes": {
+    "spectra": 5000,
+    "crude": 0.5214,
+    "standardised": 0.7331044291994624,
+    "missing_share": 0.01044444444444459
+   },
+   "H.-sapiens": {
+    "spectra": 5000,
+    "crude": 0.592,
+    "standardised": 0.7045845444955817,
+    "missing_share": 0.004288888888888898
+   },
+   "Methanosarcina-mazei": {
+    "spectra": 5000,
+    "crude": 0.7028,
+    "standardised": 0.6375503025109965,
+    "missing_share": 0.017977777777777648
+   },
+   "Mus-musculus": {
+    "spectra": 5000,
+    "crude": 0.5054,
+    "standardised": 0.7033918987632627,
+    "missing_share": 0.17733333333333345
+   },
+   "Saccharomyces-cerevisiae": {
+    "spectra": 5000,
+    "crude": 0.7334,
+    "standardised": 0.7164361026748556,
+    "missing_share": 0.1322888888888889
+   },
+   "Solanum-lycopersicum": {
+    "spectra": 5000,
+    "crude": 0.7466,
+    "standardised": 0.690754239781931,
+    "missing_share": 0.004533333333333389
+   },
+   "Vigna-mungo": {
+    "spectra": 5000,
+    "crude": 0.7116,
+    "standardised": 0.6427314135715669,
+    "missing_share": 0.10759999999999992
+   }
+  },
+  "spread": {
+   "crude": 0.24120000000000008,
+   "peptide": 0.2977879349577855,
+   "peptide+spectrum": 0.10748482889461164
+  }
+ },
+ "casanovo-beam5": {
+  "peptide": {
+   "Apis-mellifera": {
+    "spectra": 5000,
+    "crude": 0.612,
+    "standardised": 0.6122800313419148,
+    "missing_share": 4.4444444444513564e-05
+   },
+   "Bacillus-subtilis": {
+    "spectra": 5000,
+    "crude": 0.696,
+    "standardised": 0.7140756090637908,
+    "missing_share": 8.888888888880508e-05
+   },
+   "Candidatus-endoloripes": {
+    "spectra": 5000,
+    "crude": 0.528,
+    "standardised": 0.6317567669395924,
+    "missing_share": 0.0008666666666667933
+   },
+   "H.-sapiens": {
+    "spectra": 5000,
+    "crude": 0.604,
+    "standardised": 0.6127237629432398,
+    "missing_share": 0.0007333333333332526
+   },
+   "Methanosarcina-mazei": {
+    "spectra": 5000,
+    "crude": 0.6994,
+    "standardised": 0.6609694146129094,
+    "missing_share": 8.888888888880508e-05
+   },
+   "Mus-musculus": {
+    "spectra": 5000,
+    "crude": 0.5164,
+    "standardised": 0.44895717782963657,
+    "missing_share": 0.03535555555555547
+   },
+   "Saccharomyces-cerevisiae": {
+    "spectra": 5000,
+    "crude": 0.745,
+    "standardised": 0.7745956339837687,
+    "missing_share": 0.0005111111111111288
+   },
+   "Solanum-lycopersicum": {
+    "spectra": 5000,
+    "crude": 0.8034,
+    "standardised": 0.7579728179011644,
+    "missing_share": 0.00044444444444458053
+   },
+   "Vigna-mungo": {
+    "spectra": 5000,
+    "crude": 0.692,
+    "standardised": 0.6771672786494054,
+    "missing_share": 4.444444444440254e-05
+   }
+  },
+  "peptide+spectrum": {
+   "Apis-mellifera": {
+    "spectra": 5000,
+    "crude": 0.612,
+    "standardised": 0.6389868886370889,
+    "missing_share": 0.09457777777777765
+   },
+   "Bacillus-subtilis": {
+    "spectra": 5000,
+    "crude": 0.696,
+    "standardised": 0.69598170520606,
+    "missing_share": 0.043066666666666586
+   },
+   "Candidatus-endoloripes": {
+    "spectra": 5000,
+    "crude": 0.528,
+    "standardised": 0.7356659289012389,
+    "missing_share": 0.01044444444444459
+   },
+   "H.-sapiens": {
+    "spectra": 5000,
+    "crude": 0.604,
+    "standardised": 0.7138241515508601,
+    "missing_share": 0.004288888888888898
+   },
+   "Methanosarcina-mazei": {
+    "spectra": 5000,
+    "crude": 0.6994,
+    "standardised": 0.6242922042357977,
+    "missing_share": 0.017977777777777648
+   },
+   "Mus-musculus": {
+    "spectra": 5000,
+    "crude": 0.5164,
+    "standardised": 0.6790203623262272,
+    "missing_share": 0.17733333333333345
+   },
+   "Saccharomyces-cerevisiae": {
+    "spectra": 5000,
+    "crude": 0.745,
+    "standardised": 0.7348214895135663,
+    "missing_share": 0.1322888888888889
+   },
+   "Solanum-lycopersicum": {
+    "spectra": 5000,
+    "crude": 0.8034,
+    "standardised": 0.7546092202527518,
+    "missing_share": 0.004533333333333389
+   },
+   "Vigna-mungo": {
+    "spectra": 5000,
+    "crude": 0.692,
+    "standardised": 0.632547415887037,
+    "missing_share": 0.10759999999999992
+   }
+  },
+  "spread": {
+   "crude": 0.28700000000000003,
+   "peptide": 0.32563845615413217,
+   "peptide+spectrum": 0.1303170160169541
+  }
+ }
+}

@@ -131,8 +131,8 @@ configs read the train shards only. So:
 Every number here is read from files under `docs/nine_species/results/`: `results.md` (rendered by
 `scripts/analysis/nine_species_table.py` from `results/scores/*.json`, one file per run, per species with bootstrap
 intervals and strata), `standardised.md`, `pairwise-*.md`, and the session log for the run times. Runs scored so far,
-each on all 180,000 sampled spectra: the fork greedy, Casanovo greedy, Casanovo with 5 beams. Pending: the fork with 5
-beams on the 45,000-spectrum prefix (A4) and the frozen and scratch controls.
+each on all 180,000 sampled spectra: the fork greedy, Casanovo greedy, Casanovo with 5 beams; the frozen and scratch
+controls on the 45,000-spectrum prefix. Pending: the fork with 5 beams on that prefix (A4).
 
 Pooled over the nine species (`results.md`):
 
@@ -249,10 +249,35 @@ Read from the `by` tables of `results/scores/*.json` (pooled in `results.md`), `
   fork's dead ends is a correct peptide. How much of that is greedy decoding rather than the model is answered by the
   fork's 5-beam run.
 
-### Controls
+### Controls: what the pretrained encoder contributes
 
-Pending: the frozen-encoder and from-scratch sequencers, greedy, on the first 5,000 sampled spectra of each species
-(`samples-5k/`), against the released sequencer on the same spectra.
+The fork releases three sequencers trained with the same budget (2.5M steps at batch 128, its README): the published one
+(encoder fine-tuned from step 100K), one with the encoder frozen, and one trained from scratch with no pretraining. All
+three were run greedy on the first 5,000 sampled spectra of each species (45,000 in all, `samples-5k/`), and the
+full-sample runs were re-scored on those same spectra (`results-prefix5k.md`, `results/scores-prefix5k/`,
+`results/pairwise-prefix5k-*.md`, `results/standardised-prefix5k.md`):
+
+| sequencer, greedy, 45,000 spectra | peptide recall | amino-acid precision | precision-coverage area | off-mass |
+| :---- | ---: | ---: | ---: | ---: |
+| published (encoder fine-tuned) | 0.650 | 0.825 | 0.887 | 13.0 % |
+| from scratch (no pretraining) | 0.648 | 0.823 | 0.887 | 13.1 % |
+| encoder frozen | 0.573 | 0.777 | 0.846 | 17.9 % |
+| Casanovo greedy, same spectra | 0.626 | 0.814 | 0.894 | 15.6 % |
+| Casanovo 5 beams, same spectra | 0.655 | 0.839 | 0.901 | 7.5 % |
+
+- **Pretraining adds nothing measurable to de novo sequencing on this benchmark once the encoder is fine-tuned.** The
+  from-scratch sequencer matches the published one pooled and in every species within the bootstrap intervals, and the
+  two differ spectrum by spectrum only symmetrically (the published one alone right on 2,172 spectra, the scratch one
+  alone on 2,081, of 45,000). The ranking of species, the strata gradients and the modification failures (carbamyl 1.0 %
+  against 1.1 %, deamidation 16.1 % against 16.8 %) are the same for both, so those weaknesses belong to the InstaNovo
+  decoder and the de novo training data, not to the foundation encoder.
+- **The frozen encoder is a worse sequencer than no pretraining at all**: 7.7 points of peptide recall below the
+  published one (88 % of it, consistent with the fork README's "~85 %") and 7.5 below scratch, with the largest losses on
+  modified labels (pyro-glu 22.5 % against 38.1 %) and peak-poor spectra. A representation learned by masked-peak
+  prediction is not, by itself, the representation a sequencer wants.
+- For the user's purpose (building on InstaNovo-FM): on de novo sequencing of these nine projects the encoder is a
+  starting point no better than random initialisation. Whether it helps on smaller fine-tuning sets, or on the probing
+  and retrieval tasks the paper is about, is not tested here.
 
 ## Review passes
 
