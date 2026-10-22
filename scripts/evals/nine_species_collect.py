@@ -39,9 +39,17 @@ def bare_equal(a: str, b: str) -> bool:
     return peptide_id(a) == peptide_id(b)
 
 
+def species_rows(path: Path, manifest: pd.DataFrame) -> pd.DataFrame:
+    """The manifest rows of the species a sequencer output file is named after (`<species>.csv` or `.mztab`; species
+    names contain dots, as in `H.-sapiens`), in sample order."""
+    sub = manifest[manifest["species"] == path.stem].reset_index(drop=True)
+    if sub.empty:
+        raise SystemExit(f"{path}: no manifest rows for a species named {path.stem!r}")
+    return sub
+
+
 def fork_table(path: Path, manifest: pd.DataFrame) -> pd.DataFrame:
-    species = path.stem.split(".")[0]
-    sub = manifest[manifest["species"] == species].reset_index(drop=True)
+    sub = species_rows(path, manifest)
     d = pd.read_csv(path)
     d = d.set_index(d["scan_number"].astype(int)).sort_index()
     if not d.index.is_unique:
@@ -62,8 +70,7 @@ def fork_table(path: Path, manifest: pd.DataFrame) -> pd.DataFrame:
 
 
 def casanovo_table(path: Path, manifest: pd.DataFrame) -> pd.DataFrame:
-    species = path.stem.split(".")[0]
-    sub = manifest[manifest["species"] == species].reset_index(drop=True)
+    sub = species_rows(path, manifest)
     rows = []
     with open(path) as fh:
         header = None
