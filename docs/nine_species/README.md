@@ -37,7 +37,7 @@ projects (see flaw F1 below), so species come from the benchmark's own folders.
 
 Modifications in the labels (DeepNovo notation): `C+57.021` on every cysteine, `M+15.995`, `N+0.984`, `Q+0.984`,
 N-terminal `+42.011`, `+43.006`, `-17.027`, and carbamylation with ammonia loss written as two stacked deltas,
-`+43.006-17.027` (541 of the 180,000 sampled labels; never the combined `+25.980` the fork's residue table names). Every
+`+43.006-17.027` (541 of the 180,000 sampled labels; never as one combined `+25.980`). Every
 label matches residue-with-optional-delta after that prefix (checked over the sample, session log 02:25).
 
 ### Overlap with InstaNovo-FM's training data (confirmed)
@@ -175,7 +175,7 @@ Read from `configs/model/foundation_base.yaml`, `configs/inference/denovo.yaml` 
 | m/z range | 50 to 2,500 Da, binned at 0.2 Da for the masked-peak objective | peaks outside are dropped |
 | Precursor charge | 1 to 10 | higher charges are not representable |
 | Peptide length (sequencer) | at most 40 residues | longer peptides cannot be produced |
-| Vocabulary (sequencer) | 20 residues, C carbamidomethyl, M oxidation, N and Q deamidation, R citrullination, P hydroxylation, S/T/Y phosphorylation, N-terminal acetyl, carbamyl and ammonia loss | any other modification is unsayable; the combined carbamyl plus ammonia loss (`+25.980`) is explicitly suppressed |
+| Vocabulary (sequencer) | 20 residues, C carbamidomethyl, M oxidation, N and Q deamidation, R citrullination, P hydroxylation, S/T/Y phosphorylation, N-terminal acetyl, carbamyl and ammonia loss | any other modification is unsayable; the combined carbamyl plus ammonia loss (+25.980) is commented out of `residues/default.yaml` and listed under `suppressed_residues` in `inference/denovo.yaml` |
 | Label spelling (evaluation mode) | the fork's remapping table | other spellings drop the row from its own metrics silently (F2) |
 | Precursor mass | the decoder extends a sequence only with residues that fit the remaining mass; when none fits, the one unmasked token (padding) is chosen, the sequence ends, and the score adds that token's unmasked log-probability (InstaNovo's `inference/greedy_search.py`, mass-constrained step; read 22/10) | an off-mass prediction is a dead end of the search, scored hundreds of nats below any complete one, so it ranks last; de novo mode also drops predictions beyond `filter_precursor_ppm` 20, evaluation mode keeps them with the deviation as a column |
 | Bare cysteine | `C` and `C[UNIMOD:4]` are both tokens | a bare-C prediction against a carbamidomethylated label is wrong by 57 Da |
