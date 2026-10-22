@@ -56,8 +56,8 @@ def main() -> None:
         spread = lambda t: t["standardised"].max() - t["standardised"].min()  # noqa: E731
         lines.append(f"\nSpread across species (max - min): crude {a['crude'].max() - a['crude'].min():.3f}, standardised {spread(a):.3f}, with peak count {spread(b):.3f}\n")
         result[run]["spread"] = {"crude": float(a["crude"].max() - a["crude"].min()), "peptide": float(spread(a)), "peptide+spectrum": float(spread(b))}
-    args.out.with_suffix(".json").write_text(json.dumps(result, indent=1))
-    args.out.with_suffix(".md").write_text("\n".join(lines) + "\n")
+    Path(f"{args.out}.json").write_text(json.dumps(result, indent=1))  # appended, not with_suffix: a dot in the name must not swallow part of it
+    Path(f"{args.out}.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
 
 

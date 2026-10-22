@@ -109,9 +109,10 @@ def main() -> None:
     table = pd.concat(parts, ignore_index=True)
     table["peptide_id"] = table["label"].map(peptide_id)
     table = table.rename(columns={"label": "target"})[["species", "peptide_id", "target", "prediction", "score", "charge", "length", "n_peaks", "precursor_mz", "source_file", "scan", "unsupported_label", "delta_mass_ppm"]]
-    table.to_parquet(args.out.with_suffix(".parquet"))
+    out = Path(f"{args.out}.parquet")  # appended, not with_suffix: a dot in the name must not swallow part of it
+    table.to_parquet(out)
     covered = (table["prediction"] != "").mean()
-    print(f"wrote {args.out.with_suffix('.parquet')}: {len(table):,} spectra from {len(files)} files; {covered:.1%} with a prediction")
+    print(f"wrote {out}: {len(table):,} spectra from {len(files)} files; {covered:.1%} with a prediction")
 
 
 if __name__ == "__main__":

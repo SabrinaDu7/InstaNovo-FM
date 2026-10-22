@@ -259,7 +259,7 @@ def main() -> None:
     df = pd.read_parquet(args.predictions) if args.predictions.suffix == ".parquet" else pd.read_csv(args.predictions)
     rows = [score_row(r) for _, r in df.iterrows()]
     if args.rows:
-        pd.DataFrame([{**{k: v for k, v in vars(r).items() if k != "strata"}, **r.strata} for r in rows]).to_parquet(args.out.with_suffix(".rows.parquet"))
+        pd.DataFrame([{**{k: v for k, v in vars(r).items() if k != "strata"}, **r.strata} for r in rows]).to_parquet(f"{args.out}.rows.parquet")
     if args.demote_ppm is not None:
         for r in rows:
             if r.ppm > args.demote_ppm:
@@ -279,14 +279,14 @@ def main() -> None:
             entry["by"][key] = {g: {"spectra": len(v), "peptide_recall": summarise(v)["peptide_recall"]} for g, v in sorted(groups.items())}
         result["species"][sp] = entry
     result["all"] = summarise(rows)
-    args.out.with_suffix(".json").write_text(json.dumps(result, indent=1))
+    Path(f"{args.out}.json").write_text(json.dumps(result, indent=1))  # appended, not with_suffix: a dot in the name must not swallow part of it
     lines = ["| species | spectra | coverage | AA precision | AA recall | peptide precision (predicted) | peptide recall (all) | AP | off-mass share | 95 % CI peptide recall |",
              "| :---- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---- |"]
     for sp, e in list(result["species"].items()) + [("all", result["all"])]:
         ci = e.get("ci95", {}).get("peptide_recall")
         ci_s = f"{ci[0]:.3f} to {ci[1]:.3f}" if ci else "-"
         lines.append(f"| {sp} | {e['spectra']:,} | {e['coverage']:.3f} | {e['aa_precision']:.3f} | {e['aa_recall']:.3f} | {e['peptide_precision_predicted']:.3f} | {e['peptide_recall']:.3f} | {e.get('average_precision', float('nan')):.3f} | {e['off_mass_share']:.3f} | {ci_s} |")
-    args.out.with_suffix(".md").write_text("\n".join(lines) + "\n")
+    Path(f"{args.out}.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
 
 
