@@ -50,6 +50,8 @@ def fork_table(path: Path, manifest: pd.DataFrame) -> pd.DataFrame:
     out["score"] = float("-inf")
     out.loc[d.index, "prediction"] = d["predictions"].fillna("").astype(str).values
     out.loc[d.index, "score"] = d["log_probs"].astype(float).values
+    out["delta_mass_ppm"] = float("nan")
+    out.loc[d.index, "delta_mass_ppm"] = d["delta_mass_ppm"].astype(float).values
     mism = [(i, t, m) for i, t, m in zip(d.index, d["targets"].astype(str), sub.loc[d.index, "label"], strict=False) if not bare_equal(t, m)]
     if mism:
         raise SystemExit(f"{path}: {len(mism)} rows whose parsed target differs from the manifest label, first {mism[:3]}")
@@ -75,6 +77,7 @@ def casanovo_table(path: Path, manifest: pd.DataFrame) -> pd.DataFrame:
     out["score"] = float("-inf")
     out.loc[d.index, "prediction"] = d["sequence"].fillna("").astype(str).values
     out.loc[d.index, "score"] = d["search_engine_score[1]"].astype(float).values
+    out["delta_mass_ppm"] = float("nan")  # Casanovo folds the precursor check into the score's sign
     return out
 
 
@@ -94,7 +97,7 @@ def main() -> None:
     parts = [(fork_table if args.fork else casanovo_table)(f, manifest) for f in files]
     table = pd.concat(parts, ignore_index=True)
     table["peptide_id"] = table["label"].map(peptide_id)
-    table = table.rename(columns={"label": "target"})[["species", "peptide_id", "target", "prediction", "score", "charge", "length", "n_peaks", "precursor_mz", "source_file", "scan", "unsupported_label"]]
+    table = table.rename(columns={"label": "target"})[["species", "peptide_id", "target", "prediction", "score", "charge", "length", "n_peaks", "precursor_mz", "source_file", "scan", "unsupported_label", "delta_mass_ppm"]]
     table.to_parquet(args.out.with_suffix(".parquet"))
     covered = (table["prediction"] != "").mean()
     print(f"wrote {args.out.with_suffix('.parquet')}: {len(table):,} spectra from {len(files)} files; {covered:.1%} with a prediction")

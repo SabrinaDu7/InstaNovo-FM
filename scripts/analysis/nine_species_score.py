@@ -202,11 +202,20 @@ def main() -> None:
     ap.add_argument("--predictions", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--bootstrap", type=int, default=300)
+    ap.add_argument("--demote-ppm", type=float, default=None,
+                    help="rank predictions whose |delta_mass_ppm| exceeds this last (Casanovo negates the score of a precursor mismatch at 50 ppm; "
+                         "the fork's evaluation output keeps them ranked by log-probability); needs a delta_mass_ppm column")
     args = ap.parse_args()
     df = pd.read_parquet(args.predictions) if args.predictions.suffix == ".parquet" else pd.read_csv(args.predictions)
+    if args.demote_ppm is not None:
+        if "delta_mass_ppm" not in df:
+            raise SystemExit("--demote-ppm needs a delta_mass_ppm column")
+        off = df["delta_mass_ppm"].abs() > args.demote_ppm
+        df.loc[off, "score"] = df.loc[off, "score"] - 1e6  # below every in-tolerance prediction, order among themselves kept
     rows = [score_row(r) for _, r in df.iterrows()]
     rng = np.random.default_rng(0)
-    result: dict = {"predictions": str(args.predictions), "spectra": len(rows), "rule": "Casanovo v5.0.0 aa_match_prefix_suffix, 0.5 Da cumulative, 0.1 Da per residue", "species": {}}
+    result: dict = {"predictions": str(args.predictions), "spectra": len(rows), "rule": "Casanovo v5.0.0 aa_match_prefix_suffix, 0.5 Da cumulative, 0.1 Da per residue",
+                    "demote_ppm": args.demote_ppm, "species": {}}
     for sp in sorted({r.species for r in rows}):
         sub = [r for r in rows if r.species == sp]
         entry = summarise(sub); entry["ci95"] = bootstrap(sub, args.bootstrap, rng) if args.bootstrap else {}

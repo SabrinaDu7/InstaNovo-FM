@@ -108,8 +108,51 @@ only numbers that the scripts above reproduce from committed outputs under `docs
 
 ## What breaks the model, and whether it is the data
 
-To be filled: constraints audit (peaks kept, m/z range, charge, peptide length, vocabulary), stratified results, and the
-frozen and from-scratch controls.
+### The model's input contract (data independent, from the configuration)
+
+Read from `configs/model/foundation_base.yaml`, `configs/inference/denovo.yaml` and `configs/residues/default.yaml`.
+
+| Assumption | Value | What happens outside it |
+| :---- | :---- | :---- |
+| Peaks per spectrum | the 200 most intense after dropping intensity below 1 % of the base peak | the rest of the spectrum is never seen |
+| m/z range | 50 to 2,500 Da, binned at 0.2 Da for the masked-peak objective | peaks outside are dropped |
+| Precursor charge | 1 to 10 | higher charges are not representable |
+| Peptide length (sequencer) | at most 40 residues | longer peptides cannot be produced |
+| Vocabulary (sequencer) | 20 residues, C carbamidomethyl, M oxidation, N and Q deamidation, R citrullination, P hydroxylation, S/T/Y phosphorylation, N-terminal acetyl, carbamyl and ammonia loss | any other modification is unsayable; the combined carbamyl plus ammonia loss (`+25.980`) is explicitly suppressed |
+| Label spelling (evaluation mode) | the fork's remapping table | other spellings drop the row from its own metrics silently (F2) |
+| Precursor check (de novo mode) | predictions beyond `filter_precursor_ppm` 20 are filtered | in evaluation mode every prediction is kept and the deviation is a column |
+| Bare cysteine | `C` and `C[UNIMOD:4]` are both tokens | a bare-C prediction against a carbamidomethylated label is wrong by 57 Da |
+
+Casanovo v5, for contrast: 20 to 150 peaks (fewer than 20 skips the spectrum), m/z 50 to 2,500, charge at most 4,
+peptide length 6 to 100, every benchmark modification in its alphabet, a 50 ppm precursor check folded into the score's sign.
+
+### How much of the benchmark the contract touches (data dependent, measured)
+
+From `scripts/analysis/nine_species_constraints.py` on the 180,000 sampled spectra
+(`results/constraints.json`; shares of spectra):
+
+| Species | peaks over 200 (fork keeps 200) | peaks over 150 (Casanovo keeps 150) | m/z over 2,500 | charge over 4 | length over 40 | label modified | median peaks |
+| :---- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Apis mellifera | 59.7 % | 72.0 % | 1.5 % | 0.2 % | 0.2 % | 30.6 % | 244 |
+| Bacillus subtilis | 78.5 % | 87.7 % | 1.8 % | 0.2 % | 0.4 % | 28.4 % | 334 |
+| Candidatus endoloripes | 9.2 % | 17.5 % | 5.3 % | 0.6 % | 0.4 % | 36.2 % | 79 |
+| Homo sapiens | 32.4 % | 45.7 % | 3.1 % | 0.6 % | 0.2 % | 36.6 % | 137 |
+| Methanosarcina mazei | 70.5 % | 82.1 % | 0.5 % | 0.1 % | 0.0 % | 26.8 % | 293 |
+| Mus musculus | 1.5 % | 6.0 % | 0.6 % | 0.0 % | 0.0 % | 36.7 % | 64 |
+| Saccharomyces cerevisiae | 96.3 % | 98.3 % | 4.9 % | 0.3 % | 0.4 % | 29.6 % | 520 |
+| Solanum lycopersicum | 21.9 % | 36.2 % | 3.0 % | 0.7 % | 0.2 % | 32.2 % | 117 |
+| Vigna mungo | 79.8 % | 90.2 % | 1.1 % | 0.2 % | 0.4 % | 23.2 % | 348 |
+| all | 50.0 % | 59.5 % | 2.4 % | 0.3 % | 0.2 % | 31.2 % | 200 |
+
+No sampled spectrum has fewer than 20 peaks after the benchmark's own processing, no charge exceeds 10, and no label
+carries `+25.980`. The one constraint that bites is the peak cap: the benchmark's MGFs are raw peak lists, and for yeast,
+rice bean, B. subtilis and M. mazei the sequencer sees the 200 most intense of 300 to 520 peaks. Whether that costs
+accuracy is a data-dependent question the stratified results below answer (recall by peak count).
+
+### Stratified results and controls
+
+To be filled from the runs: peptide recall by charge, length, modification presence, precursor m/z and peak count,
+and the frozen-encoder and from-scratch sequencers on the same spectra.
 
 ## Review passes
 
