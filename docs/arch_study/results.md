@@ -23,8 +23,8 @@ The probe rows 5 to 7 (mass, m/z, charge) are trivial by construction for `meta-
 | 13 | Cross-spectrum same-ion AUROC | 0.885 | 0.876 | - | - | - | - | - | - | - | - |
 | 14 | Per-spectrum confidence AUROC (annotated vs not) | per-spectrum mean 0.718; pooled 0.705 | per-spectrum mean 0.709; pooled 0.699 | - | - | - | - | - | - | - | - |
 | 15 | Embedding statistics (anisotropy ratio, effective rank, top-component energy) | anisotropy ratio 25.0; effective rank 89.4; top-component energy 0.132; mean cosine 0.811 | anisotropy ratio 25.0; effective rank 83.7; top-component energy 0.142; mean cosine 0.812 | - | - | - | - | - | - | - | - |
-| 16 | MCFM test, probes: fragment type / instrument / PTM presence / hydrophobicity / mass / m/z / charge / confidence | 0.776; 0.680; 0.799; 0.622; 0.755; 0.928; 0.608; 0.981 | 0.747; 0.672; 0.795; 0.625; 0.765; 0.931; 0.591; 0.979 | - | - | - | - | 0.755; 0.666; 0.816; 0.662; 0.760; 0.931; 0.600; 0.976 | - | - | - |
-| 17 | MCFM test, duplicate retrieval Recall@1 / mAP@20 | 0.629; 0.329 | 0.639; 0.336 | - | - | - | - | 0.637; 0.339 | - | - | - |
+| 16 | MCFM test, probes: fragment type / instrument / PTM presence / hydrophobicity / mass / m/z / charge / confidence | 0.776; 0.680; 0.799; 0.622; 0.755; 0.928; 0.608; 0.981 | 0.747; 0.672; 0.795; 0.625; 0.765; 0.931; 0.591; 0.979 | 0.732; 0.667; 0.791; 0.617; 0.731; 0.925; 0.587; 0.980 | - | - | - | 0.755; 0.666; 0.816; 0.662; 0.760; 0.931; 0.600; 0.976 | - | - | - |
+| 17 | MCFM test, duplicate retrieval Recall@1 / mAP@20 | 0.629; 0.329 | 0.639; 0.336 | 0.636; 0.336 | - | - | - | 0.637; 0.339 | - | - | - |
 | 18 | UMAP kNN preservation at k 15: all / HCD-Orbitrap / CID | 0.098; HCD-Orbitrap 0.101; CID 0.264 | 0.091; HCD-Orbitrap 0.089; CID 0.260 | - | - | - | - | - | - | - | - |
 | 19 | EVoC clustering: clusters, noise fraction, silhouette, fragmentation-type purity | clusters 17; noise 0.502; silhouette 0.006; purity 0.811 | clusters 9; noise 0.540; silhouette 0.125; purity 0.738 | - | - | - | - | - | - | - | - |
 | 20 | ESM2 cross-modal alignment: RSA rho (all pairs), CKA; shuffled / metadata RSA baselines | RSA 0.048; CKA 0.060; shuffled RSA 0.005; metadata RSA 0.198 | RSA 0.049; CKA 0.056; shuffled RSA 0.003; metadata RSA 0.198 | - | - | - | - | - | - | - | - |
@@ -38,7 +38,7 @@ The probe rows 5 to 7 (mass, m/z, charge) are trivial by construction for `meta-
 | :---- | :---- | :---- |
 | released 40M | `instanovo-fm-mcfm-90k-v0.1.0`, the reference | `result1_40M_probes_retrieval`, `result2_40M_peak_level`, `result3_40M_geometry`, `result5_40M_mcfm_test`, `result6_40M_cosine_hyperscore`, `validate_released_40M` |
 | baseline b2048 (seed 101) | run `train-40M-mcfm-90k-b2048`, step 90,001 | `result1_40Mb2048s90k_probes_retrieval`, `result2_40Mb2048s90k_peak_level`, `result3_40Mb2048s90k_geometry`, `result5_40Mb2048s90k_mcfm_test`, `result6_40Mb2048s90k_cosine_hyperscore`, `train_40M_mcfm_90k_b2048` |
-| seed 102 | the baseline again with `seed=102` | `train_arch-seed102` |
+| seed 102 | the baseline again with `seed=102` | `result5_arch-seed102_mcfm_test`, `train_arch-seed102` |
 | meta-precursor | metadata tokens: precursor mass, charge bin, fragmentation, collision energy | not yet run |
 | pa-mask2mask | pairwise attention bias kept between masked tokens | not yet run |
 | enc-fourier | Fourier peak encoder, periods 2.5 to 3,750 Da | not yet run |

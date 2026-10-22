@@ -195,7 +195,9 @@ hints can give, so the exact pairwise differences carry more absolute position t
 note assumes (inferred; a dedicated leakage check would settle it). Whether the *embedding* gains anything is only
 answerable with the suite's protocols on a PA checkpoint; the two local step-6,001 checkpoints exist for that.
 
-## Equal-step reading at step 50,001 (21/10/2026)
+## Readings on MCFM test (21/10/2026)
+
+### Equal step, 50,001
 
 `ionladder`, the baseline and `seed102` at the same step through `paper-probes-retrieval` on MCFM test (table and
 provenance: `equal_step/README.md`; the baseline and seed102 sides on the workstation, ionladder's on nibi, comparable
@@ -212,6 +214,36 @@ beyond that band on the far side of both seeds.
 Reading, interim: the ion-ladder input does not change what the embedding retrieves, and makes what a linear probe can
 read from it richer, on exactly the chemistry the feature encodes (residue-mass neighbours). The rule's other half,
 fragment accuracy at step 90,001 and the retrieval row at 90,001, comes with results 2 and 5.
+
+### Final checkpoints, 90,001 (result 5)
+
+`paper-probes-retrieval` on MCFM test for ionladder and seed102 at step 90,001, both on the workstation
+(`docs/references/rerun/result5_arch-{ionladder,seed102}_mcfm_test/`; the baseline's and the released 40M's rows are nibi's,
+comparable within the suite's cross-GPU check). Two-seed band as above.
+
+| Metric | baseline (seed 101) | seed 102 | ionladder | released 40M |
+| :---- | ---: | ---: | ---: | ---: |
+| retrieval recall@1 | 0.639 | 0.636 | 0.637 | 0.629 |
+| retrieval mAP@20 | 0.336 | 0.336 | 0.339 | 0.329 |
+| retrieval recall@1, CID | 0.665 | 0.676 | 0.667 | 0.657 |
+| probe modification class macro-F1 | 0.518 | 0.521 | 0.564 | 0.561 |
+| probe PTM present balanced accuracy | 0.795 | 0.791 | 0.816 | 0.799 |
+| probe hydrophobicity R² | 0.625 | 0.617 | 0.662 | 0.622 |
+| probe fragmentation type macro-F1 | 0.747 | 0.732 | 0.755 | 0.776 |
+| probe precursor charge macro-F1 | 0.591 | 0.587 | 0.600 | 0.608 |
+| probe instrument macro-F1 | 0.672 | 0.667 | 0.666 | 0.680 |
+| probe spectrum confidence R² | 0.979 | 0.980 | 0.976 | 0.981 |
+
+Retrieval: between the seeds on recall@1 and both conditional recalls; mAP@20 0.003 above a zero band. Probes: clears the
+band above on modification class, PTM present, hydrophobicity and charge; above both seeds on fragmentation type; below
+both, inside the band, on instrument; below by 0.003 to 0.004 on spectrum confidence (band 0.001). The collision-energy
+probe is excluded from the reading: its target mixes units (see the evals notes) and the two seeds themselves differ by
+0.33 R². On modification class ionladder matches the released 40M (0.561) rather than exceeding every 40M; the two
+retrained baselines sit below it there.
+
+Verdict on MCFM test, both steps: ionladder leaves duplicate retrieval where the baseline has it and makes the embedding
+more readable for the peptide's chemistry. The rule's remaining half, fragment accuracy (result 2, LCFM test) and the
+LCFM retrieval and geometry rows (results 1 and 3), waits on nibi (jobs 24749874 to 24749878, 24749891, 24749892).
 
 ## Per-arm procedure when a full run ends
 

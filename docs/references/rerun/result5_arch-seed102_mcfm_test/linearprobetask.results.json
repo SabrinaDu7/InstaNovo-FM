@@ -1,0 +1,898 @@
+{
+  "task_name": "Linear Probe",
+  "mode": "pre_filtered_project_disjoint",
+  "split_info": {
+    "n_projects_total": 78,
+    "n_projects_per_split": {
+      "train": 76,
+      "val": 71,
+      "test": 75
+    },
+    "n_samples_per_split": {
+      "train": 100000,
+      "val": 10000,
+      "test": 10000
+    },
+    "n_samples_dropped_invalid_project": 0,
+    "targets": {
+      "train": 100000,
+      "val": 10000,
+      "test": 10000
+    },
+    "mode": "projects_overlap_splits",
+    "use_project_split_requested": false,
+    "projects_shared_across_splits": true
+  },
+  "targets": {
+    "precursor_charge": {
+      "task_type": "classification",
+      "target_field": "precursor_charge",
+      "accuracy": 0.9159,
+      "balanced_accuracy": 0.660294836563744,
+      "macro_f1": 0.5874294784469495,
+      "macro_f1_n_classes": 7,
+      "macro_f1_over_predicted_labels": 0.5140007936410806,
+      "macro_auroc": 0.9807405650691635,
+      "baseline_accuracy": 0.7413,
+      "improvement": 0.1746000000000001,
+      "best_c": 0.1,
+      "val_scores_by_c": {
+        "0.01": 0.6901733653360639,
+        "0.1": 0.7002278237060855,
+        "0.5": 0.6948800715846518,
+        "1.0": 0.6942469345669744,
+        "2.0": 0.6947426959987606,
+        "5.0": 0.6975283937523027,
+        "10.0": 0.6907990825722184
+      },
+      "n_classes": 7,
+      "n_train": 100000,
+      "n_val": 10000,
+      "n_test": 10000,
+      "per_class_metrics": {
+        "0": {
+          "precision": 0.8977719528178244,
+          "recall": 0.9025032938076416,
+          "f1": 0.900131406044678,
+          "support": 759,
+          "train_support": 2024
+        },
+        "1": {
+          "precision": 0.7450980392156863,
+          "recall": 0.95,
+          "f1": 0.8351648351648352,
+          "support": 40,
+          "train_support": 1111
+        },
+        "2": {
+          "precision": 0.9865865586139444,
+          "recall": 0.9525158505328477,
+          "f1": 0.9692518874399451,
+          "support": 7413,
+          "train_support": 73286
+        },
+        "3": {
+          "precision": 0.7937420178799489,
+          "recall": 0.79171974522293,
+          "f1": 0.7927295918367347,
+          "support": 1570,
+          "train_support": 19632
+        },
+        "4": {
+          "precision": 0.33884297520661155,
+          "recall": 0.634020618556701,
+          "f1": 0.44165170556552963,
+          "support": 194,
+          "train_support": 3270
+        },
+        "5": {
+          "precision": 0.1111111111111111,
+          "recall": 0.391304347826087,
+          "f1": 0.17307692307692307,
+          "support": 23,
+          "train_support": 581
+        },
+        "6": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1,
+          "train_support": 88
+        }
+      },
+      "most_confused_pairs": [
+        {
+          "true_class": "6",
+          "predicted_as": "3",
+          "count": 1,
+          "rate": 1.0
+        },
+        {
+          "true_class": "5",
+          "predicted_as": "4",
+          "count": 11,
+          "rate": 0.4782608695652174
+        },
+        {
+          "true_class": "4",
+          "predicted_as": "3",
+          "count": 32,
+          "rate": 0.16494845360824742
+        },
+        {
+          "true_class": "4",
+          "predicted_as": "5",
+          "count": 29,
+          "rate": 0.14948453608247422
+        },
+        {
+          "true_class": "3",
+          "predicted_as": "4",
+          "count": 198,
+          "rate": 0.12619502868068833
+        },
+        {
+          "true_class": "5",
+          "predicted_as": "6",
+          "count": 2,
+          "rate": 0.08695652173913043
+        },
+        {
+          "true_class": "1",
+          "predicted_as": "2",
+          "count": 2,
+          "rate": 0.05
+        },
+        {
+          "true_class": "0",
+          "predicted_as": "2",
+          "count": 33,
+          "rate": 0.043478260869565216
+        },
+        {
+          "true_class": "5",
+          "predicted_as": "3",
+          "count": 1,
+          "rate": 0.043478260869565216
+        },
+        {
+          "true_class": "3",
+          "predicted_as": "2",
+          "count": 60,
+          "rate": 0.03824091778202677
+        }
+      ]
+    },
+    "precursor_mz": {
+      "task_type": "regression",
+      "target_field": "precursor_mz",
+      "r2": 0.9253530253864571,
+      "mae": 39.899634008789064,
+      "rmse": 55.17808195457659,
+      "pearson_correlation": 0.9621972905287132,
+      "spearman_correlation": 0.9695951870267082,
+      "best_alpha": 0.01,
+      "val_scores_by_alpha": {
+        "0.01": 0.9142688318373103,
+        "0.1": 0.9142672522100019,
+        "0.5": 0.914264487075857,
+        "1.0": 0.9142631714649737,
+        "2.0": 0.9142623485590904,
+        "5.0": 0.9142618712678049,
+        "10.0": 0.9142617505854781
+      },
+      "n_train": 100000,
+      "n_val": 10000,
+      "n_test": 10000,
+      "target_mean": 713.7836242584228,
+      "target_std": 201.95773646864336
+    },
+    "precursor_mass": {
+      "task_type": "regression",
+      "target_field": "precursor_mass",
+      "r2": 0.73133385181427,
+      "mae": 217.8332977294922,
+      "rmse": 357.2537394835777,
+      "pearson_correlation": 0.8597203281083179,
+      "spearman_correlation": 0.9007909480325659,
+      "best_alpha": 0.01,
+      "val_scores_by_alpha": {
+        "0.01": 0.7842866778373718,
+        "0.1": 0.7842265367507935,
+        "0.5": 0.7840999960899353,
+        "1.0": 0.7840311527252197,
+        "2.0": 0.7839792370796204,
+        "5.0": 0.7839361429214478,
+        "10.0": 0.7839161157608032
+      },
+      "n_train": 100000,
+      "n_val": 10000,
+      "n_test": 10000,
+      "target_mean": 1465.9027099609375,
+      "target_std": 689.23974609375
+    },
+    "hydrophobicity": {
+      "task_type": "regression",
+      "target_field": "hydrophobicity",
+      "r2": 0.6173328161239624,
+      "mae": 0.3545861840248108,
+      "rmse": 0.4558884442237338,
+      "pearson_correlation": 0.7889789686027912,
+      "spearman_correlation": 0.7809520710066147,
+      "best_alpha": 0.01,
+      "val_scores_by_alpha": {
+        "0.01": 0.6188662052154541,
+        "0.1": 0.6188644170761108,
+        "0.5": 0.6188459396362305,
+        "1.0": 0.6188325881958008,
+        "2.0": 0.6188220977783203,
+        "5.0": 0.6188154220581055,
+        "10.0": 0.6188167929649353
+      },
+      "n_train": 100000,
+      "n_val": 10000,
+      "n_test": 10000,
+      "target_mean": -0.26857975125312805,
+      "target_std": 0.7369669079780579
+    },
+    "ptm_present": {
+      "task_type": "classification",
+      "target_field": "ptm_present",
+      "accuracy": 0.7978,
+      "balanced_accuracy": 0.7910608934485295,
+      "macro_f1": 0.7629555128693117,
+      "macro_f1_n_classes": 2,
+      "macro_f1_over_predicted_labels": 0.7629555128693117,
+      "macro_auroc": 0.8751931573084162,
+      "baseline_accuracy": 0.7332,
+      "improvement": 0.06459999999999999,
+      "best_c": 0.01,
+      "val_scores_by_c": {
+        "0.01": 0.7782794357847064,
+        "0.1": 0.7780030017833242,
+        "0.5": 0.7778912784572682,
+        "1.0": 0.7780030017833242,
+        "2.0": 0.7774340126294847,
+        "5.0": 0.7775883507812509,
+        "10.0": 0.7777104466308669
+      },
+      "n_classes": 2,
+      "n_train": 100000,
+      "n_val": 10000,
+      "n_test": 10000,
+      "per_class_metrics": {
+        "0": {
+          "precision": 0.9083358966471855,
+          "recall": 0.8055100927441353,
+          "f1": 0.8538383692352176,
+          "support": 7332,
+          "train_support": 72020
+        },
+        "1": {
+          "precision": 0.592338479130932,
+          "recall": 0.7766116941529235,
+          "f1": 0.6720726565034058,
+          "support": 2668,
+          "train_support": 27980
+        }
+      },
+      "most_confused_pairs": [
+        {
+          "true_class": "1",
+          "predicted_as": "0",
+          "count": 596,
+          "rate": 0.22338830584707647
+        },
+        {
+          "true_class": "0",
+          "predicted_as": "1",
+          "count": 1426,
+          "rate": 0.1944899072558647
+        }
+      ],
+      "aucpr": 0.7706968045132045
+    },
+    "modification_class": {
+      "ptm_present": {
+        "task_type": "classification",
+        "target_field": "ptm_present",
+        "accuracy": 0.7978,
+        "balanced_accuracy": 0.7910608934485295,
+        "macro_f1": 0.7629555128693117,
+        "macro_f1_n_classes": 2,
+        "macro_f1_over_predicted_labels": 0.7629555128693117,
+        "macro_auroc": 0.8751931573084162,
+        "baseline_accuracy": 0.7332,
+        "improvement": 0.06459999999999999,
+        "best_c": 0.01,
+        "val_scores_by_c": {
+          "0.01": 0.7782794357847064,
+          "0.1": 0.7780030017833242,
+          "0.5": 0.7778912784572682,
+          "1.0": 0.7780030017833242,
+          "2.0": 0.7774340126294847,
+          "5.0": 0.7775883507812509,
+          "10.0": 0.7777104466308669
+        },
+        "n_classes": 2,
+        "n_train": 100000,
+        "n_val": 10000,
+        "n_test": 10000,
+        "per_class_metrics": {
+          "0": {
+            "precision": 0.9083358966471855,
+            "recall": 0.8055100927441353,
+            "f1": 0.8538383692352176,
+            "support": 7332,
+            "train_support": 72020
+          },
+          "1": {
+            "precision": 0.592338479130932,
+            "recall": 0.7766116941529235,
+            "f1": 0.6720726565034058,
+            "support": 2668,
+            "train_support": 27980
+          }
+        },
+        "most_confused_pairs": [
+          {
+            "true_class": "1",
+            "predicted_as": "0",
+            "count": 596,
+            "rate": 0.22338830584707647
+          },
+          {
+            "true_class": "0",
+            "predicted_as": "1",
+            "count": 1426,
+            "rate": 0.1944899072558647
+          }
+        ],
+        "aucpr": 0.7706968045132045
+      },
+      "modification_class": {
+        "task_type": "classification",
+        "target_field": "modification_class",
+        "accuracy": 0.684407796101949,
+        "balanced_accuracy": 0.7004120856045153,
+        "macro_f1": 0.5205355906963511,
+        "macro_f1_n_classes": 7,
+        "macro_f1_over_predicted_labels": 0.5205355906963511,
+        "macro_auroc": 0.9121737355472155,
+        "baseline_accuracy": 0.4681409295352324,
+        "improvement": 0.21626686656671662,
+        "best_c": 0.01,
+        "val_scores_by_c": {
+          "0.01": 0.7210027964314406,
+          "0.1": 0.6712414146612867,
+          "0.5": 0.6465102918614409,
+          "1.0": 0.6374651121016762,
+          "2.0": 0.6203146641118078,
+          "5.0": 0.6173084278741005,
+          "10.0": 0.6179493417926821
+        },
+        "n_classes": 7,
+        "n_train": 27980,
+        "n_val": 2765,
+        "n_test": 2668,
+        "per_class_metrics": {
+          "Acetyl": {
+            "precision": 0.13043478260869565,
+            "recall": 0.8478260869565217,
+            "f1": 0.22608695652173913,
+            "support": 46,
+            "train_support": 1525
+          },
+          "Carbamidomethyl": {
+            "precision": 0.8929633300297324,
+            "recall": 0.7213771016813451,
+            "f1": 0.7980513728963685,
+            "support": 1249,
+            "train_support": 11676
+          },
+          "Deamidated": {
+            "precision": 0.3939393939393939,
+            "recall": 0.6842105263157895,
+            "f1": 0.5,
+            "support": 19,
+            "train_support": 300
+          },
+          "Glu->pyro-Glu": {
+            "precision": 0.7878787878787878,
+            "recall": 0.9435483870967742,
+            "f1": 0.8587155963302753,
+            "support": 248,
+            "train_support": 752
+          },
+          "Other": {
+            "precision": 0.31988472622478387,
+            "recall": 0.4051094890510949,
+            "f1": 0.357487922705314,
+            "support": 274,
+            "train_support": 3316
+          },
+          "Oxidation": {
+            "precision": 0.8637873754152824,
+            "recall": 0.6341463414634146,
+            "f1": 0.7313642756680732,
+            "support": 820,
+            "train_support": 10243
+          },
+          "Phospho": {
+            "precision": 0.09876543209876543,
+            "recall": 0.6666666666666666,
+            "f1": 0.17204301075268819,
+            "support": 12,
+            "train_support": 168
+          }
+        },
+        "most_confused_pairs": [
+          {
+            "true_class": "Phospho",
+            "predicted_as": "Acetyl",
+            "count": 2,
+            "rate": 0.16666666666666666
+          },
+          {
+            "true_class": "Other",
+            "predicted_as": "Glu->pyro-Glu",
+            "count": 44,
+            "rate": 0.16058394160583941
+          },
+          {
+            "true_class": "Deamidated",
+            "predicted_as": "Oxidation",
+            "count": 3,
+            "rate": 0.15789473684210525
+          },
+          {
+            "true_class": "Other",
+            "predicted_as": "Carbamidomethyl",
+            "count": 43,
+            "rate": 0.15693430656934307
+          },
+          {
+            "true_class": "Oxidation",
+            "predicted_as": "Other",
+            "count": 122,
+            "rate": 0.14878048780487804
+          },
+          {
+            "true_class": "Other",
+            "predicted_as": "Oxidation",
+            "count": 38,
+            "rate": 0.1386861313868613
+          },
+          {
+            "true_class": "Carbamidomethyl",
+            "predicted_as": "Acetyl",
+            "count": 152,
+            "rate": 0.12169735788630905
+          },
+          {
+            "true_class": "Deamidated",
+            "predicted_as": "Carbamidomethyl",
+            "count": 2,
+            "rate": 0.10526315789473684
+          },
+          {
+            "true_class": "Oxidation",
+            "predicted_as": "Acetyl",
+            "count": 83,
+            "rate": 0.10121951219512196
+          },
+          {
+            "true_class": "Carbamidomethyl",
+            "predicted_as": "Other",
+            "count": 106,
+            "rate": 0.08486789431545236
+          }
+        ]
+      }
+    },
+    "search_instrument": {
+      "task_type": "classification",
+      "target_field": "search_instrument",
+      "accuracy": 0.7478,
+      "balanced_accuracy": 0.7338041835622681,
+      "macro_f1": 0.6666020730610167,
+      "macro_f1_n_classes": 13,
+      "macro_f1_over_predicted_labels": 0.6666020730610167,
+      "macro_auroc": 0.9571057513267853,
+      "baseline_accuracy": 0.2076,
+      "improvement": 0.5402,
+      "best_c": 0.01,
+      "val_scores_by_c": {
+        "0.01": 0.7658317233819706,
+        "0.1": 0.7646669754913459,
+        "0.5": 0.7578353338537451,
+        "1.0": 0.7549301275623935,
+        "2.0": 0.7509651158222929,
+        "5.0": 0.7517694854844543,
+        "10.0": 0.750029494074004
+      },
+      "n_classes": 13,
+      "n_train": 100000,
+      "n_val": 10000,
+      "n_test": 10000,
+      "per_class_metrics": {
+        "Orbitrap Astral": {
+          "precision": 0.9254237288135593,
+          "recall": 0.9191919191919192,
+          "f1": 0.9222972972972973,
+          "support": 594,
+          "train_support": 3376
+        },
+        "Orbitrap Eclipse": {
+          "precision": 0.3310810810810811,
+          "recall": 0.875,
+          "f1": 0.4803921568627451,
+          "support": 56,
+          "train_support": 833
+        },
+        "Orbitrap Elite": {
+          "precision": 0.5775401069518716,
+          "recall": 0.8372093023255814,
+          "f1": 0.6835443037974683,
+          "support": 516,
+          "train_support": 2444
+        },
+        "Orbitrap Exploris 240": {
+          "precision": 0.8947368421052632,
+          "recall": 0.85,
+          "f1": 0.8717948717948718,
+          "support": 20,
+          "train_support": 24
+        },
+        "Orbitrap Exploris 480": {
+          "precision": 0.13127413127413126,
+          "recall": 0.5573770491803278,
+          "f1": 0.2125,
+          "support": 61,
+          "train_support": 304
+        },
+        "Orbitrap Fusion": {
+          "precision": 0.905,
+          "recall": 0.871868978805395,
+          "f1": 0.888125613346418,
+          "support": 2076,
+          "train_support": 61175
+        },
+        "Orbitrap Fusion Lumos": {
+          "precision": 0.7076023391812866,
+          "recall": 0.7229275578790142,
+          "f1": 0.7151828592537864,
+          "support": 1339,
+          "train_support": 5937
+        },
+        "Orbitrap Q Exactive": {
+          "precision": 0.25806451612903225,
+          "recall": 0.10869565217391304,
+          "f1": 0.15296367112810708,
+          "support": 368,
+          "train_support": 1606
+        },
+        "Orbitrap Velos": {
+          "precision": 0.4530612244897959,
+          "recall": 0.6747720364741642,
+          "f1": 0.5421245421245421,
+          "support": 329,
+          "train_support": 1113
+        },
+        "Q Exactive": {
+          "precision": 0.8427299703264095,
+          "recall": 0.5846628924343799,
+          "f1": 0.6903676694013977,
+          "support": 1943,
+          "train_support": 8422
+        },
+        "Q Exactive HF": {
+          "precision": 0.8681577398469688,
+          "recall": 0.8491652274035694,
+          "f1": 0.8585564610011641,
+          "support": 1737,
+          "train_support": 7964
+        },
+        "Q Exactive HFX": {
+          "precision": 0.6267482517482518,
+          "recall": 0.7742980561555075,
+          "f1": 0.6927536231884058,
+          "support": 926,
+          "train_support": 6605
+        },
+        "timsTOF Pro 2": {
+          "precision": 1.0,
+          "recall": 0.9142857142857143,
+          "f1": 0.9552238805970149,
+          "support": 35,
+          "train_support": 195
+        }
+      },
+      "most_confused_pairs": [
+        {
+          "true_class": "Orbitrap Q Exactive",
+          "predicted_as": "Q Exactive HFX",
+          "count": 88,
+          "rate": 0.2391304347826087
+        },
+        {
+          "true_class": "Orbitrap Q Exactive",
+          "predicted_as": "Q Exactive HF",
+          "count": 80,
+          "rate": 0.21739130434782608
+        },
+        {
+          "true_class": "Orbitrap Exploris 480",
+          "predicted_as": "Q Exactive",
+          "count": 11,
+          "rate": 0.18032786885245902
+        },
+        {
+          "true_class": "Orbitrap Q Exactive",
+          "predicted_as": "Orbitrap Fusion Lumos",
+          "count": 55,
+          "rate": 0.14945652173913043
+        },
+        {
+          "true_class": "Orbitrap Q Exactive",
+          "predicted_as": "Q Exactive",
+          "count": 50,
+          "rate": 0.1358695652173913
+        },
+        {
+          "true_class": "Orbitrap Exploris 240",
+          "predicted_as": "Orbitrap Eclipse",
+          "count": 2,
+          "rate": 0.1
+        },
+        {
+          "true_class": "Orbitrap Velos",
+          "predicted_as": "Orbitrap Elite",
+          "count": 30,
+          "rate": 0.0911854103343465
+        },
+        {
+          "true_class": "Q Exactive",
+          "predicted_as": "Q Exactive HFX",
+          "count": 169,
+          "rate": 0.08697889861039629
+        },
+        {
+          "true_class": "Q Exactive",
+          "predicted_as": "Orbitrap Elite",
+          "count": 165,
+          "rate": 0.08492022645393721
+        },
+        {
+          "true_class": "Orbitrap Exploris 480",
+          "predicted_as": "Orbitrap Elite",
+          "count": 5,
+          "rate": 0.08196721311475409
+        }
+      ]
+    },
+    "frag_type": {
+      "task_type": "classification",
+      "target_field": "frag_type",
+      "accuracy": 0.6417976533097188,
+      "balanced_accuracy": 0.7926270119795021,
+      "macro_f1": 0.7323774774067393,
+      "macro_f1_n_classes": 4,
+      "macro_f1_over_predicted_labels": 0.5859019819253914,
+      "macro_auroc": 0.9440309326491265,
+      "baseline_accuracy": 0.526455612131946,
+      "improvement": 0.1153420411777728,
+      "best_c": 0.01,
+      "val_scores_by_c": {
+        "0.01": 0.8178471994177885,
+        "0.1": 0.8139687861748832,
+        "0.5": 0.802862506422541,
+        "1.0": 0.795652417109453,
+        "2.0": 0.7789355690412401,
+        "5.0": 0.7652892581408008,
+        "10.0": 0.7683439437311179
+      },
+      "n_classes": 4,
+      "n_train": 100000,
+      "n_val": 9464,
+      "n_test": 9034,
+      "per_class_metrics": {
+        "CID": {
+          "precision": 0.9825227963525835,
+          "recall": 0.9802880970432145,
+          "f1": 0.9814041745730551,
+          "support": 1319,
+          "train_support": 13679
+        },
+        "ETD": {
+          "precision": 0.4936708860759494,
+          "recall": 0.9512195121951219,
+          "f1": 0.65,
+          "support": 41,
+          "train_support": 1050
+        },
+        "HCD": {
+          "precision": 0.6286427976686095,
+          "recall": 0.7762165867032214,
+          "f1": 0.6946787302560957,
+          "support": 2918,
+          "train_support": 25480
+        },
+        "HCID": {
+          "precision": 0.8668767231193383,
+          "recall": 0.4627838519764508,
+          "f1": 0.6034270047978068,
+          "support": 4756,
+          "train_support": 54407
+        }
+      },
+      "most_confused_pairs": [
+        {
+          "true_class": "HCID",
+          "predicted_as": "HCD",
+          "count": 1334,
+          "rate": 0.37117417918753476
+        },
+        {
+          "true_class": "HCD",
+          "predicted_as": "HCID",
+          "count": 324,
+          "rate": 0.125
+        },
+        {
+          "true_class": "ETD",
+          "predicted_as": "CID",
+          "count": 1,
+          "rate": 0.024390243902439025
+        },
+        {
+          "true_class": "ETD",
+          "predicted_as": "HCD",
+          "count": 1,
+          "rate": 0.024390243902439025
+        },
+        {
+          "true_class": "CID",
+          "predicted_as": "HCID",
+          "count": 14,
+          "rate": 0.010687022900763359
+        },
+        {
+          "true_class": "HCID",
+          "predicted_as": "ETD",
+          "count": 38,
+          "rate": 0.010573177518085699
+        },
+        {
+          "true_class": "HCID",
+          "predicted_as": "CID",
+          "count": 21,
+          "rate": 0.005843071786310518
+        },
+        {
+          "true_class": "CID",
+          "predicted_as": "HCD",
+          "count": 3,
+          "rate": 0.0022900763358778627
+        },
+        {
+          "true_class": "HCD",
+          "predicted_as": "ETD",
+          "count": 2,
+          "rate": 0.0007716049382716049
+        },
+        {
+          "true_class": "HCD",
+          "predicted_as": "CID",
+          "count": 1,
+          "rate": 0.00038580246913580245
+        }
+      ]
+    },
+    "collision_energy": {
+      "task_type": "regression",
+      "target_field": "collision_energy",
+      "r2": -1.0743579864501953,
+      "mae": 19.84663200378418,
+      "rmse": 26.81019735341212,
+      "pearson_correlation": 0.3564965324063864,
+      "spearman_correlation": 0.04492188650223369,
+      "best_alpha": 10.0,
+      "val_scores_by_alpha": {
+        "0.01": 0.16500848531723022,
+        "0.1": 0.16512960195541382,
+        "0.5": 0.1652624011039734,
+        "1.0": 0.1653154492378235,
+        "2.0": 0.16535431146621704,
+        "5.0": 0.16541504859924316,
+        "10.0": 0.1654931902885437
+      },
+      "n_train": 100000,
+      "n_val": 9457,
+      "n_test": 8990,
+      "target_mean": 39.55884315906563,
+      "target_std": 18.614789448270212
+    },
+    "spectrum_confidence": {
+      "task_type": "regression",
+      "target_field": "spectrum_confidence",
+      "r2": 0.9798741936683655,
+      "mae": 0.013250184245407581,
+      "rmse": 0.01745523104024978,
+      "pearson_correlation": 0.9898982555559234,
+      "spearman_correlation": 0.9875581706780964,
+      "best_alpha": 0.01,
+      "val_scores_by_alpha": {
+        "0.01": 0.9804620742797852,
+        "0.1": 0.9804472327232361,
+        "0.5": 0.9803813099861145,
+        "1.0": 0.9803354740142822,
+        "2.0": 0.9802988171577454,
+        "5.0": 0.9802685976028442,
+        "10.0": 0.9802568554878235
+      },
+      "n_train": 100000,
+      "n_val": 10000,
+      "n_test": 10000,
+      "target_mean": 0.33281829953193665,
+      "target_std": 0.12304069101810455
+    }
+  },
+  "config": {
+    "targets": [
+      "precursor_charge",
+      "precursor_mz",
+      "precursor_mass",
+      "hydrophobicity",
+      "ptm_present",
+      "modification_class",
+      "search_instrument",
+      "frag_type",
+      "collision_energy",
+      "spectrum_confidence"
+    ],
+    "use_project_split": false,
+    "project_key": "search_project",
+    "train_samples": 100000,
+    "val_samples": 10000,
+    "test_samples": 10000,
+    "max_per_project_frac": 0.15,
+    "random_state": 42,
+    "probe_type": "auto",
+    "c_values": [
+      0.01,
+      0.1,
+      0.5,
+      1.0,
+      2.0,
+      5.0,
+      10.0
+    ],
+    "alpha_values": [
+      0.01,
+      0.1,
+      0.5,
+      1.0,
+      2.0,
+      5.0,
+      10.0
+    ]
+  },
+  "embedding_stats": {
+    "num_embeddings": 120000,
+    "embedding_dim": 768,
+    "mean_norm": 1.0,
+    "std_norm": 4.815327514506862e-08,
+    "min_norm": 0.9999997615814209,
+    "max_norm": 1.0000001192092896,
+    "mean_embedding_norm": 0.8777281045913696,
+    "source": "pre_filtered_project_disjoint",
+    "split_counts": {
+      "train": 100000,
+      "val": 10000,
+      "test": 10000
+    }
+  },
+  "execution_time": 1116.0636196136475,
+  "output_dir": "/home/sabrina/Documents/experiments/Arc/instanovo-fm-runs/package-workdir/mcfm-test/arch-seed102/paper-probes-retrieval/linearprobetask"
+}
