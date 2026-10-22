@@ -3,9 +3,9 @@
 Analysis only. Input: a predictions table (parquet or CSV) with the columns `species`, `peptide_id` (the label, used
 to cluster the bootstrap), `target`, `prediction`, `score`, `charge`, `length`, `n_peaks`, `precursor_mz`; an empty
 `prediction` means the sequencer produced nothing for the spectrum. `target` and `prediction` may be in any of three
-notations: the benchmark's DeepNovo form (`C+57.021`, N-terminal `+42.011`), the fork's ProForma form
+notations: the benchmark's DeepNovo form (`C+57.021`, N-terminal `+42.011`, stacked `+43.006-17.027`), the fork's ProForma form
 (`C[UNIMOD:4]`, `[UNIMOD:1]-`) or Casanovo v5's (`C[Carbamidomethyl]`, `[Acetyl]-`). Every peptide is tokenised into
-one token per residue plus one per N-terminal modification, and masses come from one table (Casanovo v5's
+one token per residue plus one for the N-terminal modification (stacked N-terminal deltas merge by mass), and masses come from one table (Casanovo v5's
 `config.yaml`, with bare cysteine and the phosphorylations the fork's sequencer can emit added).
 
 The match is `aa_match_prefix_suffix` of Casanovo v5.0.0 `casanovo/denovo/evaluate.py` (sha256 f2b477db1b5a of the
@@ -16,13 +16,15 @@ a peptide matches when every amino acid matches.
 Per species (and overall) the output holds: spectra, coverage (share with a prediction), amino-acid precision
 (matched / predicted amino acids) and recall (matched / target amino acids), peptide precision among predicted
 spectra and peptide recall over all spectra (Casanovo's "precision at full coverage" when coverage is 1), the area
-under the precision-coverage curve obtained by sorting spectra by `score` (Casanovo's "average precision"),
+under the precision-coverage curve obtained by sorting spectra by `score`, coverage counted over all spectra and the curve
+ending at the achieved coverage (Casanovo's "average precision"; a sequencer that skips spectra loses that area),
 peptide-clustered bootstrap 95 % intervals (resampling peptides, `--bootstrap` draws, seed 0) for peptide recall and
 amino-acid precision, and the same peptide recall by charge, length, modification presence, precursor m/z and peak
 count. Written as `<out>.json` and `<out>.md`.
 
     python scripts/analysis/nine_species_score.py --predictions <table> --out <path-without-extension> [--bootstrap 300]
 """
+# ruff: noqa: T201  (command-line script: the result is printed)
 
 from __future__ import annotations
 
@@ -32,6 +34,7 @@ import re
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -56,7 +59,9 @@ DELTA: dict[str, str] = {
     "UNIMOD:385": "-17.027", "Ammonia-loss": "-17.027", "-17.027": "-17.027", "-17.03": "-17.027",
     "+25.980265": "+25.980", "+25.980": "+25.980", "+25.98": "+25.980",
 }
-TOKEN = re.compile(r"\[([^\]]+)\]-|([+-][0-9.]+)(?=[A-Z]|$)|([A-Z])(\[[^\]]+\]|\([^)]+\)|[+-][0-9.]+)?")
+NTERM = re.compile(r"\[([^\]]+)\]-?|([+-][0-9.]+)")  # before the first residue only
+RESIDUE = re.compile(r"([A-Z])(\[[^\]]+\]|\([^)]+\)|[+-][0-9.]+)?")
+LEGACY = {"ox": "+15.995", "p": "+79.966"}  # the fork's legacy spellings M(ox), S(p)
 BY_ROUNDED_DELTA: dict[float, str] = {round(float(v), 2): v for v in set(DELTA.values())}  # any numeric spelling -> canonical
 
 
@@ -70,27 +75,33 @@ def canonical_delta(spelling: str) -> str:
         raise ValueError(f"unknown modification {spelling!r}") from None
 
 
+def nterm_token(deltas: list[str]) -> str:
+    """Stacked N-terminal modifications (the benchmark writes carbamylation with ammonia loss as `+43.006-17.027`) are one
+    chemical state: merged by mass into the canonical token."""
+    if len(deltas) == 1:
+        return f"[{deltas[0]}]-"
+    return f"[{canonical_delta(f'{sum(MASS[f"[{d}]-"] for d in deltas):+.3f}')}]-"
+
+
 def tokenize(peptide: str) -> list[str]:
-    """One token per residue (with its modification) or N-terminal modification, in canonical spelling."""
-    tokens: list[str] = []
-    pos = 0
+    """One token per residue (with its modification), preceded by one for the N-terminal modification if any."""
     s = peptide.strip()
+    pos, deltas = 0, []
+    while m := NTERM.match(s, pos):
+        deltas.append(canonical_delta(m.group(1) or m.group(2)))
+        pos = m.end()
+    tokens = [nterm_token(deltas)] if deltas else []
     while pos < len(s):
-        m = TOKEN.match(s, pos)
+        m = RESIDUE.match(s, pos)
         if not m:
             raise ValueError(f"cannot tokenise {peptide!r} at {pos}")
         pos = m.end()
-        if m.group(1) is not None or m.group(2) is not None:  # N-terminal modification, "[X]-" or a bare leading delta
-            tokens.append(f"[{canonical_delta(m.group(1) or m.group(2))}]-")
-            continue
-        aa, mod = m.group(3), m.group(4)
+        aa, mod = m.group(1), m.group(2)
         if mod is None:
             tokens.append(aa)
         else:
             key = mod.strip("[]()")
-            if key in ("ox", "p"):  # the fork's legacy spellings M(ox), S(p)
-                key = {"ox": "+15.995", "p": "+79.966"}[key]
-            tokens.append(f"{aa}[{canonical_delta(key)}]")
+            tokens.append(f"{aa}[{canonical_delta(LEGACY.get(key, key))}]")
     return tokens
 
 
@@ -156,11 +167,11 @@ class Scored:
 def score_row(r: pd.Series) -> Scored:
     target = tokenize(str(r["target"]))
     pred_s = "" if pd.isna(r["prediction"]) else str(r["prediction"]).strip()
-    strata = dict(charge=f"{int(r['charge'])}" if int(r["charge"]) < 4 else "4+",
-                  length=("<=9" if r["length"] <= 9 else "10-14" if r["length"] <= 14 else "15-19" if r["length"] <= 19 else "20-29" if r["length"] <= 29 else "30+"),
-                  modified="yes" if any("[" in t for t in target) else "no",
-                  precursor_mz=("<500" if r["precursor_mz"] < 500 else "500-700" if r["precursor_mz"] < 700 else "700-900" if r["precursor_mz"] < 900 else "900+"),
-                  n_peaks=("<50" if r["n_peaks"] < 50 else "50-99" if r["n_peaks"] < 100 else "100-199" if r["n_peaks"] < 200 else "200+"))
+    strata = {"charge": f"{int(r['charge'])}" if int(r["charge"]) < 4 else "4+",
+              "length": ("<=9" if r["length"] <= 9 else "10-14" if r["length"] <= 14 else "15-19" if r["length"] <= 19 else "20-29" if r["length"] <= 29 else "30+"),
+              "modified": "yes" if any("[" in t for t in target) else "no",
+              "precursor_mz": ("<500" if r["precursor_mz"] < 500 else "500-700" if r["precursor_mz"] < 700 else "700-900" if r["precursor_mz"] < 900 else "900+"),
+              "n_peaks": ("<50" if r["n_peaks"] < 50 else "50-99" if r["n_peaks"] < 100 else "100-199" if r["n_peaks"] < 200 else "200+")}
     if not pred_s:
         return Scored(r["species"], r["peptide_id"], False, len(target), 0, 0, False, float("-inf"), strata)
     pred = tokenize(pred_s)
@@ -168,19 +179,25 @@ def score_row(r: pd.Series) -> Scored:
     return Scored(r["species"], r["peptide_id"], True, len(target), len(pred), int(matches.sum()), bool(pep), float(r["score"]), strata)
 
 
-def summarise(rows: list[Scored]) -> dict:
-    n = len(rows); predicted = [r for r in rows if r.predicted]
-    n_pred_aa = sum(r.n_pred for r in predicted); n_tgt_aa = sum(r.n_target for r in rows); n_match = sum(r.n_match for r in predicted)
+def summarise(rows: list[Scored]) -> dict[str, Any]:
+    n = len(rows)
+    predicted = [r for r in rows if r.predicted]
+    n_pred_aa = sum(r.n_pred for r in predicted)
+    n_tgt_aa = sum(r.n_target for r in rows)
+    n_match = sum(r.n_match for r in predicted)
     correct = sum(r.pep_match for r in predicted)
-    out = dict(spectra=n, coverage=len(predicted) / n if n else float("nan"),
-               aa_precision=n_match / n_pred_aa if n_pred_aa else float("nan"), aa_recall=n_match / n_tgt_aa if n_tgt_aa else float("nan"),
-               peptide_precision_predicted=correct / len(predicted) if predicted else float("nan"), peptide_recall=correct / n if n else float("nan"))
-    if predicted:  # precision-coverage curve: sort by score, precision at each coverage; area = average precision
+    out: dict[str, Any] = {"spectra": n, "coverage": len(predicted) / n if n else float("nan"),
+           "aa_precision": n_match / n_pred_aa if n_pred_aa else float("nan"), "aa_recall": n_match / n_tgt_aa if n_tgt_aa else float("nan"),
+           "peptide_precision_predicted": correct / len(predicted) if predicted else float("nan"), "peptide_recall": correct / n if n else float("nan")}
+    if predicted:  # precision-coverage curve: spectra sorted by score, coverage = share of all spectra, area = Casanovo's "average precision"
         order = sorted(predicted, key=lambda r: -r.score)
-        hits = np.cumsum([r.pep_match for r in order]); k = np.arange(1, len(order) + 1)
-        precision = hits / k; coverage = k / n
-        out["average_precision"] = float(np.trapezoid(precision, coverage)) / float(coverage[-1])
-        out["peptide_precision_at_coverage"] = {f"{c:.0%}": float(precision[min(len(order) - 1, int(np.ceil(c * len(order))) - 1)]) for c in (0.25, 0.5, 0.75, 1.0)}
+        hits = np.cumsum([r.pep_match for r in order])
+        k = np.arange(1, len(order) + 1)
+        precision = hits / k
+        coverage = k / n
+        out["average_precision"] = float(np.trapezoid(precision, coverage))  # ends at the achieved coverage, as Casanovo's curves do
+        out["peptide_precision_at_coverage"] = {f"{c:.0%}": float(precision[int(np.ceil(c * n)) - 1]) if np.ceil(c * n) <= len(order) else float("nan")
+                                                for c in (0.25, 0.5, 0.75, 1.0)}
     return out
 
 
@@ -190,10 +207,12 @@ def bootstrap(rows: list[Scored], draws: int, rng: np.random.Generator) -> dict[
     for r in rows:
         by_pep[r.peptide_id].append(r)
     peps = list(by_pep)
-    stats = {"peptide_recall": [], "aa_precision": []}
+    stats: dict[str, list[float]] = {"peptide_recall": [], "aa_precision": []}
     for _ in range(draws):
         sample = [r for p in rng.choice(peps, size=len(peps), replace=True) for r in by_pep[p]]
-        s = summarise(sample); stats["peptide_recall"].append(s["peptide_recall"]); stats["aa_precision"].append(s["aa_precision"])
+        s = summarise(sample)
+        stats["peptide_recall"].append(s["peptide_recall"])
+        stats["aa_precision"].append(s["aa_precision"])
     return {k: [float(np.percentile(v, 2.5)), float(np.percentile(v, 97.5))] for k, v in stats.items()}
 
 
@@ -218,19 +237,21 @@ def main() -> None:
                     "demote_ppm": args.demote_ppm, "species": {}}
     for sp in sorted({r.species for r in rows}):
         sub = [r for r in rows if r.species == sp]
-        entry = summarise(sub); entry["ci95"] = bootstrap(sub, args.bootstrap, rng) if args.bootstrap else {}
+        entry = summarise(sub)
+        entry["ci95"] = bootstrap(sub, args.bootstrap, rng) if args.bootstrap else {}
         entry["by"] = {}
         for key in ("charge", "length", "modified", "precursor_mz", "n_peaks"):
             groups: dict[str, list[Scored]] = defaultdict(list)
             for r in sub:
                 groups[r.strata[key]].append(r)
-            entry["by"][key] = {g: dict(spectra=len(v), peptide_recall=summarise(v)["peptide_recall"]) for g, v in sorted(groups.items())}
+            entry["by"][key] = {g: {"spectra": len(v), "peptide_recall": summarise(v)["peptide_recall"]} for g, v in sorted(groups.items())}
         result["species"][sp] = entry
     result["all"] = summarise(rows)
     args.out.with_suffix(".json").write_text(json.dumps(result, indent=1))
     lines = ["| species | spectra | coverage | AA precision | AA recall | peptide precision (predicted) | peptide recall (all) | AP | 95 % CI peptide recall |", "| :---- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---- |"]
     for sp, e in list(result["species"].items()) + [("all", result["all"])]:
-        ci = e.get("ci95", {}).get("peptide_recall"); ci_s = f"{ci[0]:.3f} to {ci[1]:.3f}" if ci else "-"
+        ci = e.get("ci95", {}).get("peptide_recall")
+        ci_s = f"{ci[0]:.3f} to {ci[1]:.3f}" if ci else "-"
         lines.append(f"| {sp} | {e['spectra']:,} | {e['coverage']:.3f} | {e['aa_precision']:.3f} | {e['aa_recall']:.3f} | {e['peptide_precision_predicted']:.3f} | {e['peptide_recall']:.3f} | {e.get('average_precision', float('nan')):.3f} | {ci_s} |")
     args.out.with_suffix(".md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))

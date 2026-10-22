@@ -9,6 +9,7 @@ is read from the JSON files; the page names them.
 
     python scripts/analysis/nine_species_table.py --scores <dir with *.json> --out docs/nine_species/results.md
 """
+# ruff: noqa: T201  (command-line script: the result is printed)
 
 from __future__ import annotations
 
@@ -43,7 +44,8 @@ def main() -> None:
             for r in runs.values():
                 e = r["species"].get(sp) if sp != "all" else r.get("all")
                 if e is None:
-                    cells.append("-"); continue
+                    cells.append("-")
+                    continue
                 v = fmt(e.get(metric), pct)
                 ci = e.get("ci95", {}).get(metric) if sp != "all" else None
                 cells.append(f"{v} ({fmt(ci[0], pct)} to {fmt(ci[1], pct)})" if ci else v)

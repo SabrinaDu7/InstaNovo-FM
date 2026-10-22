@@ -10,6 +10,7 @@ species' spectra in file order, `n` without replacement, or every spectrum when 
 
     python scripts/evals/nine_species_sample.py --root <benchmark> --out <dir> --n 20000 --seed 20261022
 """
+# ruff: noqa: T201  (command-line script: the result is printed)
 
 from __future__ import annotations
 
@@ -24,7 +25,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 SKIP = {"ccms_parameters", "sequence"}
-UNSUPPORTED_MODS = ("+25.980",)  # carbamylation plus ammonia loss: in the benchmark's labels, suppressed by the fork's sequencer
+UNSUPPORTED_MODS = ("+43.006-17.027",)  # carbamylation plus ammonia loss, which the benchmark spells as two stacked N-terminal deltas; the fork's sequencer suppresses the combined token
 MOD = re.compile(r"[+-]\d+(\.\d+)?")
 
 
@@ -77,7 +78,8 @@ def parse(lines: list[str], mgf: Path, species: str, k: int) -> Spectrum:
         elif line.strip():
             peaks.append(float(line.split()[0]))
     charge = int(head.get("CHARGE", "0").rstrip("+-") or 0)
-    scan = int(head.get("SCANS", re.search(r"scan=(\d+)", head.get("TITLE", "")).group(1) if re.search(r"scan=(\d+)", head.get("TITLE", "")) else -1))
+    in_title = re.search(r"scan=(\d+)", head.get("TITLE", ""))
+    scan = int(head.get("SCANS", in_title.group(1) if in_title else -1))
     return Spectrum(species, mgf.name, k, scan, charge, float(head.get("PEPMASS", "nan").split()[0]), head.get("SEQ", ""),
                     len(peaks), min(peaks) if peaks else float("nan"), max(peaks) if peaks else float("nan"), "".join(lines))
 
@@ -107,15 +109,15 @@ def main() -> None:
                 for sp in read_blocks(f, sdir.name):
                     if offset + sp.index_in_file in chosen_set:
                         out.write(sp.block)
-                        rows.append(dict(species=sp.species, source_file=sp.source_file, index_in_file=sp.index_in_file, scan=sp.scan,
-                                         charge=sp.charge, precursor_mz=sp.precursor_mz, label=sp.label, length=sp.length, n_peaks=sp.n_peaks,
-                                         mz_min=sp.mz_min, mz_max=sp.mz_max, unsupported_label=sp.unsupported_label))
+                        rows.append({"species": sp.species, "source_file": sp.source_file, "index_in_file": sp.index_in_file, "scan": sp.scan,
+                                     "charge": sp.charge, "precursor_mz": sp.precursor_mz, "label": sp.label, "length": sp.length, "n_peaks": sp.n_peaks,
+                                     "mz_min": sp.mz_min, "mz_max": sp.mz_max, "unsupported_label": sp.unsupported_label})
                         kept += 1
                 offset += c
-        summary[sdir.name] = dict(files=len(files), spectra_total=total, sampled=kept)
+        summary[sdir.name] = {"files": len(files), "spectra_total": total, "sampled": kept}
         print(f"{sdir.name:26s} {total:9,d} spectra in {len(files):3d} files -> {kept:6,d} sampled", flush=True)
     pq.write_table(pa.Table.from_pylist(rows), args.out / "manifest.parquet")
-    (args.out / "summary.json").write_text(json.dumps(dict(seed=args.seed, n=args.n, root=str(args.root), species=summary), indent=1))
+    (args.out / "summary.json").write_text(json.dumps({"seed": args.seed, "n": args.n, "root": str(args.root), "species": summary}, indent=1))
     print(f"wrote {args.out / 'manifest.parquet'} ({len(rows):,} rows) and summary.json")
 
 

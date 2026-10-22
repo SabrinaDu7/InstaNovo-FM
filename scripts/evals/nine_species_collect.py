@@ -16,6 +16,7 @@ misaligned row cannot pass silently.
     python scripts/evals/nine_species_collect.py --manifest <dir>/manifest.parquet --fork '<dir>/fork-greedy/*.csv' --out <path>
     python scripts/evals/nine_species_collect.py --manifest <dir>/manifest.parquet --casanovo '<dir>/casanovo/*.mztab' --out <path>
 """
+# ruff: noqa: T201  (command-line script: the result is printed)
 
 from __future__ import annotations
 
@@ -43,6 +44,8 @@ def fork_table(path: Path, manifest: pd.DataFrame) -> pd.DataFrame:
     sub = manifest[manifest["species"] == species].reset_index(drop=True)
     d = pd.read_csv(path)
     d = d.set_index(d["scan_number"].astype(int)).sort_index()
+    if not d.index.is_unique:
+        raise SystemExit(f"{path}: repeated scan_number values")
     if not d.index.isin(range(len(sub))).all():
         raise SystemExit(f"{path}: positions outside the sample ({d.index.max()} >= {len(sub)})")
     out = sub.copy()
@@ -71,7 +74,8 @@ def casanovo_table(path: Path, manifest: pd.DataFrame) -> pd.DataFrame:
                 rows.append(dict(zip(header, line.rstrip("\n").split("\t"), strict=False)))
     d = pd.DataFrame(rows)
     pos = d["spectra_ref"].str.extract(r"index=(\d+)")[0].astype(int)
-    d = d.assign(pos=pos).sort_values("search_engine_score[1]", ascending=False).drop_duplicates("pos").set_index("pos").sort_index()
+    d = d.assign(pos=pos, **{"search_engine_score[1]": d["search_engine_score[1]"].astype(float)})
+    d = d.sort_values("search_engine_score[1]", ascending=False).drop_duplicates("pos").set_index("pos").sort_index()
     out = sub.copy()
     out["prediction"] = ""
     out["score"] = float("-inf")

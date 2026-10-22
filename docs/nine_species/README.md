@@ -36,7 +36,9 @@ fragmentation: `data/search_data.xlsx` of the corpus, by project; its `organism`
 projects (see flaw F1 below), so species come from the benchmark's own folders.
 
 Modifications in the labels (DeepNovo notation): `C+57.021` on every cysteine, `M+15.995`, `N+0.984`, `Q+0.984`,
-N-terminal `+42.011`, `+43.006`, `-17.027`, and `+25.980` (carbamylation with ammonia loss).
+N-terminal `+42.011`, `+43.006`, `-17.027`, and carbamylation with ammonia loss written as two stacked deltas,
+`+43.006-17.027` (541 of the 180,000 sampled labels; never the combined `+25.980` the fork's residue table names). Every
+label matches residue-with-optional-delta after that prefix (checked over the sample, session log 02:25).
 
 ### Overlap with InstaNovo-FM's training data (confirmed)
 
@@ -51,8 +53,9 @@ configs read the train shards only. So:
   numbers; the preprint does not describe the mechanism);
 - the benchmark is a subset of the paper's own test split, so its spectra were never used for model selection either;
 - what remains shared with training is everything but the peptides: the same runs' other peptides, the same instruments,
-  labs and acquisition settings. That is the usual position of any test split of this corpus, and it is more than Casanovo
-  shares with the benchmark (Casanovo trained on MassIVE-KB, human-only, peptide-disjoint from the benchmark).
+  labs and acquisition settings. That is the usual position of any test split of this corpus. Casanovo's training set is described by its paper as
+  "31 TB of human data from 227 public proteomics datasets" (MassIVE-KB v.2018-06-15), so it shares no instrument run with
+  the eight non-human projects; for the human project the paper's text does not say (U5).
 
 ## Assumptions (A) and uncertainties (U)
 
@@ -64,8 +67,8 @@ configs read the train shards only. So:
   copied verbatim into `scripts/analysis/nine_species_score.py` (0.5 Da cumulative, 0.1 Da per residue, prefix then
   suffix), with Casanovo v5's residue masses. Both sequencers' outputs and the labels are mapped to one token set by one
   tokeniser (the fork's ProForma, Casanovo's named ProForma and the benchmark's DeepNovo spellings, numeric deltas with any
-  number of decimals). Cross-checks: the fork's own peptide precision on 200 mouse spectra equals the scorer's to three
-  decimals (0.585); Casanovo's own evaluate mode is run on a relabelled file for the same purpose.
+  number of decimals). Cross-check: the fork's own peptide precision on 200 mouse spectra equals the scorer's to three
+  decimals (0.585). The same cross-check against Casanovo's own evaluate mode failed (U4).
 - **A3. Every sampled spectrum counts.** A spectrum without a prediction (Casanovo skips spectra with fewer than 20 peaks;
   the fork drops nothing in this mode) is a miss for peptide recall, and coverage is reported beside precision.
 - **A4. Decoding.** Both sequencers run greedy and with 5 beams; the 5-beam figures are the comparison (the fork's own
@@ -76,10 +79,20 @@ configs read the train shards only. So:
 - **U1.** Whether the preprint's "held out" claim for the nine projects applies at the peptide level is inferred from the
   registry, not stated by the authors.
 - **U2.** The benchmark MGFs use `SEQ=` with the DeepNovo spellings; the fork's reader remaps them only through the
-  configuration added here (`configs/inference/denovo_ninespecies.yaml`); the label `+25.980` is unsupported by the fork's
-  sequencer and counts as a miss.
-- **U3.** The scorer's precision-coverage area integrates the curve over coverage with the trapezoid rule; Casanovo's
-  "average precision" may be computed differently and is not compared numerically.
+  configuration added here (`configs/inference/denovo_ninespecies.yaml`); the stacked `+43.006-17.027` label is parsed by the fork
+  as two N-terminal tokens, its sequencer cannot emit the combined modification, and the scorer merges stacked N-terminal
+  deltas by mass into one token, so those 541 spectra count as misses for the fork and are reachable for Casanovo.
+- **U3.** The scorer's precision-coverage area is the trapezoid integral of precision over coverage, coverage counted
+  over all sampled spectra, from the first ranked spectrum to the last one with a prediction; a sequencer that skips
+  spectra loses that area. That follows the paper's definition ("Average precision (AP) corresponds to the area under the
+  precision-coverage curve", Figure 2 caption) but not necessarily its integration routine, which was not available, so
+  published AP values are context, not a numerical comparison.
+- **U4.** Casanovo v5.1.2's own evaluate mode, run on the 200 mouse spectra relabelled into its named alphabet, reported
+  amino-acid precision 80 %, amino-acid recall 28 % and peptide precision 0 %, which its own predictions do not support
+  (scored with the shared rule they reach peptide recall 0.40). Its target side seems to be tokenised per character. Not
+  debugged; no number from that mode is used, so Casanovo's side of the comparison rests on the shared scorer alone.
+- **U5.** Whether Casanovo's training set contains spectra or peptides of the benchmark's human project (PXD004424) is
+  not addressed in the paper's text fetched 22/10 (see the overlap section).
 
 ## Flaws found on the way (named, not accommodated)
 
@@ -120,7 +133,7 @@ Read from `configs/model/foundation_base.yaml`, `configs/inference/denovo.yaml` 
 | Peptide length (sequencer) | at most 40 residues | longer peptides cannot be produced |
 | Vocabulary (sequencer) | 20 residues, C carbamidomethyl, M oxidation, N and Q deamidation, R citrullination, P hydroxylation, S/T/Y phosphorylation, N-terminal acetyl, carbamyl and ammonia loss | any other modification is unsayable; the combined carbamyl plus ammonia loss (`+25.980`) is explicitly suppressed |
 | Label spelling (evaluation mode) | the fork's remapping table | other spellings drop the row from its own metrics silently (F2) |
-| Precursor check (de novo mode) | predictions beyond `filter_precursor_ppm` 20 are filtered | in evaluation mode every prediction is kept and the deviation is a column |
+| Precursor mass | the decoder extends a sequence only with residues that fit the remaining mass; when none fits, the one unmasked token (padding) is chosen, the sequence ends, and the score adds that token's unmasked log-probability (InstaNovo's `inference/greedy_search.py`, mass-constrained step; read 22/10) | an off-mass prediction is a dead end of the search, scored hundreds of nats below any complete one, so it ranks last; de novo mode also drops predictions beyond `filter_precursor_ppm` 20, evaluation mode keeps them with the deviation as a column |
 | Bare cysteine | `C` and `C[UNIMOD:4]` are both tokens | a bare-C prediction against a carbamidomethylated label is wrong by 57 Da |
 
 Casanovo v5, for contrast: 20 to 150 peaks (fewer than 20 skips the spectrum), m/z 50 to 2,500, charge at most 4,
@@ -144,8 +157,11 @@ From `scripts/analysis/nine_species_constraints.py` on the 180,000 sampled spect
 | Vigna mungo | 79.8 % | 90.2 % | 1.1 % | 0.2 % | 0.4 % | 23.2 % | 348 |
 | all | 50.0 % | 59.5 % | 2.4 % | 0.3 % | 0.2 % | 31.2 % | 200 |
 
-No sampled spectrum has fewer than 20 peaks after the benchmark's own processing, no charge exceeds 10, and no label
-carries `+25.980`. The one constraint that bites is the peak cap: the benchmark's MGFs are raw peak lists, and for yeast,
+No sampled spectrum has fewer than 20 peaks in the MGF, no charge exceeds 10, and 0.3 % of labels carry the
+carbamylation-with-ammonia-loss state the fork cannot emit.
+Casanovo's 20-peak floor applies after its own filtering (intensity under 1 % of the base peak, m/z outside 50 to 2,500
+and peaks within 2 Da of the precursor removed), which is why it skipped 4 of the 200 smoke spectra; its coverage in the
+results is the measured share. The one constraint that bites is the peak cap: the benchmark's MGFs are raw peak lists, and for yeast,
 rice bean, B. subtilis and M. mazei the sequencer sees the 200 most intense of 300 to 520 peaks. Whether that costs
 accuracy is a data-dependent question the stratified results below answer (recall by peak count).
 

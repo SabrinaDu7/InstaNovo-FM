@@ -8,7 +8,7 @@
   "charge_over_10": 0.0,
   "length_over_40": 0.0022,
   "length_under_6": 0.0,
-  "label_unsupported_fork": 0.0,
+  "label_unsupported_fork": 0.0018,
   "label_modified": 0.3065,
   "spectra": 20000,
   "charge": {
@@ -29,7 +29,7 @@
   "charge_over_10": 0.0,
   "length_over_40": 0.0038,
   "length_under_6": 0.0,
-  "label_unsupported_fork": 0.0,
+  "label_unsupported_fork": 0.00565,
   "label_modified": 0.2845,
   "spectra": 20000,
   "charge": {
@@ -50,7 +50,7 @@
   "charge_over_10": 0.0,
   "length_over_40": 0.004,
   "length_under_6": 0.0,
-  "label_unsupported_fork": 0.0,
+  "label_unsupported_fork": 0.0036,
   "label_modified": 0.36155,
   "spectra": 20000,
   "charge": {
@@ -71,7 +71,7 @@
   "charge_over_10": 0.0,
   "length_over_40": 0.00245,
   "length_under_6": 0.0,
-  "label_unsupported_fork": 0.0,
+  "label_unsupported_fork": 0.0038,
   "label_modified": 0.3658,
   "spectra": 20000,
   "charge": {
@@ -92,7 +92,7 @@
   "charge_over_10": 0.0,
   "length_over_40": 0.0004,
   "length_under_6": 0.0,
-  "label_unsupported_fork": 0.0,
+  "label_unsupported_fork": 0.00365,
   "label_modified": 0.26825,
   "spectra": 20000,
   "charge": {
@@ -113,7 +113,7 @@
   "charge_over_10": 0.0,
   "length_over_40": 0.00025,
   "length_under_6": 0.0,
-  "label_unsupported_fork": 0.0,
+  "label_unsupported_fork": 0.0017,
   "label_modified": 0.36715,
   "spectra": 20000,
   "charge": {
@@ -134,7 +134,7 @@
   "charge_over_10": 0.0,
   "length_over_40": 0.00375,
   "length_under_6": 0.0,
-  "label_unsupported_fork": 0.0,
+  "label_unsupported_fork": 0.00155,
   "label_modified": 0.29565,
   "spectra": 20000,
   "charge": {
@@ -155,7 +155,7 @@
   "charge_over_10": 0.0,
   "length_over_40": 0.0016,
   "length_under_6": 0.0,
-  "label_unsupported_fork": 0.0,
+  "label_unsupported_fork": 0.00135,
   "label_modified": 0.322,
   "spectra": 20000,
   "charge": {
@@ -176,7 +176,7 @@
   "charge_over_10": 0.0,
   "length_over_40": 0.0039,
   "length_under_6": 0.0,
-  "label_unsupported_fork": 0.0,
+  "label_unsupported_fork": 0.00395,
   "label_modified": 0.23235,
   "spectra": 20000,
   "charge": {
@@ -197,7 +197,7 @@
   "charge_over_10": 0.0,
   "length_over_40": 0.0024833333333333335,
   "length_under_6": 0.0,
-  "label_unsupported_fork": 0.0,
+  "label_unsupported_fork": 0.0030055555555555556,
   "label_modified": 0.3115277777777778,
   "spectra": 180000,
   "charge": {
