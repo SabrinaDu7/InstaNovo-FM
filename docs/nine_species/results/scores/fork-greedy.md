@@ -1,12 +1,16 @@
-| species | spectra | coverage | AA precision | AA recall | peptide precision (predicted) | peptide recall (all) | AP | off-mass share | 95 % CI peptide recall |
-| :---- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---- |
-| Apis-mellifera | 20,000 | 1.000 | 0.782 | 0.780 | 0.589 | 0.589 | 0.861 | 0.184 | 0.577 to 0.598 |
-| Bacillus-subtilis | 20,000 | 1.000 | 0.828 | 0.823 | 0.667 | 0.667 | 0.893 | 0.146 | 0.659 to 0.677 |
-| Candidatus-endoloripes | 20,000 | 1.000 | 0.756 | 0.751 | 0.519 | 0.519 | 0.805 | 0.196 | 0.500 to 0.542 |
-| H.-sapiens | 20,000 | 1.000 | 0.822 | 0.819 | 0.652 | 0.652 | 0.890 | 0.139 | 0.639 to 0.664 |
-| Methanosarcina-mazei | 20,000 | 1.000 | 0.844 | 0.840 | 0.671 | 0.671 | 0.904 | 0.115 | 0.657 to 0.684 |
-| Mus-musculus | 20,000 | 1.000 | 0.811 | 0.807 | 0.550 | 0.550 | 0.825 | 0.113 | 0.532 to 0.564 |
-| Saccharomyces-cerevisiae | 20,000 | 1.000 | 0.853 | 0.849 | 0.712 | 0.712 | 0.913 | 0.129 | 0.700 to 0.725 |
-| Solanum-lycopersicum | 20,000 | 1.000 | 0.834 | 0.832 | 0.699 | 0.699 | 0.916 | 0.125 | 0.690 to 0.707 |
-| Vigna-mungo | 20,000 | 1.000 | 0.866 | 0.863 | 0.723 | 0.723 | 0.902 | 0.084 | 0.710 to 0.736 |
-| all | 180,000 | 1.000 | 0.820 | 0.817 | 0.642 | 0.642 | 0.883 | 0.137 | - |
+## fork-greedy
+
+| species | spectra | crude recall | standardised (length x charge x modified) | missing share | standardised (+ peak count) | missing share |
+| :---- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Apis-mellifera | 20,000 | 0.589 | 0.589 | 0.000 | 0.566 | 0.002 |
+| Bacillus-subtilis | 20,000 | 0.667 | 0.665 | 0.000 | 0.619 | 0.008 |
+| Candidatus-endoloripes | 20,000 | 0.519 | 0.608 | 0.000 | 0.735 | 0.010 |
+| H.-sapiens | 20,000 | 0.652 | 0.685 | 0.000 | 0.719 | 0.001 |
+| Methanosarcina-mazei | 20,000 | 0.671 | 0.616 | 0.000 | 0.564 | 0.015 |
+| Mus-musculus | 20,000 | 0.550 | 0.485 | 0.015 | 0.662 | 0.061 |
+| Saccharomyces-cerevisiae | 20,000 | 0.712 | 0.721 | 0.000 | 0.675 | 0.078 |
+| Solanum-lycopersicum | 20,000 | 0.699 | 0.687 | 0.001 | 0.684 | 0.001 |
+| Vigna-mungo | 20,000 | 0.723 | 0.687 | 0.000 | 0.630 | 0.011 |
+
+Spread across species (max - min): crude 0.204, standardised 0.237, with peak count 0.171
+

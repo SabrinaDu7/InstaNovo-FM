@@ -4,7 +4,7 @@ Input: the `<run>.json` files `nine_species_score.py` wrote, one per (sequencer,
 (for example `fork-greedy.json`, `fork-beam5.json`, `casanovo-beam5.json`, `casanovo-greedy.json`). Output: a markdown
 page with one table per metric (peptide recall over all sampled spectra with its 95 % peptide-bootstrap interval,
 amino-acid precision, coverage, precision-coverage area), species as rows, runs as columns, plus per-run strata tables
-(peptide recall by charge, length, modification presence, precursor m/z, peak count, pooled over species). Every number
+(peptide recall by charge, length, modification presence and kind, precursor m/z, peak count, pooled over species). Every number
 is read from the JSON files; the page names them.
 
     python scripts/analysis/nine_species_table.py --scores docs/nine_species/results/scores --out docs/nine_species/results.md
@@ -51,7 +51,8 @@ def main() -> None:
                 cells.append(f"{v} ({fmt(ci[0], pct)} to {fmt(ci[1], pct)})" if ci else v)
             lines.append(f"| {sp} | " + " | ".join(cells) + " |")
         lines.append("")
-    for key, label in (("charge", "precursor charge"), ("length", "peptide length"), ("modified", "label carries a modification"), ("precursor_mz", "precursor m/z"), ("n_peaks", "peaks in the spectrum")):
+    for key, label in (("charge", "precursor charge"), ("length", "peptide length"), ("modified", "label carries a modification"), ("mods", "modification kind in the label"),
+                       ("precursor_mz", "precursor m/z"), ("n_peaks", "peaks in the spectrum")):
         lines += [f"## Peptide recall by {label} (%), pooled over species\n", "| group | " + " | ".join(f"{n} (spectra)" for n in runs) + " |", "| :---- |" + " ---: |" * len(runs)]
         groups = sorted({g for r in runs.values() for sp in r["species"].values() for g in sp["by"][key]}, key=lambda s: (len(s), s))
         for g in groups:

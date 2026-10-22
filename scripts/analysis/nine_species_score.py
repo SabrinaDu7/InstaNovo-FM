@@ -21,7 +21,9 @@ ending at the achieved coverage (Casanovo's "average precision"; a sequencer tha
 peptide-clustered bootstrap 95 % intervals (resampling peptides, `--bootstrap` draws, seed 0) for peptide recall and
 amino-acid precision, the share of predictions whose mass is more than 50 ppm from the precursor (isotope errors 0 and 1
 allowed; computed from the shared mass table for both sequencers) with the peptide precision among them, and the same
-peptide recall by charge, length, modification presence, precursor m/z and peak count. Written as `<out>.json` and `<out>.md`.
+peptide recall by charge, length, modification presence and kind, precursor m/z and peak count. Written as `<out>.json` and `<out>.md`;
+`--rows` adds `<out>.rows.parquet`, one row per spectrum (species, peptide_id, predicted, n_target, n_pred, n_match,
+pep_match, score, ppm and the stratum labels) for analyses that need the spectrum level.
 
     python scripts/analysis/nine_species_score.py --predictions <table> --out <path-without-extension> [--bootstrap 300]
 """
@@ -65,6 +67,7 @@ RESIDUE = re.compile(r"([A-Z])(\[[^\]]+\]|\([^)]+\)|[+-][0-9.]+)?")
 LEGACY = {"ox": "+15.995", "p": "+79.966"}  # the fork's legacy spellings M(ox), S(p)
 BY_ROUNDED_DELTA: dict[float, str] = {round(float(v), 2): v for v in set(DELTA.values())}  # any numeric spelling -> canonical
 PROTON, WATER, NEUTRON = 1.007276, 18.010565, 1.003355  # monoisotopic; NEUTRON is the 13C-12C difference used for isotope errors
+STRATA = ("charge", "length", "modified", "mods", "precursor_mz", "n_peaks")  # per-spectrum groupings reported with peptide recall
 OFF_MASS_PPM = 50.0  # Casanovo's precursor_mass_tol; the share of predictions beyond it is reported for both sequencers
 
 
@@ -178,12 +181,22 @@ class Scored:
     strata: dict[str, str] = field(default_factory=dict)
 
 
+def modification_kind(target: list[str]) -> str:
+    """Which modifications the label carries: `none`, `C+57.021 only`, or the sorted distinct other deltas (N-terminal
+    ones prefixed `nterm`), so the modification penalty can be attributed to a kind."""
+    kinds = sorted({("nterm" + t[1:-2]) if t.endswith("]-") else t[t.index("[") + 1:-1] for t in target if "[" in t and t != "C[+57.021]"})
+    if kinds:
+        return ",".join(kinds)
+    return "C+57.021 only" if any(t == "C[+57.021]" for t in target) else "none"
+
+
 def score_row(r: pd.Series) -> Scored:
     target = tokenize(str(r["target"]))
     pred_s = "" if pd.isna(r["prediction"]) else str(r["prediction"]).strip()
     strata = {"charge": f"{int(r['charge'])}" if int(r["charge"]) < 4 else "4+",
               "length": ("<=9" if r["length"] <= 9 else "10-14" if r["length"] <= 14 else "15-19" if r["length"] <= 19 else "20-29" if r["length"] <= 29 else "30+"),
               "modified": "yes" if any("[" in t for t in target) else "no",
+              "mods": modification_kind(target),
               "precursor_mz": ("<500" if r["precursor_mz"] < 500 else "500-700" if r["precursor_mz"] < 700 else "700-900" if r["precursor_mz"] < 900 else "900+"),
               "n_peaks": ("<50" if r["n_peaks"] < 50 else "50-99" if r["n_peaks"] < 100 else "100-199" if r["n_peaks"] < 200 else "200+")}
     if not pred_s:
@@ -239,11 +252,14 @@ def main() -> None:
     ap.add_argument("--predictions", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--bootstrap", type=int, default=300)
+    ap.add_argument("--rows", action="store_true", help="also write every spectrum's outcome to <out>.rows.parquet (one row per input row, same order)")
     ap.add_argument("--demote-ppm", type=float, default=None,
                     help="sensitivity check: rank predictions whose precursor deviation (computed here) exceeds this last, as Casanovo's score sign does")
     args = ap.parse_args()
     df = pd.read_parquet(args.predictions) if args.predictions.suffix == ".parquet" else pd.read_csv(args.predictions)
     rows = [score_row(r) for _, r in df.iterrows()]
+    if args.rows:
+        pd.DataFrame([{**{k: v for k, v in vars(r).items() if k != "strata"}, **r.strata} for r in rows]).to_parquet(args.out.with_suffix(".rows.parquet"))
     if args.demote_ppm is not None:
         for r in rows:
             if r.ppm > args.demote_ppm:
@@ -256,7 +272,7 @@ def main() -> None:
         entry = summarise(sub)
         entry["ci95"] = bootstrap(sub, args.bootstrap, rng) if args.bootstrap else {}
         entry["by"] = {}
-        for key in ("charge", "length", "modified", "precursor_mz", "n_peaks"):
+        for key in STRATA:
             groups: dict[str, list[Scored]] = defaultdict(list)
             for r in sub:
                 groups[r.strata[key]].append(r)
