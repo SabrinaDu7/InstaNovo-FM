@@ -73,7 +73,10 @@ configs read the train shards only. So:
   own `aa_prec` (0.679 on Apis greedy) is InstaNovo's prefix-only cumulative-mass match, the scorer's (0.782) is
   Casanovo's prefix-then-suffix match (U6).
 - **A3. Every sampled spectrum counts.** A spectrum without a prediction (Casanovo skips spectra with fewer than 20 peaks;
-  the fork drops nothing in this mode) is a miss for peptide recall, and coverage is reported beside precision.
+  the fork drops nothing in this mode) is a miss for peptide recall, and coverage is reported beside precision. The
+  fork's `--evaluation` flag, used so that it reports its own metrics, changes nothing in its output: on 200 spectra
+  decoded with and without it, predictions, log-probabilities and mass deviations are identical to the last digit and
+  every row is kept in both modes (log 09:45).
 - **A4. Decoding.** Both sequencers run greedy and with 5 beams (the fork's own baseline README runs Casanovo with 5
   beams; Casanovo's paper used beam search for its benchmark figure). On this GPU the fork's beam search runs at 15 s per
   128 spectra, forty minutes per species, so its 5-beam run is made on the first 5,000 sampled spectra of each species
@@ -203,7 +206,7 @@ Read from `configs/model/foundation_base.yaml`, `configs/inference/denovo.yaml` 
 | Peptide length (sequencer) | at most 40 residues | longer peptides cannot be produced |
 | Vocabulary (sequencer) | 20 residues, C carbamidomethyl, M oxidation, N and Q deamidation, R citrullination, P hydroxylation, S/T/Y phosphorylation, N-terminal acetyl, carbamyl and ammonia loss | any other modification is unsayable; the combined carbamyl plus ammonia loss (+25.980) is commented out of `residues/default.yaml` and listed under `suppressed_residues` in `inference/denovo.yaml` |
 | Label spelling (evaluation mode) | the fork's remapping table | other spellings drop the row from its own metrics silently (F2) |
-| Precursor mass | the decoder extends a sequence only with residues that fit the remaining mass; when none fits, the one unmasked token (padding) is chosen, the sequence ends, and the score adds that token's unmasked log-probability (InstaNovo's `inference/greedy_search.py`, mass-constrained step; read 22/10) | an off-mass prediction is a dead end of the search, scored hundreds of nats below any complete one, so it ranks last; de novo mode also drops predictions beyond `filter_precursor_ppm` 20, evaluation mode keeps them with the deviation as a column |
+| Precursor mass | the decoder extends a sequence only with residues that fit the remaining mass; when none fits, the one unmasked token (padding) is chosen, the sequence ends, and the score adds that token's unmasked log-probability (InstaNovo's `inference/greedy_search.py`, mass-constrained step; read 22/10) | an off-mass prediction is a dead end of the search, scored hundreds of nats below any complete one, so it ranks last; `filter_precursor_ppm` 20 only selects the rows for the metrics the CLI prints, every row is written with its deviation as a column in both modes (checked, log 09:45) |
 | Bare cysteine | `C` and `C[UNIMOD:4]` are both tokens | a bare-C prediction against a carbamidomethylated label is wrong by 57 Da |
 
 Casanovo v5, for contrast: 20 to 150 peaks (fewer than 20 skips the spectrum), m/z 50 to 2,500, charge at most 4,
@@ -324,6 +327,28 @@ see A4), and the full-sample runs were re-scored on those same spectra (`results
 - For the user's purpose (building on InstaNovo-FM): on de novo sequencing of these nine projects the encoder is a
   starting point no better than random initialisation. Whether it helps on smaller fine-tuning sets, or on the probing
   and retrieval tasks the paper is about, is not tested here.
+
+## Is the comparison with Casanovo fair?
+
+Fair at the measurement: identical sampled spectra and labels, one scorer with Casanovo's own match rule and masses,
+decoding matched (greedy against greedy on the full sample, 5 beams against 5 beams on the same 45,000 spectra), and
+the controls differ from the published sequencer only in the encoder's starting point.
+
+Not fair at the training position, in the fork's favour:
+
+- **Domain.** All nine projects are in InstaNovo-FM's corpus. Their peptides were held out, but the same instrument
+  runs, laboratories and acquisition settings were seen in pretraining and in the decoder's training. Casanovo was
+  trained on human MassIVE-KB (2018) and is tested here on eight species it never saw. The fork is in-domain, Casanovo
+  out-of-domain, so the fork's lead at full coverage is not evidence that it is the better de novo model in general;
+  the preprint's own comparison uses six other held-out datasets for that reason.
+- **Size and budget.** Two architectures and training histories compared as released, not equalised.
+- **Against Casanovo, small:** it skips 0.6 % of spectra after its own filtering and those count as misses (A3); the
+  combined carbamyl plus ammonia loss is in its alphabet and not the fork's, and it misses all 275 of them anyway.
+
+What survives the asymmetry: the controls (same recipe, same data), the strata gradients and species ordering (identical
+for every run, Casanovo included), the paired spectrum-level comparison read as "on these nine projects, in-domain, the
+fork beats an out-of-domain Casanovo by a few points at full coverage and loses to it on confidence ranking", and the
+fork's N-terminal modification failures, which an out-of-domain model does not share.
 
 ## Review passes
 
