@@ -36,10 +36,12 @@ def newton_schulz(g: Float[Tensor, "... m n"], *, steps: int = 5) -> Float[Tenso
     return (x.mT if transposed else x).to(g.dtype)
 
 
-def muon_param_groups(model: nn.Module, *, lr: float, weight_decay: float, momentum: float) -> list[dict]:
+def muon_param_groups(model: nn.Module, *, lr: float, weight_decay: float, momentum: float, muon_lr: float | None = None) -> list[dict]:
     """Muon on the 2-D weights inside the encoder layers, the fused qkv weight as three square blocks; AdamW on the rest.
 
-    On the 40M that is 36 matrices and 88.8 % of the parameters under Muon (notes-speed.md, S15).
+    `muon_lr` is the Muon groups' base learning rate (default `lr`, Moonlight's matched-RMS convention: the same rate serves
+    both); the scheduler scales every group's base rate by one factor. On the 40M that is 36 matrices and 88.8 % of the
+    parameters under Muon (notes-speed.md, S15).
     """
     matrices: list[nn.Parameter] = []
     qkv: list[nn.Parameter] = []
@@ -54,7 +56,7 @@ def muon_param_groups(model: nn.Module, *, lr: float, weight_decay: float, momen
     for p in qkv:
         if p.size(0) % 3:
             raise ValueError(f"a fused qkv weight must stack three blocks along dim 0, got {tuple(p.shape)}")
-    muon = dict(algo="muon", lr=lr, weight_decay=weight_decay, momentum=momentum, nesterov=True, ns_steps=5)
+    muon = dict(algo="muon", lr=lr if muon_lr is None else muon_lr, weight_decay=weight_decay, momentum=momentum, nesterov=True, ns_steps=5)
     adamw = dict(algo="adamw", lr=lr, weight_decay=weight_decay, betas=(0.9, 0.999), eps=1e-8)
     return [
         dict(params=matrices, blocks=1, **muon),

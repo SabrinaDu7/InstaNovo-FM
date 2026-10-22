@@ -20,6 +20,7 @@ learning_rate: 1e-4
 weight_decay: 0.0
 optimizer: adamw      # adamw | muon: Muon on the encoder's 2-D weights, AdamW on the rest (common/muon.py; docs/agent_logs/notes-speed.md, S15)
 muon_momentum: 0.95   # used by optimizer: muon
+muon_lr: null         # Muon groups' base learning rate; null = learning_rate (Moonlight's matched-RMS convention)
 train_batch_size: 1024
 grad_accumulation: 1
 gradient_clip_val: 1.0

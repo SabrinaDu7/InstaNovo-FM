@@ -270,7 +270,12 @@ class FoundationalTrainer(AccelerateDeNovoTrainer):
                 return AdamW(self.model.parameters(), lr=lr, weight_decay=weight_decay, fused=True)
             case "muon":
                 momentum = float(self.config.get("muon_momentum", 0.95))
-                return MuonAdamW(muon_param_groups(self.model, lr=lr, weight_decay=weight_decay, momentum=momentum))
+                muon_lr = self.config.get("muon_lr", None)
+                return MuonAdamW(
+                    muon_param_groups(
+                        self.model, lr=lr, weight_decay=weight_decay, momentum=momentum, muon_lr=None if muon_lr is None else float(muon_lr)
+                    )
+                )
             case other:
                 raise ValueError(f"optimizer must be 'adamw' or 'muon', got {other!r}")
 

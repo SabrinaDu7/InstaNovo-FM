@@ -140,6 +140,12 @@ def test_state_dict_roundtrip_resumes_identically() -> None:
         torch.testing.assert_close(a, b, rtol=0, atol=0)
 
 
+def test_muon_lr_applies_to_the_muon_groups_only() -> None:
+    groups = muon_param_groups(_Toy(), lr=1e-4, weight_decay=0.0, momentum=0.95, muon_lr=3e-3)
+    assert [g["lr"] for g in groups] == [3e-3, 3e-3, 1e-4]
+    assert [g["lr"] for g in muon_param_groups(_Toy(), lr=1e-4, weight_decay=0.0, momentum=0.95)] == [1e-4, 1e-4, 1e-4]
+
+
 def test_rejects_untagged_group() -> None:
     with pytest.raises(ValueError, match="algo"):
         MuonAdamW([dict(params=[nn.Parameter(torch.zeros(2, 2))], lr=1e-3)])
