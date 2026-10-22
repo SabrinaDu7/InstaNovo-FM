@@ -130,18 +130,23 @@ configs read the train shards only. So:
 
 Every number here is read from files under `docs/nine_species/results/`: `results.md` (rendered by
 `scripts/analysis/nine_species_table.py` from `results/scores/*.json`, one file per run, per species with bootstrap
-intervals and strata), `standardised.md`, `pairwise-*.md`, and the session log for the run times. Runs scored so far:
-the fork greedy and Casanovo with 5 beams, each on all 180,000 sampled spectra. Pending: the fork with 5 beams (the
-like-for-like comparison of A4), Casanovo greedy, and the frozen and scratch controls.
+intervals and strata), `standardised.md`, `pairwise-*.md`, and the session log for the run times. Runs scored so far,
+each on all 180,000 sampled spectra: the fork greedy, Casanovo greedy, Casanovo with 5 beams. Pending: the fork with 5
+beams on the 45,000-spectrum prefix (A4) and the frozen and scratch controls.
 
 Pooled over the nine species (`results.md`):
 
 | run | coverage | peptide recall | amino-acid precision | precision-coverage area | predictions off the precursor mass |
 | :---- | ---: | ---: | ---: | ---: | ---: |
 | fork, greedy | 1.000 | 0.642 | 0.820 | 0.883 | 13.7 % |
+| Casanovo v5.0.0, greedy | 0.994 | 0.619 | 0.811 | 0.891 | 16.2 % |
 | Casanovo v5.0.0, 5 beams | 0.994 | 0.649 | 0.835 | 0.898 | 7.7 % |
 
-Per species the two sequencers rank the species identically (rice bean, yeast and tomato at the top near 0.70 to 0.73,
+Under matched greedy decoding the fork leads Casanovo by 2.3 points of peptide recall pooled and in every species but
+tomato (where they tie), with fewer off-mass predictions; Casanovo's 5 beams add 3 points of recall and halve its
+off-mass share, which is what the fork's pending 5-beam run is for.
+
+Per species the sequencers rank the species identically (rice bean, yeast and tomato at the top near 0.70 to 0.73,
 C. endoloripes at the bottom near 0.51, the SILAC mouse set next at 0.55), and their peptide recalls lie within each
 other's bootstrap interval except B. subtilis and yeast (Casanovo ahead by about two points) and rice bean (the fork
 ahead by about 1.6). Casanovo's published figure for this benchmark, "the average precision of Casanovo increases from

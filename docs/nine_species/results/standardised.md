@@ -30,3 +30,19 @@ Spread across species (max - min): crude 0.204, standardised 0.237, with peak co
 
 Spread across species (max - min): crude 0.221, standardised 0.270, with peak count 0.172
 
+## casanovo-greedy
+
+| species | spectra | crude recall | standardised (length x charge x modified) | missing share | standardised (+ peak count) | missing share |
+| :---- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Apis-mellifera | 20,000 | 0.547 | 0.546 | 0.000 | 0.527 | 0.002 |
+| Bacillus-subtilis | 20,000 | 0.652 | 0.667 | 0.000 | 0.622 | 0.008 |
+| Candidatus-endoloripes | 20,000 | 0.486 | 0.590 | 0.000 | 0.699 | 0.010 |
+| H.-sapiens | 20,000 | 0.639 | 0.672 | 0.000 | 0.707 | 0.001 |
+| Methanosarcina-mazei | 20,000 | 0.639 | 0.576 | 0.000 | 0.535 | 0.015 |
+| Mus-musculus | 20,000 | 0.526 | 0.462 | 0.015 | 0.637 | 0.061 |
+| Saccharomyces-cerevisiae | 20,000 | 0.701 | 0.724 | 0.000 | 0.678 | 0.078 |
+| Solanum-lycopersicum | 20,000 | 0.707 | 0.698 | 0.001 | 0.708 | 0.001 |
+| Vigna-mungo | 20,000 | 0.671 | 0.637 | 0.000 | 0.585 | 0.011 |
+
+Spread across species (max - min): crude 0.221, standardised 0.261, with peak count 0.181
+
