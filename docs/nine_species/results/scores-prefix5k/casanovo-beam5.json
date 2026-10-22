@@ -1,0 +1,1731 @@
+{
+ "predictions": "/home/sabrina/Documents/experiments/Arc/instanovo-fm-runs/nine-species/scores/casanovo-beam5.parquet",
+ "spectra": 45000,
+ "first_per_species": 5000,
+ "rule": "Casanovo v5.0.0 aa_match_prefix_suffix, 0.5 Da cumulative, 0.1 Da per residue",
+ "demote_ppm": null,
+ "species": {
+  "Apis-mellifera": {
+   "spectra": 5000,
+   "coverage": 0.9992,
+   "off_mass_share": 0.12289831865492394,
+   "peptide_precision_off_mass": 0.0,
+   "aa_precision": 0.778203781512605,
+   "aa_recall": 0.7761248755958305,
+   "peptide_precision_predicted": 0.6124899919935949,
+   "peptide_recall": 0.612,
+   "average_precision": 0.88516242141155,
+   "peptide_precision_at_coverage": {
+    "25%": 0.9856,
+    "50%": 0.9416,
+    "75%": 0.7949333333333334,
+    "100%": NaN
+   },
+   "ci95": {
+    "peptide_recall": [
+     0.5937408558976324,
+     0.6294901013995082
+    ],
+    "aa_precision": [
+     0.7663400944396732,
+     0.7900808765701003
+    ]
+   },
+   "by": {
+    "charge": {
+     "2": {
+      "spectra": 4116,
+      "peptide_recall": 0.652089407191448
+     },
+     "3": {
+      "spectra": 798,
+      "peptide_recall": 0.45112781954887216
+     },
+     "4+": {
+      "spectra": 86,
+      "peptide_recall": 0.18604651162790697
+     }
+    },
+    "length": {
+     "10-14": {
+      "spectra": 2058,
+      "peptide_recall": 0.7570456754130224
+     },
+     "15-19": {
+      "spectra": 1421,
+      "peptide_recall": 0.5116115411681914
+     },
+     "20-29": {
+      "spectra": 886,
+      "peptide_recall": 0.29345372460496616
+     },
+     "30+": {
+      "spectra": 84,
+      "peptide_recall": 0.011904761904761904
+     },
+     "<=9": {
+      "spectra": 551,
+      "peptide_recall": 0.9328493647912885
+     }
+    },
+    "modified": {
+     "no": {
+      "spectra": 3632,
+      "peptide_recall": 0.6861233480176211
+     },
+     "yes": {
+      "spectra": 1368,
+      "peptide_recall": 0.4152046783625731
+     }
+    },
+    "mods": {
+     "+0.984": {
+      "spectra": 400,
+      "peptide_recall": 0.1325
+     },
+     "+0.984,+15.995": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+42.011": {
+      "spectra": 7,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+43.006": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm-17.027": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+25.980": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+42.011": {
+      "spectra": 7,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+43.006": {
+      "spectra": 13,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm-17.027": {
+      "spectra": 9,
+      "peptide_recall": 0.0
+     },
+     "+15.995": {
+      "spectra": 33,
+      "peptide_recall": 0.45454545454545453
+     },
+     "+15.995,nterm+42.011": {
+      "spectra": 49,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+43.006": {
+      "spectra": 12,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm-17.027": {
+      "spectra": 4,
+      "peptide_recall": 0.0
+     },
+     "C+57.021 only": {
+      "spectra": 728,
+      "peptide_recall": 0.6414835164835165
+     },
+     "none": {
+      "spectra": 3632,
+      "peptide_recall": 0.6861233480176211
+     },
+     "nterm+25.980": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "nterm+42.011": {
+      "spectra": 6,
+      "peptide_recall": 0.3333333333333333
+     },
+     "nterm+43.006": {
+      "spectra": 46,
+      "peptide_recall": 0.30434782608695654
+     },
+     "nterm-17.027": {
+      "spectra": 43,
+      "peptide_recall": 0.3953488372093023
+     }
+    },
+    "precursor_mz": {
+     "500-700": {
+      "spectra": 1647,
+      "peptide_recall": 0.7808136004857317
+     },
+     "700-900": {
+      "spectra": 1559,
+      "peptide_recall": 0.5535599743425272
+     },
+     "900+": {
+      "spectra": 1384,
+      "peptide_recall": 0.38583815028901736
+     },
+     "<500": {
+      "spectra": 410,
+      "peptide_recall": 0.9195121951219513
+     }
+    },
+    "n_peaks": {
+     "100-199": {
+      "spectra": 722,
+      "peptide_recall": 0.7673130193905817
+     },
+     "200+": {
+      "spectra": 4177,
+      "peptide_recall": 0.5822360545846301
+     },
+     "50-99": {
+      "spectra": 94,
+      "peptide_recall": 0.7446808510638298
+     },
+     "<50": {
+      "spectra": 7,
+      "peptide_recall": 0.5714285714285714
+     }
+    }
+   }
+  },
+  "Bacillus-subtilis": {
+   "spectra": 5000,
+   "coverage": 0.9972,
+   "off_mass_share": 0.09105495387083835,
+   "peptide_precision_off_mass": 0.0,
+   "aa_precision": 0.8423623970686734,
+   "aa_recall": 0.833593262632564,
+   "peptide_precision_predicted": 0.6979542719614922,
+   "peptide_recall": 0.696,
+   "average_precision": 0.922040424125002,
+   "peptide_precision_at_coverage": {
+    "25%": 0.9784,
+    "50%": 0.9704,
+    "75%": 0.8810666666666667,
+    "100%": NaN
+   },
+   "ci95": {
+    "peptide_recall": [
+     0.6760660933488506,
+     0.7124488934043458
+    ],
+    "aa_precision": [
+     0.8332317225336009,
+     0.8536791752370946
+    ]
+   },
+   "by": {
+    "charge": {
+     "2": {
+      "spectra": 2642,
+      "peptide_recall": 0.8618470855412567
+     },
+     "3": {
+      "spectra": 2109,
+      "peptide_recall": 0.5467045993361783
+     },
+     "4+": {
+      "spectra": 249,
+      "peptide_recall": 0.20080321285140562
+     }
+    },
+    "length": {
+     "10-14": {
+      "spectra": 1961,
+      "peptide_recall": 0.833248342682305
+     },
+     "15-19": {
+      "spectra": 1484,
+      "peptide_recall": 0.6381401617250674
+     },
+     "20-29": {
+      "spectra": 840,
+      "peptide_recall": 0.38452380952380955
+     },
+     "30+": {
+      "spectra": 108,
+      "peptide_recall": 0.05555555555555555
+     },
+     "<=9": {
+      "spectra": 607,
+      "peptide_recall": 0.9390444810543658
+     }
+    },
+    "modified": {
+     "no": {
+      "spectra": 3942,
+      "peptide_recall": 0.7633181126331812
+     },
+     "yes": {
+      "spectra": 1058,
+      "peptide_recall": 0.44517958412098296
+     }
+    },
+    "mods": {
+     "+0.984": {
+      "spectra": 560,
+      "peptide_recall": 0.38392857142857145
+     },
+     "+0.984,+15.995": {
+      "spectra": 25,
+      "peptide_recall": 0.04
+     },
+     "+0.984,+15.995,nterm+42.011": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm-17.027": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+25.980": {
+      "spectra": 4,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+42.011": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+43.006": {
+      "spectra": 27,
+      "peptide_recall": 0.07407407407407407
+     },
+     "+0.984,nterm-17.027": {
+      "spectra": 9,
+      "peptide_recall": 0.0
+     },
+     "+15.995": {
+      "spectra": 101,
+      "peptide_recall": 0.5148514851485149
+     },
+     "+15.995,nterm+25.980": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm-17.027": {
+      "spectra": 4,
+      "peptide_recall": 0.0
+     },
+     "C+57.021 only": {
+      "spectra": 6,
+      "peptide_recall": 0.16666666666666666
+     },
+     "none": {
+      "spectra": 3942,
+      "peptide_recall": 0.7633181126331812
+     },
+     "nterm+25.980": {
+      "spectra": 6,
+      "peptide_recall": 0.0
+     },
+     "nterm+42.011": {
+      "spectra": 27,
+      "peptide_recall": 0.25925925925925924
+     },
+     "nterm+43.006": {
+      "spectra": 217,
+      "peptide_recall": 0.7096774193548387
+     },
+     "nterm-17.027": {
+      "spectra": 63,
+      "peptide_recall": 0.6190476190476191
+     }
+    },
+    "precursor_mz": {
+     "500-700": {
+      "spectra": 2109,
+      "peptide_recall": 0.6880037932669512
+     },
+     "700-900": {
+      "spectra": 1391,
+      "peptide_recall": 0.6513299784327822
+     },
+     "900+": {
+      "spectra": 587,
+      "peptide_recall": 0.5843270868824532
+     },
+     "<500": {
+      "spectra": 913,
+      "peptide_recall": 0.8543263964950711
+     }
+    },
+    "n_peaks": {
+     "100-199": {
+      "spectra": 715,
+      "peptide_recall": 0.848951048951049
+     },
+     "200+": {
+      "spectra": 4169,
+      "peptide_recall": 0.6682657711681458
+     },
+     "50-99": {
+      "spectra": 97,
+      "peptide_recall": 0.8041237113402062
+     },
+     "<50": {
+      "spectra": 19,
+      "peptide_recall": 0.47368421052631576
+     }
+    }
+   }
+  },
+  "Candidatus-endoloripes": {
+   "spectra": 5000,
+   "coverage": 0.9946,
+   "off_mass_share": 0.10496682083249548,
+   "peptide_precision_off_mass": 0.0,
+   "aa_precision": 0.7931329121039732,
+   "aa_recall": 0.7828441435942962,
+   "peptide_precision_predicted": 0.5308666800723909,
+   "peptide_recall": 0.528,
+   "average_precision": 0.8190217282308726,
+   "peptide_precision_at_coverage": {
+    "25%": 0.9592,
+    "50%": 0.8764,
+    "75%": 0.6970666666666666,
+    "100%": NaN
+   },
+   "ci95": {
+    "peptide_recall": [
+     0.5070048580703397,
+     0.5479738356146323
+    ],
+    "aa_precision": [
+     0.7803713895389903,
+     0.805364890892818
+    ]
+   },
+   "by": {
+    "charge": {
+     "2": {
+      "spectra": 2274,
+      "peptide_recall": 0.6855760773966578
+     },
+     "3": {
+      "spectra": 2324,
+      "peptide_recall": 0.4229776247848537
+     },
+     "4+": {
+      "spectra": 402,
+      "peptide_recall": 0.24378109452736318
+     }
+    },
+    "length": {
+     "10-14": {
+      "spectra": 1418,
+      "peptide_recall": 0.7418899858956276
+     },
+     "15-19": {
+      "spectra": 1556,
+      "peptide_recall": 0.5629820051413882
+     },
+     "20-29": {
+      "spectra": 1487,
+      "peptide_recall": 0.3026227303295225
+     },
+     "30+": {
+      "spectra": 262,
+      "peptide_recall": 0.06870229007633588
+     },
+     "<=9": {
+      "spectra": 277,
+      "peptide_recall": 0.8808664259927798
+     }
+    },
+    "modified": {
+     "no": {
+      "spectra": 3232,
+      "peptide_recall": 0.6051980198019802
+     },
+     "yes": {
+      "spectra": 1768,
+      "peptide_recall": 0.38687782805429866
+     }
+    },
+    "mods": {
+     "+0.984": {
+      "spectra": 416,
+      "peptide_recall": 0.27163461538461536
+     },
+     "+0.984,+15.995": {
+      "spectra": 63,
+      "peptide_recall": 0.09523809523809523
+     },
+     "+0.984,+15.995,nterm+25.980": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+42.011": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+43.006": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm-17.027": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+25.980": {
+      "spectra": 7,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+42.011": {
+      "spectra": 13,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+43.006": {
+      "spectra": 7,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm-17.027": {
+      "spectra": 15,
+      "peptide_recall": 0.0
+     },
+     "+15.995": {
+      "spectra": 411,
+      "peptide_recall": 0.340632603406326
+     },
+     "+15.995,nterm+42.011": {
+      "spectra": 4,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+43.006": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm-17.027": {
+      "spectra": 3,
+      "peptide_recall": 0.0
+     },
+     "C+57.021 only": {
+      "spectra": 725,
+      "peptide_recall": 0.5503448275862068
+     },
+     "none": {
+      "spectra": 3232,
+      "peptide_recall": 0.6051980198019802
+     },
+     "nterm+25.980": {
+      "spectra": 7,
+      "peptide_recall": 0.0
+     },
+     "nterm+42.011": {
+      "spectra": 3,
+      "peptide_recall": 0.0
+     },
+     "nterm+43.006": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "nterm-17.027": {
+      "spectra": 75,
+      "peptide_recall": 0.3466666666666667
+     }
+    },
+    "precursor_mz": {
+     "500-700": {
+      "spectra": 1606,
+      "peptide_recall": 0.5990037359900373
+     },
+     "700-900": {
+      "spectra": 1834,
+      "peptide_recall": 0.5234460196292258
+     },
+     "900+": {
+      "spectra": 1047,
+      "peptide_recall": 0.30754536771728747
+     },
+     "<500": {
+      "spectra": 513,
+      "peptide_recall": 0.7719298245614035
+     }
+    },
+    "n_peaks": {
+     "100-199": {
+      "spectra": 1411,
+      "peptide_recall": 0.5825655563430191
+     },
+     "200+": {
+      "spectra": 547,
+      "peptide_recall": 0.5978062157221207
+     },
+     "50-99": {
+      "spectra": 1946,
+      "peptide_recall": 0.5806783144912642
+     },
+     "<50": {
+      "spectra": 1096,
+      "peptide_recall": 0.3293795620437956
+     }
+    }
+   }
+  },
+  "H.-sapiens": {
+   "spectra": 5000,
+   "coverage": 0.9928,
+   "off_mass_share": 0.08440773569701854,
+   "peptide_precision_off_mass": 0.0,
+   "aa_precision": 0.8230504311610647,
+   "aa_recall": 0.8082902912875908,
+   "peptide_precision_predicted": 0.6083803384367445,
+   "peptide_recall": 0.604,
+   "average_precision": 0.8748777652312165,
+   "peptide_precision_at_coverage": {
+    "25%": 0.9832,
+    "50%": 0.942,
+    "75%": 0.7864,
+    "100%": NaN
+   },
+   "ci95": {
+    "peptide_recall": [
+     0.5877598655614193,
+     0.6195311826755692
+    ],
+    "aa_precision": [
+     0.8125253636064709,
+     0.83350975858003
+    ]
+   },
+   "by": {
+    "charge": {
+     "2": {
+      "spectra": 3004,
+      "peptide_recall": 0.6917443408788282
+     },
+     "3": {
+      "spectra": 1734,
+      "peptide_recall": 0.5074971164936563
+     },
+     "4+": {
+      "spectra": 262,
+      "peptide_recall": 0.2366412213740458
+     }
+    },
+    "length": {
+     "10-14": {
+      "spectra": 2216,
+      "peptide_recall": 0.7242779783393501
+     },
+     "15-19": {
+      "spectra": 1427,
+      "peptide_recall": 0.5248773651016118
+     },
+     "20-29": {
+      "spectra": 683,
+      "peptide_recall": 0.2913616398243045
+     },
+     "30+": {
+      "spectra": 163,
+      "peptide_recall": 0.12269938650306748
+     },
+     "<=9": {
+      "spectra": 511,
+      "peptide_recall": 0.8747553816046967
+     }
+    },
+    "modified": {
+     "no": {
+      "spectra": 3341,
+      "peptide_recall": 0.6845255911403771
+     },
+     "yes": {
+      "spectra": 1659,
+      "peptide_recall": 0.44183242917420135
+     }
+    },
+    "mods": {
+     "+0.984": {
+      "spectra": 468,
+      "peptide_recall": 0.30982905982905984
+     },
+     "+0.984,+15.995": {
+      "spectra": 13,
+      "peptide_recall": 0.07692307692307693
+     },
+     "+0.984,+15.995,nterm+25.980": {
+      "spectra": 4,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+42.011": {
+      "spectra": 23,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+43.006": {
+      "spectra": 7,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm-17.027": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+25.980": {
+      "spectra": 4,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+42.011": {
+      "spectra": 8,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+43.006": {
+      "spectra": 21,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm-17.027": {
+      "spectra": 14,
+      "peptide_recall": 0.14285714285714285
+     },
+     "+15.995": {
+      "spectra": 61,
+      "peptide_recall": 0.5081967213114754
+     },
+     "+15.995,nterm+25.980": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+42.011": {
+      "spectra": 57,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+43.006": {
+      "spectra": 14,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm-17.027": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "C+57.021 only": {
+      "spectra": 752,
+      "peptide_recall": 0.6382978723404256
+     },
+     "none": {
+      "spectra": 3341,
+      "peptide_recall": 0.6845255911403771
+     },
+     "nterm+25.980": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "nterm+42.011": {
+      "spectra": 4,
+      "peptide_recall": 0.0
+     },
+     "nterm+43.006": {
+      "spectra": 61,
+      "peptide_recall": 0.36065573770491804
+     },
+     "nterm-17.027": {
+      "spectra": 138,
+      "peptide_recall": 0.37681159420289856
+     }
+    },
+    "precursor_mz": {
+     "500-700": {
+      "spectra": 2417,
+      "peptide_recall": 0.6652875465453041
+     },
+     "700-900": {
+      "spectra": 1417,
+      "peptide_recall": 0.5010585744530699
+     },
+     "900+": {
+      "spectra": 531,
+      "peptide_recall": 0.3483992467043315
+     },
+     "<500": {
+      "spectra": 635,
+      "peptide_recall": 0.8141732283464567
+     }
+    },
+    "n_peaks": {
+     "100-199": {
+      "spectra": 1591,
+      "peptide_recall": 0.7919547454431175
+     },
+     "200+": {
+      "spectra": 429,
+      "peptide_recall": 0.6899766899766899
+     },
+     "50-99": {
+      "spectra": 1682,
+      "peptide_recall": 0.6629013079667063
+     },
+     "<50": {
+      "spectra": 1298,
+      "peptide_recall": 0.26887519260400616
+     }
+    }
+   }
+  },
+  "Methanosarcina-mazei": {
+   "spectra": 5000,
+   "coverage": 0.9972,
+   "off_mass_share": 0.05836341756919374,
+   "peptide_precision_off_mass": 0.0,
+   "aa_precision": 0.8648512209545514,
+   "aa_recall": 0.8585112323353807,
+   "peptide_precision_predicted": 0.7013638186923385,
+   "peptide_recall": 0.6994,
+   "average_precision": 0.9227684669796774,
+   "peptide_precision_at_coverage": {
+    "25%": 0.9864,
+    "50%": 0.976,
+    "75%": 0.8776,
+    "100%": NaN
+   },
+   "ci95": {
+    "peptide_recall": [
+     0.6819295875089142,
+     0.7158966623197943
+    ],
+    "aa_precision": [
+     0.8556949891538755,
+     0.8742402014086349
+    ]
+   },
+   "by": {
+    "charge": {
+     "2": {
+      "spectra": 3554,
+      "peptide_recall": 0.768992684299381
+     },
+     "3": {
+      "spectra": 1320,
+      "peptide_recall": 0.55
+     },
+     "4+": {
+      "spectra": 126,
+      "peptide_recall": 0.30158730158730157
+     }
+    },
+    "length": {
+     "10-14": {
+      "spectra": 2100,
+      "peptide_recall": 0.7876190476190477
+     },
+     "15-19": {
+      "spectra": 1343,
+      "peptide_recall": 0.5867460908413998
+     },
+     "20-29": {
+      "spectra": 583,
+      "peptide_recall": 0.32246998284734135
+     },
+     "30+": {
+      "spectra": 42,
+      "peptide_recall": 0.07142857142857142
+     },
+     "<=9": {
+      "spectra": 932,
+      "peptide_recall": 0.927038626609442
+     }
+    },
+    "modified": {
+     "no": {
+      "spectra": 3544,
+      "peptide_recall": 0.7593115124153499
+     },
+     "yes": {
+      "spectra": 1456,
+      "peptide_recall": 0.5535714285714286
+     }
+    },
+    "mods": {
+     "+0.984": {
+      "spectra": 375,
+      "peptide_recall": 0.5013333333333333
+     },
+     "+0.984,+15.995": {
+      "spectra": 51,
+      "peptide_recall": 0.3333333333333333
+     },
+     "+0.984,+15.995,nterm+25.980": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm-17.027": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+25.980": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+42.011": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+43.006": {
+      "spectra": 6,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm-17.027": {
+      "spectra": 8,
+      "peptide_recall": 0.125
+     },
+     "+15.995": {
+      "spectra": 582,
+      "peptide_recall": 0.6288659793814433
+     },
+     "+15.995,nterm+25.980": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+42.011": {
+      "spectra": 20,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+43.006": {
+      "spectra": 3,
+      "peptide_recall": 0.3333333333333333
+     },
+     "+15.995,nterm-17.027": {
+      "spectra": 12,
+      "peptide_recall": 0.16666666666666666
+     },
+     "C+57.021 only": {
+      "spectra": 269,
+      "peptide_recall": 0.6617100371747212
+     },
+     "none": {
+      "spectra": 3544,
+      "peptide_recall": 0.7593115124153499
+     },
+     "nterm+25.980": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "nterm+42.011": {
+      "spectra": 29,
+      "peptide_recall": 0.3448275862068966
+     },
+     "nterm+43.006": {
+      "spectra": 30,
+      "peptide_recall": 0.43333333333333335
+     },
+     "nterm-17.027": {
+      "spectra": 57,
+      "peptide_recall": 0.5263157894736842
+     }
+    },
+    "precursor_mz": {
+     "500-700": {
+      "spectra": 1943,
+      "peptide_recall": 0.7395779722079259
+     },
+     "700-900": {
+      "spectra": 1383,
+      "peptide_recall": 0.6030368763557483
+     },
+     "900+": {
+      "spectra": 606,
+      "peptide_recall": 0.46864686468646866
+     },
+     "<500": {
+      "spectra": 1068,
+      "peptide_recall": 0.8820224719101124
+     }
+    },
+    "n_peaks": {
+     "100-199": {
+      "spectra": 1633,
+      "peptide_recall": 0.7513778322106552
+     },
+     "200+": {
+      "spectra": 2712,
+      "peptide_recall": 0.7131268436578171
+     },
+     "50-99": {
+      "spectra": 561,
+      "peptide_recall": 0.5614973262032086
+     },
+     "<50": {
+      "spectra": 94,
+      "peptide_recall": 0.22340425531914893
+     }
+    }
+   }
+  },
+  "Mus-musculus": {
+   "spectra": 5000,
+   "coverage": 0.982,
+   "off_mass_share": 0.06476578411405295,
+   "peptide_precision_off_mass": 0.0,
+   "aa_precision": 0.8155738303559691,
+   "aa_recall": 0.7928292509762158,
+   "peptide_precision_predicted": 0.5258655804480652,
+   "peptide_recall": 0.5164,
+   "average_precision": 0.8094708590936445,
+   "peptide_precision_at_coverage": {
+    "25%": 0.976,
+    "50%": 0.8588,
+    "75%": 0.6730666666666667,
+    "100%": NaN
+   },
+   "ci95": {
+    "peptide_recall": [
+     0.4977493529705605,
+     0.5363892103107077
+    ],
+    "aa_precision": [
+     0.8040851995000844,
+     0.8284378531830797
+    ]
+   },
+   "by": {
+    "charge": {
+     "2": {
+      "spectra": 4557,
+      "peptide_recall": 0.5404871626069783
+     },
+     "3": {
+      "spectra": 433,
+      "peptide_recall": 0.2748267898383372
+     },
+     "4+": {
+      "spectra": 10,
+      "peptide_recall": 0.0
+     }
+    },
+    "length": {
+     "10-14": {
+      "spectra": 2961,
+      "peptide_recall": 0.5788584937521107
+     },
+     "15-19": {
+      "spectra": 1399,
+      "peptide_recall": 0.4295925661186562
+     },
+     "20-29": {
+      "spectra": 337,
+      "peptide_recall": 0.17507418397626112
+     },
+     "30+": {
+      "spectra": 16,
+      "peptide_recall": 0.125
+     },
+     "<=9": {
+      "spectra": 287,
+      "peptide_recall": 0.7177700348432056
+     }
+    },
+    "modified": {
+     "no": {
+      "spectra": 3061,
+      "peptide_recall": 0.5501470107807906
+     },
+     "yes": {
+      "spectra": 1939,
+      "peptide_recall": 0.4631253223310985
+     }
+    },
+    "mods": {
+     "+0.984": {
+      "spectra": 298,
+      "peptide_recall": 0.3523489932885906
+     },
+     "+0.984,+15.995": {
+      "spectra": 13,
+      "peptide_recall": 0.15384615384615385
+     },
+     "+0.984,+15.995,nterm+42.011": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+43.006": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm-17.027": {
+      "spectra": 2,
+      "peptide_recall": 0.5
+     },
+     "+0.984,nterm+25.980": {
+      "spectra": 6,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+42.011": {
+      "spectra": 7,
+      "peptide_recall": 0.2857142857142857
+     },
+     "+0.984,nterm+43.006": {
+      "spectra": 20,
+      "peptide_recall": 0.3
+     },
+     "+0.984,nterm-17.027": {
+      "spectra": 40,
+      "peptide_recall": 0.25
+     },
+     "+15.995": {
+      "spectra": 313,
+      "peptide_recall": 0.46325878594249204
+     },
+     "+15.995,nterm+42.011": {
+      "spectra": 4,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+43.006": {
+      "spectra": 3,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm-17.027": {
+      "spectra": 82,
+      "peptide_recall": 0.6829268292682927
+     },
+     "C+57.021 only": {
+      "spectra": 695,
+      "peptide_recall": 0.5510791366906475
+     },
+     "none": {
+      "spectra": 3061,
+      "peptide_recall": 0.5501470107807906
+     },
+     "nterm+25.980": {
+      "spectra": 3,
+      "peptide_recall": 0.0
+     },
+     "nterm+42.011": {
+      "spectra": 25,
+      "peptide_recall": 0.16
+     },
+     "nterm+43.006": {
+      "spectra": 161,
+      "peptide_recall": 0.422360248447205
+     },
+     "nterm-17.027": {
+      "spectra": 263,
+      "peptide_recall": 0.44106463878326996
+     }
+    },
+    "precursor_mz": {
+     "500-700": {
+      "spectra": 2001,
+      "peptide_recall": 0.5887056471764118
+     },
+     "700-900": {
+      "spectra": 2128,
+      "peptide_recall": 0.4468984962406015
+     },
+     "900+": {
+      "spectra": 632,
+      "peptide_recall": 0.4287974683544304
+     },
+     "<500": {
+      "spectra": 239,
+      "peptide_recall": 0.7615062761506276
+     }
+    },
+    "n_peaks": {
+     "100-199": {
+      "spectra": 748,
+      "peptide_recall": 0.8235294117647058
+     },
+     "200+": {
+      "spectra": 32,
+      "peptide_recall": 0.78125
+     },
+     "50-99": {
+      "spectra": 2220,
+      "peptide_recall": 0.6391891891891892
+     },
+     "<50": {
+      "spectra": 2000,
+      "peptide_recall": 0.261
+     }
+    }
+   }
+  },
+  "Saccharomyces-cerevisiae": {
+   "spectra": 5000,
+   "coverage": 0.997,
+   "off_mass_share": 0.05957873620862588,
+   "peptide_precision_off_mass": 0.0,
+   "aa_precision": 0.8684165041112126,
+   "aa_recall": 0.8612393324599317,
+   "peptide_precision_predicted": 0.7472417251755266,
+   "peptide_recall": 0.745,
+   "average_precision": 0.9407169929638652,
+   "peptide_precision_at_coverage": {
+    "25%": 0.9872,
+    "50%": 0.9804,
+    "75%": 0.9205333333333333,
+    "100%": NaN
+   },
+   "ci95": {
+    "peptide_recall": [
+     0.7267181523102544,
+     0.7618749188383808
+    ],
+    "aa_precision": [
+     0.8585718800173795,
+     0.8779504765734107
+    ]
+   },
+   "by": {
+    "charge": {
+     "2": {
+      "spectra": 3221,
+      "peptide_recall": 0.8466314809065507
+     },
+     "3": {
+      "spectra": 1621,
+      "peptide_recall": 0.5934608266502159
+     },
+     "4+": {
+      "spectra": 158,
+      "peptide_recall": 0.22784810126582278
+     }
+    },
+    "length": {
+     "10-14": {
+      "spectra": 1713,
+      "peptide_recall": 0.8978400467016929
+     },
+     "15-19": {
+      "spectra": 1645,
+      "peptide_recall": 0.7696048632218845
+     },
+     "20-29": {
+      "spectra": 1045,
+      "peptide_recall": 0.4660287081339713
+     },
+     "30+": {
+      "spectra": 157,
+      "peptide_recall": 0.08280254777070063
+     },
+     "<=9": {
+      "spectra": 440,
+      "peptide_recall": 0.9568181818181818
+     }
+    },
+    "modified": {
+     "no": {
+      "spectra": 3582,
+      "peptide_recall": 0.8297040759352318
+     },
+     "yes": {
+      "spectra": 1418,
+      "peptide_recall": 0.5310296191819464
+     }
+    },
+    "mods": {
+     "+0.984": {
+      "spectra": 487,
+      "peptide_recall": 0.28336755646817247
+     },
+     "+0.984,+15.995": {
+      "spectra": 48,
+      "peptide_recall": 0.125
+     },
+     "+0.984,+15.995,nterm+25.980": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+42.011": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+43.006": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+25.980": {
+      "spectra": 4,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+42.011": {
+      "spectra": 11,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+43.006": {
+      "spectra": 20,
+      "peptide_recall": 0.1
+     },
+     "+0.984,nterm-17.027": {
+      "spectra": 11,
+      "peptide_recall": 0.0
+     },
+     "+15.995": {
+      "spectra": 215,
+      "peptide_recall": 0.6790697674418604
+     },
+     "+15.995,nterm+42.011": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+43.006": {
+      "spectra": 6,
+      "peptide_recall": 0.5
+     },
+     "+15.995,nterm-17.027": {
+      "spectra": 6,
+      "peptide_recall": 0.5
+     },
+     "C+57.021 only": {
+      "spectra": 408,
+      "peptide_recall": 0.7892156862745098
+     },
+     "none": {
+      "spectra": 3582,
+      "peptide_recall": 0.8297040759352318
+     },
+     "nterm+25.980": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "nterm+42.011": {
+      "spectra": 23,
+      "peptide_recall": 0.6956521739130435
+     },
+     "nterm+43.006": {
+      "spectra": 111,
+      "peptide_recall": 0.8018018018018018
+     },
+     "nterm-17.027": {
+      "spectra": 60,
+      "peptide_recall": 0.4666666666666667
+     }
+    },
+    "precursor_mz": {
+     "500-700": {
+      "spectra": 1738,
+      "peptide_recall": 0.8417721518987342
+     },
+     "700-900": {
+      "spectra": 1652,
+      "peptide_recall": 0.698547215496368
+     },
+     "900+": {
+      "spectra": 1140,
+      "peptide_recall": 0.5859649122807018
+     },
+     "<500": {
+      "spectra": 470,
+      "peptide_recall": 0.9361702127659575
+     }
+    },
+    "n_peaks": {
+     "100-199": {
+      "spectra": 135,
+      "peptide_recall": 0.7111111111111111
+     },
+     "200+": {
+      "spectra": 4830,
+      "peptide_recall": 0.7467908902691511
+     },
+     "50-99": {
+      "spectra": 35,
+      "peptide_recall": 0.6285714285714286
+     }
+    }
+   }
+  },
+  "Solanum-lycopersicum": {
+   "spectra": 5000,
+   "coverage": 0.9972,
+   "off_mass_share": 0.03529883674288006,
+   "peptide_precision_off_mass": 0.0,
+   "aa_precision": 0.9119458128078818,
+   "aa_recall": 0.9059860941183492,
+   "peptide_precision_predicted": 0.805655836341757,
+   "peptide_recall": 0.8034,
+   "average_precision": 0.9591302365076224,
+   "peptide_precision_at_coverage": {
+    "25%": 0.988,
+    "50%": 0.984,
+    "75%": 0.9592,
+    "100%": NaN
+   },
+   "ci95": {
+    "peptide_recall": [
+     0.7912911979982601,
+     0.8153154356578359
+    ],
+    "aa_precision": [
+     0.9047271884228437,
+     0.9185929711612422
+    ]
+   },
+   "by": {
+    "charge": {
+     "2": {
+      "spectra": 3671,
+      "peptide_recall": 0.859438845001362
+     },
+     "3": {
+      "spectra": 1215,
+      "peptide_recall": 0.6683127572016461
+     },
+     "4+": {
+      "spectra": 114,
+      "peptide_recall": 0.43859649122807015
+     }
+    },
+    "length": {
+     "10-14": {
+      "spectra": 2262,
+      "peptide_recall": 0.8536693191865605
+     },
+     "15-19": {
+      "spectra": 1095,
+      "peptide_recall": 0.7114155251141553
+     },
+     "20-29": {
+      "spectra": 514,
+      "peptide_recall": 0.5
+     },
+     "30+": {
+      "spectra": 36,
+      "peptide_recall": 0.08333333333333333
+     },
+     "<=9": {
+      "spectra": 1093,
+      "peptide_recall": 0.9579139981701739
+     }
+    },
+    "modified": {
+     "no": {
+      "spectra": 3427,
+      "peptide_recall": 0.8538079953311934
+     },
+     "yes": {
+      "spectra": 1573,
+      "peptide_recall": 0.6935791481246026
+     }
+    },
+    "mods": {
+     "+0.984": {
+      "spectra": 348,
+      "peptide_recall": 0.603448275862069
+     },
+     "+0.984,+15.995": {
+      "spectra": 57,
+      "peptide_recall": 0.17543859649122806
+     },
+     "+0.984,+15.995,nterm+42.011": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+43.006": {
+      "spectra": 3,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm-17.027": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+25.980": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+42.011": {
+      "spectra": 4,
+      "peptide_recall": 0.5
+     },
+     "+0.984,nterm+43.006": {
+      "spectra": 6,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm-17.027": {
+      "spectra": 11,
+      "peptide_recall": 0.09090909090909091
+     },
+     "+15.995": {
+      "spectra": 625,
+      "peptide_recall": 0.7792
+     },
+     "+15.995,nterm+25.980": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+42.011": {
+      "spectra": 16,
+      "peptide_recall": 0.125
+     },
+     "+15.995,nterm+43.006": {
+      "spectra": 4,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm-17.027": {
+      "spectra": 16,
+      "peptide_recall": 0.625
+     },
+     "C+57.021 only": {
+      "spectra": 346,
+      "peptide_recall": 0.8526011560693642
+     },
+     "none": {
+      "spectra": 3427,
+      "peptide_recall": 0.8538079953311934
+     },
+     "nterm+25.980": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "nterm+42.011": {
+      "spectra": 15,
+      "peptide_recall": 0.6666666666666666
+     },
+     "nterm+43.006": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "nterm-17.027": {
+      "spectra": 106,
+      "peptide_recall": 0.6037735849056604
+     }
+    },
+    "precursor_mz": {
+     "500-700": {
+      "spectra": 2185,
+      "peptide_recall": 0.8315789473684211
+     },
+     "700-900": {
+      "spectra": 1163,
+      "peptide_recall": 0.702493551160791
+     },
+     "900+": {
+      "spectra": 511,
+      "peptide_recall": 0.6575342465753424
+     },
+     "<500": {
+      "spectra": 1141,
+      "peptide_recall": 0.9176161262050833
+     }
+    },
+    "n_peaks": {
+     "100-199": {
+      "spectra": 2021,
+      "peptide_recall": 0.8431469569520039
+     },
+     "200+": {
+      "spectra": 843,
+      "peptide_recall": 0.7627520759193357
+     },
+     "50-99": {
+      "spectra": 1729,
+      "peptide_recall": 0.8380566801619433
+     },
+     "<50": {
+      "spectra": 407,
+      "peptide_recall": 0.542997542997543
+     }
+    }
+   }
+  },
+  "Vigna-mungo": {
+   "spectra": 5000,
+   "coverage": 0.9986,
+   "off_mass_share": 0.057480472661726414,
+   "peptide_precision_off_mass": 0.0,
+   "aa_precision": 0.8647401944351324,
+   "aa_recall": 0.8558119782888538,
+   "peptide_precision_predicted": 0.6929701582215101,
+   "peptide_recall": 0.692,
+   "average_precision": 0.9040380705470005,
+   "peptide_precision_at_coverage": {
+    "25%": 0.9664,
+    "50%": 0.9516,
+    "75%": 0.8541333333333333,
+    "100%": NaN
+   },
+   "ci95": {
+    "peptide_recall": [
+     0.6765604002994943,
+     0.7117662206311597
+    ],
+    "aa_precision": [
+     0.8534486898526932,
+     0.8759031917344857
+    ]
+   },
+   "by": {
+    "charge": {
+     "2": {
+      "spectra": 3498,
+      "peptide_recall": 0.7624356775300172
+     },
+     "3": {
+      "spectra": 1351,
+      "peptide_recall": 0.5588452997779423
+     },
+     "4+": {
+      "spectra": 151,
+      "peptide_recall": 0.25165562913907286
+     }
+    },
+    "length": {
+     "10-14": {
+      "spectra": 2192,
+      "peptide_recall": 0.781021897810219
+     },
+     "15-19": {
+      "spectra": 1349,
+      "peptide_recall": 0.6389918458117124
+     },
+     "20-29": {
+      "spectra": 687,
+      "peptide_recall": 0.45269286754002913
+     },
+     "30+": {
+      "spectra": 157,
+      "peptide_recall": 0.12738853503184713
+     },
+     "<=9": {
+      "spectra": 615,
+      "peptide_recall": 0.9024390243902439
+     }
+    },
+    "modified": {
+     "no": {
+      "spectra": 3785,
+      "peptide_recall": 0.7249669749009247
+     },
+     "yes": {
+      "spectra": 1215,
+      "peptide_recall": 0.5893004115226338
+     }
+    },
+    "mods": {
+     "+0.984": {
+      "spectra": 308,
+      "peptide_recall": 0.5844155844155844
+     },
+     "+0.984,+15.995": {
+      "spectra": 10,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+25.980": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+0.984,+15.995,nterm+43.006": {
+      "spectra": 1,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+25.980": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "+0.984,nterm+42.011": {
+      "spectra": 7,
+      "peptide_recall": 0.14285714285714285
+     },
+     "+0.984,nterm+43.006": {
+      "spectra": 27,
+      "peptide_recall": 0.2962962962962963
+     },
+     "+0.984,nterm-17.027": {
+      "spectra": 8,
+      "peptide_recall": 0.5
+     },
+     "+15.995": {
+      "spectra": 118,
+      "peptide_recall": 0.5932203389830508
+     },
+     "+15.995,nterm+25.980": {
+      "spectra": 2,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+42.011": {
+      "spectra": 5,
+      "peptide_recall": 0.0
+     },
+     "+15.995,nterm+43.006": {
+      "spectra": 3,
+      "peptide_recall": 0.3333333333333333
+     },
+     "+15.995,nterm-17.027": {
+      "spectra": 4,
+      "peptide_recall": 0.5
+     },
+     "C+57.021 only": {
+      "spectra": 387,
+      "peptide_recall": 0.710594315245478
+     },
+     "none": {
+      "spectra": 3785,
+      "peptide_recall": 0.7249669749009247
+     },
+     "nterm+25.980": {
+      "spectra": 9,
+      "peptide_recall": 0.0
+     },
+     "nterm+42.011": {
+      "spectra": 27,
+      "peptide_recall": 0.2962962962962963
+     },
+     "nterm+43.006": {
+      "spectra": 184,
+      "peptide_recall": 0.592391304347826
+     },
+     "nterm-17.027": {
+      "spectra": 108,
+      "peptide_recall": 0.5370370370370371
+     }
+    },
+    "precursor_mz": {
+     "500-700": {
+      "spectra": 2027,
+      "peptide_recall": 0.7390231869758264
+     },
+     "700-900": {
+      "spectra": 1435,
+      "peptide_recall": 0.6362369337979094
+     },
+     "900+": {
+      "spectra": 883,
+      "peptide_recall": 0.5537938844847112
+     },
+     "<500": {
+      "spectra": 655,
+      "peptide_recall": 0.8549618320610687
+     }
+    },
+    "n_peaks": {
+     "100-199": {
+      "spectra": 685,
+      "peptide_recall": 0.8452554744525548
+     },
+     "200+": {
+      "spectra": 4207,
+      "peptide_recall": 0.6695982885666746
+     },
+     "50-99": {
+      "spectra": 77,
+      "peptide_recall": 0.7272727272727273
+     },
+     "<50": {
+      "spectra": 31,
+      "peptide_recall": 0.25806451612903225
+     }
+    }
+   }
+  }
+ },
+ "all": {
+  "spectra": 45000,
+  "coverage": 0.9950888888888889,
+  "off_mass_share": 0.07543714687688426,
+  "peptide_precision_off_mass": 0.0,
+  "aa_precision": 0.8385548548169534,
+  "aa_recall": 0.8288590554968341,
+  "peptide_precision_predicted": 0.6583666450791665,
+  "peptide_recall": 0.6551333333333333,
+  "average_precision": 0.9010740888827319,
+  "peptide_precision_at_coverage": {
+   "25%": 0.9812444444444445,
+   "50%": 0.9611555555555555,
+   "75%": 0.8383111111111111,
+   "100%": NaN
+  }
+ }
+}
